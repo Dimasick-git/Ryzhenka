@@ -1,0 +1,10 @@
+{
+  "package": "RyazhenkaCFW",
+  "name": "Ryazhenka Best CFW",
+  "author": "Dimasick-git",
+  "description": "Лучшая кастомная прошивка для Nintendo Switch",
+  "category": "CFW",
+  "version": "%VERSION%",
+  "url": "https://github.com/dimasick-git/Ryzhenka/releases/download/%VERSION%/Ryazhenkabestcfw_%VERSION%.zip",
+  "license": "GPLv3"
+}
