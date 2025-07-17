@@ -1,8 +1,8 @@
 {
   "ams": {
-    "Ryazhenka Best CFW": "https://github.com/dimasick-git/Ryzhenka/releases/download/%VERSION%/Ryazhenkabestcfw_%VERSION%.zip"
+    "Ryazhenka Best CFW": "https://github.com/Dimasick-git/Ryzhenka/releases/latest/download/Ryazhenkabestcfw_v1.0.0.zip"
   },
   "misc": {
-    "Refresh Ryazhenka AIO": "https://github.com/dimasick-git/Ryzhenka/releases/download/%VERSION%/Ryazhenka_AIO.zip"
+    "Refresh Ryazhenka AIO": "https://github.com/Dimasick-git/Ryzhenka/releases/latest/download/Ryazhenka_AIO.zip"
   }
 }
