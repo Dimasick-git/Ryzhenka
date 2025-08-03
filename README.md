@@ -2,6 +2,10 @@
 
 Добро пожаловать в репозиторий **Ryzhenka CFW** — мощной и гибкой прошивки, созданной для энтузиастов Nintendo Switch.
 
+![Слоган Ryzhenka](assets/ryazhenka_slogan.png)
+
+---
+
 ## 🚀 Возможности
 - Основана на Atmosphère  
 - Поддержка EmuNAND  
@@ -134,22 +138,22 @@
 
 ---
 
-## 🎮 EmuNAND Support
+## 🎮 Поддержка EmuNAND
 
-✅ **EmuNAND is fully supported** in this build of CFW Nintendo Ryazhenka (HOS 20.30%).
+✅ **EmuNAND полностью поддерживается** в этой сборке прошивки Nintendo Ryazhenka (HOS 20.30%).
 
 ![EmuNAND](assets/emunand.jpg)
 
-### Features:
-- 🧠 Isolated NAND environment for safe experimentation  
-- 🔄 Seamless switching between SysNAND and EmuNAND  
-- 🛡️ Protection from bans when using homebrew  
-- 📦 Compatible with Atmosphère, Ryujinx, and other tools  
+### Возможности:
+- 🧠 Изолированная среда NAND для безопасных экспериментов  
+- 🔄 Мгновенное переключение между SysNAND и EmuNAND  
+- 🛡️ Защита от банов при использовании homebrew  
+- 📦 Совместимость с Atmosphère, Ryujinx и другими инструментами  
 
-### Setup Instructions:
-1. Launch Ryazhenka Bootloader  
-2. Navigate to `EmuNAND Settings`  
-3. Select `Create EmuNAND from SysNAND`  
-4. Reboot and enjoy your sandboxed environment!
+### Инструкция по настройке:
+1. Запустите Ryazhenka Bootloader  
+2. Перейдите в `EmuNAND Settings`  
+3. Выберите `Create EmuNAND from SysNAND`  
+4. Перезагрузите устройство и наслаждайтесь безопасной средой!
 
-> 💡 Tip: You can verify EmuNAND status in Ryazhenka Settings → System Info → NAND Type
+> 💡 Совет: Вы можете проверить статус EmuNAND в Ryazhenka Settings → System Info → NAND Type
