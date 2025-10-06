@@ -14,6 +14,7 @@ import os
 import sys
 import argparse
 import requests
+import json
 from pathlib import Path
 
 
@@ -51,6 +52,99 @@ def build_md_block(release, check_assets=False):
         lines.append(f"\t- {a['name']} — {url}{note}")
     return "\n".join(lines)
 
+
+def fetch_and_parse_manifests(release, token=None, download_zips=False):
+    """Find JSON manifest assets or inside ZIPs and return parsed module/version summaries."""
+    results = {}
+    headers = {'Accept': 'application/octet-stream'}
+    if token:
+        headers['Authorization'] = f"token {token}"
+
+    # Direct JSON or manifest-like assets
+    for a in release.get('assets', []):
+        name = a.get('name', '')
+        url = a.get('browser_download_url')
+        if not url:
+            continue
+        if name.lower().endswith('.json') or 'manifest' in name.lower():
+            try:
+                r = requests.get(url, headers=headers, timeout=10)
+                if r.status_code == 200:
+                    try:
+                        data = r.json()
+                        mods = extract_modules_from_manifest(data)
+                        results[name] = mods or ['(no modules detected)']
+                    except Exception as e:
+                        results[name] = [f'(failed to parse JSON: {e})']
+                else:
+                    results[name] = [f'(unavailable: {r.status_code})']
+            except Exception as e:
+                results[name] = [f'(error fetching: {e})']
+
+    # Optionally inspect ZIP assets for embedded manifests
+    if download_zips:
+        import io, zipfile
+        for a in release.get('assets', []):
+            name = a.get('name', '')
+            url = a.get('browser_download_url')
+            if not url or not name.lower().endswith('.zip'):
+                continue
+            try:
+                r = requests.get(url, headers=headers, timeout=30)
+                if r.status_code == 200:
+                    bio = io.BytesIO(r.content)
+                    try:
+                        with zipfile.ZipFile(bio) as z:
+                            for candidate in ('manifest.json','manifest.txt','release_manifest.json'):
+                                if candidate in z.namelist():
+                                    with z.open(candidate) as mf:
+                                        try:
+                                            data = json.load(mf)
+                                            mods = extract_modules_from_manifest(data)
+                                            results[f'{name}:{candidate}'] = mods or ['(no modules detected)']
+                                        except Exception as e:
+                                            results[f'{name}:{candidate}'] = [f'(failed to parse inside zip: {e})']
+                                    break
+                    except zipfile.BadZipFile:
+                        results[name] = ['(not a zip or corrupted)']
+                else:
+                    results[name] = [f'(zip unavailable: {r.status_code})']
+            except Exception as e:
+                results[name] = [f'(error downloading zip: {e})']
+
+    return results
+
+
+def extract_modules_from_manifest(data):
+    """Heuristic: extract module/version pairs from common manifest structures."""
+    modules = []
+    if isinstance(data, dict):
+        for key in ('modules','components','packages','files'):
+            if key in data and isinstance(data[key], (list, dict)):
+                items = data[key]
+                if isinstance(items, dict):
+                    items = items.values()
+                for it in items:
+                    if isinstance(it, str):
+                        modules.append(it)
+                    elif isinstance(it, dict):
+                        name = it.get('name') or it.get('id') or it.get('filename')
+                        ver = it.get('version') or it.get('ver') or it.get('version_string')
+                        if name and ver:
+                            modules.append(f"{name} ({ver})")
+                        elif name:
+                            modules.append(name)
+    elif isinstance(data, list):
+        for it in data:
+            if isinstance(it, str):
+                modules.append(it)
+            elif isinstance(it, dict):
+                name = it.get('name') or it.get('id')
+                ver = it.get('version')
+                if name and ver:
+                    modules.append(f"{name} ({ver})")
+    return modules
+
 def replace_block(path: Path, block_md: str, dry_run=False):
     txt = path.read_text(encoding='utf-8')
     start = '<!-- RELEASES_START -->'
@@ -78,6 +172,8 @@ def main():
     parser.add_argument('--dry-run', action='store_true', help='Do not modify files; print preview')
     parser.add_argument('--commit', action='store_true', help='Commit & push changes (use with care; CI may prefer creating a PR)')
     parser.add_argument('--check-assets', action='store_true', help='Check asset URLs for availability')
+    parser.add_argument('--include-manifests', action='store_true', help='Fetch and parse JSON manifest assets attached to the release and include module/version summaries')
+    parser.add_argument('--download-zip-manifests', action='store_true', help='(Heavier) Download release ZIPs and try to find manifest.json inside to extract module lists')
     args = parser.parse_args()
 
     tag = args.tag
@@ -87,6 +183,16 @@ def main():
         sys.exit(2)
     release = fetch_release(repo, tag)
     md = build_md_block(release, check_assets=args.check_assets)
+    # Optionally include parsed manifests/module lists
+    if args.include_manifests:
+        token = os.getenv('GITHUB_TOKEN')
+        manifests = fetch_and_parse_manifests(release, token=token, download_zips=args.download_zip_manifests)
+        if manifests:
+            md += "\n\n\tParsed manifests:\n"
+            for mname, mods in manifests.items():
+                md += f"\t- {mname}:\n"
+                for mod in mods:
+                    md += f"\t\t- {mod}\n"
     changed = False
     for fname in ['README.md','README_en.md']:
         p = Path(fname)

@@ -10,48 +10,83 @@
 
 ---
 
-## Галерея — скриншоты и ключевые артефакты
+## Подробная информация по релизам
 
-### Главное меню
-![Главное меню](assets/ryazhenka_main_menu.jpg)
-Кратко: кастомный главный экран прошивки с быстрым доступом к настройкам и модулям.
+Ниже — развернутые карточки релизов. Встраиваются только официальные заставки (`bbootlogo.png`) из релизов, а под ними — список ассетов и ссылки.
 
----
+## Автоматический список релизов (обновляется автоматически)
 
-### Splash / Логотип
-![Splash screen](assets/splash_screen.png)
-Кратко: кастомный splash и логотип при запуске.
+<!-- RELEASES_START -->
+<!-- RELEASES_END -->
 
----
+<!-- end of automated block -->
 
-### EmuNAND — обзор
-![EmuNAND](assets/emunand.jpg)
-Кратко: управление EmuNAND и подсказки по созданию копии NAND.
+### v5.0.0 — опубликован 2025-10-03
+![bbootlogo v5.0.0](https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/bbootlogo.png)
 
----
+Краткое: основный релиз, включающий обновлённый Tuner и набор предварительно настроенных профилей.
 
-### Tuner / CPU
-![Tuner CPU](assets/ryazhenka_tuner_cpu.jpg)
-Кратко: Tuner для управления частотами и профилями питания.
+Ассеты:
+- bbootlogo.png — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/bbootlogo.png
+- Ryazhenkabestcfw.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenkabestcfw.zip
+- Ryazhenka_AIO.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenka_AIO.zip
+- Ryazhenka_lite.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenka_lite.zip
 
----
+Страница релиза: https://github.com/Dimasick-git/Ryzhenka/releases/tag/v5.0.0
 
-### Ultrahand — модули и темы
-![Ultrahand main](assets/ryazhenka_ultrahand_main.jpg)
-Кратко: меню модулей Ultrahand и доступные темы.
+Подробнее: смотрите заметки релиза и `CHANGELOG.md` для полного списка изменений.
 
 ---
 
-### Темы и оверлеи
-![Ultrahand theme menu](assets/ultrahand_theme_menu_screenshot.jpg)
-![Sys-clk overlay](assets/sysclk_overlay_screenshot.jpg)
-Кратко: демонстрация темы и overlay sys-clk.
+Полное описание и важные изменения (v5.0.0)
+- Tuner: обновлён до v8.0 — добавлены профили Performance/Standard/Economy, улучшенная система сохранения и отката профилей.
+- Atmosphère: совместимость с версиями 1.9.5+; внесены корректировки патчей для безопасности сетевого стека.
+- sys-clk: переработка power-profiles, улучшенная интеграция с Tuner, добавлены новые режимы энергосбережения.
+- Новые и обновлённые модули: Ultrahand (улучшенное управление темами), Status Monitor (более точный монитор температур и батареи), FPSLocker обновлён для избежания дрожания fps в некоторых играх.
+- Улучшены сценарии установки: автоматическое резервирование `emummc` при создании EmuNAND, проверка наличия критичных конфигов перед установкой.
+
+Рекомендации по обновлению с предыдущих версий:
+- Сделайте полный бэкап `emummc`/NAND и SD-образа перед обновлением.
+- Проверьте `hekate_ipl.ini` и `payloads` на предмет индивидуальных правок — некоторые старые настройки могут конфликтовать с новыми профилями.
+- После установки зайдите в Ultrahand → Tuner и загрузите рекомендуемый профиль для вашей конфигурации (Handheld/Docked).
+
+Проверка целостности и подписи:
+- Рекомендуется сверять SHA256 архива: если релиз содержит `SHA256SUMS` или подписи — используйте их.
+- Пример (локально):
+	- powershell: `Get-FileHash .\Ryazhenkabestcfw.zip -Algorithm SHA256`
+
+Известные проблемы:
+- Некоторым пользователям требуется вручную пересоздать профиль sys-clk после обновления (если старые настройки конфликтуют).
+- В редких случаях старые версии модулей homebrew могут конфликтовать с новыми sysmodules — проверьте совместимость в `CHANGELOG.md`.
+
+
+### v4.5.0 — опубликован 2025-09-26
+![bbootlogo v4.5.0](https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/bbootlogo.png)
+
+Краткое: промежуточный релиз с фиксом для overlay и обновлениями модулей.
+
+Ассеты:
+- bbootlogo.png — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/bbootlogo.png
+- Ryazhenkabestcfw.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/Ryazhenkabestcfw.zip
+- Ryazhenka_AIO.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/Ryazhenka_AIO.zip
+- Ryazhenka_lite.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/Ryazhenka_lite.zip
+
+Страница релиза: https://github.com/Dimasick-git/Ryzhenka/releases/tag/v4.5.0
 
 ---
 
-### Модули и каталоги
-![Ultrahand modules](assets/ultrahand_modules.jpg)
-Кратко: пример списка модулей и их версий.
+### v4.0.0 — опубликован 2025-09-06
+![bbootlogo v4.0.0](https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/bbootlogo.png)
+
+Краткое: начальный публичный релиз серии, содержит базовый набор модулей и шаблонов конфигурации.
+
+Ассеты:
+- bbootlogo.png — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/bbootlogo.png
+- Ryazhenkabestcfw.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/Ryazhenkabestcfw.zip
+- Ryazhenka_AIO.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/Ryazhenka_AIO.zip
+- Ryazhenka_lite.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/Ryazhenka_lite.zip
+
+Страница релиза: https://github.com/Dimasick-git/Ryzhenka/releases/tag/v4.0.0
 
 ---
 
