@@ -1,3 +1,7 @@
+#Ryazhenka Best CFW - nice try for you.
+
+
+
 - sys-clk — управление частотами и power-profiles (пример: 2.0.1+r9)
 - Status Monitor — мониторинг температур/заряда (пример: 1.1.9+r6)
 - FPSLocker — блокировка/ограничение FPS (пример: 2.3.0)
