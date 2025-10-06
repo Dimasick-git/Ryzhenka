@@ -1,5 +1,9 @@
-# Ryazhenka Best CFW - nice try for you.
+# 🥛 Ryazhenka Best CFW  
+**A thoughtfully tuned, performance-optimized Atmosphère-based CFW for Nintendo Switch**
 
+> *Nice try for you.*
+
+Ryazhenka Best CFW is a curated custom firmware bundle designed for stability, performance, and ease of use. It includes a hand-picked selection of the most reliable homebrew modules, pre-configured power profiles, and smart runtime optimizations — all wrapped in a clean, user-friendly setup.
 
 
 - sys-clk — управление частотами и power-profiles (пример: 2.0.1+r9)
