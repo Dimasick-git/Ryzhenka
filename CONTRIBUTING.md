@@ -19,3 +19,8 @@ How contributions are reviewed:
 If you need help, open an Issue or message in Telegram (@Ryazhenkabestcfw).
 
 Thanks — the maintainers ❤️
+
+Created by:
+@Dimasick-git 
+@Ryazhenka-Helper-1 
+@Ryazhenka-helper-01 
