@@ -3,7 +3,7 @@
 > **Продуманная, оптимизированная CFW на базе Atmosphère для Nintendo Switch**
 
 [![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&color=ff6b6b)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhenka/total?style=for-the-badge&logo=github&color=4ecdc4)](https://github.com/Dimasick-git/Ryazhenka/releases)
+[![Downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge&logo=github&color=4ecdc4)](https://github.com/Dimasick-git/Ryzhenka/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
 ---
