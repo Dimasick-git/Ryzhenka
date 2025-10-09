@@ -2,8 +2,8 @@
 
 > **Продуманная, оптимизированная CFW на базе Atmosphère для Nintendo Switch**
 
-[![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&color=ff6b6b)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge&logo=github&color=4ecdc4)](https://github.com/Dimasick-git/Ryzhenka/releases)
+[![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryazhenka?style=for-the-badge&logo=github&color=ff6b6b)](https://github.com/Dimasick-git/Ryazhenka/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhenka/total?style=for-the-badge&logo=github&color=4ecdc4)](https://github.com/Dimasick-git/Ryazhenka/releases)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
 ---
@@ -38,7 +38,7 @@
 
 ### Установка
 
-1. **Скачайте** последний релиз из раздела [Releases](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
+1. **Скачайте** последний релиз из раздела [Releases](https://github.com/Dimasick-git/Ryazhenka/releases/latest)
 2. **Выберите** нужную версию:
    - `Ryazhenka_AIO.zip` — полная версия со всеми модулями
    - `Ryazhenkabestcfw.zip` — стандартная версия
@@ -51,85 +51,52 @@
 
 ## 🔥 Основные возможности
 
-### 🎮 Включённые модули
+### 🎮 Игровые оптимизации
 
-| Модуль | Описание | Версия |
-|--------|----------|--------|
-| **sys-clk** | Управление частотами CPU/GPU и профилями мощности | 2.0.1+r9 |
-| **Status Monitor** | Мониторинг температуры, заряда и системных параметров | 1.1.9+r6 |
-| **FPSLocker** | Разблокировка и ограничение FPS в играх | 2.3.0 |
-| **EdiZon** | Редактирование сохранений и управление модами | v1.0.10 |
-| **ReverseNX-RT** | Runtime оптимизации для режимов Dock/Handheld | 2.1.0 |
-| **Fizeau** | Дополнительные оптимизации и ускорения | 2.8.1 |
-| **Switchcraft (Loader OC)** | Вспомогательный загрузчик с разгоном | v1.6.4 |
+- **FPS Locker** — контроль частоты кадров (30/60 FPS) для любой игры
+- **ReverseNX-RT** — принудительный режим Docked/Handheld
+- **sys-clk** — управление частотами CPU/GPU/RAM
+- **Ultra Tuner** — продвинутые профили производительности
 
-> ⚠️ **Примечание:** Версии указаны ориентировочно. Актуальные версии смотрите в релизах.
+### 🛠️ Системные модули
 
----
+- **Status Monitor Overlay** — отображение FPS, температуры, частот в реальном времени
+- **EdiZon** — редактор сохранений с поддержкой читов
+- **ldn_mitm** — локальная игра через интернет
+- **MissionControl** — поддержка сторонних контроллеров (PS4/PS5/Xbox)
+- **sys-ftpd** — FTP-сервер для удалённого доступа
 
-## ⚙️ Tuner & sys-clk
+### 🎨 Визуальные улучшения
 
-### 🎛️ Tuner v8.0
-
-Встроенный инструмент для тонкой настройки системы:
-
-- **Performance** — максимальная производительность для требовательных игр
-- **Standard** — сбалансированный режим для повседневного использования
-- **Economy** — энергосберегающий режим для увеличения времени автономной работы
-
-### ⚡ sys-clk профили
-
-Автоматическое переключение частот для каждой игры:
-
-```
-📊 Handheld Mode:
-CPU: 1020-1785 MHz
-GPU: 307-460 MHz
-MEM: 1331-1600 MHz
-
-📺 Docked Mode:
-CPU: 1020-1785 MHz
-GPU: 307-768 MHz
-MEM: 1600 MHz
-```
+- **Fizeau** — регулировка цветовой температуры экрана
+- **Switchcraft** — расширенные функции скриншотов
+- Кастомные загрузочные экраны (boot logos)
+- Кастомное меню Tesla с настройками
 
 ---
 
-## 🔗 Полезные ссылки
+## 📦 Что входит в сборку
 
-- 📦 [Releases](https://github.com/Dimasick-git/Ryzhenka/releases) — скачать последнюю версию
-- 📝 [Changelog](CHANGELOG.md) — история изменений
-- 🐛 [Issues](https://github.com/Dimasick-git/Ryzhenka/issues) — сообщить о проблеме
-- 💬 [Discussions](https://github.com/Dimasick-git/Ryzhenka/discussions) — обсуждения и вопросы
-- 📚 [Wiki](https://github.com/Dimasick-git/Ryzhenka/wiki) — документация и гайды
+### Базовые компоненты
 
----
+- **Atmosphère 1.8.0** — ядро CFW
+- **Hekate 6.2.2** — загрузчик с расширенными возможностями
+- **SigPatches** — патчи подписей для запуска резервных копий
 
-## 📋 Релизы
+### Homebrew приложения
 
-### 🎉 v5.0.0 — опубликован 2025-10-03
+- **Tinfoil** — установщик игр и обновлений
+- **DBI** — продвинутый файловый менеджер и установщик
+- **Goldleaf** — установка NSP/NSZ
+- **NX-Shell** — файловый менеджер
+- **SimpleModManager** — менеджер модификаций
 
-![bbootlogo v5.0.0](https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/bbootlogo.png)
+### Дополнительные утилиты
 
-#### 🆕 Что нового:
-
-- ✅ **Tuner** обновлён до v8.0
-- ✅ Добавлены профили Performance/Standard/Economy
-- ✅ Улучшенная система сохранения и отката профилей
-- ✅ Обновлены все основные модули до последних стабильных версий
-- ✅ Оптимизация загрузочного процесса
-
-#### 📦 Доступные варианты:
-
-- [Ryazhenka_AIO.zip](https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenka_AIO.zip) — Полная версия
-- [Ryazhenkabestcfw.zip](https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenkabestcfw.zip) — Стандарт
-- [Ryazhenka_lite.zip](https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenka_lite.zip) — Облегчённая
-- [bbootlogo.png](https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/bbootlogo.png) — Загрузочный экран
-
-[📖 Полные заметки к релизу](https://github.com/Dimasick-git/Ryzhenka/releases/tag/v5.0.0)
-
-<!-- RELEASES_START -->
-<!-- RELEASES_END -->
+- **Lockpick_RCM** — дамп ключей консоли
+- **JKSV** — менеджер сохранений
+- **NXThemesInstaller** — установщик кастомных тем
+- **nxdumptool** — дамп игр и обновлений
 
 ---
 
@@ -195,6 +162,6 @@ MIT License — смотрите файл [LICENSE](LICENSE) для подроб
 
 **Made with ❤️ by Dimasick-git**
 
-[🏠 Home](https://github.com/Dimasick-git/Ryzhenka) • [📦 Releases](https://github.com/Dimasick-git/Ryzhenka/releases) • [📖 Wiki](https://github.com/Dimasick-git/Ryzhenka/wiki) • [💬 Discussions](https://github.com/Dimasick-git/Ryzhenka/discussions)
+[🏠 Home](https://github.com/Dimasick-git/Ryazhenka) • [📦 Releases](https://github.com/Dimasick-git/Ryazhenka/releases) • [📖 Wiki](https://github.com/Dimasick-git/Ryazhenka/wiki) • [💬 Discussions](https://github.com/Dimasick-git/Ryazhenka/discussions)
 
 </div>
