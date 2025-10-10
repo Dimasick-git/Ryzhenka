@@ -39,15 +39,6 @@
 
 ---
 
-## 🧩 Как запустить локально
-
-```bash
-git clone https://github.com/dimasick-git/Ryazhenka_Bot.git
-cd Ryazhenka_Bot/docs
-open index.html
-
----
-
 ## ✨ Преимущества
 
 - 🚀 **Максимальная производительность** — оптимизированные профили разгона и управления частотами
@@ -192,8 +183,15 @@ MIT License — смотрите файл [LICENSE](LICENSE) для подроб
 
 <div align="center">
 
+
 **Made with ❤️ by Dimasick-git**
 
 [🏠 Home](https://github.com/Dimasick-git/Ryazhenka) • [📦 Releases](https://github.com/Dimasick-git/Ryazhenka/releases) • [📖 Wiki](https://github.com/Dimasick-git/Ryazhenka/wiki) • [💬 Discussions](https://github.com/Dimasick-git/Ryazhenka/discussions)
 
 </div>
+## 🧩 Как запустить локально
+
+```bash
+git clone https://github.com/dimasick-git/Ryazhenka_Bot.git
+cd Ryazhenka_Bot/docs
+open index.html
