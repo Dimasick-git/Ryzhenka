@@ -142,7 +142,7 @@
 Огромная благодарность разработчикам и сообществу:
 
 - **Atmosphère Team** — за великолепную CFW
-- **retendo** — за sys-clk
+- **Kirill-git** — за Ryazha-a CLK
 - **masagrator** — за FPSLocker и Status Monitor
 - **WerWolv** — за EdiZon
 - **Fizeau Team** — за оптимизации
