@@ -1,5 +1,22 @@
 # Ryzhenka CFW — Gallery and quick reference
 
+---
+
+## 💎 Sponsorship / Project Support
+
+<div align="center">
+
+### ⭐ **Official way to support the project** ⭐
+
+[![Support on Boosty](https://img.shields.io/badge/💰_Support_on-Boosty-f15f2c?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTUuMDkgOC4yNkwyMiA5LjI3TDE3IDEzLjk3TDE4LjE4IDIxTDEyIDE3LjI3TDUuODIgMjFMNyAxMy45N0wyIDkuMjdMOC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=&labelColor=000000)](https://boosty.to/dimasick-git/donate)
+
+**🚀 Your support helps develop the project!**  
+💖 Donations go towards developing new features, maintaining up-to-date versions, and improving stability
+
+</div>
+
+---
+
 Ryzhenka — curated custom firmware for Nintendo Switch. Below are embedded screenshots and short captions so you can see the firmware without downloading release assets.
 
 ---
@@ -10,11 +27,7 @@ Below are expanded release cards with the official boot splash (`bbootlogo.png`)
 
 ---
 
-## Automated releases list (maintained by workflow)
-
-<!-- RELEASES_START -->
-<!-- RELEASES_END -->
-<!-- end of automated block -->
+## Automated releases list (maintained by workflow)<!-- RELEASES_START --><!-- RELEASES_END --><!-- end of automated block -->
 
 ### v5.0.0 — published 2025-10-03
 
@@ -24,92 +37,3 @@ Summary: major release including updated Tuner and tuned performance profiles.
 
 Assets:
 - bbootlogo.png — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/bbootlogo.png
-- Ryazhenkabestcfw.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenkabestcfw.zip
-- Ryazhenka_AIO.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenka_AIO.zip
-- Ryazhenka_lite.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v5.0.0/Ryazhenka_lite.zip
-
-Release page: https://github.com/Dimasick-git/Ryzhenka/releases/tag/v5.0.0
-
----
-
-Full changes and important notes (v5.0.0)
-
-- Tuner: upgraded to v8.0 — added Performance/Standard/Economy profiles, better profile save/rollback.
-- Atmosphère: compatibility with 1.9.5+; security patches for network stack applied.
-- sys-clk: reworked power-profiles, improved integration with Tuner, added new power-saving modes.
-- Modules updated: Ultrahand (theme management improvements), Status Monitor (better temp/battery telemetry), FPSLocker (fixes for jitter in some titles).
-- Installer: automatic `emummc` backup on EmuNAND creation and preflight checks for critical configs.
-
-Upgrade recommendations:
-
-- Take a full backup of emummc/NAND and your SD image before upgrading.
-- Review `hekate_ipl.ini` and `payloads` for custom edits — some legacy settings may conflict with new profiles.
-- After install, open Ultrahand → Tuner and select the recommended profile for your device (Handheld/Docked).
-
-Verification and signatures:
-
-- Verify SHA256 of archives if provided in the release (look for `SHA256SUMS` or signatures).
-- Example (PowerShell):
-	- `Get-FileHash .\Ryazhenkabestcfw.zip -Algorithm SHA256`
-
-Known issues:
-
-- Some users may need to recreate sys-clk profiles manually after upgrade if old settings conflict.
-- Older homebrew modules may be incompatible with newer sysmodules — check `CHANGELOG.md` for compatibility notes.
-
-### v4.5.0 — published 2025-09-26
-
-![bbootlogo v4.5.0](https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/bbootlogo.png)
-
-Summary: maintenance release with overlay fixes and module updates.
-
-Assets:
-- bbootlogo.png — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/bbootlogo.png
-- Ryazhenkabestcfw.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/Ryazhenkabestcfw.zip
-- Ryazhenka_AIO.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/Ryazhenka_AIO.zip
-- Ryazhenka_lite.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.5.0/Ryazhenka_lite.zip
-
-Release page: https://github.com/Dimasick-git/Ryzhenka/releases/tag/v4.5.0
-
----
-
-### v4.0.0 — published 2025-09-06
-
-![bbootlogo v4.0.0](https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/bbootlogo.png)
-
-Summary: initial public release with a base set of modules and configuration templates.
-
-Assets:
-- bbootlogo.png — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/bbootlogo.png
-- Ryazhenkabestcfw.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/Ryazhenkabestcfw.zip
-- Ryazhenka_AIO.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/Ryazhenka_AIO.zip
-- Ryazhenka_lite.zip — https://github.com/Dimasick-git/Ryzhenka/releases/download/v4.0.0/Ryazhenka_lite.zip
-
-Release page: https://github.com/Dimasick-git/Ryzhenka/releases/tag/v4.0.0
-
----
-
----
-
-## 💖 Support the Project
-
-If you like Ryazhenka Best CFW, support the project:
-
-- 💰 **[Support on Boosty](https://boosty.to/dimasick-git/donate)** — primary way to support the project
-- ⭐ Star on GitHub
-- 🔄 Share with friends
-- 🐛 Report bugs and suggest improvements
-- 💬 Participate in discussions
-- 📝 Improve documentation
-
----
-
-## Quick links
-
-- Releases: https://github.com/Dimasick-git/Ryzhenka/releases
-- Telegram: https://t.me/Ryazhenkabestcfw (@Ryazhenkabestcfw)
-- Changelog: `CHANGELOG.md`
-
----
-
-If you want different captions, a different image order or additional metadata under each image (version / release link / file size), tell me the exact format and I'll update both READMEs accordingly.
