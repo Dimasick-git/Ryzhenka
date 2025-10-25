@@ -1,4 +1,4 @@
-# Contributing to Ryzhenka
+# Contributing to Ryazhenka
 
 Thank you for helping improve Ryzhenka — contributions are welcome. This document explains the minimal steps to get your change merged quickly.
 
@@ -19,4 +19,5 @@ How contributions are reviewed:
 If you need help, open an Issue or message in Telegram (@Ryazhenkabestcfw).
 
 Thanks — the maintainers ❤️
+
 
