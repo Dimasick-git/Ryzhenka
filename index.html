@@ -74,6 +74,22 @@
     @media (max-width:900px){
       .hero{grid-template-columns:1fr}
     }
+    /* Classic / terminal theme overrides (applied when html[data-theme="classic"]) */
+    html[data-theme="classic"]{
+      --bg:#070707;
+      --panel:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      --accent:#39d6ff;
+      --muted:#7f8a90;
+      --glass: rgba(255,255,255,0.02);
+      --card-bg: rgba(255,255,255,0.01);
+      font-family: 'Courier New', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Segoe UI Mono', monospace;
+    }
+    html[data-theme="classic"] body{background: radial-gradient(900px 300px at 10% 10%, rgba(57,214,255,0.02), transparent), radial-gradient(800px 200px at 90% 90%, rgba(124,92,255,0.02), transparent), var(--bg); color:#cfe7ff}
+    /* highlight GIF previews in gallery */
+    .gallery img[data-is-gif="1"]{box-shadow:0 18px 48px rgba(57,214,255,0.12);border:2px solid rgba(57,214,255,0.05)}
+  /* Comments UI */
+  .comments-form input, .comments-form textarea{width:100%;box-sizing:border-box}
+  .comment-card{background:var(--card-bg);padding:.6rem;border-radius:8px;margin-bottom:.5rem;border:1px solid rgba(255,255,255,0.02)}
   </style>
 </head>
 <body>
@@ -91,6 +107,7 @@
           <a class="badge btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
           <a class="badge btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
           <a class="badge btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">GitHub</a>
+          <a class="badge btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
         </div>
         <div class="toggle" id="themeToggle" title="Glow ↔ Classic Terminal">Glow <div class="switch" id="themeSwitch" style="margin:0 8px;"><span class="thumb"></span></div> Classic</div>
       </div>
@@ -129,6 +146,41 @@
           <div style="margin-top:.5rem"><a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/discussions" target="_blank">Обсуждения</a></div>
         </div>
       </aside>
+    </section>
+
+    <!-- Components / Aggregated releases -->
+    <section class="panel" id="components">
+      <h2>Компоненты / Свежие релизы</h2>
+      <p class="muted">Собираем свежие релизы из вашего аккаунта и популярных компонентов (например, Atmosphere, Hekate). Можно настроить список репозиториев в скрипте.</p>
+      <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+        <div class="controls">
+          <button class="btn" id="tabMyReleases">Мои релизы</button>
+          <button class="btn" id="tabFresh">Свежие компоненты</button>
+          <button class="btn" id="refreshComponents">Обновить</button>
+        </div>
+        <div class="muted">Показано: <span id="componentsCount">…</span></div>
+      </div>
+      <div id="componentsList" class="releases"></div>
+    </section>
+
+    <!-- Comments -->
+    <section class="panel" id="comments">
+      <h2>Комментарии</h2>
+      <p class="muted">Оставьте комментарий. Сначала пытаемся подключить GitHub-based comments (Utterances). Если не удалось — работает локальная форма (комментарии сохраняются в вашем браузере).</p>
+      <div id="utterances-container"></div>
+
+      <div id="local-comments" style="display:none;margin-top:.5rem;">
+        <form id="commentForm" class="comments-form" style="display:flex;flex-direction:column;gap:.5rem">
+          <input id="commentName" class="search" placeholder="Ваше имя (или ник)" />
+          <textarea id="commentText" placeholder="Комментарий" style="min-height:80px;padding:.5rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
+          <div style="display:flex;gap:.5rem;">
+            <button class="btn primary" type="submit">Отправить</button>
+            <button class="btn" type="button" id="clearComments">Очистить локально</button>
+          </div>
+        </form>
+
+        <div id="commentsList" style="margin-top:1rem"></div>
+      </div>
     </section>
 
     <!-- Releases with search/filter -->
@@ -214,10 +266,11 @@
   <footer>
     <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
       <div class="muted">© Ryazhenka — crew.ecosystem</div>
-      <div style="display:flex;gap:.5rem;align-items:center">
+        <div style="display:flex;gap:.5rem;align-items:center">
         <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
         <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
         <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">Source</a>
+        <a class="btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
       </div>
     </div>
   </footer>
@@ -236,11 +289,15 @@
     const crewGrid = document.getElementById('crew-grid');
     const galleryGrid = document.getElementById('galleryGrid');
 
-    // Manual crew overrides / роли (можно редактировать)
+    // Manual crew overrides / роли (редактируйте здесь для ручных дополнений)
+    // Replaced Kirill-git and Notler with helper accounts as requested.
     const manualCrew = [
       { login: 'Dimasick-git', name: 'Dimasick-git', role: 'главный разработчик 🚀' },
-      { login: 'Kirill-git', name: 'Кирилл-gит', role: 'ядро-тестер, идеи 🧪' },
-      { login: 'Notler', name: 'Тихомир-гит (нотлер)', role: 'креатив, ревью 🎨' }
+      { login: 'Ryazhenka_helper_1', name: 'Ryazhenka_helper_1', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_01', name: 'Ryazhenka_helper_01', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_001', name: 'Ryazhenka_helper_001', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_0001', name: 'Ryazhenka_helper_0001', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_00001', name: 'Ryazhenka_helper_00001', role: 'вспомогательный разработчик' }
     ];
 
     // Theme toggle with persist
@@ -377,6 +434,14 @@
 
     // state
     let releasesData = [];
+    // components state
+    let componentsState = { mode: 'my', items: [] };
+    // configurable list of popular components to fetch for "Fresh components" tab
+    const popularComponents = [
+      { owner: 'Atmosphere-NX', repo: 'Atmosphere' },
+      { owner: 'CTCaer', repo: 'hekate' },
+      // add more repos here if desired; ensure names are correct
+    ];
 
     async function loadReleases() {
       try {
@@ -393,6 +458,82 @@
         listEl.innerHTML = '<p class="muted">Не удалось загрузить релизы. Попробуйте позже.</p>';
         console.error(e);
       }
+    }
+
+    // compact card used for components list (short description)
+    function mkCompactCard(r, source){
+      const card = document.createElement('article');
+      card.className = 'release-card';
+      const title = document.createElement('h3'); title.textContent = `${r.name || r.tag_name || '(без названия)'} — ${source}`;
+      card.appendChild(title);
+      const meta = document.createElement('div'); meta.className='meta';
+      const date = document.createElement('span'); date.textContent = fmtDate(r.published_at || r.created_at);
+      const ver = document.createElement('span'); ver.textContent = r.tag_name || '';
+      meta.append(date, ver); card.appendChild(meta);
+      if(r.body){ const p=document.createElement('p'); p.textContent = r.body.length>180? r.body.slice(0,180)+'…' : r.body; card.appendChild(p); }
+      const btnWrap = document.createElement('div'); btnWrap.style.display='flex'; btnWrap.style.gap='.5rem'; btnWrap.style.marginTop='.5rem';
+      const open = document.createElement('a'); open.className='btn'; open.href = r.html_url || '#'; open.target='_blank'; open.textContent='Открыть'; btnWrap.appendChild(open);
+      card.appendChild(btnWrap);
+      return card;
+    }
+
+    // Fetch latest releases for all public repos of an owner (limited)
+    async function loadOwnerReleases(owner, limitRepos=20){
+      const reposApi = `https://api.github.com/users/${owner}/repos?per_page=100`;
+      try{
+        const res = await fetch(reposApi);
+        if(!res.ok) throw new Error('Не удалось получить репозитории');
+        const repos = await res.json();
+        const selected = repos.slice(0, limitRepos);
+        const results = [];
+        // fetch latest release per repo (serial small batch to avoid rate limits)
+        for(const r of selected){
+          try{
+            const relRes = await fetch(`https://api.github.com/repos/${owner}/${r.name}/releases?per_page=1`);
+            if(!relRes.ok) continue;
+            const rel = await relRes.json();
+            if(Array.isArray(rel) && rel.length>0){ results.push({ repo: r.name, owner, release: rel[0] }); }
+          }catch(e){ console.warn('release fetch error', e); }
+        }
+        return results;
+      }catch(e){ console.error(e); return []; }
+    }
+
+    // Fetch releases for a list of owner/repo pairs (popular components)
+    async function loadReposReleases(list){
+      const results = [];
+      for(const it of list){
+        try{
+          const relRes = await fetch(`https://api.github.com/repos/${it.owner}/${it.repo}/releases?per_page=1`);
+          if(!relRes.ok) { console.warn('no release for', it.owner+'/'+it.repo); continue; }
+          const rel = await relRes.json();
+          if(Array.isArray(rel) && rel.length>0) results.push({ repo: it.repo, owner: it.owner, release: rel[0] });
+        }catch(e){ console.warn('error fetching', it, e); }
+      }
+      return results;
+    }
+
+    async function renderComponents(){
+      const listEl = document.getElementById('componentsList');
+      listEl.innerHTML = '<p class="muted">Загрузка…</p>';
+      try{
+        let items = [];
+        if(componentsState.mode === 'my'){
+          const ownerResults = await loadOwnerReleases(owner, 30);
+          ownerResults.forEach(r => items.push(Object.assign({}, r.release, { __source: r.owner + '/' + r.repo })));
+        } else {
+          const popular = await loadReposReleases(popularComponents);
+          popular.forEach(r => items.push(Object.assign({}, r.release, { __source: r.owner + '/' + r.repo })));
+        }
+        componentsState.items = items;
+        document.getElementById('componentsCount').textContent = items.length;
+        listEl.innerHTML = '';
+        if(items.length === 0){ listEl.innerHTML = '<p class="muted">Нет новых релизов.</p>'; return; }
+        items.forEach(it => {
+          const card = mkCompactCard(it, it.__source || '');
+          listEl.appendChild(card);
+        });
+      }catch(e){ listEl.innerHTML = '<p class="muted">Не удалось загрузить компоненты.</p>'; console.error(e); }
     }
 
     function matchesFilter(r, q, type) {
@@ -426,11 +567,17 @@
       galleryGrid.innerHTML = '';
       releasesData.forEach(r => {
         const ver = r.tag_name || r.name || '';
+        // Prefer GIF preview assets when available
+        const gifAsset = (r.assets || []).find(a => /\.gif$/i.test(a.name) || /preview.*gif/i.test(a.name));
         const basset = (r.assets || []).find(a => /bbootlogo|logo|cover|preview/i.test(a.name));
-        const src = basset ? basset.browser_download_url : bbootLogoUrl(ver);
+        const src = gifAsset ? gifAsset.browser_download_url : (basset ? basset.browser_download_url : bbootLogoUrl(ver));
         const img = document.createElement('img');
         img.src = src;
         img.alt = `${ver}`;
+        if (gifAsset) {
+          img.dataset.isGif = '1';
+          img.title = 'GIF preview — кликните, чтобы открыть';
+        }
         img.dataset.rel = r.html_url || tagUrl(ver);
         img.addEventListener('click', () => openModal(src, r));
         galleryGrid.appendChild(img);
@@ -499,6 +646,49 @@
       }
     }
 
+    // Comments: try Utterances (GitHub issues) first, fallback to localStorage comments
+    function loadUtterances(){
+      const container = document.getElementById('utterances-container');
+      if(!container) return showLocalComments();
+      const script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      script.setAttribute('repo','Dimasick-git/Ryzhenka');
+      // issue-term controls how comments are grouped: pathname -> per-page
+      script.setAttribute('issue-term','pathname');
+      script.setAttribute('theme','github-light');
+      script.crossOrigin = 'anonymous';
+      script.onerror = function(){
+        console.warn('Utterances failed to load; falling back to local comments.');
+        showLocalComments();
+      };
+      container.appendChild(script);
+    }
+
+    // Local comments implementation
+    const COMMENTS_KEY = 'rz_local_comments';
+    function loadLocalComments(){ try { return JSON.parse(localStorage.getItem(COMMENTS_KEY)||'[]'); } catch(e){ return []; } }
+    function saveLocalComments(arr){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(arr||[])); }
+    function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/\'/g,'&#039;'); }
+    function renderLocalComments(){ const list = document.getElementById('commentsList'); if(!list) return; const comments = loadLocalComments().slice().reverse(); if(!comments.length){ list.innerHTML = '<div class="muted">Комментариев пока нет.</div>'; return; } list.innerHTML=''; comments.forEach(c=>{ const node = document.createElement('div'); node.className='comment-card'; node.innerHTML = `<div style="display:flex;justify-content:space-between"><strong>${escapeHtml(c.name||'Аноним')}</strong><small class="muted">${new Date(c.date).toLocaleString()}</small></div><div style="margin-top:.4rem">${escapeHtml(c.text)}</div>`; list.appendChild(node); }); }
+    function showLocalComments(){ const ut = document.getElementById('utterances-container'); if(ut) ut.style.display='none'; const local = document.getElementById('local-comments'); if(local) local.style.display='block'; renderLocalComments(); }
+
+    // form handling
+    document.addEventListener('submit', function(e){
+      if(e.target && e.target.id === 'commentForm'){
+        e.preventDefault();
+        const name = document.getElementById('commentName').value.trim() || 'Аноним';
+        const text = document.getElementById('commentText').value.trim();
+        if(!text) return;
+        const arr = loadLocalComments();
+        arr.push({ name, text, date: new Date().toISOString() });
+        saveLocalComments(arr);
+        document.getElementById('commentText').value = '';
+        renderLocalComments();
+      }
+    });
+    document.addEventListener('click', function(e){ if(e.target && e.target.id === 'clearComments'){ if(confirm('Удалить все локальные комментарии?')){ localStorage.removeItem(COMMENTS_KEY); renderLocalComments(); } } });
+
     // Init
     (function init(){
       document.getElementById('searchReleases')?.addEventListener('input', () => renderReleases());
@@ -506,7 +696,15 @@
       document.getElementById('refreshReleases')?.addEventListener('click', () => loadReleases());
       loadReleases();
       loadCrew();
-      window.RZ = { loadReleases, loadCrew, manualCrew };
+      // try to load utterances comments; if it fails, fallback will show local form
+      loadUtterances();
+      // components tabs
+      document.getElementById('tabMyReleases')?.addEventListener('click', ()=>{ componentsState.mode='my'; renderComponents(); });
+      document.getElementById('tabFresh')?.addEventListener('click', ()=>{ componentsState.mode='fresh'; renderComponents(); });
+      document.getElementById('refreshComponents')?.addEventListener('click', ()=> renderComponents());
+      // initial render components
+      renderComponents();
+      window.RZ = { loadReleases, loadCrew, manualCrew, renderComponents };
     })();
 
   </script>
