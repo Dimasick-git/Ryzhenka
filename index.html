@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYZHENKA - Философия Ритма</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .glow {
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            color: #00ff00;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .terminal-content {
+            color: #0f0;
+            white-space: pre-wrap;
+        }
+
+        .section {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section h2 {
+            color: #00ff00;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .crew-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .crew-card {
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            padding: 1.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .crew-card:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .crew-card h3 {
+            color: #00ff00;
+            margin-bottom: 0.5rem;
+        }
+
+        .crew-card p {
+            color: #00dd00;
+        }
+
+        .ascii-art {
+            font-size: 0.6rem;
+            line-height: 1;
+            color: #00ff00;
+            text-align: center;
+            margin: 2rem 0;
+            white-space: pre;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .link-button {
+            background: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .link-button:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        .release-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .release-list li {
+            padding: 0.5rem 0;
+            border-left: 3px solid #00ff00;
+            padding-left: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid #00ff00;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .section h2 {
+                font-size: 1.5rem;
+            }
+            .ascii-art {
+                font-size: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="glow">RYZHENKA</h1>
+        <p>Философия Ритма | Музыкальный Манифест</p>
+    </header>
+
+    <div class="ascii-art">
+ ██████╗ ██╗   ██╗███████╗██╗  ██╗███████╗███╗   ██╗██╗  ██╗ █████╗ 
+ ██╔══██╗╚██╗ ██╔╝╚══███╔╝██║  ██║██╔════╝████╗  ██║██║ ██╔╝██╔══██╗
+ ██████╔╝ ╚████╔╝   ███╔╝ ███████║█████╗  ██╔██╗ ██║█████╔╝ ███████║
+ ██╔══██╗  ╚██╔╝   ███╔╝  ██╔══██║██╔══╝  ██║╚██╗██║██╔═██╗ ██╔══██║
+ ██║  ██║   ██║   ███████╗██║  ██║███████╗██║ ╚████║██║  ██╗██║  ██║
+ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝
+    </div>
+
+    <div class="terminal">
+        <div class="terminal-header">$ cat philosophy.txt</div>
+        <div class="terminal-content">RYZHENKA - это не просто музыка.
+Это философия ритма, где каждый бит - это пульс реальности.
+Мы создаём звуковые ландшафты из хаоса современного мира.
+
+Наш путь - это путь экспериментов, где границы жанров стираются,
+а вместо них остаётся чистая энергия звука.</div>
+    </div>
+
+    <div class="section">
+        <h2 class="glow">CREW</h2>
+        <div class="crew-grid">
+            <div class="crew-card">
+                <h3>ДИРЯ (Dimasick-git)</h3>
+                <p>Основатель, продюсер, визионер. Архитектор звуковых пространств.</p>
+            </div>
+            <div class="crew-card">
+                <h3>УЧАСТНИК 2</h3>
+                <p>Битмейкер, звукорежиссёр. Мастер аналоговых синтезаторов.</p>
+            </div>
+            <div class="crew-card">
+                <h3>УЧАСТНИК 3</h3>
+                <p>MC, лирик. Голос поколения киберпанка.</p>
+            </div>
+            <div class="crew-card">
+                <h3>УЧАСТНИК 4</h3>
+                <p>DJ, аранжировщик. Маэстро винила и digital звука.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="glow">РЕЛИЗЫ</h2>
+        <ul class="release-list">
+            <li><strong>[2025]</strong> RYZHENKA - Genesis EP (Coming Soon)</li>
+            <li><strong>[2025]</strong> Single: "Digital Dreams" (В разработке)</li>
+            <li><strong>[2025]</strong> Mixtape: "Terminal Sessions Vol. 1" (Планируется)</li>
+            <li><strong>[TBA]</strong> Full Album: "Cybernetic Rhythms" (Концепт)</li>
+        </ul>
+    </div>
+
+    <div class="terminal">
+        <div class="terminal-header">$ ./instruction.sh</div>
+        <div class="terminal-content">═══════════════════════════════════════════════════════════════
+  ИНСТРУКЦИЯ ПО НАСТРОЙКЕ GITHUB PAGES
+═══════════════════════════════════════════════════════════════
+
+1. Откройте Settings репозитория
+2. Перейдите в раздел "Pages" (слева в меню)
+3. В разделе "Source" выберите:
+   - Branch: main
+   - Folder: / (root)
+4. Нажмите "Save"
+5. Подождите несколько минут
+6. Сайт будет доступен по адресу:
+   https://dimasick-git.github.io/Ryzhenka/
+
+═══════════════════════════════════════════════════════════════
+  ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ
+═══════════════════════════════════════════════════════════════
+
+• Для кастомного домена добавьте файл CNAME
+• Включите "Enforce HTTPS" для безопасности
+• Обновляйте контент через commit в main ветку
+
+═══════════════════════════════════════════════════════════════</div>
+    </div>
+
+    <div class="section">
+        <h2 class="glow">ПОДДЕРЖАТЬ ПРОЕКТ</h2>
+        <div class="links">
+            <a href="https://boosty.to/ryzhenka" class="link-button" target="_blank">BOOSTY</a>
+            <a href="https://github.com/Dimasick-git/Ryzhenka" class="link-button" target="_blank">GITHUB</a>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="glow">БЛАГОДАРНОСТИ</h2>
+        <div class="terminal">
+            <div class="terminal-content">Спасибо всем, кто поддерживает проект:
+
+• Нашим слушателям и фанатам
+• Коллаборантам и продюсерам
+• Open Source сообществу
+• Всем, кто верит в силу музыки
+
+Вместе мы создаём будущее звука! 🎵</div>
+        </div>
+    </div>
+
+    <footer>
+        <p class="glow">© 2025 RYZHENKA | Made with ♥ in the Digital Underground</p>
+        <p>Powered by GitHub Pages</p>
+    </footer>
+</body>
+</html>
