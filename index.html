@@ -1,286 +1,182 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RYZHENKA - Философия Ритма</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Courier New', monospace;
-            background: #0a0a0a;
-            color: #00ff00;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .glow {
-            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        header {
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 2px solid #00ff00;
-            background: rgba(0, 255, 0, 0.05);
-        }
-
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .terminal {
-            background: #000;
-            border: 2px solid #00ff00;
-            padding: 1.5rem;
-            margin: 2rem auto;
-            max-width: 900px;
-            border-radius: 5px;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-
-        .terminal-header {
-            color: #00ff00;
-            margin-bottom: 1rem;
-            font-weight: bold;
-        }
-
-        .terminal-content {
-            color: #0f0;
-            white-space: pre-wrap;
-        }
-
-        .section {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .section h2 {
-            color: #00ff00;
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        .crew-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .crew-card {
-            background: rgba(0, 255, 0, 0.05);
-            border: 2px solid #00ff00;
-            padding: 1.5rem;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-
-        .crew-card:hover {
-            background: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-            transform: translateY(-5px);
-        }
-
-        .crew-card h3 {
-            color: #00ff00;
-            margin-bottom: 0.5rem;
-        }
-
-        .crew-card p {
-            color: #00dd00;
-        }
-
-        .ascii-art {
-            font-size: 0.6rem;
-            line-height: 1;
-            color: #00ff00;
-            text-align: center;
-            margin: 2rem 0;
-            white-space: pre;
-        }
-
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .link-button {
-            background: transparent;
-            border: 2px solid #00ff00;
-            color: #00ff00;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .link-button:hover {
-            background: #00ff00;
-            color: #000;
-            box-shadow: 0 0 20px #00ff00;
-        }
-
-        .release-list {
-            list-style: none;
-            margin: 1rem 0;
-        }
-
-        .release-list li {
-            padding: 0.5rem 0;
-            border-left: 3px solid #00ff00;
-            padding-left: 1rem;
-            margin: 0.5rem 0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            border-top: 2px solid #00ff00;
-            margin-top: 4rem;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            .section h2 {
-                font-size: 1.5rem;
-            }
-            .ascii-art {
-                font-size: 0.4rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ryazhenka CFW — Nintendo Switch Custom Firmware</title>
+  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы, инструкции, скриншоты." />
+  <link rel="icon" href="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/assets/Ryazhalogo.png" />
+  <style>
+    :root{
+      --bg:#0a0d0a; --fg:#cfffd0; --accent:#00ff88; --muted:#7affb2; --dim:#1a1f1a;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;height:100%;background:radial-gradient(1200px 600px at 10% -10%, rgba(0,255,136,.07), transparent),
+      radial-gradient(900px 500px at 100% 0%, rgba(0,255,180,.05), transparent), var(--bg);color:var(--fg);font:15px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-shadow:0 0 12px rgba(0,255,136,.6)}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    header{border-bottom:1px solid #0f140f;background:linear-gradient(0deg, rgba(0,255,136,.05), rgba(0,255,136,0));backdrop-filter:saturate(130%) blur(2px);position:sticky;top:0;z-index:10}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:40px;height:40px;border-radius:8px;box-shadow:0 0 18px rgba(0,255,136,.35)}
+    .title{font-weight:800;letter-spacing:.6px}
+    .glow{color:var(--muted);text-shadow:0 0 8px rgba(0,255,136,.55), 0 0 18px rgba(0,255,136,.35)}
+    nav{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+    nav a{padding:6px 10px;border:1px solid #123; border-radius:8px; background:#0c120f}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:34px 0}
+    .panel{border:1px solid #123;background:#0b110d;border-radius:14px;padding:18px}
+    .ascii{white-space:pre;font-weight:700;line-height:1.1;color:var(--muted);text-shadow:0 0 10px rgba(0,255,136,.35)}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid #134;background:#0e1511}
+    .btn.primary{background:linear-gradient(90deg, #0f2, #0bb);color:#041; font-weight:800; text-shadow:0 1px 0 rgba(255,255,255,.35);border:none}
+    .grid{display:grid;gap:16px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}.grid.cols-3{grid-template-columns:1fr}.grid.cols-2{grid-template-columns:1fr}}
+    h2{margin:8px 0 6px;font-size:18px;color:#e7ffe8}
+    h3{margin:8px 0 6px;font-size:16px;color:#dbffe0}
+    .muted{color:#a7ffcf}
+    .shot{width:100%;border-radius:12px;border:1px solid #134;background:#08110d;object-fit:cover}
+    footer{border-top:1px solid #0f140f;margin-top:40px;background:#0a100d}
+    .kbd{padding:0 6px;border:1px solid #2b3; border-radius:4px; background:#081; color:#031; font-weight:800}
+    .tag{display:inline-block;padding:4px 8px;border:1px solid #134;border-radius:999px;background:#0a120e;color:#9ff}
+    .list{margin:0;padding-left:18px}
+  </style>
 </head>
 <body>
-    <header>
-        <h1 class="glow">RYZHENKA</h1>
-        <p>Философия Ритма | Музыкальный Манифест</p>
-    </header>
-
-    <div class="ascii-art">
- ██████╗ ██╗   ██╗███████╗██╗  ██╗███████╗███╗   ██╗██╗  ██╗ █████╗ 
- ██╔══██╗╚██╗ ██╔╝╚══███╔╝██║  ██║██╔════╝████╗  ██║██║ ██╔╝██╔══██╗
- ██████╔╝ ╚████╔╝   ███╔╝ ███████║█████╗  ██╔██╗ ██║█████╔╝ ███████║
- ██╔══██╗  ╚██╔╝   ███╔╝  ██╔══██║██╔══╝  ██║╚██╗██║██╔═██╗ ██╔══██║
- ██║  ██║   ██║   ███████╗██║  ██║███████╗██║ ╚████║██║  ██╗██║  ██║
- ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝
-    </div>
-
-    <div class="terminal">
-        <div class="terminal-header">$ cat philosophy.txt</div>
-        <div class="terminal-content">RYZHENKA - это не просто музыка.
-Это философия ритма, где каждый бит - это пульс реальности.
-Мы создаём звуковые ландшафты из хаоса современного мира.
-
-Наш путь - это путь экспериментов, где границы жанров стираются,
-а вместо них остаётся чистая энергия звука.</div>
-    </div>
-
-    <div class="section">
-        <h2 class="glow">CREW</h2>
-        <div class="crew-grid">
-            <div class="crew-card">
-                <h3>ДИРЯ (Dimasick-git)</h3>
-                <p>Основатель, продюсер, визионер. Архитектор звуковых пространств.</p>
-            </div>
-            <div class="crew-card">
-                <h3>УЧАСТНИК 2</h3>
-                <p>Битмейкер, звукорежиссёр. Мастер аналоговых синтезаторов.</p>
-            </div>
-            <div class="crew-card">
-                <h3>УЧАСТНИК 3</h3>
-                <p>MC, лирик. Голос поколения киберпанка.</p>
-            </div>
-            <div class="crew-card">
-                <h3>УЧАСТНИК 4</h3>
-                <p>DJ, аранжировщик. Маэстро винила и digital звука.</p>
-            </div>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <img class="logo" alt="Ryazhenka" src="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/assets/Ryazhalogo.png" />
+        <div>
+          <div class="title glow">Ryazhenka CFW</div>
+          <div class="muted">Стабильная кастомная прошивка для Nintendo Switch • glow/terminal</div>
         </div>
+      </div>
+      <nav>
+        <a href="#philosophy">Философия</a>
+        <a href="#builds">Сборки</a>
+        <a href="#features">Фичи</a>
+        <a href="#shots">Скриншоты</a>
+        <a href="#releases">Релизы</a>
+        <a href="#install">Установка</a>
+        <a href="https://t.me/Ryazhenkabestcfw" class="glow" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener">Boosty</a>
+        <a href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener">GitHub</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="section">
-        <h2 class="glow">РЕЛИЗЫ</h2>
-        <ul class="release-list">
-            <li><strong>[2025]</strong> RYZHENKA - Genesis EP (Coming Soon)</li>
-            <li><strong>[2025]</strong> Single: "Digital Dreams" (В разработке)</li>
-            <li><strong>[2025]</strong> Mixtape: "Terminal Sessions Vol. 1" (Планируется)</li>
-            <li><strong>[TBA]</strong> Full Album: "Cybernetic Rhythms" (Концепт)</li>
+  <main class="wrap">
+    <section class="hero">
+      <div class="panel">
+        <div class="ascii" aria-hidden="true"> 
+██████╗ ██╗   ██╗ █████╗ ███████╗██╗  ██╗███████╗███╗   ██╗██╗  ██╗ █████╗ 
+██╔══██╗██║   ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝████╗  ██║██║  ██║██╔══██╗
+██████╔╝██║   ██║███████║███████╗█████╔╝ █████╗  ██╔██╗ ██║███████║███████║
+██╔══██╗██║   ██║██╔══██║╚════██║██╔═██╗ ██╔══╝  ██║╚██╗██║██╔══██║██╔══██║
+██║  ██║╚██████╔╝██║  ██║███████║██║  ██╗███████╗██║ ╚████║██║  ██║██║  ██║
+╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝
+        </div>
+        <p class="muted">Никакой музыки — только CFW, стабильность и crew-экосистема.</p>
+        <div class="cta">
+          <a class="btn primary" href="#releases">Скачать релиз</a>
+          <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">Вступить в Telegram</a>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="panel">
+          <h2 id="philosophy">Философия Ryazhenka</h2>
+          <ul class="list">
+            <li>Стабильность: консервативные базисы, предсказуемые обновления, фокус на аптайме.</li>
+            <li>Glow: терминальный визуальный стиль, читаемость, минимальная анимация, быстрый UI.</li>
+            <li>Терминал: всё логируется, удобные скрипты и инструменты для тонкой настройки.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h2>Кредо crew</h2>
+          <p class="muted">Сообщество, ревью, благодарности, прозрачные изменения и быстрые фиксы.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid cols-3">
+      <div class="panel">
+        <h2 id="builds">Сборки</h2>
+        <ul class="list">
+          <li>Ryazhenka AIO — полный пакет с инструментами.</li>
+          <li>Ryazhenka — основная стабильная ветка.</li>
+          <li>Ryazhenka Lite — облегченное ядро, минимум лишнего.</li>
         </ul>
+        <p class="muted">Подробности в релизах и CHANGELOG.</p>
+      </div>
+      <div class="panel">
+        <h2 id="features">Крутые фичи</h2>
+        <ul class="list">
+          <li>OC-профили и гибкий контроллер частот.</li>
+          <li>Tuner v8.0 для тонкой настройки системы.</li>
+          <li>Кастомный UI в glow/terminal стиле.</li>
+          <li>Поддержка Homebrew и удобные лоадеры.</li>
+          <li>Кастомные загрузочные экраны.</li>
+          <li>Интеграция Boosty для поддержки проекта.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>Ссылки</h2>
+        <p><a href="https://t.me/Ryazhenkabestcfw" class="glow" target="_blank" rel="noopener">Telegram: @Ryazhenkabestcfw</a></p>
+        <p><a href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener">Поддержать на Boosty</a></p>
+        <p><a href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener">GitHub репозиторий</a></p>
+      </div>
+    </section>
+
+    <section class="panel" id="shots">
+      <h2>Скриншоты</h2>
+      <div class="grid cols-3">
+        <img class="shot" alt="UI" src="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/releases/images/screenshot1.jpg" />
+        <img class="shot" alt="Boot screen" src="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/releases/images/screenshot2.jpg" />
+        <img class="shot" alt="Terminal" src="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/releases/images/screenshot3.jpg" />
+      </div>
+      <p class="muted">Фото берутся из релизов и архивов репозитория.</p>
+    </section>
+
+    <section class="panel" id="releases">
+      <h2>Релизы и скачивания</h2>
+      <p>Актуальные релизы доступны на GitHub:</p>
+      <p><a class="btn primary" href="https://github.com/Dimasick-git/Ryzhenka/releases" target="_blank" rel="noopener">Перейти к релизам</a></p>
+      <ul class="list">
+        <li><a href="https://github.com/Dimasick-git/Ryzhenka/releases/latest" target="_blank" rel="noopener">Последний релиз</a></li>
+        <li><a href="https://github.com/Dimasick-git/Ryzhenka/blob/main/README.md" target="_blank" rel="noopener">README</a> • <a href="https://github.com/Dimasick-git/Ryzhenka/blob/main/INSTALL.md" target="_blank" rel="noopener">INSTALL</a> • <a href="https://github.com/Dimasick-git/Ryzhenka/commits/main" target="_blank" rel="noopener">CHANGELOG (Commits)</a></li>
+      </ul>
+    </section>
+
+    <section class="panel" id="install">
+      <h2>Инструкция по установке</h2>
+      <ol class="list">
+        <li>Скачайте архив из раздела «Релизы» (ветка: Ryazhenka или AIO/Lite).</li>
+        <li>Распакуйте на карту памяти microSD (exFAT/FAT32). Сохраните бэкапы.</li>
+        <li>Запустите payload через ваш загрузчик (hekate/RCM), следуйте шагам установщика.</li>
+        <li>Выберите нужный профиль (OC/сток), при первом запуске выполните настройку Tuner v8.0.</li>
+        <li>Для обновлений заменяйте файлы из нового релиза, читайте CHANGELOG.</li>
+      </ol>
+      <p class="muted">Если нужна помощь — пишите в Telegram: <a href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">@Ryazhenkabestcfw</a>.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Crew и благодарности</h2>
+      <p class="muted">Спасибо всем участникам и сообществу, тестерам, авторам homebrew и контрибьюторам.</p>
+      <div class="tag">crew</div> <div class="tag">community</div> <div class="tag">homebrew</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex;justify-content:space-between;gap:16px;align-items:center">
+      <small>© Ryazhenka CFW. Glow/terminal стиль. Не музыка — только прошивка.</small>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">Telegram</a>
+        <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener">Boosty</a>
+        <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
-
-    <div class="terminal">
-        <div class="terminal-header">$ ./instruction.sh</div>
-        <div class="terminal-content">═══════════════════════════════════════════════════════════════
-  ИНСТРУКЦИЯ ПО НАСТРОЙКЕ GITHUB PAGES
-═══════════════════════════════════════════════════════════════
-
-1. Откройте Settings репозитория
-2. Перейдите в раздел "Pages" (слева в меню)
-3. В разделе "Source" выберите:
-   - Branch: main
-   - Folder: / (root)
-4. Нажмите "Save"
-5. Подождите несколько минут
-6. Сайт будет доступен по адресу:
-   https://dimasick-git.github.io/Ryzhenka/
-
-═══════════════════════════════════════════════════════════════
-  ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ
-═══════════════════════════════════════════════════════════════
-
-• Для кастомного домена добавьте файл CNAME
-• Включите "Enforce HTTPS" для безопасности
-• Обновляйте контент через commit в main ветку
-
-═══════════════════════════════════════════════════════════════</div>
-    </div>
-
-    <div class="section">
-        <h2 class="glow">ПОДДЕРЖАТЬ ПРОЕКТ</h2>
-        <div class="links">
-            <a href="https://boosty.to/ryzhenka" class="link-button" target="_blank">BOOSTY</a>
-            <a href="https://github.com/Dimasick-git/Ryzhenka" class="link-button" target="_blank">GITHUB</a>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2 class="glow">БЛАГОДАРНОСТИ</h2>
-        <div class="terminal">
-            <div class="terminal-content">Спасибо всем, кто поддерживает проект:
-
-• Нашим слушателям и фанатам
-• Коллаборантам и продюсерам
-• Open Source сообществу
-• Всем, кто верит в силу музыки
-
-Вместе мы создаём будущее звука! 🎵</div>
-        </div>
-    </div>
-
-    <footer>
-        <p class="glow">© 2025 RYZHENKA | Made with ♥ in the Digital Underground</p>
-        <p>Powered by GitHub Pages</p>
-    </footer>
+  </footer>
 </body>
 </html>
