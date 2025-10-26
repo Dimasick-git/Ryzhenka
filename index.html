@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="glow">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ryazhenka — AI-styled CFW for Nintendo Switch</title>
+  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы и галерея генеративных превью." />
+  <link rel="icon" href="./assets/Ryazhalogo.png" />
+  <link rel="stylesheet" href="./styles/style.css" />
+  <script defer src="./scripts/main.js"></script>
+  <style>
+    /* Midjourney-like aesthetic: big hero, dark gradient, card glass, rounded gallery */
+    :root{
+      --bg:#05060a;
+      --panel:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --accent:#7c5cff;
+      --muted:#9aa0a6;
+      --glass: rgba(255,255,255,0.03);
+      --card-bg: rgba(255,255,255,0.02);
+    }
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background: radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.09), transparent), radial-gradient(1000px 300px at 90% 90%, rgba(0,200,255,0.03), transparent), var(--bg); color:#e7eef6}
+    .wrap{max-width:1100px;margin:0 auto;padding:1rem}
+    header.top{padding:1.25rem 0}
+    .brand{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .brand-left{display:flex;align-items:center;gap:0.75rem}
+    .logo{width:56px;height:56px;border-radius:10px;cursor:pointer}
+    .title{font-weight:700;font-size:1.25rem;letter-spacing:0.6px}
+    .muted{color:var(--muted)}
+
+    /* Hero */
+    .hero{padding:3.25rem 1rem;border-radius:12px;background:linear-gradient(180deg, rgba(124,92,255,0.14), rgba(0,0,0,0.12));box-shadow:0 6px 30px rgba(0,0,0,0.6);display:grid;grid-template-columns:1fr 380px;gap:1.25rem;align-items:center}
+    .hero h1{font-size:2.25rem;margin:0;line-height:1.02}
+    .hero p{margin:.5rem 0 1rem;color:var(--muted);max-width:58ch}
+    .cta{display:flex;gap:.5rem;flex-wrap:wrap}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.5rem .75rem;border-radius:8px;color:inherit;text-decoration:none}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#39d6ff);border:0;color:#0b0e12;font-weight:700}
+
+    /* Releases + Filters */
+    .controls{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .search{padding:.5rem .75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .select{padding:.45rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+
+    .releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
+    .release-card{background:var(--card-bg);padding:1rem;border-radius:12px;display:flex;flex-direction:column;gap:.5rem;min-height:180px;border:1px solid rgba(255,255,255,0.02)}
+    .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#05060a}
+    .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:0.85rem}
+    .assets{display:flex;flex-direction:column;gap:.25rem;margin-top:.25rem}
+    .asset{display:flex;gap:.5rem;align-items:center;font-size:0.9rem}
+
+    /* Crew */
+    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+    .crew-card{display:flex;gap:.75rem;align-items:center;padding:.6rem;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border-radius:10px}
+    .crew-card img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .2s ease;box-shadow:0 8px 24px rgba(0,0,0,0.6)}
+    .gallery img:hover{transform:translateY(-6px) scale(1.02)}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(3,4,7,0.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:2rem}
+    .modal .inner{max-width:900px;width:100%;border-radius:12px;overflow:hidden}
+    .modal img{width:100%;display:block}
+
+    /* FAQ & Roadmap */
+    .faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+    .panel{background:var(--panel);padding:1rem;border-radius:10px}
+
+    footer{margin-top:2rem;padding:1.5rem 0;color:var(--muted)}
+
+    /* theme toggle */
+    .toggle{cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:0.5rem;padding:0.25rem 0.5rem;border-radius:999px;background:rgba(255,255,255,0.02)}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+    }
+    /* Classic / terminal theme overrides (applied when html[data-theme="classic"]) */
+    html[data-theme="classic"]{
+      --bg:#070707;
+      --panel:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      --accent:#39d6ff;
+      --muted:#7f8a90;
+      --glass: rgba(255,255,255,0.02);
+      --card-bg: rgba(255,255,255,0.01);
+      font-family: 'Courier New', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Segoe UI Mono', monospace;
+    }
+    html[data-theme="classic"] body{background: radial-gradient(900px 300px at 10% 10%, rgba(57,214,255,0.02), transparent), radial-gradient(800px 200px at 90% 90%, rgba(124,92,255,0.02), transparent), var(--bg); color:#cfe7ff}
+    /* highlight GIF previews in gallery */
+    .gallery img[data-is-gif="1"]{box-shadow:0 18px 48px rgba(57,214,255,0.12);border:2px solid rgba(57,214,255,0.05)}
+  /* Comments UI */
+  .comments-form input, .comments-form textarea{width:100%;box-sizing:border-box}
+  .comment-card{background:var(--card-bg);padding:.6rem;border-radius:8px;margin-bottom:.5rem;border:1px solid rgba(255,255,255,0.02)}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap brand">
+      <div class="brand-left">
+        <img alt="Ryazhenka" class="logo" src="./assets/Ryazhalogo.png" onclick="location.href='./'" />
+        <div>
+          <div class="title">Ryazhenka CFW — crew.ecosystem</div>
+          <div class="muted" style="font-size:0.9rem;margin-top:4px;">Стабильная кастомная прошивка для Nintendo Switch — современно, безопасно, с удобным управлением плагинами.</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <div class="top .badges" style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+          <a class="badge btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
+          <a class="badge btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
+          <a class="badge btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">GitHub</a>
+          <a class="badge btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
+        </div>
+        <div class="toggle" id="themeToggle" title="Glow ↔ Classic Terminal">Glow <div class="switch" id="themeSwitch" style="margin:0 8px;"><span class="thumb"></span></div> Classic</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero panel">
+      <div>
+        <h1>Ryazhenka — стабильная CFW, вдохновлённая генеративной эстетикой</h1>
+        <p>Мы собираем лучшее из Atmosphere, Hekate, Tesla и собственных утилит. Профессиональная сборка, удобное управление плагинами и понятная документация — теперь с превью релизов, галереей и новыми фичами.</p>
+        <div class="cta">
+          <a class="btn primary" href="#install">Установить</a>
+          <a class="btn" href="#changelog">Релизы</a>
+          <a class="btn" href="#gallery">Галерея</a>
+          <a class="btn" href="#wiki">Wiki</a>
+        </div>
+        <div style="margin-top:1rem;color:var(--muted)">Подпишитесь на обновления и оставьте фидбек в Discussions.</div>
+      </div>
+
+      <aside>
+        <div class="panel">
+          <h3 style="margin:0 0 .5rem 0">Быстрые фичи</h3>
+          <ul style="margin:0;padding-left:1rem;color:var(--muted)">
+            <li>Автоматические релизы с логотипом и полной информацией</li>
+            <li>Интеллектуальная галерея превью и пресетов</li>
+            <li>Интеграция с Tesla Menu и Ryazhahand Overlay</li>
+            <li>Режимы: AIO / Lite / BestCFW</li>
+            <li>Roadmap и авто-импорт issues с меткой <code>roadmap</code></li>
+          </ul>
+        </div>
+
+        <div style="margin-top:.75rem" class="panel">
+          <h4 style="margin:0 0 .5rem 0">Поддержка</h4>
+          <div class="muted">Telegram • Discussions • Issues</div>
+          <div style="margin-top:.5rem"><a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/discussions" target="_blank">Обсуждения</a></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Components / Aggregated releases -->
+    <section class="panel" id="components">
+      <h2>Компоненты / Свежие релизы</h2>
+      <p class="muted">Собираем свежие релизы из вашего аккаунта и популярных компонентов (например, Atmosphere, Hekate). Можно настроить список репозиториев в скрипте.</p>
+      <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+        <div class="controls">
+          <button class="btn" id="tabMyReleases">Мои релизы</button>
+          <button class="btn" id="tabFresh">Свежие компоненты</button>
+          <button class="btn" id="refreshComponents">Обновить</button>
+        </div>
+        <div class="muted">Показано: <span id="componentsCount">…</span></div>
+      </div>
+      <div id="componentsList" class="releases"></div>
+    </section>
+
+    <!-- Comments -->
+    <section class="panel" id="comments">
+      <h2>Комментарии</h2>
+      <p class="muted">Оставьте комментарий. Сначала пытаемся подключить GitHub-based comments (Utterances). Если не удалось — работает локальная форма (комментарии сохраняются в вашем браузере).</p>
+      <div id="utterances-container"></div>
+
+      <div id="local-comments" style="display:none;margin-top:.5rem;">
+        <form id="commentForm" class="comments-form" style="display:flex;flex-direction:column;gap:.5rem">
+          <input id="commentName" class="search" placeholder="Ваше имя (или ник)" />
+          <textarea id="commentText" placeholder="Комментарий" style="min-height:80px;padding:.5rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
+          <div style="display:flex;gap:.5rem;">
+            <button class="btn primary" type="submit">Отправить</button>
+            <button class="btn" type="button" id="clearComments">Очистить локально</button>
+          </div>
+        </form>
+
+        <div id="commentsList" style="margin-top:1rem"></div>
+      </div>
+    </section>
+
+    <!-- Releases with search/filter -->
+    <section class="panel" id="changelog">
+      <h2 style="margin-top:0">История изменений / Релизы</h2>
+      <div class="muted">Список релизов загружается из GitHub. Используйте поиск и фильтры, чтобы быстро найти сборки.</div>
+      <div style="margin-top:.75rem;display:flex;justify-content:space-between;gap:.5rem;align-items:center;flex-wrap:wrap">
+        <div class="controls">
+          <input id="searchReleases" class="search" placeholder="Поиск по релизам / версии / названию" />
+          <select id="filterType" class="select">
+            <option value="all">Все типы</option>
+            <option value="Ryazhenkabestcfw">BestCFW</option>
+            <option value="Ryazhenka_AIO">AIO</option>
+            <option value="Ryazhenka_lite">Lite</option>
+          </select>
+          <button class="btn" id="refreshReleases">Обновить</button>
+        </div>
+        <div class="muted">Найдено: <span id="releasesCount">…</span></div>
+      </div>
+
+      <div class="releases" id="releases-list" aria-live="polite"></div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="panel" id="gallery">
+      <h2>Галерея превью и генеративных обложек</h2>
+      <p class="muted">Коллекция автоматических логотипов и превью из релизов — кликните, чтобы открыть в полном размере.</p>
+      <div class="gallery" id="galleryGrid"></div>
+    </section>
+
+    <!-- Crew -->
+    <section class="panel" id="crew">
+      <h2>Стена экипажа / Благодарности</h2>
+      <p class="muted">Автогенерация по contributors + ручные дополнения.</p>
+      <div class="crew-grid" id="crew-grid"></div>
+      <div style="margin-top:.75rem" class="muted">Для ручного добавления — редактируйте scripts/main.js секцию manualCrew.</div>
+    </section>
+
+    <!-- Roadmap + FAQ -->
+    <section class="panel" id="roadmap">
+      <h2>Цели / Дорожная карта</h2>
+      <div class="roadmap" id="roadmap-list">
+        <div>• Интеграция быстрой настройки и тюнера из консоли</div>
+        <div>• Темы и пресеты для Ryazhahand</div>
+        <div>• Улучшенная совместимость sys-clk и профилей энергопотребления</div>
+        <div>• GUI для управления плагинами и обновлениями</div>
+      </div>
+      <div style="margin-top:.5rem;" class="muted">Можно автоматически подтянуть задачи с меткой <code>roadmap</code>.</div>
+    </section>
+
+    <section class="panel" id="faq">
+      <h2>FAQ / Частые вопросы</h2>
+      <div class="faq">
+        <div>
+          <h4>Поддерживается ли A/B NAND?</h4>
+          <p class="muted">Да — используйте Hekate для управления бэкапами и профилями. Ryazhenka не трогает ваши персональные данные без подтверждения.</p>
+        </div>
+        <div>
+          <h4>Какая сборка мне нужна?</h4>
+          <p class="muted">AIO — полная; Lite — минимальная; BestCFW — оптимизированная для стабильности. Смотрите релизы для деталей.</p>
+        </div>
+        <div>
+          <h4>Как сообщить об ошибке?</h4>
+          <p class="muted">Откройте issue в репозитории или опишите проблему в Discussions с логами.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="panel" id="install">
+      <h2>Установка</h2>
+      <ol>
+        <li>Скачайте последний релиз из раздела <a href="#changelog">История изменений</a>.</li>
+        <li>Распакуйте содержимое на карту microSD, сохраните существующие бэкапы.</li>
+        <li>Запустите через Hekate или ваш метод загрузки.</li>
+        <li>Откройте Tesla Menu, настройте плагины и оверлеи.</li>
+      </ol>
+      <div class="cta"><a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Полная документация / Wiki</a></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
+      <div class="muted">© Ryazhenka — crew.ecosystem</div>
+        <div style="display:flex;gap:.5rem;align-items:center">
+        <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
+        <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
+        <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">Source</a>
+        <a class="btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal placeholder -->
+  <div id="modal" style="display:none"></div>
+
+  <script>
+    // Настройки репозитория
+    const owner = 'Dimasick-git';
+    const repo = 'Ryzhenka';
+    const apiBase = `https://api.github.com/repos/${owner}/${repo}`;
+    const releasesApi = `${apiBase}/releases?per_page=100`;
+    const contributorsApi = `${apiBase}/contributors?per_page=100`;
+    const listEl = document.getElementById('releases-list');
+    const crewGrid = document.getElementById('crew-grid');
+    const galleryGrid = document.getElementById('galleryGrid');
+
+    // Manual crew overrides / роли (редактируйте здесь для ручных дополнений)
+    // Replaced Kirill-git and Notler with helper accounts as requested.
+    const manualCrew = [
+      { login: 'Dimasick-git', name: 'Dimasick-git', role: 'главный разработчик 🚀' },
+      { login: 'Ryazhenka_helper_1', name: 'Ryazhenka_helper_1', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_01', name: 'Ryazhenka_helper_01', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_001', name: 'Ryazhenka_helper_001', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_0001', name: 'Ryazhenka_helper_0001', role: 'вспомогательный разработчик' },
+      { login: 'Ryazhenka_helper_00001', name: 'Ryazhenka_helper_00001', role: 'вспомогательный разработчик' }
+    ];
+
+    // Theme toggle with persist
+    const themeSwitch = document.getElementById('themeSwitch');
+    const doc = document.documentElement;
+    function applyTheme(theme) {
+      doc.dataset.theme = theme;
+      localStorage.setItem('rz_theme', theme);
+    }
+    (function initTheme() {
+      const stored = localStorage.getItem('rz_theme');
+      const prefers = stored || doc.dataset.theme || 'glow';
+      applyTheme(prefers);
+    })();
+    document.getElementById('themeToggle')?.addEventListener('click', () => {
+      const next = doc.dataset.theme === 'classic' ? 'glow' : 'classic';
+      applyTheme(next);
+    });
+
+    function fmtDate(iso) {
+      if(!iso) return '';
+      try { const d = new Date(iso); return d.toLocaleDateString('ru-RU', { year: 'numeric', month: 'short', day: 'numeric' }); } catch (e) { return iso; }
+    }
+
+    function bbootLogoUrl(version) { return `https://github.com/${owner}/${repo}/releases/download/${version}/bbootlogo.png`; }
+    function tagUrl(version) { return `https://github.com/${owner}/${repo}/releases/tag/${encodeURIComponent(version)}`; }
+
+    function mkCard(r) {
+      const card = document.createElement('article');
+      card.className = 'release-card';
+      const ver = r.tag_name || r.name || '';
+      const img = document.createElement('img');
+      img.alt = `Лого ${ver}`;
+      img.loading = 'lazy';
+      const basset = (r.assets || []).find(a => /bbootlogo/i.test(a.name));
+      img.src = basset ? basset.browser_download_url : (r.assets && r.assets[0] && r.assets[0].browser_download_url) || bbootLogoUrl(ver);
+      card.appendChild(img);
+
+      const h3 = document.createElement('h3');
+      h3.textContent = r.name || ver;
+      card.appendChild(h3);
+
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const date = document.createElement('span');
+      date.textContent = fmtDate(r.published_at || r.created_at);
+      const vspan = document.createElement('span');
+      vspan.textContent = ver;
+      meta.append(date, vspan);
+      card.appendChild(meta);
+
+      if (r.body) {
+        const p = document.createElement('p');
+        p.textContent = r.body.length > 220 ? r.body.slice(0, 220) + '…' : r.body;
+        card.appendChild(p);
+      }
+
+      const assetsWrap = document.createElement('div');
+      assetsWrap.className = 'assets';
+      const titles = ['Ryazhenkabestcfw', 'Ryazhenka_AIO', 'Ryazhenka_lite'];
+      titles.forEach(t => {
+        const asset = (r.assets || []).find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
+        const row = document.createElement('div');
+        row.className = 'asset';
+        if (asset) {
+          const a = document.createElement('a');
+          a.href = asset.browser_download_url;
+          a.target = '_blank';
+          a.textContent = `${t} — ${asset.name}`;
+          row.appendChild(a);
+          const size = document.createElement('small');
+          size.className = 'muted';
+          size.style.marginLeft = 'auto';
+          size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '';
+          row.appendChild(size);
+        } else {
+          const span = document.createElement('span');
+          span.className = 'muted';
+          span.textContent = `${t} — отсутствует`;
+          row.appendChild(span);
+        }
+        assetsWrap.appendChild(row);
+      });
+
+      if ((r.assets || []).length > 0) {
+        const more = document.createElement('details');
+        more.style.marginTop = '0.5rem';
+        const summary = document.createElement('summary');
+        summary.textContent = `Все файлы (${r.assets.length})`;
+        more.appendChild(summary);
+        const list = document.createElement('div');
+        (r.assets || []).forEach(a => {
+          const line = document.createElement('div');
+          line.className = 'asset';
+          const link = document.createElement('a');
+          link.href = a.browser_download_url;
+          link.target = '_blank';
+          link.textContent = a.name;
+          line.appendChild(link);
+          const small = document.createElement('small');
+          small.className = 'muted';
+          small.style.marginLeft = 'auto';
+          small.textContent = a.size ? `${(a.size/1024/1024).toFixed(2)} MB` : '';
+          line.appendChild(small);
+          list.appendChild(line);
+        });
+        more.appendChild(list);
+        assetsWrap.appendChild(more);
+      }
+
+      card.appendChild(assetsWrap);
+
+      const btnWrap = document.createElement('div');
+      btnWrap.style.display = 'flex';
+      btnWrap.style.gap = '.5rem';
+      btnWrap.style.marginTop = '.5rem';
+      const openRel = document.createElement('a');
+      openRel.className = 'btn';
+      openRel.href = tagUrl(ver);
+      openRel.target = '_blank';
+      openRel.textContent = 'Открыть релиз';
+      btnWrap.appendChild(openRel);
+      if (r.html_url) {
+        const openGH = document.createElement('a');
+        openGH.className = 'btn';
+        openGH.href = r.html_url;
+        openGH.target = '_blank';
+        openGH.textContent = 'GitHub';
+        btnWrap.appendChild(openGH);
+      }
+      card.appendChild(btnWrap);
+      return card;
+    }
+
+    // state
+    let releasesData = [];
+    // components state
+    let componentsState = { mode: 'my', items: [] };
+    // configurable list of popular components to fetch for "Fresh components" tab
+    const popularComponents = [
+      { owner: 'Atmosphere-NX', repo: 'Atmosphere' },
+      { owner: 'CTCaer', repo: 'hekate' },
+      // add more repos here if desired; ensure names are correct
+    ];
+
+    async function loadReleases() {
+      try {
+        listEl.innerHTML = '<p class="muted">Загрузка релизов…</p>';
+        const res = await fetch(releasesApi);
+        if (!res.ok) throw new Error('Ошибка загрузки релизов');
+        const data = await res.json();
+        // sort desc
+        data.sort((a,b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+        releasesData = data;
+        renderReleases();
+        renderGallery();
+      } catch (e) {
+        listEl.innerHTML = '<p class="muted">Не удалось загрузить релизы. Попробуйте позже.</p>';
+        console.error(e);
+      }
+    }
+
+    // compact card used for components list (short description)
+    function mkCompactCard(r, source){
+      const card = document.createElement('article');
+      card.className = 'release-card';
+      const title = document.createElement('h3'); title.textContent = `${r.name || r.tag_name || '(без названия)'} — ${source}`;
+      card.appendChild(title);
+      const meta = document.createElement('div'); meta.className='meta';
+      const date = document.createElement('span'); date.textContent = fmtDate(r.published_at || r.created_at);
+      const ver = document.createElement('span'); ver.textContent = r.tag_name || '';
+      meta.append(date, ver); card.appendChild(meta);
+      if(r.body){ const p=document.createElement('p'); p.textContent = r.body.length>180? r.body.slice(0,180)+'…' : r.body; card.appendChild(p); }
+      const btnWrap = document.createElement('div'); btnWrap.style.display='flex'; btnWrap.style.gap='.5rem'; btnWrap.style.marginTop='.5rem';
+      const open = document.createElement('a'); open.className='btn'; open.href = r.html_url || '#'; open.target='_blank'; open.textContent='Открыть'; btnWrap.appendChild(open);
+      card.appendChild(btnWrap);
+      return card;
+    }
+
+    // Fetch latest releases for all public repos of an owner (limited)
+    async function loadOwnerReleases(owner, limitRepos=20){
+      const reposApi = `https://api.github.com/users/${owner}/repos?per_page=100`;
+      try{
+        const res = await fetch(reposApi);
+        if(!res.ok) throw new Error('Не удалось получить репозитории');
+        const repos = await res.json();
+        const selected = repos.slice(0, limitRepos);
+        const results = [];
+        // fetch latest release per repo (serial small batch to avoid rate limits)
+        for(const r of selected){
+          try{
+            const relRes = await fetch(`https://api.github.com/repos/${owner}/${r.name}/releases?per_page=1`);
+            if(!relRes.ok) continue;
+            const rel = await relRes.json();
+            if(Array.isArray(rel) && rel.length>0){ results.push({ repo: r.name, owner, release: rel[0] }); }
+          }catch(e){ console.warn('release fetch error', e); }
+        }
+        return results;
+      }catch(e){ console.error(e); return []; }
+    }
+
+    // Fetch releases for a list of owner/repo pairs (popular components)
+    async function loadReposReleases(list){
+      const results = [];
+      for(const it of list){
+        try{
+          const relRes = await fetch(`https://api.github.com/repos/${it.owner}/${it.repo}/releases?per_page=1`);
+          if(!relRes.ok) { console.warn('no release for', it.owner+'/'+it.repo); continue; }
+          const rel = await relRes.json();
+          if(Array.isArray(rel) && rel.length>0) results.push({ repo: it.repo, owner: it.owner, release: rel[0] });
+        }catch(e){ console.warn('error fetching', it, e); }
+      }
+      return results;
+    }
+
+    async function renderComponents(){
+      const listEl = document.getElementById('componentsList');
+      listEl.innerHTML = '<p class="muted">Загрузка…</p>';
+      try{
+        let items = [];
+        if(componentsState.mode === 'my'){
+          const ownerResults = await loadOwnerReleases(owner, 30);
+          ownerResults.forEach(r => items.push(Object.assign({}, r.release, { __source: r.owner + '/' + r.repo })));
+        } else {
+          const popular = await loadReposReleases(popularComponents);
+          popular.forEach(r => items.push(Object.assign({}, r.release, { __source: r.owner + '/' + r.repo })));
+        }
+        componentsState.items = items;
+        document.getElementById('componentsCount').textContent = items.length;
+        listEl.innerHTML = '';
+        if(items.length === 0){ listEl.innerHTML = '<p class="muted">Нет новых релизов.</p>'; return; }
+        items.forEach(it => {
+          const card = mkCompactCard(it, it.__source || '');
+          listEl.appendChild(card);
+        });
+      }catch(e){ listEl.innerHTML = '<p class="muted">Не удалось загрузить компоненты.</p>'; console.error(e); }
+    }
+
+    function matchesFilter(r, q, type) {
+      const ver = (r.tag_name || r.name || '').toLowerCase();
+      const title = (r.name || '').toLowerCase();
+      const body = (r.body || '').toLowerCase();
+      const combined = [ver,title,body].join(' ');
+      const qOk = !q || combined.includes(q.toLowerCase());
+      let typeOk = true;
+      if (type && type !== 'all') {
+        typeOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
+      }
+      return qOk && typeOk;
+    }
+
+    function renderReleases() {
+      const q = (document.getElementById('searchReleases')||{}).value || '';
+      const type = (document.getElementById('filterType')||{}).value || 'all';
+      listEl.innerHTML = '';
+      const filtered = releasesData.filter(r => matchesFilter(r,q,type));
+      document.getElementById('releasesCount').textContent = filtered.length;
+      if (filtered.length === 0) {
+        listEl.innerHTML = '<p class="muted">Релизов не найдено по фильтру.</p>';
+        return;
+      }
+      filtered.forEach(r => listEl.appendChild(mkCard(r)));
+    }
+
+    // Gallery rendering: use bbootlogo or first asset image
+    function renderGallery() {
+      galleryGrid.innerHTML = '';
+      releasesData.forEach(r => {
+        const ver = r.tag_name || r.name || '';
+        // Prefer GIF preview assets when available
+        const gifAsset = (r.assets || []).find(a => /\.gif$/i.test(a.name) || /preview.*gif/i.test(a.name));
+        const basset = (r.assets || []).find(a => /bbootlogo|logo|cover|preview/i.test(a.name));
+        const src = gifAsset ? gifAsset.browser_download_url : (basset ? basset.browser_download_url : bbootLogoUrl(ver));
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `${ver}`;
+        if (gifAsset) {
+          img.dataset.isGif = '1';
+          img.title = 'GIF preview — кликните, чтобы открыть';
+        }
+        img.dataset.rel = r.html_url || tagUrl(ver);
+        img.addEventListener('click', () => openModal(src, r));
+        galleryGrid.appendChild(img);
+      });
+    }
+
+    // Modal
+    function openModal(src, r) {
+      const modal = document.getElementById('modal');
+      modal.innerHTML = '';
+      modal.style.display = 'flex';
+      const inner = document.createElement('div');
+      inner.className = 'inner';
+      const img = document.createElement('img');
+      img.src = src;
+      inner.appendChild(img);
+      const meta = document.createElement('div');
+      meta.style.padding = '0.6rem';
+      meta.style.background = 'var(--card-bg)';
+      meta.style.display = 'flex';
+      meta.style.justifyContent = 'space-between';
+      meta.style.alignItems = 'center';
+      const left = document.createElement('div');
+      left.innerHTML = `<strong style="font-size:1rem">${r.name || r.tag_name}</strong><div class="muted">${fmtDate(r.published_at||r.created_at)}</div>`;
+      const right = document.createElement('div');
+      const a = document.createElement('a'); a.href = r.html_url || tagUrl(r.tag_name||r.name); a.target = '_blank'; a.className='btn'; a.textContent='Открыть релиз';
+      right.appendChild(a);
+      meta.append(left,right);
+      inner.appendChild(meta);
+      modal.appendChild(inner);
+      modal.addEventListener('click', (e)=>{ if (e.target===modal) modal.style.display='none'; });
+    }
+
+    // Crew loading
+    async function loadCrew() {
+      try {
+        crewGrid.innerHTML = '<p class="muted">Загрузка участников…</p>';
+        const res = await fetch(contributorsApi);
+        if (!res.ok) throw new Error('Ошибка загрузки участников');
+        const contributors = await res.json();
+        const manualMap = new Map(manualCrew.map(m => [m.login.toLowerCase(), m]));
+        const people = contributors.map(c => {
+          const login = c.login;
+          const mm = manualMap.get(login.toLowerCase());
+          return { login, avatar: c.avatar_url, contributions: c.contributions, role: mm ? mm.role : '' };
+        });
+        manualCrew.forEach(m => {
+          if (!people.find(p => p.login.toLowerCase() === m.login.toLowerCase())) {
+            people.unshift({ login: m.login, avatar: `https://github.com/${m.login}.png`, contributions: 0, role: m.role || '' });
+          }
+        });
+        crewGrid.innerHTML = '';
+        people.forEach(p => {
+          const card = document.createElement('div'); card.className='crew-card';
+          const img = document.createElement('img'); img.src=p.avatar; img.alt=p.login; card.appendChild(img);
+          const info = document.createElement('div');
+          const name = document.createElement('div'); const link = document.createElement('a'); link.href=`https://github.com/${p.login}`; link.target='_blank'; link.textContent=p.login; name.appendChild(link);
+          info.appendChild(name);
+          if (p.role) { const role = document.createElement('div'); role.className='muted'; role.textContent=p.role; role.style.fontSize='.9rem'; info.appendChild(role); }
+          const contrib = document.createElement('div'); contrib.className='muted'; contrib.style.fontSize='.85rem'; contrib.textContent=`Commits: ${p.contributions||0}`; info.appendChild(contrib);
+          card.appendChild(info); crewGrid.appendChild(card);
+        });
+      } catch (e) {
+        crewGrid.innerHTML = '<p class="muted">Не удалось загрузить участников.</p>';
+        console.error(e);
+      }
+    }
+
+    // Comments: try Utterances (GitHub issues) first, fallback to localStorage comments
+    function loadUtterances(){
+      const container = document.getElementById('utterances-container');
+      if(!container) return showLocalComments();
+      const script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      script.setAttribute('repo','Dimasick-git/Ryzhenka');
+      // issue-term controls how comments are grouped: pathname -> per-page
+      script.setAttribute('issue-term','pathname');
+      script.setAttribute('theme','github-light');
+      script.crossOrigin = 'anonymous';
+      script.onerror = function(){
+        console.warn('Utterances failed to load; falling back to local comments.');
+        showLocalComments();
+      };
+      container.appendChild(script);
+    }
+
+    // Local comments implementation
+    const COMMENTS_KEY = 'rz_local_comments';
+    function loadLocalComments(){ try { return JSON.parse(localStorage.getItem(COMMENTS_KEY)||'[]'); } catch(e){ return []; } }
+    function saveLocalComments(arr){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(arr||[])); }
+    function escapeHtml(s){ return (s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/\'/g,'&#039;'); }
+    function renderLocalComments(){ const list = document.getElementById('commentsList'); if(!list) return; const comments = loadLocalComments().slice().reverse(); if(!comments.length){ list.innerHTML = '<div class="muted">Комментариев пока нет.</div>'; return; } list.innerHTML=''; comments.forEach(c=>{ const node = document.createElement('div'); node.className='comment-card'; node.innerHTML = `<div style="display:flex;justify-content:space-between"><strong>${escapeHtml(c.name||'Аноним')}</strong><small class="muted">${new Date(c.date).toLocaleString()}</small></div><div style="margin-top:.4rem">${escapeHtml(c.text)}</div>`; list.appendChild(node); }); }
+    function showLocalComments(){ const ut = document.getElementById('utterances-container'); if(ut) ut.style.display='none'; const local = document.getElementById('local-comments'); if(local) local.style.display='block'; renderLocalComments(); }
+
+    // form handling
+    document.addEventListener('submit', function(e){
+      if(e.target && e.target.id === 'commentForm'){
+        e.preventDefault();
+        const name = document.getElementById('commentName').value.trim() || 'Аноним';
+        const text = document.getElementById('commentText').value.trim();
+        if(!text) return;
+        const arr = loadLocalComments();
+        arr.push({ name, text, date: new Date().toISOString() });
+        saveLocalComments(arr);
+        document.getElementById('commentText').value = '';
+        renderLocalComments();
+      }
+    });
+    document.addEventListener('click', function(e){ if(e.target && e.target.id === 'clearComments'){ if(confirm('Удалить все локальные комментарии?')){ localStorage.removeItem(COMMENTS_KEY); renderLocalComments(); } } });
+
+    // Init
+    (function init(){
+      document.getElementById('searchReleases')?.addEventListener('input', () => renderReleases());
+      document.getElementById('filterType')?.addEventListener('change', () => renderReleases());
+      document.getElementById('refreshReleases')?.addEventListener('click', () => loadReleases());
+      loadReleases();
+      loadCrew();
+      // try to load utterances comments; if it fails, fallback will show local form
+      loadUtterances();
+      // components tabs
+      document.getElementById('tabMyReleases')?.addEventListener('click', ()=>{ componentsState.mode='my'; renderComponents(); });
+      document.getElementById('tabFresh')?.addEventListener('click', ()=>{ componentsState.mode='fresh'; renderComponents(); });
+      document.getElementById('refreshComponents')?.addEventListener('click', ()=> renderComponents());
+      // initial render components
+      renderComponents();
+      window.RZ = { loadReleases, loadCrew, manualCrew, renderComponents };
+    })();
+
+  </script>
+</body>
+</html>
