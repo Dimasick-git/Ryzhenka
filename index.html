@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ryazhenka CFW — Nintendo Switch Custom Firmware</title>
   <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы, инструкции, скриншоты." />
-  <link rel="icon" href="assets/Ryazhalogo.png" />
+  <link rel="icon" href="/Ryzhenka/assets/Ryazhalogo.png" />
   <style>
     :root{ --bg:#0a0d0a; --fg:#cfffd0; --accent:#00ff88; --muted:#7affb2; --dim:#1a1f1a; --yt:#ff004f; }
     *{box-sizing:border-box}
@@ -51,13 +51,16 @@
     .card img{width:100%;height:120px;object-fit:contain;background:#08110d;border:1px solid #134;border-radius:12px;padding:10px}
     .gallery{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
     footer{border-top:1px solid #0f140f;margin-top:40px;background:#0a100d}
+    .goals{display:grid;gap:16px}
+    .goals .goal{border:1px solid #134;background:rgba(11,17,13,.9);border-radius:12px;padding:14px;box-shadow:inset 0 0 24px rgba(0,255,120,.06)}
+    .goal .title{font-weight:900}
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
       <div class="brand">
-        <img class="logo" src="assets/Ryazhalogo.png" alt="Ryazhenka" />
+        <img class="logo" alt="Ryazhenka" src="/Ryzhenka/assets/Ryazhalogo.png"/>
         <div>
           <div class="title glow">Ryazhenka CFW</div>
           <div class="muted">Стабильная кастомная прошивка для Nintendo Switch • glow/terminal</div>
@@ -70,13 +73,13 @@
         <a href="#shots">Скриншоты</a>
         <a href="#releases">Релизы</a>
         <a href="#install">Установка</a>
-        <a class="glow" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">Telegram</a>
-        <a class="yt" href="https://www.youtube.com/@Dimaick-git" target="_blank" rel="noopener" title="Официальный YouTube канал разработчика">
+        <a href="#goals" class="glow">Цели следующего релиза</a>
+        <a class="glow" href="https://t.me/Ryazhenkabestcfw" rel="noopener" target="_blank">Telegram</a>
+        <a class="yt" href="https://www.youtube.com/@Dimaick-git" rel="noopener" target="_blank" title="Официальный YouTube канал разработчика">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2c-.3-1.4-1.4-2.5-2.8-2.8C18 3 12 3 12 3s-6 0-8.7.4C1.9 3.7.8 4.8.5 6.2.1 8.9.1 12 .1 12s0 3.1.4 5.8c.3 1.4 1.4 2.5 2.8 2.8C6 21 12 21 12 21s6 0 8.7-.4c1.4-.3 2.5-1.4 2.8-2.8.4-2.7.4-5.8.4-5.8s0-3.1-.4-5.8zM9.8 15.5V8.5L15.8 12l-6 3.5z"></path></svg>
           <span class="label">YouTube</span><span class="badge">офиц. канал</span>
         </a>
-        <a href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener">Boosty</a>
-        <a href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Dimasick-git/Ryzhenka" rel="noopener" target="_blank">GitHub</a>
       </nav>
     </div>
   </header>
@@ -94,8 +97,8 @@
         <p class="muted">Никакой музыки — только CFW, стабильность и crew-экосистема.</p>
         <div class="cta">
           <a class="btn primary" href="#releases">Скачать релиз</a>
-          <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">Вступить в Telegram</a>
-          <a class="yt" href="https://www.youtube.com/@Dimaick-git" target="_blank" rel="noopener" title="Официальный YouTube канал разработчика">
+          <a class="btn" href="https://t.me/Ryazhenkabestcfw" rel="noopener" target="_blank">Вступить в Telegram</a>
+          <a class="yt" href="https://www.youtube.com/@Dimaick-git" rel="noopener" target="_blank" title="Официальный YouTube канал разработчика">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2c-.3-1.4-1.4-2.5-2.8-2.8C18 3 12 3 12 3s-6 0-8.7.4C1.9 3.7.8 4.8.5 6.2.1 8.9.1 12 .1 12s0 3.1.4 5.8c.3 1.4 1.4 2.5 2.8 2.8C6 21 12 21 12 21s6 0 8.7-.4c1.4-.3 2.5-1.4 2.8-2.8.4-2.7.4-5.8.4-5.8s0-3.1-.4-5.8zM9.8 15.5V8.5L15.8 12l-6 3.5z"></path></svg>
             <span class="label">YouTube</span><span class="badge">офиц. канал</span>
           </a>
@@ -103,9 +106,9 @@
       </div>
       <div class="grid gallery">
         <!-- Hero banners (clickable) -->
-        <a href="assets/Ryazhalogo.png" target="_blank"><img class="shot" src="assets/Ryazhalogo.png" alt="Ryazhenka Banner" loading="lazy"></a>
-        <a href="releases/images/ryazhahand.png" target="_blank"><img class="shot" src="releases/images/ryazhahand.png" alt="Ryazhahand Overlay" loading="lazy" onerror="this.style.display='none'"></a>
-        <a href="releases/images/atmosphere.png" target="_blank"><img class="shot" src="releases/images/atmosphere.png" alt="Atmosphère" loading="lazy" onerror="this.style.display='none'"></a>
+        <a href="/Ryzhenka/assets/Ryazhalogo.png" target="_blank"><img class="shot" src="/Ryzhenka/assets/Ryazhalogo.png" alt="Ryazhenka Banner" loading="lazy"/></a>
+        <a href="/Ryzhenka/releases/images/ryazhahand.png" target="_blank"><img class="shot" src="/Ryzhenka/releases/images/ryazhahand.png" alt="Ryazhahand Overlay" loading="lazy" onerror="this.style.display='none'"/></a>
+        <a href="/Ryzhenka/releases/images/atmosphere.png" target="_blank"><img class="shot" src="/Ryzhenka/releases/images/atmosphere.png" alt="Atmosphère" loading="lazy" onerror="this.style.display='none'"/></a>
       </div>
     </section>
 
@@ -121,14 +124,6 @@
       <div class="panel">
         <h3>Кредо crew</h3>
         <p class="muted">Сообщество, ревью, благодарности, прозрачные изменения и быстрые фиксы.</p>
-        <a class="yt" href="https://www.youtube.com/@Dimaick-git" target="_blank" rel="noopener" title="Официальный YouTube канал разработчика">
+        <a class="yt" href="https://www.youtube.com/@Dimaick-git" rel="noopener" target="_blank" title="Официальный YouTube канал разработчика">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2c-.3-1.4-1.4-2.5-2.8-2.8C18 3 12 3 12 3s-6 0-8.7.4C1.9 3.7.8 4.8.5 6.2.1 8.9.1 12 .1 12s0 3.1.4 5.8c.3 1.4 1.4 2.5 2.8 2.8C6 21 12 21 12 21s6 0 8.7-.4c1.4-.3 2.5-1.4 2.8-2.8.4-2.7.4-5.8.4-5.8s0-3.1-.4-5.8zM9.8 15.5V8.5L15.8 12l-6 3.5z"></path></svg>
-          <span class="label">YouTube</span><span class="badge">офиц. канал</span>
-        </a>
-      </div>
-      <div class="panel">
-        <h2 id="builds">Сборки</h2>
-        <ul class="list">
-          <li>Ryazhenka AIO — полный пакет с инструментами.</li>
-          <li>Ryazhenka — основная стабильная ветка.</li>
-          <li><span class="tag">Важно</span> Ryazhenka_lite — только для Nintendo Switch Lite. Лёг
+          <span class="label">YouTube</span><span class="badge">офиц. канал
