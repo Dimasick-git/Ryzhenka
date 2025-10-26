@@ -1,142 +1,195 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ryazhenka CFW — Nintendo Switch Custom Firmware</title>
-  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы, инструкции, скриншоты." />
-  <link rel="icon" href="/Ryzhenka/assets/Ryazhalogo.png" />
-  <style>
-    :root{--bg:#0a0d0a;--fg:#cfffd0;--accent:#00ff88;--muted:#7affb2;--dim:#1a1f1a;--yt:#ff004f;--tg:#24a1de;--boosty:#ff6b00}
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;height:100%;background:
-      radial-gradient(1200px 600px at 10% -10%,rgba(0,255,136,.10),transparent),
-      radial-gradient(900px 500px at 100% 0%,rgba(0,255,180,.07),transparent),
-      linear-gradient(180deg,#06110b 0%,#08140e 60%,#06110b 100%);
-      color:var(--fg);font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-    a{color:var(--accent);text-decoration:none;transition:.25s ease}
-    a:hover{filter:saturate(130%);text-shadow:0 0 14px rgba(0,255,136,.7)}
-    .wrap{max-width:1200px;margin:0 auto;padding:24px}
-    header{border-bottom:1px solid #0f140f;background:linear-gradient(0deg,rgba(0,255,136,.08),rgba(0,255,136,0));backdrop-filter:saturate(140%) blur(3px);position:sticky;top:0;z-index:10}
-    .brand{display:flex;gap:14px;align-items:center;justify-content:space-between}
-    .brand-left{display:flex;gap:14px;align-items:center}
-    .logo{width:40px;height:40px;border-radius:8px;box-shadow:0 0 24px rgba(0,255,136,.4)}
-    .title{font-weight:900;letter-spacing:.7px}
-    .glow{color:var(--muted);text-shadow:0 0 10px rgba(0,255,136,.65),0 0 22px rgba(0,255,136,.4)}
-    nav{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
-    nav a{padding:6px 10px;border:1px solid #123;border-radius:10px;background:#0c120f}
-
-    /* Social badges */
-    .badges{display:flex;gap:10px;flex-wrap:wrap}
-    .badge{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid #134;background:#0e1511;color:#fff;font-weight:800;box-shadow:0 0 18px rgba(0,255,136,.15)}
-    .badge .label{font-weight:800}
-    .badge .sub{font-size:11px;opacity:.9;padding:2px 6px;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1)}
-    .badge svg{width:18px;height:18px}
-    .badge:hover{transform:translateY(-1px);box-shadow:0 0 26px rgba(0,255,136,.35)}
-
-    .yt{border-color:#301;background:linear-gradient(135deg,#190606 0%,#0e0a0a 100%)}
-    .yt svg{fill:#fff;filter:drop-shadow(0 0 12px rgba(255,40,80,.85))}
-    .tg{border-color:#024a6a;background:linear-gradient(135deg,#05141b 0%,#0a1216 100%)}
-    .tg svg{fill:#24a1de;filter:drop-shadow(0 0 12px rgba(36,161,222,.85))}
-    .boosty{border-color:#3a1800;background:linear-gradient(135deg,#1a0d04 0%,#120c08 100%)}
-    .boosty svg{fill:#ff6b00;filter:drop-shadow(0 0 12px rgba(255,107,0,.85))}
-
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:34px 0}
-    .panel{border:1px solid #123;background:rgba(11,17,13,.85);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 0 40px rgba(0,255,120,.03)}
-    .ascii{white-space:pre;font-weight:800;line-height:1.1;color:var(--muted);text-shadow:0 0 12px rgba(0,255,136,.45)}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid #134;background:#0e1511}
-    .btn.primary{background:linear-gradient(90deg,#0f2,#0bb);color:#041;font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.4);border:none;box-shadow:0 0 22px rgba(0,255,136,.35)}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .shot{width:100%;height:120px;object-fit:cover;border-radius:12px;border:1px solid #123;background:#0c120f}
-    .releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-    .card{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:14px;border:1px solid #123;background:#0c120f}
-    .card .thumb{width:100%;height:150px;object-fit:cover;border-radius:10px;border:1px solid #134;background:#08140e}
-    .card .meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .pill{padding:2px 8px;border-radius:999px;border:1px solid #134;background:#0e1511;color:var(--muted);font-size:12px}
-    .components{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-    .comp{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid #123;border-radius:12px;background:#0d1410}
-    .comp img{width:44px;height:44px;border-radius:10px;border:1px solid #134;background:#0a120e}
-    .muted{opacity:.9;color:#c9ffd2}
-    footer{margin:40px 0 10px;opacity:.9;font-size:12px;text-align:center}
-    footer .footer-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:10px}
-    @media (max-width:800px){.hero{grid-template-columns:1fr}.brand{flex-direction:column;align-items:flex-start}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ryazhenka CFW — Nintendo Switch Custom Firmware</title>
+<meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы, инструкции, скриншоты." />
+<link rel="icon" href="/Ryzhenka/assets/Ryazhalogo.png" />
+<style>
+:root{--bg:#0a0d0a;--fg:#cfffd0;--accent:#00ff88;--muted:#7affb2;--dim:#1a1f1a}
+[data-theme="classic"]{--bg:#0b0b0b;--fg:#d9ffd9;--accent:#52ff52;--muted:#aaffaa;--dim:#161616}
+[data-party="on"]{--bg:#0a0612;--fg:#eaffff;--accent:#9d4eff;--muted:#7affb2;--dim:#120a1a}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:radial-gradient(1200px 600px at 10% -10%,rgba(0,255,136,.10),transparent),radial-gradient(900px 500px at 100% 0%,rgba(0,255,180,.07),transparent),linear-gradient(180deg,#06110b 0%,#08140e 60%,#06110b 100%);color:var(--fg);font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;transition:background .4s ease,color .3s ease,filter .3s ease}
+a{color:var(--accent);text-decoration:none;transition:.25s ease}
+a:hover{filter:saturate(130%);text-shadow:0 0 14px rgba(0,255,136,.7)}
+.wrap{max-width:1200px;margin:0 auto;padding:24px}
+header.top{border-bottom:1px solid #0f140f;background:linear-gradient(0deg,rgba(0,255,136,.08),rgba(0,255,136,0));backdrop-filter:saturate(140%) blur(3px);position:sticky;top:0;z-index:10}
+.brand{display:flex;gap:14px;align-items:center;justify-content:space-between}
+.brand-left{display:flex;gap:14px;align-items:center}
+.logo{width:40px;height:40px;border-radius:8px;box-shadow:0 0 24px rgba(0,255,136,.4);cursor:pointer}
+.title{font-weight:900;letter-spacing:.7px}
+.glow{color:var(--muted);text-shadow:0 0 10px rgba(0,255,136,.65),0 0 22px rgba(0,255,136,.4)}
+nav.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+nav.links a{padding:6px 10px;border:1px solid #123;border-radius:10px;background:#0c120f}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:34px 0}
+.panel{border:1px solid #123;background:rgba(11,17,13,.85);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 0 40px rgba(0,255,120,.03)}
+.ascii{white-space:pre;font-weight:800;line-height:1.1;color:var(--muted);text-shadow:0 0 12px rgba(0,255,136,.45)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid #134;background:#0e1511}
+.btn.primary{background:linear-gradient(90deg,#0f2,#0bb);color:#041;font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.4);border:none;box-shadow:0 0 22px rgba(0,255,136,.35)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.muted{opacity:.9;color:#c9ffd2}
+.releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:14px;border:1px solid #123;background:#0c120f}
+.card .meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pill{padding:2px 8px;border-radius:999px;border:1px solid #134;background:#0e1511;color:var(--muted);font-size:12px}
+.components{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.comp{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid #123;border-radius:12px;background:#0d1410}
+.comp img{width:44px;height:44px;border-radius:10px;border:1px solid #134;background:#0a120e}
+footer{margin:40px 0 10px;opacity:.9;font-size:12px;text-align:center}
+footer .footer-links{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:10px}
+@media (max-width:800px){.hero{grid-template-columns:1fr}.brand{flex-direction:column;align-items:flex-start}}
+.theme-toggle{margin-left:auto;display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:12px;border:1px solid #134;background:#0e1511;color:var(--fg);cursor:pointer}
+.theme-toggle .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.crew-banner{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid #164;border-radius:12px;background:#0e1813;margin:12px 0;overflow:hidden}
+.crew-banner .prompt{color:#9cff7a;font-weight:900}
+.crew-banner .cursor{width:10px;height:16px;background:#9cff7a;animation:blink 1s steps(1) infinite;margin-left:6px;box-shadow:0 0 10px rgba(0,255,136,.6)}
+@keyframes blink{50%{opacity:0}}
+.ticker{border:1px solid #134;background:linear-gradient(90deg,#0b1410,#0c1511);border-radius:10px;overflow:hidden}
+.ticker-track{display:flex;gap:40px;white-space:nowrap;animation:marquee 22s linear infinite;padding:8px 12px}
+.ticker-item{color:var(--muted)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.qr-box{display:flex;gap:12px;align-items:center}
+.qr{width:120px;height:120px;border-radius:10px;border:1px solid #134;background:#0b1410}
+.crew-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.crew{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid #134;border-radius:12px;background:#0e1511}
+.crew img{width:36px;height:36px;border-radius:10px;border:1px solid #234;background:#0b1410}
+.crew .nick{font-weight:800}
+.crew-alert{position:fixed;right:16px;bottom:16px;display:none;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid #2a5;background:#0f1c15;color:#dfffef;box-shadow:0 8px 30px rgba(0,0,0,.4);z-index:9999}
+.crew-alert.show{display:flex;animation:pop .25s ease}
+@keyframes pop{from{transform:translateY(8px);opacity:.0}to{transform:translateY(0);opacity:1}}
+.feedback-btn{position:fixed;left:16px;bottom:16px;padding:10px 14px;border-radius:12px;border:1px solid #134;background:#0e1511;z-index:9998}
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.5);z-index:9999}
+.modal .dialog{width:min(560px,92vw);background:#0c120f;border:1px solid #134;border-radius:14px;padding:16px;box-shadow:0 16px 50px rgba(0,0,0,.5)}
+.modal.show{display:grid}
+.modal textarea{width:100%;min-height:120px;border-radius:10px;border:1px solid #234;background:#0b1410;color:var(--fg);padding:10px}
+.rain{position:fixed;inset:0;pointer-events:none;z-index:9997}
+</style>
 </head>
 <body>
-  <header>
-    <div class="wrap brand">
-      <div class="brand-left">
-        <img class="logo" src="/Ryzhenka/assets/Ryazhalogo.png" alt="Ryazhenka"/>
-        <div>
-          <div class="title glow">Ryazhenka CFW</div>
-          <nav>
-            <a href="#releases">Релизы</a>
-            <a href="#components">Компоненты</a>
-            <a href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener">GitHub</a>
-          </nav>
-        </div>
-      </div>
-      <div class="badges">
-        <a class="badge boosty" href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener" title="Поддержать на Boosty">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 3c-2.9 0-5.5 1.9-6.3 4.7l-.3 1.1H6a1.5 1.5 0 0 0 0 3h2.4l-.6 2.3c-.8 3 1.5 5.9 4.6 5.9 2 0 3.9-1.2 4.6-3.2l.3-.8a1.5 1.5 0 0 0-1.4-2h-2.7l.6-2.2h3.5a1.5 1.5 0 0 0 0-3h-2.7l.2-.6C15.9 6 18 5 19.7 5a1.5 1.5 0 0 0 0-3h-4.2z"/></svg>
-          <span class="label">Boosty</span><span class="sub">support</span>
-        </a>
-        <a class="badge tg" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener" title="Официальный Telegram">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.04 15.47 8.9 19.5c.29 0 .41-.12.56-.27l2.67-2.55 5.54 4.06c1.02.56 1.74.27 2.01-.95l3.64-17.05h0c.33-1.56-.56-2.17-1.55-1.79L1.57 9.73C.05 10.33.06 11.2 1.3 11.58l5.46 1.7L19.51 5.6c.68-.45 1.3-.2.79.25"/></svg>
-          <span class="label">Telegram</span><span class="sub">чат</span>
-        </a>
-        <a class="badge yt" href="https://www.youtube.com/@Dimaick-git" target="_blank" rel="noopener" title="Официальный YouTube канал">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2c-.3-1.4-1.4-2.5-2.8-2.8C18 3 12 3 12 3s-6 0-8.7.4C1.9 3.7.8 4.8.5 6.2.1 8.9.1 12 .1 12s0 3.1.4 5.8c.3 1.4 1.4 2.5 2.8 2.8C6 21 12 21 12 21s6 0 8.7-.4c1.4-.3 2.5-1.4 2.8-2.8.4-2.7.4-5.8.4-5.8s0-3.1-.4-5.8zM9.8 15.5V8.5L15.8 12l-6 3.5z"/></svg>
-          <span class="label">YouTube</span><span class="sub">офиц.</span>
-        </a>
+<header class="top">
+  <div class="wrap brand">
+    <div class="brand-left">
+      <img id="logo" class="logo" alt="Ryazhenka" src="/Ryzhenka/assets/Ryazhalogo.png" title="Party Mode"/>
+      <div>
+        <div class="title glow">Ryazhenka CFW ☕⚡</div>
+        <nav class="links">
+          <a href="#releases">Релизы 🚀</a>
+          <a href="#components">Компоненты 🥛</a>
+          <a href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener">GitHub 🎮</a>
+        </nav>
       </div>
     </div>
-  </header>
+    <button id="themeToggle" class="theme-toggle" title="Glow ↔ Classic Terminal"><span class="dot"></span> Glow ↔ Classic</button>
+  </div>
+</header>
 
-  <main class="wrap">
-    <section class="hero">
-      <div class="panel">
-        <div class="ascii" aria-hidden="true">██████╗ ██╗   ██╗ █████╗ ███████╗██╗  ██╗███████╗███╗   ██╗██╗  ██╗ █████╗██╔══██╗██║   ██║██╔══██╗██╔════╝██║ ██╔╝██╔════╝████╗  ██║██║  ██║██╔══██╗
-██████╔╝██║   ██║███████║███████╗█████╔╝ █████╗  ██╔██╗ ██║███████║███████║
-██╔══██╗██║   ██║██╔══██║╚════██║██╔═██╗ ██╔══╝  ██║╚██╗██║██╔══██║██╔══██║
-██║  ██║╚██████╔╝██║  ██║███████║██║  ██╗███████╗██║ ╚████║██║  ██║██╔═╝  
-╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝      </div>
-        <p class="muted">Никакой музыки — только CFW, стабильность и crew-экосистема.</p>
-        <div class="cta">
-          <a class="btn primary" href="#releases">Скачать релиз</a>
-          <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">Вступить в Telegram</a>
-          <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener">Поддержать Boosty</a>
-          <a class="btn" href="https://www.youtube.com/@Dimaick-git" target="_blank" rel="noopener">Открыть YouTube</a>
+<main class="wrap">
+  <div class="crew-banner" aria-live="polite">
+    <div class="prompt">CREW BANNER$ echo "welcome"_</div>
+    <div class="cursor" aria-hidden="true"></div>
+  </div>
+
+  <div class="ticker" aria-live="polite">
+    <div id="tickerTrack" class="ticker-track"></div>
+  </div>
+
+  <section class="hero">
+    <div class="panel">
+      <div class="ascii" aria-hidden="true">RYAZHENKA CFW</div>
+      <p class="muted">Никакой музыки — только CFW, стабильность и crew-экосистема.</p>
+      <div class="cta">
+        <a class="btn primary" href="#releases">Скачать релиз</a>
+        <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank" rel="noopener">Вступить в Telegram</a>
+        <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank" rel="noopener">Поддержать Boosty</a>
+        <a class="btn" href="https://www.youtube.com/@Dimaick-git" target="_blank" rel="noopener">Открыть YouTube</a>
+      </div>
+    </div>
+    <div class="panel">
+      <div id="hero-gallery" class="gallery" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="releases" class="panel">
+    <h2>Релизы 🚀</h2>
+    <div class="releases" id="releasesList"></div>
+    <div class="qr-box" id="qrBox" aria-live="polite">
+      <canvas id="qrCanvas" class="qr" aria-label="QR для свежего релиза"></canvas>
+      <div>
+        <div class="muted">Сканируй для загрузки последнего релиза</div>
+        <a id="latestLink" class="btn" target="_blank" rel="noopener">Открыть релиз</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="components" class="panel">
+    <h2>Компоненты прошивки 🥛</h2>
+    <div class="components">
+      <a class="comp" href="https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/README.md" target="_blank" rel="noopener">
+        <img alt="Ryazhahand Overlay" src="https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/.assets/icon.png" onerror="this.src='https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/overlay.png'"/>
+        <div>
+          Ryazhahand Overlay
+          <div class="muted">Оверлей и быстрые действия</div>
         </div>
-      </div>
-      <div class="panel">
-        <div id="hero-gallery" class="gallery" aria-live="polite"></div>
-      </div>
-    </section>
+      </a>
+      <a class="comp" href="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/README.md" target="_blank" rel="noopener">
+        <img alt="Atmosphère" src="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/docs/images/atmosphere.png"/>
+        <div>
+          Atmosphère
+          <div class="muted">OS-слой и сервисы</div>
+        </div>
+      </a>
+      <a class="comp" href="https://raw.githubusercontent.com/CTCaer/hekate/master/README.md" target="_blank" rel="noopener">
+        <img alt="Hekate" src="https://raw.githubusercontent.com/CTCaer/hekate/master/res/icon.png"/>
+        <div>
+          Hekate
+          <div class="muted">Bootloader и tools</div>
+        </div>
+      </a>
+    </div>
+  </section>
 
-    <section id="components" class="panel">
-      <h2>Компоненты прошивки</h2>
-      <div class="components">
-        <a class="comp" href="https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/README.md" target="_blank" rel="noopener">
-          <img alt="Ryazhahand Overlay" src="https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/.assets/icon.png" onerror="this.src='https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/overlay.png'"/>
-          <div>
-            <div>Ryazhahand Overlay</div>
-            <div class="muted">Оверлей и быстрые действия</div>
-          </div>
-        </a>
-        <a class="comp" href="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/README.md" target="_blank" rel="noopener">
-          <img alt="Atmosphère" src="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/docs/images/atmosphere.png"/>
-          <div>
-            <div>Atmosphère</div>
-            <div class="muted">OS-слой и сервисы</div>
-          </div>
-        </a>
-        <a class="comp" href="https://raw.githubusercontent.com/CTCaer/hekate/master/README.md" target="_blank" rel="noopener">
-          <img alt="Hekate" src="https://raw.githubusercontent.com/CTCaer/hekate/master/res/icon.png"/>
-          <div>
-            <div>Hekate</div>
-            <div class="muted">Bootloader и tools</div>
-          </div>
-        </a>
-        <a class="comp
+  <section id="crew" class="panel">
+    <h2>CREW WALL ☕🚀</h2>
+    <div class="crew-wall" id="crewWall"></div>
+  </section>
+
+  <button id="feedbackBtn" class="feedback-btn">Feedback для crew ☕</button>
+  <div id="feedbackModal" class="modal" aria-hidden="true" role="dialog">
+    <div class="dialog">
+      <h3>Идеи/обратная связь 🚀</h3>
+      <textarea id="feedbackText" placeholder="Опишите идею или баг..."></textarea>
+      <div class="cta">
+        <button id="feedbackSend" class="btn primary">Отправить</button>
+        <button id="feedbackClose" class="btn">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="crewAlert" class="crew-alert" role="status"></div>
+</main>
+
+<canvas id="rain" class="rain"></canvas>
+
+<script>
+(function(){
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('rya-theme');
+  if(savedTheme){ root.setAttribute('data-theme', savedTheme); }
+  themeToggle.addEventListener('click', ()=>{
+    const isClassic = root.getAttribute('data-theme') === 'classic';
+    root.setAttribute('data-theme', isClassic ? '' : 'classic');
+    localStorage.setItem('rya-theme', isClassic ? '' : 'classic');
+  });
+
+  // Releases fetch + ticker + QR
+  const repo = 'Dimasick-git/Ryzhenka';
+  const api = `https://api.github.com/repos/${repo}/releases`;
+  const relList = document.getElementById('releasesList');
+  const tickerTrack = document.getElementById('tickerTrack');
+  const alertBox = document.getElementById('crewAlert');
+  const latestLink = document.getElementById
