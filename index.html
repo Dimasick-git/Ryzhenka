@@ -5,72 +5,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ryazhenka CFW — Nintendo Switch Custom Firmware</title>
   <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы, инструкции, скриншоты." />
-  <link rel="icon" href="/Ryzhenka/assets/Ryazhalogo.png" />
-  <style>
-    :root{--bg:#0a0d0a;--fg:#cfffd0;--accent:#00ff88;--muted:#7affb2;--dim:#1a1f1a}
-    [data-theme="classic"]{--bg:#0b0b0b;--fg:#d9ffd9;--accent:#52ff52;--muted:#aaffaa;--dim:#161616}
-    [data-party="on"]{--bg:#0a0612;--fg:#eaffff;--accent:#9d4eff;--muted:#7affb2;--dim:#120a1a}
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;height:100%}
-    body{
-      background:radial-gradient(1200px 600px at 10% -10%,rgba(0,255,136,.10),transparent),
-                 radial-gradient(900px 500px at 100% 0%,rgba(0,255,180,.07),transparent),
-                 linear-gradient(180deg,#06110b 0%,#08140e 60%,#06110b 100%);
-      color:var(--fg);
-      font:15px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-      transition:background .4s ease,color .3s ease,filter .3s ease
-    }
-    a{color:var(--accent);text-decoration:none;transition:.25s ease}
-    a:hover{filter:saturate(130%);text-shadow:0 0 14px rgba(0,255,136,.7)}
-    .wrap{max-width:1200px;margin:0 auto;padding:24px}
-    header.top{border-bottom:1px solid #0f140f;background:linear-gradient(0deg,rgba(0,255,136,.08),rgba(0,255,136,0));backdrop-filter:saturate(140%) blur(3px);position:sticky;top:0;z-index:10}
-    .brand{display:flex;gap:14px;align-items:center;justify-content:space-between}
-    .brand-left{display:flex;gap:14px;align-items:center}
-    .logo{width:40px;height:40px;border-radius:8px;box-shadow:0 0 24px rgba(0,255,136,.4);cursor:pointer}
-    .title{font-weight:900;letter-spacing:.7px}
-    .glow{color:var(--muted);text-shadow:0 0 10px rgba(0,255,136,.65),0 0 22px rgba(0,255,136,.4)}
-    nav.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
-    nav.links a{padding:6px 10px;border:1px solid #123;border-radius:10px;background:#0c120f}
-    .panel{border:1px solid #123;background:rgba(11,17,13,.85);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 0 40px rgba(0,255,120,.03);margin-bottom:24px}
-    .ascii{white-space:pre;font-weight:800;line-height:1.1;color:var(--muted);text-shadow:0 0 12px rgba(0,255,136,.45)}
-    .releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px}
-    .release-card{border:1px solid #123;background:#0c120f;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
-    .release-card img{width:100%;height:140px;object-fit:cover;border-radius:10px;background:#09110c}
-    .release-card .meta{display:flex;justify-content:space-between;gap:10px;color:#c9ffd2;font-size:12px}
-    .components{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-    .comp{border:1px solid #123;background:#0c120f;border-radius:12px;padding:14px;display:flex;gap:12px}
-    .comp img{width:48px;height:48px;border-radius:8px}
-    .comp h3{margin:0;font-size:16px}
-    .comp p{margin:6px 0 0;color:#c9ffd2;font-size:13px}
-    .crew-wall{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .kbd{padding:2px 6px;border:1px solid #345;border-radius:6px;background:#0a1210;color:var(--muted)}
-    footer{margin-top:40px;border-top:1px solid #0f140f;padding:20px 0}
-    .toggle{display:flex;align-items:center;gap:10px}
-    .switch{position:relative;width:56px;height:28px;background:#0c120f;border:1px solid #134;border-radius:20px;cursor:pointer}
-    .thumb{position:absolute;top:2px;left:2px;width:24px;height:24px;background:var(--accent);border-radius:50%;transition:left .2s ease}
-    [data-theme="classic"] .thumb{left:30px}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-  </style>
+  <link rel="icon" href="./assets/Ryazhalogo.png" />
+  <link rel="stylesheet" href="./styles/style.css" />
+  <script defer src="./scripts/main.js"></script>
 </head>
 <body>
   <header class="top">
     <div class="wrap brand">
       <div class="brand-left">
-        <img alt="Ryazhenka" class="logo" onclick="location.href='/'"/>
+        <img alt="Ryazhenka" class="logo" src="./assets/Ryazhalogo.png" onclick="location.href='./'" />
         <div class="title glow">Ryazhenka CFW</div>
       </div>
       <div class="badges">
-        <a class="badge" href="https://t.me/Ryazhenkabestcfw" rel="noopener" target="_blank"><img alt="TG"/> Telegram</a>
-        <a class="badge" href="https://boosty.to/dimasick-git/donate" rel="noopener" target="_blank"><img alt="Boosty"/> Boosty</a>
-        <a class="badge" href="https://www.youtube.com/@Dimaick-git" rel="noopener" target="_blank"><img alt="YouTube"/> YouTube</a>
+        <a class="badge" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
+        <a class="badge" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
+        <a class="badge" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
         <div class="toggle" title="Glow ↔ Classic Terminal">
-          Glow
-          <div class="switch" id="themeSwitch"><span class="thumb"></span></div>
-          Classic
+          Glow <div class="switch" id="themeSwitch"><span class="thumb"></span></div> Classic
         </div>
       </div>
     </div>
   </header>
+
   <main class="wrap">
     <section class="panel" id="crew-banner">
       <div class="ascii">Ryazhenka // crew.ecosystem</div>
@@ -79,93 +35,44 @@
         <a class="btn primary" href="#install">Установить сейчас</a>
         <a class="btn" href="#changelog">История изменений</a>
         <a class="btn" href="#wiki">Документация / Wiki</a>
-        <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/discussions" rel="noopener" target="_blank">Обсуждения</a>
+        <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/discussions" target="_blank">Обсуждения</a>
       </div>
     </section>
 
     <section class="panel" id="changelog">
       <h2 class="glow">История изменений / Релизы</h2>
       <div class="releases" id="releases-list"></div>
-      <div class="cta"><a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/releases" rel="noopener" target="_blank">Все релизы</a></div>
-    </section>
-
-    <section class="panel" id="thanks">
-      <h2 class="glow">Благодарности — crew wall</h2>
-      <p class="muted">Автосбор участников по активности в репозитории (коммиты, PR, обсуждения).</p>
-      <div class="crew-wall" id="crew-wall"></div>
-      <small class="muted">Хотите попасть на стену? Оставьте PR/issue или присоединяйтесь к обсуждениям.</small>
-    </section>
-
-    <section class="panel" id="philosophy">
-      <h2 class="glow">Philosophy</h2>
-      <pre class="ascii mono" aria-label="terminal">
-$ whoami
-ryazhenka — pragmatic, stable, glow/terminal aesthetic
-$ principles
-- простота установки и обновления
-- прозрачные релизы и changelog
-- совместимость с экосистемой Switch homebrew
-- уважение к пользователю и разработчику
-$ motto
-keep it clean. keep it glowing.
-      </pre>
-    </section>
-
-    <section class="panel" id="install">
-      <h2 class="glow">Установка</h2>
-      <ol>
-        <li>Скачайте последний релиз из раздела <a href="#changelog">История изменений</a> или Releases.</li>
-        <li>Распакуйте содержимое на карту microSD, сохраните существующие бэкапы.</li>
-        <li>Запустите через Hekate или ваш метод загрузки, следуя инструкции ниже.</li>
-        <li>Откройте Tesla Menu в системе, настройте плагины и оверлеи.</li>
-      </ol>
-      <details>
-        <summary class="kbd">Детально: Atmosphere + Hekate</summary>
-        <ul>
-          <li>Скопируйте папки atmosphere/, bootloader/, switch/ на microSD.</li>
-          <li>В Hekate добавьте профиль для загрузки Atmosphere.</li>
-          <li>Для обновлений — заменяйте файлы, очищайте старые несовместимые плагины.</li>
-        </ul>
-      </details>
-      <p class="muted">Полная инструкция доступна в Wiki.</p>
-    </section>
-
-    <section class="panel" id="wiki">
-      <h2 class="glow">Документация и связь</h2>
-      <nav class="links">
-        <a href="https://github.com/Dimasick-git/Ryzhenka/wiki" rel="noopener" target="_blank">Wiki / Руководства</a>
-        <a href="https://github.com/Dimasick-git/Ryzhenka/discussions" rel="noopener" target="_blank">Обсуждения</a>
-        <a href="https://github.com/Dimasick-git/Ryzhenka/issues" rel="noopener" target="_blank">Issues / Баг-репорты</a>
-        <a href="https://boosty.to/dimasick-git/donate" rel="noopener" target="_blank">Поддержать</a>
-      </nav>
+      <div class="cta">
+        <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/releases" target="_blank">Все релизы</a>
+      </div>
     </section>
 
     <section class="panel" id="components">
       <h2 class="glow">Компоненты</h2>
       <div class="components">
-        <a class="comp" href="https://github.com/AGraber/Ryujinx-Overlay" rel="noopener" target="_blank">
-          <img alt="Ryazhahand Overlay"/>
+        <a class="comp" href="https://github.com/AGraber/Ryujinx-Overlay" target="_blank">
+          <img src="https://raw.githubusercontent.com/AGraber/Ryujinx-Overlay/main/icon.png" alt="Ryazhahand Overlay" />
           <div>
             <h3>Ryazhahand Overlay</h3>
             <p>Оверлей для управления и мониторинга прямо в играх.</p>
           </div>
         </a>
-        <a class="comp" href="https://github.com/Atmosphere-NX/Atmosphere" rel="noopener" target="_blank">
-          <img alt="Atmosphere"/>
+        <a class="comp" href="https://github.com/Atmosphere-NX/Atmosphere" target="_blank">
+          <img src="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/docs/assets/logo.png" alt="Atmosphere" />
           <div>
             <h3>Atmosphere</h3>
             <p>Основная CFW-платформа для Switch. Совместима и стабильна.</p>
           </div>
         </a>
-        <a class="comp" href="https://github.com/CTCaer/hekate" rel="noopener" target="_blank">
-          <img alt="Hekate"/>
+        <a class="comp" href="https://github.com/CTCaer/hekate" target="_blank">
+          <img src="https://raw.githubusercontent.com/CTCaer/hekate/master/docs/logo.png" alt="Hekate" />
           <div>
             <h3>Hekate</h3>
             <p>Загрузчик/менеджер, профили, инжект, бэкапы NAND.</p>
           </div>
         </a>
-        <a class="comp" href="https://github.com/WerWolv/Tesla-Menu" rel="noopener" target="_blank">
-          <img alt="Tesla Menu"/>
+        <a class="comp" href="https://github.com/WerWolv/Tesla-Menu" target="_blank">
+          <img src="https://raw.githubusercontent.com/WerWolv/Tesla-Menu/master/icon.png" alt="Tesla Menu" />
           <div>
             <h3>Tesla Menu</h3>
             <p>Оверлей-меню для плагинов и быстрых действий в системе.</p>
@@ -173,72 +80,112 @@ keep it clean. keep it glowing.
         </a>
       </div>
     </section>
+
+    <section class="panel" id="install">
+      <h2 class="glow">Установка</h2>
+      <ol>
+        <li>Скачайте последний релиз из раздела <a href="#changelog">История изменений</a>.</li>
+        <li>Распакуйте содержимое на карту microSD, сохраните существующие бэкапы.</li>
+        <li>Запустите через Hekate или ваш метод загрузки.</li>
+        <li>Откройте Tesla Menu, настройте плагины и оверлеи.</li>
+      </ol>
+    </section>
+
+    <section class="panel" id="wiki">
+      <h2 class="glow">Документация и связь</h2>
+      <nav class="links">
+        <a href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Wiki / Руководства</a>
+        <a href="https://github.com/Dimasick-git/Ryzhenka/discussions" target="_blank">Обсуждения</a>
+        <a href="https://github.com/Dimasick-git/Ryzhenka/issues" target="_blank">Issues / Баг-репорты</a>
+        <a href="https://boosty.to/dimasick-git/donate" target="_blank">Поддержать</a>
+      </nav>
+    </section>
   </main>
+
   <footer>
     <div class="wrap">
       <div class="badges">
-        <a class="badge" href="https://t.me/Ryazhenkabestcfw" rel="noopener" target="_blank"><img alt="TG"/> Telegram</a>
-        <a class="badge" href="https://boosty.to/dimasick-git/donate" rel="noopener" target="_blank"><img alt="Boosty"/> Boosty</a>
+        <a class="badge" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
+        <a class="badge" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
       </div>
     </div>
   </footer>
 
   <script>
-  // Theme toggle
-  document.getElementById('themeSwitch')?.addEventListener('click',()=>{
-    const html=document.documentElement;html.dataset.theme=html.dataset.theme==='classic'?'glow':'classic';
-  });
+    document.getElementById('themeSwitch')?.addEventListener('click', () => {
+      const html = document.documentElement;
+      html.dataset.theme = html.dataset.theme === 'classic' ? 'glow' : 'classic';
+    });
 
-  const owner='Dimasick-git';
-  const repo='Ryzhenka';
-  const api=`https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`;
-  const listEl=document.getElementById('releases-list');
+    const owner = 'Dimasick-git';
+    const repo = 'Ryzhenka';
+    const api = `https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`;
+    const listEl = document.getElementById('releases-list');
 
-  function fmtDate(iso){try{const d=new Date(iso);return d.toLocaleDateString('ru-RU',{year:'numeric',month:'short',day:'numeric'});}catch(e){return ''}}
-  function imgUrl(version){return `https://github.com/${owner}/${repo}/releases/download/${version}/bbootlogo.png`;}
-
-  function mkCard(r){
-    const card=document.createElement('article');
-    card.className='release-card';
-
-    const ver=r.tag_name||r.name||'';
-    const img=document.createElement('img');
-    img.alt=`Лого ${ver}`;
-    img.loading='lazy';
-    img.src=imgUrl(ver); // прямой src
-    card.appendChild(img);
-
-    const h3=document.createElement('h3');
-    h3.textContent=r.name||ver;
-    card.appendChild(h3);
-
-    const meta=document.createElement('div');
-    meta.className='meta';
-    const date=document.createElement('span');
-    date.textContent=fmtDate(r.published_at||r.created_at);
-    const vspan=document.createElement('span');
-    vspan.textContent=ver;
-    meta.append(date,vspan);
-    card.appendChild(meta);
-
-    if(r.body){
-      const p=document.createElement('p');
-      p.className='muted';
-      p.textContent=r.body.split('\n').find(Boolean)?.slice(0,180)||'';
-      card.appendChild(p);
+    function fmtDate(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleDateString('ru-RU', { year: 'numeric', month: 'short', day: 'numeric' });
+      } catch (e) {
+        return '';
+      }
     }
 
-    const a=document.createElement('a');
-    a.className='btn';
-    a.textContent='Скачать';
-    a.href=imgUrl(ver); // прямая ссылка на загрузку картинки
-    a.target='_blank';
-    card.appendChild(a);
+    function imgUrl(version) {
+      return `https://github.com/${owner}/${repo}/releases/download/${version}/bbootlogo.png`;
+    }
 
-    return card;
-  }
+    function mkCard(r) {
+      const card = document.createElement('article');
+      card.className = 'release-card';
+      const ver = r.tag_name || r.name || '';
+      const img = document.createElement('img');
+      img.alt = `Лого ${ver}`;
+      img.loading = 'lazy';
+      img.src = imgUrl(ver);
+      card.appendChild(img);
+      const h3 = document.createElement('h3');
+      h3.textContent = r.name || ver;
+      card.appendChild(h3);
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const date = document.createElement('span');
+      date.textContent = fmtDate(r.published_at || r.created_at);
+      const vspan = document.createElement('span');
+      vspan.textContent = ver;
+      meta.append(date, vspan);
+      card.appendChild(meta);
+      if (r.body) {
+              const p = document.createElement('p');
+        p.textContent = r.body.length > 300 ? r.body.slice(0, 300) + '…' : r.body;
+        card.appendChild(p);
+      }
+      const link = document.createElement('a');
+      link.className = 'btn';
+      link.href = r.html_url;
+      link.target = '_blank';
+      link.textContent = 'Открыть релиз';
+      card.appendChild(link);
+      return card;
+    }
 
-  async function loadReleases(){
-    try{
-      const res=await fetch(api);
-      if(!res.ok) throw new Error
+    async function loadReleases() {
+      try {
+        const res = await fetch(api);
+        if (!res.ok) throw new Error('Ошибка загрузки релизов');
+        const data = await res.json();
+        data.forEach(r => {
+          const card = mkCard(r);
+          listEl.appendChild(card);
+        });
+      } catch (e) {
+        listEl.innerHTML = '<p class="muted">Не удалось загрузить релизы. Попробуйте позже.</p>';
+        console.error(e);
+      }
+    }
+
+    loadReleases();
+  </script>
+</body>
+</html>
+
