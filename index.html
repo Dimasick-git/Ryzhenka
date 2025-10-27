@@ -12,77 +12,140 @@
     :root{
       --radius:14px;
       --maxw:1200px;
-      --glass: rgba(255,255,255,0.04);
-      --muted-dark:#9aa0a6;
-      --muted-light:#6b7280;
-      --card-dark: rgba(255,255,255,0.03);
-      --card-light: rgba(0,0,0,0.03);
+      --anim-fast:160ms;
+      --anim-medium:320ms;
+
+      /* defaults, overridden by html[data-theme] blocks below */
+      --bg: #05060a;
+      --text-color: #e7eef6;
+      --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      --card: rgba(255,255,255,0.03);
+      --muted: #9aa0a6;
       --accent: #7c5cff;
+      --accent-2: #39d6ff;
+      --accent-3: #ff9f7a;
+      --glass: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.02);
+    }
+
+    /* Full-site theme variations — these change entire palette (background, text, panels, accents) */
+    html[data-theme="glow"]{
+      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(124,92,255,0.06), transparent), #05060a;
+      --text-color: #e7eef6;
+      --panel: linear-gradient(180deg, rgba(124,92,255,0.06), rgba(0,0,0,0.06));
+      --card: rgba(255,255,255,0.02);
+      --muted: #9aa0a6;
+      --accent:#7c5cff;
       --accent-2:#39d6ff;
       --accent-3:#ff9f7a;
-      --bg-dark: #05060a;
-      --bg-light: #fbfbfd;
-      --anim-fast: 160ms;
-      --anim-medium: 320ms;
+      --card-border: rgba(255,255,255,0.02);
+    }
+    html[data-theme="cyber"]{
+      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(0,230,255,0.03), transparent), #020617;
+      --text-color: #e8ffff;
+      --panel: linear-gradient(180deg, rgba(0,230,255,0.03), rgba(0,0,0,0.06));
+      --card: rgba(0,230,255,0.03);
+      --muted: #8fe7ea;
+      --accent:#00e6ff;
+      --accent-2:#7c5cff;
+      --accent-3:#39d6ff;
+      --card-border: rgba(0,230,255,0.04);
+    }
+    html[data-theme="matrix"]{
+      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(76,255,76,0.03), transparent), #081108;
+      --text-color: #d7ffd7;
+      --panel: linear-gradient(180deg, rgba(76,255,76,0.02), rgba(0,0,0,0.06));
+      --card: rgba(76,255,76,0.02);
+      --muted: #9be99b;
+      --accent:#4cff4c;
+      --accent-2:#00e6ff;
+      --accent-3:#7c5cff;
+      --card-border: rgba(76,255,76,0.03);
+    }
+    html[data-theme="classic"]{
+      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(110,231,183,0.03), transparent), #0b0f13;
+      --text-color: #e7fdf7;
+      --panel: linear-gradient(180deg, rgba(110,231,183,0.02), rgba(0,0,0,0.06));
+      --card: rgba(255,255,255,0.02);
+      --muted: #9aeccd;
+      --accent:#6ee7b7;
+      --accent-2:#7c5cff;
+      --accent-3:#ff9f7a;
+      --card-border: rgba(255,255,255,0.02);
+    }
+    html[data-theme="sunset"]{
+      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(255,159,122,0.03), transparent), #0b0706;
+      --text-color: #ffe7df;
+      --panel: linear-gradient(180deg, rgba(255,159,122,0.03), rgba(0,0,0,0.06));
+      --card: rgba(255,159,122,0.02);
+      --muted: #f0c7b2;
+      --accent:#ff9f7a;
+      --accent-2:#ff5e9e;
+      --accent-3:#7c5cff;
+      --card-border: rgba(255,159,122,0.03);
     }
 
-    /* Theme palettes (switched by data-theme) */
-    html[data-theme="glow"]{ --accent:#7c5cff; --accent-2:#39d6ff; --accent-3:#ff9f7a; }
-    html[data-theme="cyber"]{ --accent:#00e6ff; --accent-2:#7c5cff; --accent-3:#39d6ff; }
-    html[data-theme="matrix"]{ --accent:#4cff4c; --accent-2:#00e6ff; --accent-3:#7c5cff; }
-    html[data-theme="classic"]{ --accent:#6ee7b7; --accent-2:#7c5cff; --accent-3:#ff9f7a; }
-    html[data-theme="sunset"]{ --accent:#ff9f7a; --accent-2:#ff5e9e; --accent-3:#7c5cff; }
-
-    /* Background & text mode */
-    html[data-bg="dark"]{
-      background: radial-gradient(1200px 400px at 12% 12%, rgba(124,92,255,0.06), transparent), var(--bg-dark);
-      color: #e7eef6;
-      --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
-      --card: var(--card-dark);
-      --muted: var(--muted-dark);
-    }
+    /* Background / light mode overrides */
     html[data-bg="light"]{
-      background: var(--bg-light);
-      color: #0b1220;
+      --bg: #fbfbfd;
+      --text-color: #0b1220;
       --panel: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
-      --card: var(--card-light);
-      --muted: var(--muted-light);
+      --card: rgba(0,0,0,0.03);
+      --muted: #6b7280;
+      --card-border: rgba(0,0,0,0.03);
     }
-    html[data-text="default"]{ /* uses --muted from bg mode */ }
-    html[data-text="alt"]{ --muted:#7c6e5a; }
-    html[data-text="high"]{ --muted:#333; }
 
-    /* Basic layout */
+    /* Text contrast modes (not accents) */
+    html[data-text="default"]{ /* uses --muted from theme/bg */ }
+    html[data-text="alt"]{ --muted: #7c6e5a; }
+    html[data-text="high"]{ --muted: #333; }
+
+    /* Basic layout using theme variables */
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;-webkit-font-smoothing:antialiased}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      -webkit-font-smoothing:antialiased;
+      color:var(--text-color);
+      background:var(--bg);
+    }
     .container{max-width:var(--maxw);margin:0 auto;padding:18px}
     .topbar{position:sticky;top:0;z-index:40;padding:12px 0;background:transparent;backdrop-filter:blur(8px)}
     .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
-
     .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
     .logo{width:56px;height:56px;border-radius:12px;object-fit:cover}
     .brand-title{font-weight:800;font-size:18px}
     .brand-sub{font-size:12px;color:var(--muted)}
 
     .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    select, input[type="text"], textarea { padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;transition:all var(--anim-fast) ease }
+    select, input[type="text"], textarea { padding:8px 10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color);transition:all var(--anim-fast) ease }
     .small{padding:6px 8px;font-size:13px}
 
-    .btn{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;cursor:pointer;font-weight:700;text-decoration:none;transition:transform var(--anim-fast) ease, box-shadow var(--anim-fast) ease}
+    .btn{padding:8px 10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color);cursor:pointer;font-weight:700;text-decoration:none;transition:transform var(--anim-fast) ease, box-shadow var(--anim-fast) ease}
     .btn:active{transform:translateY(1px)}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#07101a;box-shadow:0 6px 30px rgba(0,0,0,0.35)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#07101a;box-shadow:0 6px 30px rgba(0,0,0,0.25)}
     .btn.ghost{background:transparent}
 
-    /* Panels / glass look */
-    .panel{background:var(--panel);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:0 12px 40px rgba(0,0,0,0.45);transition:transform var(--anim-medium) ease}
+    .panel{background:var(--panel);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:0 12px 40px rgba(0,0,0,0.25);transition:transform var(--anim-medium) ease}
     .panel:hover{transform:translateY(-6px)}
     .glass{backdrop-filter: blur(10px)}
 
-    /* HERO */
+    /* HERO layout */
     .hero{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:14px}
     .huge{font-size:44px;margin:0}
     .lead{font-size:16px;margin:8px 0;color:var(--muted)}
     .hero-cta{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+
+    /* Hero image placeholder area */
+    .hero-image {
+      margin-top:12px;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid var(--card-border);
+      background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+      max-height:340px;
+    }
+    .hero-image img{display:block;width:100%;height:auto;object-fit:cover}
 
     /* quick stats */
     .quick-stats{display:flex;flex-direction:column;gap:10px}
@@ -92,40 +155,42 @@
     /* Sections */
     .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
     .searchbar{display:flex;gap:8px;align-items:center}
-    .searchbar input[type="text"]{min-width:180px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .searchbar input[type="text"]{min-width:180px;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color)}
 
-    /* Releases */
+    /* Releases (grouped) */
+    .releases-by-repo{margin-bottom:18px}
+    .repo-title{display:flex;align-items:center;gap:10px;margin:8px 0 12px;font-weight:700}
+    .repo-title .repo-name{background:var(--card);padding:6px 10px;border-radius:8px;border:1px solid var(--card-border);font-size:13px}
     .releases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .release-card{border-radius:12px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-height:170px;border:1px solid rgba(255,255,255,0.02);position:relative;overflow:hidden}
-    .release-card .repo-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.4);padding:6px 8px;border-radius:8px;font-size:12px}
+    .release-card{border-radius:12px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-height:170px;border:1px solid var(--card-border);position:relative;overflow:hidden}
+    .release-card .repo-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.18);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--text-color)}
     .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;transition:transform var(--anim-fast) ease}
     .release-card img:hover{transform:scale(1.04)}
     .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
 
     /* Gallery */
     .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
-    .gallery-grid img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease;box-shadow:0 8px 30px rgba(0,0,0,0.5)}
+    .gallery-grid img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease;box-shadow:0 8px 30px rgba(0,0,0,0.25)}
     .gallery-grid img:hover{transform:translateY(-8px) scale(1.03)}
 
     /* Crew */
     .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
     .crew-card{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,0.02), transparent);cursor:pointer;transition:transform var(--anim-fast) ease, box-shadow var(--anim-fast) ease}
-    .crew-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,0.45)}
+    .crew-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,0.25)}
     .crew-card img{width:64px;height:64px;border-radius:10px;object-fit:cover}
-
     .crew-actions{display:flex;gap:8px;margin-top:8px}
 
     /* To-Do */
     .todo-layout{display:grid;grid-template-columns:1fr 260px;gap:12px}
     .todo-add{display:flex;gap:8px}
     .todo-list{list-style:none;padding:0;margin:8px 0;max-height:480px;overflow:auto}
-    .todo-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
+    .todo-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
     .todo-item.completed{opacity:.6;text-decoration:line-through}
-    .tag{padding:.12rem .45rem;border-radius:6px;background:rgba(0,0,0,0.12);font-size:.75rem}
+    .tag{padding:.12rem .45rem;border-radius:6px;background:rgba(0,0,0,0.08);font-size:.75rem}
 
     /* Modal */
     .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;visibility:hidden;opacity:0;transition:opacity .15s}
-    .modal.show{visibility:visible;opacity:1;background:rgba(0,0,0,0.6)}
+    .modal.show{visibility:visible;opacity:1;background:rgba(0,0,0,0.5)}
     .modal > .inner{background:var(--card);padding:18px;border-radius:10px;max-width:900px;width:100%}
 
     footer{padding:18px 0;text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
@@ -187,6 +252,12 @@
       <div>
         <h1 id="hero-title" class="huge">Ryazhenka</h1>
         <p class="lead">Стабильная кастомная прошивка для Nintendo Switch — красиво, безопасно, удобно. Всё в одном месте: релизы, галерея, благодарности, To‑Do.</p>
+
+        <!-- HERO IMAGE: loaded from repository raw if available; fallback to local ./assets/hero.png -->
+        <div class="hero-image" id="heroImageWrap">
+          <img id="heroImage" src="./assets/hero.png" alt="Hero preview (from repository if available)" onerror="this.style.display='none'" />
+        </div>
+
         <div class="hero-cta">
           <a class="btn primary" href="#changelog">Релизы</a>
           <a class="btn" href="#gallery">Галерея</a>
@@ -205,13 +276,11 @@
           </div>
         </div>
 
-        <div id="crewMini" class="panel" style="margin-top:12px">
-          <!-- small crew preview injected -->
-        </div>
+        <div id="crewMini" class="panel" style="margin-top:12px"></div>
       </aside>
     </section>
 
-    <!-- RELEASES -->
+    <!-- RELEASES: grouped -->
     <section id="changelog" class="panel section" aria-labelledby="releases-title">
       <div class="section-head">
         <h2 id="releases-title">История изменений / Релизы</h2>
@@ -232,7 +301,7 @@
         </div>
       </div>
 
-      <div id="releasesList" class="releases-grid" aria-live="polite"></div>
+      <div id="releasesGrouped"></div>
     </section>
 
     <!-- GALLERY -->
@@ -268,7 +337,7 @@
           </div>
 
           <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-            <input id="todoFilter" placeholder="Фильтр..." style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+            <input id="todoFilter" placeholder="Фильтр..." style="padding:8px;border-radius:8px;border:1px solid var(--card-border);background:transparent;color:var(--text-color)" />
             <select id="todoSort"><option value="new">Новые</option><option value="old">Старые</option><option value="prio">По приоритету</option><option value="due">По дате</option></select>
             <button id="exportTodos" class="btn">Экспорт</button>
             <input id="todoImportFile" type="file" accept="application/json" style="display:none" />
@@ -278,7 +347,7 @@
           <ul id="todoList" class="todo-list" aria-live="polite" style="margin-top:12px"></ul>
         </div>
 
-        <aside style="padding-left:12px;border-left:1px solid rgba(255,255,255,0.02)">
+        <aside style="padding-left:12px;border-left:1px solid var(--card-border)">
           <button id="clearCompleted" class="btn small">Удалить выполненные</button>
           <button id="clearAll" class="btn small">Удалить все</button>
           <button id="bulkComplete" class="btn small">Отметить все</button>
@@ -299,7 +368,6 @@
   <!-- Modal -->
   <div id="modal" class="modal" aria-hidden="true"></div>
 
-  <!-- SCRIPT -->
   <script>
     (function(){
       // Config & keys
@@ -307,15 +375,15 @@
       const baseRepos = ['Dimasick-git/Ryzhenka','Atmosphere-NX/Atmosphere','CTCaer/hekate'];
       const optionalRepo = 'switchbrew/stratosphere';
       const releasesPerRepo = 100;
-      const cacheKey = 'rz_cache_v3';
+      const cacheKey = 'rz_cache_v4';
       const cacheTTL = 1000 * 60 * 5;
-      const crewKey = 'rz_manual_crew_v3';
-      const todoKey = 'rz_todos_v3';
-      const settingsKey = 'rz_ui_settings_v3';
+      const crewKey = 'rz_manual_crew_v4';
+      const todoKey = 'rz_todos_v4';
+      const settingsKey = 'rz_ui_settings_v4';
       const commentsKey = 'rz_comments_v1';
 
       // Elements
-      const releasesListEl = document.getElementById('releasesList');
+      const releasesGroupedEl = document.getElementById('releasesGrouped');
       const galleryGridEl = document.getElementById('galleryGrid');
       const crewGridEl = document.getElementById('crewGrid');
       const crewMiniEl = document.getElementById('crewMini');
@@ -353,14 +421,14 @@
 
       const refreshAllBtn = document.getElementById('refreshAll');
 
-      // Default manual crew (user requested replacements)
+      // Default manual crew (with requested names)
       const defaultManualCrew = [
         { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель' },
         { login: 'Ryazhenka-Helper-1', name: 'Ryazhenka-Helper-1', role: 'Модульный разработчик (sys-clk)' },
         { login: 'Ryazhenka-Helper-01', name: 'Ryazhenka-Helper-01', role: 'Видео / тестирование / YouTube' }
       ];
 
-      // Utils
+      // Utilities
       function el(tag, attrs={}, ...children){
         const e = document.createElement(tag);
         for(const k in attrs){
@@ -376,7 +444,7 @@
       function uid(prefix='id'){ return prefix + '_' + Math.random().toString(36).slice(2,9); }
       function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-      // Settings
+      // Load and persist UI settings (theme/bg/text)
       function loadSettings(){
         try{
           const s = JSON.parse(localStorage.getItem(settingsKey) || '{}');
@@ -401,7 +469,58 @@
       textMode && textMode.addEventListener('change', saveSettings);
       loadSettings();
 
-      // Releases: multi-repo fetch with cache and suggestions
+      // HERO image loader: try repository raw files first
+      (function tryLoadHeroFromRepo(){
+        const img = document.getElementById('heroImage');
+        if(!img) return;
+        const repoRawBase = 'https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main';
+        const candidatePaths = [
+          '/assets/hero.png',
+          '/assets/hero.webp',
+          '/assets/hero.jpg',
+          '/assets/hero.jpeg',
+          '/assets/preview.png',
+          '/assets/Ryazhalogo.png' // fallback to logo if hero not present
+        ];
+        (async () => {
+          for(const p of candidatePaths){
+            const url = repoRawBase + p;
+            try {
+              // Try HEAD first
+              let ok = false;
+              try {
+                const res = await fetch(url, { method: 'HEAD' });
+                ok = res.ok && res.status !== 404;
+              } catch (headErr) {
+                // fallback to GET probe (small risk)
+                try {
+                  const res2 = await fetch(url, { method: 'GET' });
+                  ok = res2.ok && res2.status !== 404;
+                } catch (getErr) {
+                  ok = false;
+                }
+              }
+              if(ok){
+                img.src = url;
+                img.style.display = '';
+                return;
+              }
+            } catch(e) {
+              // try next
+            }
+          }
+          // no remote hero found: keep local ./assets/hero.png (already set) or hide if not present
+          try {
+            // check local presence by creating Image
+            const test = new Image();
+            test.onload = () => { /* local available */ };
+            test.onerror = () => { img.style.display = 'none'; };
+            test.src = img.src;
+          } catch(e){}
+        })();
+      })();
+
+      // Releases multi-repo fetch with caching
       async function fetchReleasesFromRepo(repoFull){
         const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
         const res = await fetch(url);
@@ -417,7 +536,6 @@
       }
 
       async function loadReleases(){
-        // Cache check
         try{
           const raw = localStorage.getItem(cacheKey);
           if(raw){
@@ -425,7 +543,7 @@
             if(Date.now() - parsed.ts < cacheTTL && Array.isArray(parsed.data)){
               window.__rz_releases = parsed.data;
               buildSuggestions();
-              renderReleases();
+              renderReleasesGrouped();
               renderGallery();
               computeStats();
               return;
@@ -433,7 +551,7 @@
           }
         }catch(e){}
         const repos = getRepoList();
-        releasesListEl.innerHTML = '';
+        releasesGroupedEl.innerHTML = '';
         galleryGridEl.innerHTML = '';
         releasesCountEl.textContent = '…';
         downloadsCountEl.textContent = '…';
@@ -450,7 +568,7 @@
         try{ localStorage.setItem(cacheKey, JSON.stringify({ts: Date.now(), data: arr})); }catch(e){}
         window.__rz_releases = arr;
         buildSuggestions();
-        renderReleases();
+        renderReleasesGrouped();
         renderGallery();
         computeStats();
       }
@@ -469,16 +587,59 @@
         });
       }
 
-      function matchesFilter(r, q, type){
-        const ver = (r.tag_name || r.name || '').toLowerCase();
-        const title = (r.name || '').toLowerCase();
-        const body = (r.body || '').toLowerCase();
-        const repo = (r._repo || '').toLowerCase();
-        const combined = [ver,title,body,repo].join(' ');
-        const qOk = !q || combined.includes(q.toLowerCase());
-        let tOk = true;
-        if(type && type !== 'all') tOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
-        return qOk && tOk;
+      // Grouped rendering: Dimasick-git/Ryzhenka first, then others
+      function renderReleasesGrouped(){
+        const all = window.__rz_releases || [];
+        const q = (searchReleases || {}).value || '';
+        const type = (filterType || {}).value || 'all';
+        const sort = (sortBy || {}).value || 'date_desc';
+
+        const filtered = all.filter(r => {
+          const ver = (r.tag_name || r.name || '').toLowerCase();
+          const title = (r.name || '').toLowerCase();
+          const body = (r.body || '').toLowerCase();
+          const repo = (r._repo || '').toLowerCase();
+          const combined = [ver,title,body,repo].join(' ');
+          const qOk = !q || combined.includes(q.toLowerCase());
+          let tOk = true;
+          if(type && type !== 'all') tOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
+          return qOk && tOk;
+        });
+
+        const groups = {};
+        filtered.forEach(r => {
+          const repo = r._repo || `${owner}/${repo}`;
+          groups[repo] = groups[repo] || [];
+          groups[repo].push(r);
+        });
+
+        const orderedRepos = [];
+        const mainKey = 'Dimasick-git/Ryzhenka';
+        if(groups[mainKey]) orderedRepos.push(mainKey);
+        Object.keys(groups).forEach(k => { if(k !== mainKey) orderedRepos.push(k); });
+
+        releasesGroupedEl.innerHTML = '';
+        let totalCount = 0;
+        orderedRepos.forEach(repoFull => {
+          const items = groups[repoFull] || [];
+          if(items.length === 0) return;
+          if(sort === 'date_desc') items.sort((a,b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+          if(sort === 'date_asc') items.sort((a,b) => new Date(a.published_at || a.created_at) - new Date(b.published_at || b.created_at));
+          if(sort === 'downloads_desc') items.sort((a,b) => ((b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)) - ((a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)));
+
+          const header = el('div', { class: 'releases-by-repo' },
+            el('div', { class:'repo-title' },
+              el('div', { class:'repo-name' }, repoFull),
+              el('div', { style:'margin-left:8px;color:var(--muted)' }, `${items.length} релизов`)
+            ),
+            el('div', { class:'releases-grid' })
+          );
+          const grid = header.querySelector('.releases-grid');
+          items.forEach(r => grid.appendChild(makeReleaseCard(r)));
+          releasesGroupedEl.appendChild(header);
+          totalCount += items.length;
+        });
+        releasesCountEl.textContent = totalCount;
       }
 
       function makeReleaseCard(r){
@@ -517,29 +678,14 @@
         }
 
         img.addEventListener('click', () => {
-          openModal(`<div class="inner"><img src="${preview}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${escapeHtml(r.name || ver)}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${escapeHtml(r._repo || '')}</div><div style="margin-top:8px">${r.body ? escapeHtml(r.body).slice(0,1000) : ''}</div></div></div>`);
+          openModal(`<div class="inner"><img src="${preview}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${escapeHtml(r.name || ver)}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${escapeHtml(r._repo || '')}</div><div style="margin-top:8px">${r.body ? escapeHtml(r.body).slice(0,1200) : ''}</div></div></div>`);
         });
 
         if(r.html_url){
           const link = el('a', { class: 'btn', href: r.html_url, target: '_blank', style: 'margin-top:8px' }, 'Открыть релиз');
           card.appendChild(link);
         }
-        // micro-interaction: hover highlight handled in CSS
         return card;
-      }
-
-      function renderReleases(){
-        const data = window.__rz_releases || [];
-        const q = (searchReleases || {}).value || '';
-        const type = (filterType || {}).value || 'all';
-        const sort = (sortBy || {}).value || 'date_desc';
-        let list = data.filter(r => matchesFilter(r, q, type));
-        if(sort === 'date_desc') list.sort((a,b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
-        if(sort === 'date_asc') list.sort((a,b) => new Date(a.published_at || a.created_at) - new Date(b.published_at || b.created_at));
-        if(sort === 'downloads_desc') list.sort((a,b) => ((b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)) - ((a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)));
-        releasesListEl.innerHTML = '';
-        list.forEach(r => releasesListEl.appendChild(makeReleaseCard(r)));
-        releasesCountEl.textContent = list.length;
       }
 
       function renderGallery(){
@@ -561,7 +707,7 @@
         downloadsCountEl.textContent = total;
       }
 
-      // Crew
+      // Crew: manual + contributors and interactive modal with kudos
       function getManualCrew(){
         try{ return JSON.parse(localStorage.getItem(crewKey) || '[]'); }catch(e){ return []; }
       }
@@ -580,7 +726,6 @@
         const info = el('div', {}, name, role || '', contrib);
         const card = el('div', { class: 'crew-card', title: 'Клик для деталей' }, img, info);
 
-        // interactive: click opens modal with actions (kudos, open GH)
         card.addEventListener('click', () => {
           const kudosKey = `kudos_${p.login.toLowerCase()}`;
           const current = parseInt(localStorage.getItem(kudosKey) || '0', 10);
@@ -620,7 +765,6 @@
         const merged = (stored || []).concat(defaultManualCrew);
         merged.slice(0,6).forEach(m => crewMiniEl.appendChild(makeCrewCard(m)));
         merged.forEach(m => crewGridEl.appendChild(makeCrewCard(m)));
-        // try to fetch contributors and append ones not present
         try{
           const url = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
           const res = await fetch(url);
@@ -632,6 +776,7 @@
         }catch(e){ console.warn('contributors failed', e); }
       }
 
+      // Crew add/export/import
       addCrewBtn && addCrewBtn.addEventListener('click', () => {
         openModal(`<div class="inner"><h3>Добавить участника</h3><div style="display:grid;gap:8px;margin-top:8px"><input id="mc_login" placeholder="Github login" /><input id="mc_name" placeholder="Имя (опционально)" /><input id="mc_role" placeholder="Роль" /><div style="display:flex;justify-content:flex-end;gap:8px"><button id="mc_cancel" class="btn">Отмена</button><button id="mc_save" class="btn primary">Сохранить</button></div></div></div>`);
         document.getElementById('mc_cancel').addEventListener('click', closeModal);
@@ -675,7 +820,7 @@
         r.readAsText(f); e.target.value = '';
       });
 
-      // Local comments UI inside crewMini
+      // Local comments UI (attached in crewMini)
       function loadLocalCommentsUI(container){
         container.innerHTML = '';
         const title = el('strong', {}, 'Комментарии (локальные)');
@@ -708,7 +853,7 @@
           list.innerHTML = '';
           if(!cur.length){ list.appendChild(el('div', { class:'muted' }, 'Комментариев пока нет')); return; }
           cur.forEach(c => {
-            const item = el('div', { style:'padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);margin-bottom:8px' },
+            const item = el('div', { style:'padding:8px;border-radius:8px;border:1px solid var(--card-border);margin-bottom:8px' },
               el('div', { style:'font-weight:700' }, c.name),
               el('div', { class:'muted', style:'font-size:.85rem' }, new Date(c.ts).toLocaleString()),
               el('div', { style:'margin-top:6px' }, c.txt)
@@ -719,19 +864,19 @@
       }
 
       // Modal helpers
-      const modal = document.getElementById('modal');
+      const modalEl = document.getElementById('modal');
       function openModal(html){
-        modal.innerHTML = '';
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden','false');
-        modal.style.display = 'flex';
+        modalEl.innerHTML = '';
+        modalEl.classList.add('show');
+        modalEl.setAttribute('aria-hidden','false');
+        modalEl.style.display = 'flex';
         const inner = el('div', { class:'inner' });
         inner.innerHTML = html;
-        modal.appendChild(inner);
-        modal.addEventListener('click', modalHandler);
+        modalEl.appendChild(inner);
+        modalEl.addEventListener('click', modalHandler);
       }
-      function closeModal(){ modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); modal.style.display='none'; modal.innerHTML=''; modal.removeEventListener('click', modalHandler); }
-      function modalHandler(e){ if(e.target === modal) closeModal(); }
+      function closeModal(){ modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden','true'); modalEl.style.display='none'; modalEl.innerHTML=''; modalEl.removeEventListener('click', modalHandler); }
+      function modalHandler(e){ if(e.target === modalEl) closeModal(); }
 
       // To-Do manager
       function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
@@ -790,7 +935,7 @@
 
       exportTodosBtn && exportTodosBtn.addEventListener('click', () => {
         const data = JSON.stringify(todos, null, 2);
-        const blob = new Blob([data], { type:'application/json' });
+        const blob = new Blob([data], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; a.click(); URL.revokeObjectURL(url);
       });
@@ -821,13 +966,10 @@
       todoFilter && todoFilter.addEventListener('input', renderTodos);
       todoSort && todoSort.addEventListener('change', renderTodos);
 
-      // Search suggestions update on releases change
-      searchReleases && searchReleases.addEventListener('input', () => {
-        // live filter while typing
-        renderReleases();
-      });
+      // Live search
+      searchReleases && searchReleases.addEventListener('input', () => { renderReleasesGrouped(); });
 
-      // Refresh button
+      // Refresh
       refreshAllBtn && refreshAllBtn.addEventListener('click', () => { try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
 
       // Initial load
@@ -845,15 +987,11 @@
         if(crewMiniEl) crewMiniEl.appendChild(commentsContainer);
       }
 
-      // expose some methods for debugging
-      window.RZ = { loadReleases, loadCrew, loadAll };
+      // Expose debug methods
+      window.RZ = { loadReleases, loadCrew, loadAll, openModal, closeModal };
 
-      // run
+      // Start
       loadAll();
-
-      // helper: loadTodos used earlier
-      function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
-      function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
 
     })();
   </script>
