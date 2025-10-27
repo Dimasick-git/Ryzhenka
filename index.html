@@ -18,6 +18,14 @@
       --glass: rgba(255,255,255,0.03);
       --card-bg: rgba(255,255,255,0.02);
     }
+    /* Theme variants (switch by setting html[data-theme="..."]) */
+    html[data-theme="glow"]{ --bg:#05060a; --accent:#7c5cff; --muted:#9aa0a6; --card-bg: rgba(255,255,255,0.02);} 
+    html[data-theme="classic"]{ --bg:#0f1724; --accent:#3ddc84; --muted:#98a6b3; --card-bg: rgba(255,255,255,0.015);} 
+    html[data-theme="solarized"]{ --bg:#002b36; --accent:#b58900; --muted:#93a1a1; --card-bg: rgba(255,255,255,0.01);} 
+    html[data-theme="neon"]{ --bg:#071018; --accent:#00ffd5; --muted:#9be6d8; --card-bg: rgba(255,255,255,0.02);} 
+  /* Neon visual accents */
+  .neon-accent{box-shadow:0 6px 30px rgba(0,255,213,0.06), inset 0 1px 0 rgba(255,255,255,0.02); border:1px solid rgba(0,255,213,0.08)}
+  .badge.neon{background:linear-gradient(90deg, rgba(0,255,213,0.06), rgba(124,92,255,0.04)); color:#bfffee; border:1px solid rgba(0,255,213,0.12)}
     html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background: radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.09), transparent), radial-gradient(1000px 300px at 90% 90%, rgba(0,200,255,0.03), transparent), var(--bg); color:#e7eef6}
     .wrap{max-width:1100px;margin:0 auto;padding:1rem}
     header.top{padding:1.25rem 0}
@@ -102,6 +110,8 @@
   .thanks-card{display:flex;gap:.75rem;align-items:flex-start;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
   .thanks-card img{width:56px;height:56px;border-radius:10px;object-fit:cover}
     .theme-indicator{padding:.25rem .5rem;border-radius:999px;background:rgba(255,255,255,0.02);font-size:0.85rem}
+  /* Responsive tweaks */
+  @media (max-width:720px){ .hero{grid-template-columns:1fr!important} .firmware-card img{height:120px} .gallery img{height:120px} }
   </style>
 </head>
 <body>
@@ -166,7 +176,18 @@
     <section id="firmware">
       <h2>Прошивка Ryazhenka</h2>
       <p class="muted">Последние официальные релизы Ryazhenka — описание, превью и быстрые ссылки на скачивание.</p>
+      <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+        <button id="downloadLatest" class="btn primary">Скачать последнюю версию</button>
+        <div id="latestInfo" class="muted" style="margin-left:.5rem">—</div>
+      </div>
       <div id="firmwareBlock" class="firmware-block"></div>
+    </section>
+
+    <!-- All repos: grouped release blocks per repository -->
+    <section id="all-repos">
+      <h2>Релизы по репозиториям</h2>
+      <p class="muted">Быстрый обзор последних релизов по каждому репозиторию (Ryazhenka и популярные компоненты).</p>
+      <div id="reposBlock" class="repos-block"></div>
     </section>
 
     <section id="crew">
@@ -215,6 +236,7 @@
   const lastUpdatedEl = document.getElementById('lastUpdated');
   const autoRefreshEl = document.getElementById('autoRefresh');
   const thanksBlock = document.getElementById('thanksBlock');
+  const reposBlock = document.getElementById('reposBlock');
 
     const manualCrew = [
       { login: 'Dimasick-git', role: 'Автор' },
@@ -226,7 +248,10 @@
       { owner: 'Atmosphere-NX', repo: 'Atmosphere' },
       { owner: 'CTCaer', repo: 'hekate' },
       { owner: 'Switchbrew', repo: 'libnx' },
-      { owner: 'yifanlu', repo: 'Tesla' }
+      { owner: 'yifanlu', repo: 'Tesla' },
+      { owner: 'AuroraWright', repo: 'hekate' },
+      { owner: 'Atmosphere-NX', repo: 'nx-headers' },
+      { owner: 'switchbrew', repo: 'fusee' }
     ];
 
   let releasesData = [];
@@ -242,6 +267,7 @@
 
     function makeCard(r){
       const el = document.createElement('div'); el.className = 'release-card';
+      if(window._LATEST_RELEASE && r.id === window._LATEST_RELEASE.id){ const badge=document.createElement('div'); badge.className='badge neon'; badge.textContent='Последняя'; badge.style.float='right'; el.appendChild(badge); }
       const title = document.createElement('div'); title.style.fontWeight='700'; title.textContent = r.name || r.tag_name || '';
       el.appendChild(title);
       const meta = document.createElement('div'); meta.className='muted'; meta.textContent = fmtDate(r.published_at||r.created_at) + (r.__source?(' • '+r.__source):''); el.appendChild(meta);
@@ -291,10 +317,46 @@
         combined.sort((a,b)=> new Date(b.published_at||b.created_at)-new Date(a.published_at||a.created_at));
         for(const it of combined){ const key = it.html_url || (it.id?String(it.id): (it.tag_name||it.name||'')); if(!key) continue; if(seen.has(key)) continue; seen.add(key); ded.push(it); }
         releasesData = ded.slice(0,200);
-        renderReleases(); renderGallery(); renderFirmwareBlock();
+  // determine latest owner release for quick-download/UI
+  window._LATEST_RELEASE = (releasesData||[]).find(r=> (r.__source||'').toLowerCase().startsWith(owner.toLowerCase()+'/')) || releasesData[0] || null;
+  renderReleases(); renderGallery(); renderFirmwareBlock(); renderRepoBlocks();
         // update last-updated indicator
         if(lastUpdatedEl) lastUpdatedEl.textContent = 'Обновлено: ' + new Date().toLocaleString('ru-RU');
       }catch(e){ listEl.innerHTML = '<div class="muted">Ошибка загрузки релизов.</div>'; console.error(e); }
+    }
+
+    // Render grouped release blocks per repository
+    function renderRepoBlocks(){
+      if(!reposBlock) return;
+      reposBlock.innerHTML = '';
+      // group releases by __source (owner/repo) or fallback to repository.full_name
+      const groups = {};
+      (releasesData||[]).forEach(r=>{
+        const key = r.__source || (r.repository && r.repository.full_name) || (r.tag_name? (owner + '/' + (r.tag_name)) : 'unknown');
+        if(!groups[key]) groups[key]=[];
+        groups[key].push(r);
+      });
+      // create a block for each group (limit shown releases)
+      Object.keys(groups).forEach(src=>{
+        const items = groups[src].slice(0,6);
+        const wrapper = document.createElement('div'); wrapper.style.marginBottom='1rem';
+        const h = document.createElement('h3'); h.style.margin='0 0 .5rem 0'; h.textContent = src; wrapper.appendChild(h);
+        const grid = document.createElement('div'); grid.style.display='grid'; grid.style.gridTemplateColumns='repeat(auto-fit,minmax(220px,1fr))'; grid.style.gap='0.75rem';
+        items.forEach(r=>{
+          const c = document.createElement('div'); c.className='firmware-card';
+          const img = document.createElement('img');
+          const assetImg = (r.assets||[]).find(a=>/\.(png|jpe?g|gif|webp)$/i.test(a.name||''));
+          img.src = assetImg? assetImg.browser_download_url : './assets/Ryazhalogo.png'; img.alt = r.name || r.tag_name || '';
+          img.onerror = ()=>{ img.onerror=null; img.src='./assets/Ryazhalogo.png'; };
+          c.appendChild(img);
+          const title = document.createElement('div'); title.style.fontWeight='700'; title.textContent = r.name || r.tag_name || ''; c.appendChild(title);
+          const desc = document.createElement('div'); desc.className='muted'; desc.textContent = (r.body||'').slice(0,120); c.appendChild(desc);
+          if(r.assets && r.assets.length){ const list = document.createElement('div'); list.style.marginTop='.5rem'; r.assets.slice(0,2).forEach(a=>{ const ael=document.createElement('a'); ael.className='btn'; ael.style.marginRight='6px'; ael.href=a.browser_download_url; ael.target='_blank'; ael.textContent = a.name + (a.download_count?(' ('+a.download_count+')'):''); list.appendChild(ael); }); c.appendChild(list); }
+          grid.appendChild(c);
+        });
+        wrapper.appendChild(grid);
+        reposBlock.appendChild(wrapper);
+      });
     }
 
     // Render a dedicated firmware block with only Ryazhenka releases
@@ -326,6 +388,15 @@
         }
         firmwareBlock.appendChild(c);
       });
+      // wire up download latest button
+      const dlBtn = document.getElementById('downloadLatest');
+      const latestInfo = document.getElementById('latestInfo');
+      if(window._LATEST_RELEASE && dlBtn){
+        const rel = window._LATEST_RELEASE;
+        const mainAsset = (rel.assets||[]).find(a=>/\.zip|\.tar|\.7z|\.nsp|\.xci|\.bin|\.img/i.test(a.name||'')) || (rel.assets&&rel.assets[0]) || null;
+        if(mainAsset){ dlBtn.onclick = ()=> window.open(mainAsset.browser_download_url,'_blank'); latestInfo.textContent = `${rel.name || rel.tag_name} • ${fmtDate(rel.published_at||rel.created_at)}`; }
+        else { dlBtn.onclick = ()=>{}; latestInfo.textContent = `${rel.name || rel.tag_name} • (нет ассетов)`; }
+      } else { if(dlBtn) dlBtn.style.opacity=0.6; if(latestInfo) latestInfo.textContent='Последняя версия не найдена.'; }
     }
 
     function renderReleases(){
@@ -339,6 +410,19 @@
     }
 
     function renderGallery(){ galleryGrid.innerHTML=''; releasesData.forEach(r=>{ const imgAsset = (r.assets||[]).find(a=>/\.(png|jpe?g|gif|webp)$/i.test(a.name||'')); const src = imgAsset?imgAsset.browser_download_url: (r.assets&&r.assets[0]&&r.assets[0].browser_download_url) || ''; if(!src) return; const img=document.createElement('img'); img.src=src; img.alt=r.name||r.tag_name||''; img.style.width='100%'; img.style.borderRadius='8px'; galleryGrid.appendChild(img); }); }
+
+    // lightbox modal for gallery
+    (function(){
+      const modal = document.createElement('div'); modal.className='modal'; modal.style.display='none'; const inner = document.createElement('div'); inner.className='inner'; inner.style.background='var(--card-bg)'; inner.style.padding='1rem'; inner.style.borderRadius='10px'; const img = document.createElement('img'); img.style.maxHeight='70vh'; img.style.width='100%'; const caption = document.createElement('div'); caption.style.padding='0.5rem 0'; caption.className='muted'; inner.appendChild(img); inner.appendChild(caption); modal.appendChild(inner); document.body.appendChild(modal);
+      modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.style.display='none'; });
+      // delegate clicks from gallery
+      document.addEventListener('click', (e)=>{
+        const t = e.target;
+        if(t && t.tagName==='IMG' && t.closest && t.closest('.gallery')){
+          e.preventDefault(); img.src = t.src; caption.textContent = t.alt || ''; modal.style.display='flex';
+        }
+      });
+    })();
 
     async function loadCrew(){ crewGrid.innerHTML='<div class="muted">Загрузка…</div>'; try{ const res=await fetch(contributorsApi); const contrib = res.ok? await res.json() : []; const people = contrib.map(c=>({ login:c.login, avatar:c.avatar_url, contributions:c.contributions })); manualCrew.forEach(m=>{ if(!people.find(p=>p.login.toLowerCase()===m.login.toLowerCase())) people.unshift({ login:m.login, avatar:`https://github.com/${m.login}.png`, contributions:0 }); }); crewGrid.innerHTML=''; people.forEach(p=>{ const card=document.createElement('div'); card.style.background='var(--card-bg)'; card.style.padding='.5rem'; card.style.borderRadius='8px'; const a=document.createElement('a'); a.href=`https://github.com/${p.login}`; a.target='_blank'; a.textContent=p.login; card.appendChild(a); crewGrid.appendChild(card); }); }catch(e){ crewGrid.innerHTML='<div class="muted">Не удалось загрузить участников.</div>'; }
     }
