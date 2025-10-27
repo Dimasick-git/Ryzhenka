@@ -79,7 +79,7 @@
       --accent-2:#ff5e9e;
     }
 
-    /* Extra themes requested: aurora, nebula, sunrise, violet, emerald */
+    /* Extra themes */
     html[data-theme="aurora"]{
       --bg: radial-gradient(900px 400px at 10% 12%, rgba(180,90,255,0.05), transparent), linear-gradient(180deg,#021018,#081022);
       --text-color:#eaf6ff;
@@ -140,10 +140,17 @@
       --card-border: rgba(0,0,0,0.03);
     }
 
-    /* Text contrast modes (we also apply JS overrides for robust behavior) */
-    html[data-text="default"]{}
-    html[data-text="alt"]{}
-    html[data-text="high"]{}
+    /* Gradient text helper for repo titles */
+    .repo-name-gradient {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight:800;
+      padding:4px 8px;
+      border-radius:6px;
+      display:inline-block;
+    }
 
     /* Basic layout using theme variables */
     *{box-sizing:border-box}
@@ -225,6 +232,11 @@
     .crew-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,0.25)}
     .crew-card img{width:64px;height:64px;border-radius:10px;object-fit:cover}
     .crew-actions{display:flex;gap:8px;margin-top:8px}
+
+    /* Modules UI */
+    .modules-config { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px; }
+    .module-list { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .module-item { padding:6px 10px; border-radius:8px; background:var(--card); border:1px solid var(--card-border); display:flex; gap:8px; align-items:center; }
 
     /* To-Do */
     .todo-layout{display:grid;grid-template-columns:1fr 260px;gap:12px}
@@ -313,6 +325,7 @@
           <a class="btn primary" href="#changelog">Релизы</a>
           <a class="btn" href="#gallery">Галерея</a>
           <a class="btn" href="#crew">Благодарности</a>
+          <a class="btn" href="#modules">Модули</a>
           <a class="btn" href="#todo">To‑Do</a>
         </div>
       </div>
@@ -353,6 +366,22 @@
       </div>
 
       <div id="releasesGrouped"></div>
+    </section>
+
+    <!-- MODULES: new section for team modules -->
+    <section id="modules" class="panel section">
+      <div class="section-head">
+        <h2 id="modules-title">Модули команды</h2>
+        <div class="modules-config">
+          <input id="moduleRepoInput" placeholder="owner/repo (например Dimasick-git/Ryzhahand)" style="padding:8px;border-radius:8px;border:1px solid var(--card-border)" />
+          <button id="addModuleBtn" class="btn">Добавить репозиторий</button>
+          <button id="refreshModules" class="btn small">Обновить</button>
+        </div>
+      </div>
+
+      <div id="moduleList" class="module-list"></div>
+      <div id="modulesGrouped"></div>
+      <small class="muted">Добавьте репозитории модулей вашей команды (owner/repo). Скрипт попытается подтянуть релизы и превью.</small>
     </section>
 
     <!-- GALLERY -->
@@ -432,6 +461,8 @@
       const todoKey = 'rz_todos_v5';
       const settingsKey = 'rz_ui_settings_v5';
       const commentsKey = 'rz_comments_v1';
+      const moduleReposKey = 'rz_module_repos_v1';
+      const modulesCacheKey = 'rz_modules_cache_v1';
 
       // Elements
       const releasesGroupedEl = document.getElementById('releasesGrouped');
@@ -472,6 +503,13 @@
 
       const refreshAllBtn = document.getElementById('refreshAll');
 
+      // Modules UI
+      const moduleRepoInput = document.getElementById('moduleRepoInput');
+      const addModuleBtn = document.getElementById('addModuleBtn');
+      const moduleListEl = document.getElementById('moduleList');
+      const modulesGroupedEl = document.getElementById('modulesGrouped');
+      const refreshModulesBtn = document.getElementById('refreshModules');
+
       // Default manual crew (with requested names)
       const defaultManualCrew = [
         { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель' },
@@ -497,7 +535,6 @@
 
       // Load/persist settings and apply text-mode overrides robustly
       function applyTextOverrides(textModeValue, bgValue){
-        // Default: remove inline overrides
         const root = document.documentElement;
         root.style.removeProperty('--text-color');
         root.style.removeProperty('--muted');
@@ -587,7 +624,7 @@
         })();
       })();
 
-      // Fetch releases per repo with caching
+      // Fetch releases per repo with caching (used for main/base repos)
       async function fetchReleasesFromRepo(repoFull){
         const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
         const res = await fetch(url);
@@ -696,7 +733,7 @@
 
           const header = el('div', { class: 'releases-by-repo' },
             el('div', { class:'repo-title' },
-              el('div', { class:'repo-name' }, repoFull),
+              el('div', { class:'repo-name repo-name-gradient' }, repoFull),
               el('div', { style:'margin-left:8px;color:var(--muted)' }, `${items.length} релизов`)
             ),
             el('div', { class:'releases-grid' })
@@ -774,10 +811,8 @@
         downloadsCountEl.textContent = total;
       }
 
-      // Crew
-      function getManualCrew(){
-        try{ return JSON.parse(localStorage.getItem(crewKey) || '[]'); }catch(e){ return []; }
-      }
+      // Crew functions
+      function getManualCrew(){ try{ return JSON.parse(localStorage.getItem(crewKey) || '[]'); }catch(e){ return []; } }
       function saveManualCrew(arr){ localStorage.setItem(crewKey, JSON.stringify(arr)); }
 
       function makeCrewCard(p){
@@ -945,7 +980,7 @@
       function closeModal(){ modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden','true'); modalEl.style.display='none'; modalEl.innerHTML=''; modalEl.removeEventListener('click', modalHandler); }
       function modalHandler(e){ if(e.target === modalEl) closeModal(); }
 
-      // To-Do
+      // To-Do functions
       function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
       function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
       function newTodoId(){ return 'td_' + Math.random().toString(36).slice(2,9); }
@@ -1040,14 +1075,149 @@
       includeStrato && includeStrato.addEventListener('change', () => { try{ localStorage.removeItem(cacheKey); }catch(e){} loadReleases(); });
       refreshAllBtn && refreshAllBtn.addEventListener('click', () => { try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
 
-      // Initialization
+      // ---- Modules: management, fetch, render ----
+      function getModuleRepos(){
+        try{ const raw = localStorage.getItem(moduleReposKey); if(raw) return JSON.parse(raw); }catch(e){}
+        // sensible defaults — user can edit via UI
+        return [
+          'Dimasick-git/Ryzhahand',
+          'Kirill-git/your-module-repo',      // <-- replace with actual Kirill repo names in UI
+          'libRyazhahand/libRyazhahand'       // <-- replace if different
+        ];
+      }
+      function saveModuleRepos(arr){ localStorage.setItem(moduleReposKey, JSON.stringify(arr)); }
+      function renderModuleListUI(){
+        const arr = getModuleRepos();
+        moduleListEl.innerHTML = '';
+        arr.forEach((r, idx) => {
+          const item = el('div', { class:'module-item' },
+            el('div', {}, r),
+            el('div', {}, el('button', { class:'btn small', onclick: `document.dispatchEvent(new CustomEvent('removeModule', { detail: ${idx} }))` }, 'Удалить'))
+          );
+          // avoiding inline onclick, attach via dataset
+          item.querySelector('button').dataset.idx = idx;
+          item.querySelector('button').addEventListener('click', (e) => {
+            const i = parseInt(e.target.dataset.idx,10);
+            removeModuleAt(i);
+          });
+          moduleListEl.appendChild(item);
+        });
+      }
+      function addModule(repoFull){
+        if(!repoFull || !repoFull.includes('/')) { alert('Введите репозиторий в формате owner/repo'); return; }
+        const arr = getModuleRepos();
+        if(arr.includes(repoFull)) { alert('Репозиторий уже добавлен'); return; }
+        arr.unshift(repoFull);
+        saveModuleRepos(arr);
+        renderModuleListUI();
+        loadModules(); // refresh modules fetch
+      }
+      function removeModuleAt(idx){
+        const arr = getModuleRepos();
+        if(idx < 0 || idx >= arr.length) return;
+        arr.splice(idx,1);
+        saveModuleRepos(arr);
+        renderModuleListUI();
+        loadModules();
+      }
+
+      addModuleBtn && addModuleBtn.addEventListener('click', () => {
+        const v = (moduleRepoInput||{}).value.trim();
+        if(!v) { alert('Введите owner/repo'); return; }
+        addModule(v);
+        moduleRepoInput.value = '';
+      });
+      refreshModulesBtn && refreshModulesBtn.addEventListener('click', () => { try{ localStorage.removeItem(modulesCacheKey); }catch(e){} loadModules(); });
+
+      async function loadModules(){
+        const repos = getModuleRepos();
+        // try cached
+        try{
+          const raw = localStorage.getItem(modulesCacheKey);
+          if(raw){
+            const parsed = JSON.parse(raw);
+            if(Date.now() - parsed.ts < cacheTTL && Array.isArray(parsed.data)){
+              window.__rz_modules = parsed.data;
+              renderModulesGrouped();
+              return;
+            }
+          }
+        }catch(e){}
+        const jobs = repos.map(r => fetchReleasesFromRepo(r).catch(err => { console.warn('module fetch failed', r, err); return []; }));
+        const results = await Promise.all(jobs);
+        const combined = results.flat();
+        // dedupe by repo+tag
+        const map = new Map();
+        combined.forEach(r => {
+          const key = `${r._repo}::${r.tag_name || r.name || ''}`;
+          if(!map.has(key)) map.set(key, r);
+        });
+        const arr = Array.from(map.values()).sort((a,b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+        try{ localStorage.setItem(modulesCacheKey, JSON.stringify({ts: Date.now(), data: arr})); }catch(e){}
+        window.__rz_modules = arr;
+        renderModulesGrouped();
+      }
+
+      function renderModulesGrouped(){
+        const all = window.__rz_modules || [];
+        const q = (searchReleases || {}).value || '';
+        const type = (filterType || {}).value || 'all';
+        const sort = (sortBy || {}).value || 'date_desc';
+
+        const filtered = all.filter(r => {
+          const ver = (r.tag_name || r.name || '').toLowerCase();
+          const title = (r.name || '').toLowerCase();
+          const body = (r.body || '').toLowerCase();
+          const repo = (r._repo || '').toLowerCase();
+          const combined = [ver,title,body,repo].join(' ');
+          const qOk = !q || combined.includes(q.toLowerCase());
+          let tOk = true;
+          if(type && type !== 'all') tOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
+          return qOk && tOk;
+        });
+
+        // group by repo
+        const groups = {};
+        filtered.forEach(r => {
+          const repo = r._repo || '';
+          groups[repo] = groups[repo] || [];
+          groups[repo].push(r);
+        });
+
+        modulesGroupedEl.innerHTML = '';
+        Object.keys(groups).forEach(repoFull => {
+          const items = groups[repoFull];
+          if(!items || items.length === 0) return;
+          if(sort === 'date_desc') items.sort((a,b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+          if(sort === 'date_asc') items.sort((a,b) => new Date(a.published_at || a.created_at) - new Date(b.published_at || b.created_at));
+          if(sort === 'downloads_desc') items.sort((a,b) => ((b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)) - ((a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)));
+
+          const header = el('div', { class: 'releases-by-repo' },
+            el('div', { class:'repo-title' },
+              el('div', { class:'repo-name repo-name-gradient' }, repoFull),
+              el('div', { style:'margin-left:8px;color:var(--muted)' }, `${items.length} релизов`)
+            ),
+            el('div', { class:'releases-grid' })
+          );
+          const grid = header.querySelector('.releases-grid');
+          items.forEach(r => grid.appendChild(makeReleaseCard(r)));
+          modulesGroupedEl.appendChild(header);
+        });
+      }
+
+      // Search and refresh wiring
+      searchReleases && searchReleases.addEventListener('input', () => { renderReleasesGrouped(); renderModulesGrouped(); });
+
+      // Start functions
       async function loadAll(){
         loadSettings();
         todos = loadTodos();
         renderTodos();
         await loadReleases();
         await loadCrew();
-        // comments
+        renderModuleListUI();
+        await loadModules();
+        // attach comments
         const commentsContainer = document.createElement('div');
         commentsContainer.style.marginTop = '12px';
         commentsContainer.innerHTML = '<strong>Комментарии</strong>';
@@ -1055,10 +1225,10 @@
         if(crewMiniEl) crewMiniEl.appendChild(commentsContainer);
       }
 
-      // Expose small API for debugging
-      window.RZ = { loadReleases, loadCrew, loadAll, openModal, closeModal };
+      // small public API for debugging
+      window.RZ = { loadReleases, loadCrew, loadAll, loadModules, addModule, removeModuleAt };
 
-      // Start
+      // run
       loadAll();
 
     })();
