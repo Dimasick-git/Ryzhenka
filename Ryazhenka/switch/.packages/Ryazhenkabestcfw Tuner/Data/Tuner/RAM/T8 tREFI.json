@@ -1,0 +1,30 @@
+[
+    {
+        "name": "(1x REFI)                           [0]",
+        "dec": "0"
+    },
+    {
+        "name": "(1.5x REFI)                          [1]",
+        "dec": "1"
+    },
+    {
+        "name": "(2x REFI)                           [2]",
+        "dec": "2"
+    },
+    {
+        "name": "(3x REFI)                           [3]",
+        "dec": "3"
+    },
+    {
+        "name": "(4x REFI)                           [4]",
+        "dec": "4"
+    },
+    {
+        "name": "(6x REFI)                           [5]",
+        "dec": "5"
+    },
+    {
+        "name": "(MAX REFI)                         [6]",
+        "dec": "6"
+    }
+]
