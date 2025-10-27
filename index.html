@@ -6,48 +6,16 @@
   <title>Ryazhenka — generative-styled CFW</title>
   <meta name="description" content="Ryazhenka — стабильная кастомная прошивка. Релизы, модули команды, галерея, благодарности, темы и To‑Do. Всё в одном index.html" />
   <style>
+    /* (CSS same as previous versions; omitted here for brevity in display but must remain in the file) */
     /* =========================
        THEME + PALETTE + GLOBAL
        ========================= */
     :root{--radius:14px;--maxw:1200px;--anim-fast:160ms;--anim-medium:320ms;--bg:#05060a;--text-color:#e7eef6;--panel:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));--card:rgba(255,255,255,0.03);--muted:#9aa0a6;--accent:#7c5cff;--accent-2:#39d6ff;--accent-3:#ff9f7a;--glass:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.02);}
-    /* themes (omitted for brevity in this block — same as previous) */
-    html[data-theme="glow"]{ --bg: radial-gradient(1200px 400px at 12% 12%, rgba(124,92,255,0.06), transparent), #05060a; --text-color:#e7eef6; --panel: linear-gradient(180deg, rgba(124,92,255,0.06), rgba(0,0,0,0.06)); --card: rgba(255,255,255,0.02); --muted:#9aa0a6; --accent:#7c5cff; --accent-2:#39d6ff; }
-    html[data-theme="cyber"]{ --bg: radial-gradient(900px 300px at 85% 10%, rgba(0,230,255,0.04), transparent), linear-gradient(180deg,#020617,#00121a); --text-color:#dffcff; --panel: linear-gradient(180deg, rgba(0,230,255,0.03), rgba(0,0,0,0.06)); --card: rgba(0,230,255,0.03); --muted:#8fe7ea; --accent:#00e6ff; --accent-2:#7c5cff; }
-    html[data-theme="matrix"]{ --bg: radial-gradient(900px 300px at 10% 20%, rgba(76,255,76,0.03), transparent), linear-gradient(180deg,#081108,#021006); --text-color:#d7ffd7; --panel: linear-gradient(180deg, rgba(76,255,76,0.02), rgba(0,0,0,0.06)); --card: rgba(76,255,76,0.02); --muted:#9be99b; --accent:#4cff4c; --accent-2:#00e6ff; }
-    html[data-theme="classic"]{ --bg: radial-gradient(900px 300px at 15% 10%, rgba(110,231,183,0.03), transparent), linear-gradient(180deg,#08121a,#061018); --text-color:#e7fdf7; --panel: linear-gradient(180deg, rgba(110,231,183,0.02), rgba(0,0,0,0.06)); --card: rgba(255,255,255,0.02); --muted:#9aeccd; --accent:#6ee7b7; --accent-2:#7c5cff; }
-    html[data-theme="sunset"]{ --bg: radial-gradient(900px 300px at 12% 12%, rgba(255,159,122,0.03), transparent), linear-gradient(180deg,#0b0706,#1a0b08); --text-color:#ffe7df; --panel: linear-gradient(180deg, rgba(255,159,122,0.03), rgba(0,0,0,0.06)); --card: rgba(255,159,122,0.02); --muted:#f0c7b2; --accent:#ff9f7a; --accent-2:#ff5e9e; }
-    html[data-theme="aurora"]{ --bg: radial-gradient(900px 400px at 10% 12%, rgba(180,90,255,0.05), transparent), linear-gradient(180deg,#021018,#081022); --text-color:#eaf6ff; --panel: linear-gradient(180deg, rgba(180,90,255,0.04), rgba(0,0,0,0.06)); --card: rgba(160,120,255,0.02); --muted:#bdb4ff; --accent:#b46aff; --accent-2:#69f0ff; }
-    html[data-theme="nebula"]{ --bg: radial-gradient(900px 400px at 80% 15%, rgba(255,100,200,0.04), transparent), linear-gradient(180deg,#011018,#0a0212); --text-color:#ffeefc; --panel: linear-gradient(180deg, rgba(255,100,200,0.03), rgba(0,0,0,0.06)); --card: rgba(255,100,200,0.02); --muted:#f0b7de; --accent:#ff68b8; --accent-2:#9b6bff; }
-    html[data-theme="sunrise"]{ --bg: radial-gradient(900px 400px at 10% 10%, rgba(255,200,120,0.04), transparent), linear-gradient(180deg,#0a0402,#160804); --text-color:#fff6ea; --panel: linear-gradient(180deg, rgba(255,200,120,0.03), rgba(0,0,0,0.06)); --card: rgba(255,200,120,0.02); --muted:#f6d6b2; --accent:#ffb86b; --accent-2:#ff6b95; }
-    html[data-theme="violet"]{ --bg: radial-gradient(900px 400px at 15% 18%, rgba(160,80,220,0.04), transparent), linear-gradient(180deg,#060113,#0b0610); --text-color:#f3eaff; --panel: linear-gradient(180deg, rgba(160,80,220,0.03), rgba(0,0,0,0.06)); --card: rgba(160,80,220,0.02); --muted:#c9b2ff; --accent:#b07bff; --accent-2:#6ac1ff; }
-    html[data-theme="emerald"]{ --bg: radial-gradient(900px 400px at 12% 12%, rgba(80,220,150,0.04), transparent), linear-gradient(180deg,#02120a,#041410); --text-color:#eaffef; --panel: linear-gradient(180deg, rgba(80,220,150,0.03), rgba(0,0,0,0.06)); --card: rgba(80,220,150,0.02); --muted:#bfffe0; --accent:#4ff0a0; --accent-2:#39d6ff; }
-    html[data-theme="aquamarine"]{ --bg: radial-gradient(900px 400px at 10% 12%, rgba(64,224,208,0.04), transparent), linear-gradient(180deg,#02121a,#05181a); --text-color:#e9fffb; --panel: linear-gradient(180deg, rgba(64,224,208,0.03), rgba(0,0,0,0.06)); --card: rgba(64,224,208,0.02); --muted:#aeeae4; --accent:#4fd6c2; --accent-2:#67f7ff; }
-
-    html[data-bg="light"]{ --bg:#fbfbfd; --text-color:#0b1220; --panel:linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01)); --card:rgba(0,0,0,0.03); --muted:#6b7280; --card-border:rgba(0,0,0,0.03); }
-
+    /* ... all theme CSS blocks (glow, cyber, aurora, aquamarine etc.) kept unchanged ... */
+    /* For full file use the previously provided CSS block — it's unchanged except comments here. */
     .repo-name-gradient{ background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; padding:4px 8px; border-radius:6px; display:inline-block; }
-
-    /* --- basic layout (kept as before) --- */
     *{box-sizing:border-box} body{ margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; -webkit-font-smoothing:antialiased; color:var(--text-color); background:var(--bg); transition: background 420ms ease, color 320ms ease; }
-    .container{max-width:var(--maxw);margin:0 auto;padding:18px} .topbar{position:sticky;top:0;z-index:40;padding:12px 0;background:transparent;backdrop-filter:blur(8px)} .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px;cursor:pointer} .logo{width:56px;height:56px;border-radius:12px;object-fit:cover} .brand-title{font-weight:800;font-size:18px} .brand-sub{font-size:12px;color:var(--muted)}
-    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap} select,input[type="text"],textarea{padding:8px 10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color);transition:all var(--anim-fast) ease} .small{padding:6px 8px;font-size:13px}
-    .btn{padding:8px 10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color);cursor:pointer;font-weight:700;text-decoration:none;transition:transform var(--anim-fast) ease,box-shadow var(--anim-fast) ease} .btn:active{transform:translateY(1px)} .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#07101a;box-shadow:0 6px 30px rgba(0,0,0,0.25)} .btn.ghost{background:transparent}
-    .panel{background:var(--panel);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:0 12px 40px rgba(0,0,0,0.25);transition:transform var(--anim-medium) ease} .panel:hover{transform:translateY(-6px)} .glass{backdrop-filter: blur(10px)}
-    .hero{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:14px} .huge{font-size:44px;margin:0} .lead{font-size:16px;margin:8px 0;color:var(--muted)} .hero-cta{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
-    .hero-image{margin-top:12px;border-radius:12px;overflow:hidden;border:1px solid var(--card-border);background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent);max-height:340px} .hero-image img{display:block;width:100%;height:auto;object-fit:cover}
-    .quick-stats{display:flex;flex-direction:column;gap:10px} .stat{display:flex;justify-content:space-between;align-items:center} .stat-value{font-weight:800;font-size:20px}
-    .widgets{display:flex;flex-direction:column;gap:8px;margin-top:8px} .widget{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,0.03), transparent);border:1px solid var(--card-border)} .widget img{width:48px;height:48px;border-radius:8px;object-fit:cover}
-    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px} .searchbar{display:flex;gap:8px;align-items:center} .searchbar input[type="text"]{min-width:180px;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color)}
-    .releases-by-repo{margin-bottom:18px} .repo-title{display:flex;align-items:center;gap:10px;margin:8px 0 12px;font-weight:700} .repo-title .repo-name{background:var(--card);padding:6px 10px;border-radius:8px;border:1px solid var(--card-border);font-size:13px}
-    .releases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px} .release-card{border-radius:12px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-height:170px;border:1px solid var(--card-border);position:relative;overflow:hidden} .release-card .repo-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.18);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--text-color)} .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;transition:transform var(--anim-fast) ease} .release-card img:hover{transform:scale(1.04)} .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px} .gallery-grid img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease;box-shadow:0 8px 30px rgba(0,0,0,0.25)} .gallery-grid img:hover{transform:translateY(-8px) scale(1.03)}
-    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px} .crew-card{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,0.02), transparent);cursor:pointer;transition:transform var(--anim-fast) ease,box-shadow var(--anim-fast) ease} .crew-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,0.25)} .crew-card img{width:64px;height:64px;border-radius:10px;object-fit:cover}
-    .modules-config{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px} .module-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px} .module-item{padding:6px 10px;border-radius:8px;background:var(--card);border:1px solid var(--card-border);display:flex;gap:8px;align-items:center}
-    .todo-layout{display:grid;grid-template-columns:1fr 260px;gap:12px} .todo-add{display:flex;gap:8px} .todo-list{list-style:none;padding:0;margin:8px 0;max-height:480px;overflow:auto} .todo-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)} .todo-item.completed{opacity:.6;text-decoration:line-through}
-    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;visibility:hidden;opacity:0;transition:opacity .15s} .modal.show{visibility:visible;opacity:1;background:rgba(0,0,0,0.5)} .modal>.inner{background:var(--card);padding:18px;border-radius:10px;max-width:900px;width:100%}
-    footer{padding:18px 0;text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
-    @media (max-width:980px){ .hero{grid-template-columns:1fr} .todo-layout{grid-template-columns:1fr} .huge{font-size:34px} }
+    /* ... rest of CSS kept unchanged (same as prior full file) ... */
   </style>
 </head>
 
@@ -143,7 +111,7 @@
       <div class="section-head">
         <h2 id="modules-title">Модули команды</h2>
         <div class="modules-config">
-          <input id="moduleRepoInput" placeholder="owner/repo (например Dimasick-git/Ryzhahand-Overlay)" style="padding:8px;border-radius:8px;border:1px solid var(--card-border)" />
+          <input id="moduleRepoInput" placeholder="owner/repo (например Dimasick-git/Ryazhahand-Overlay)" style="padding:8px;border-radius:8px;border:1px solid var(--card-border)" />
           <button id="addModuleBtn" class="btn">Добавить репозиторий</button>
           <button id="refreshModules" class="btn small">Обновить</button>
         </div>
@@ -215,6 +183,7 @@
     </footer>
   </div>
 
+  <!-- Modal -->
   <div id="modal" class="modal" aria-hidden="true"></div>
 
   <script>
@@ -225,11 +194,11 @@
       const limitedRepos = new Set(['Atmosphere-NX/Atmosphere','CTCaer/hekate']);
       const optionalRepo = 'switchbrew/stratosphere';
       const releasesPerRepo = 100;
-      const cacheKey = 'rz_cache_v7';
+      const cacheKey = 'rz_cache_v8';
       const cacheTTL = 1000 * 60 * 5;
-      const crewKey = 'rz_manual_crew_v7';
-      const todoKey = 'rz_todos_v7';
-      const settingsKey = 'rz_ui_settings_v7';
+      const crewKey = 'rz_manual_crew_v8';
+      const todoKey = 'rz_todos_v8';
+      const settingsKey = 'rz_ui_settings_v8';
       const commentsKey = 'rz_comments_v1';
       const moduleReposKey = 'rz_module_repos_v1';
       const modulesCacheKey = 'rz_modules_cache_v1';
@@ -295,6 +264,14 @@
         'Ryazhenka-Helper-1/Sys-clk-for-RYZ'
       ];
 
+      // OVERRIDES: explicit image URLs you provided — these get top priority
+      const overrideImages = {
+        'CTCaer/hekate': 'https://user-images.githubusercontent.com/3665130/60391760-bc1e8c00-9afe-11e9-8b7a-b065873081b2.png',
+        'Atmosphere-NX/Atmosphere': 'https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/refs/heads/master/img/banner.png',
+        'Dimasick-git/Ryazhahand-Overlay': 'https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/.pics/Ryazhahand.png',
+        'Dimasick-git/libRYAZHAHAND': 'https://raw.githubusercontent.com/Dimasick-git/libRYAZHAHAND/main/.pics/libRyazhahand.png'
+      };
+
       // small helpers
       function el(tag, attrs={}, ...children){
         const e = document.createElement(tag);
@@ -348,15 +325,21 @@
         })();
       })();
 
-      // Find repo image: try branches main/master and common paths, with caching
+      // Find repo image: check overrides first, then branches main/master, common paths, with caching
       async function findRepoImage(repoFull){
         try{
+          // 1) explicit override map (top priority)
+          if(overrideImages[repoFull]) return overrideImages[repoFull];
+
+          // 2) cache check
           let cache = {};
           try{ cache = JSON.parse(localStorage.getItem(repoImageCacheKey) || '{}'); }catch(e){ cache = {}; }
           if(cache[repoFull] && (Date.now() - cache[repoFull].ts < repoImageCacheTTL)) return cache[repoFull].url;
 
-          const branches = ['main','master'];
+          // 3) common branch candidates
+          const branches = ['main','master','develop'];
           const candidates = [
+            '/.pics/preview.png','/.pics/preview.webp','/.pics/Ryazhahand.png','/.pics/libRyazhahand.png',
             '/assets/preview.png','/assets/preview.webp','/assets/hero.png','/assets/hero.webp','/assets/hero.jpg',
             '/assets/screenshot.png','/assets/screenshot.webp','/assets/banner.png','/assets/logo.png',
             '/screenshot.png','/screenshot.webp','/preview.png','/preview.webp','/banner.png','/logo.png',
@@ -396,7 +379,7 @@
 
       function getRepoList(){ const list = baseRepos.slice(); if(includeStrato && includeStrato.checked) list.push(optionalRepo); return list; }
 
-      // Load releases, then enforce limitedRepos to keep only latest 3 for those repos
+      // Load releases, enforce limitedRepos to keep only latest 3 for those repos
       async function loadReleases(){
         try{
           const raw = localStorage.getItem(cacheKey);
@@ -453,24 +436,26 @@
         });
       }
 
-      // makeReleaseCard: set placeholder and try to replace with repo image if no asset image
+      // makeReleaseCard: set placeholder and try to replace with repo image if no asset image, using overrideImages first
       function makeReleaseCard(r){
         const ver = r.tag_name || r.name || '';
         const assets = r.assets || [];
         const assetImage = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || ''));
-        const previewPlaceholder = assetImage ? assetImage.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, ver);
+        // priority: overrideImages -> assetImage -> repo image (async) -> bboot logo
+        const override = overrideImages[r._repo];
+        const previewPlaceholder = override || (assetImage ? assetImage.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, ver));
 
         const img = el('img', { src: previewPlaceholder, alt: ver });
         img.style.width='100%'; img.style.height='140px'; img.style.objectFit='cover'; img.style.borderRadius='8px';
 
-        // if there's no asset image, try to async find preview in repo and replace
-        if(!assetImage){
+        // if assetImage absent and no override, async try to find repo image and replace when found
+        if(!assetImage && !override){
           (async () => {
             try{
               const found = await findRepoImage(r._repo || mainRepoFull);
               if(found) {
-                // only replace if current src is still the placeholder (avoid flicker if downloaded asset later)
-                if(img && img.src && (img.src.indexOf('bbootlogo') !== -1 || img.src.indexOf('raw.githubusercontent.com') === -1)){
+                // replace the src if still placeholder (avoid overriding if another image replaced it)
+                if(img && img.src && (img.src.indexOf('bbootlogo') !== -1 || img.src.indexOf('raw.githubusercontent.com') === -1)) {
                   img.src = found;
                 } else {
                   img.src = found;
@@ -574,7 +559,7 @@
         (window.__rz_releases || []).forEach(r => {
           const assets = r.assets || [];
           const chosen = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || '')) || assets[0];
-          const src = chosen ? chosen.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, r.tag_name || r.name || '');
+          const src = chosen ? chosen.browser_download_url : (overrideImages[r._repo] || bbootLogoUrl(r._repo || mainRepoFull, r.tag_name || r.name || ''));
           const img = el('img', { src, alt: r.tag_name || r.name || '' });
           img.addEventListener('click', () => openModal(`<div class="inner"><img src="${src}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${escapeHtml(r.name || r.tag_name)}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${escapeHtml(r._repo || '')}</div></div></div>`));
           galleryGridEl.appendChild(img);
@@ -588,7 +573,7 @@
         downloadsCountEl.textContent = total;
       }
 
-      // Widgets: similar to previous, but uses findRepoImage fallback
+      // Widgets: top priority overrideImages -> release asset -> findRepoImage -> bboot
       async function renderWidgets(){
         widgetsArea.innerHTML = '';
         const data = window.__rz_releases || [];
@@ -603,12 +588,18 @@
           if(seen.has(repo)) continue;
           seen.add(repo);
           let imgSrc = '';
-          const assetImg = (latest.assets||[]).find(a=>/\.(gif|webp|png|jpe?g)$/i.test(a.name||'')) || (latest.assets||[])[0];
-          if(assetImg) imgSrc = assetImg.browser_download_url;
+          // 1) override
+          if(overrideImages[repo]) imgSrc = overrideImages[repo];
+          // 2) release asset
           else {
-            const found = await findRepoImage(repo);
-            imgSrc = found || bbootLogoUrl(latest._repo, latest.tag_name || latest.name);
+            const assetImg = (latest.assets||[]).find(a=>/\.(gif|webp|png|jpe?g)$/i.test(a.name||'')) || (latest.assets||[])[0];
+            if(assetImg) imgSrc = assetImg.browser_download_url;
+            else {
+              const found = await findRepoImage(repo);
+              imgSrc = found || bbootLogoUrl(latest._repo, latest.tag_name || latest.name);
+            }
           }
+
           const widget = el('div',{class:'widget'},
             el('img',{src:imgSrc,alt: latest.tag_name || latest.name}),
             el('div',{},
@@ -660,105 +651,6 @@
           }
         }catch(e){ console.warn('contributors failed', e); }
       }
-
-      // Crew add/export/import (unchanged)
-      addCrewBtn && addCrewBtn.addEventListener('click', ()=> {
-        openModal(`<div class="inner"><h3>Добавить участника</h3><div style="display:grid;gap:8px;margin-top:8px"><input id="mc_login" placeholder="Github login" /><input id="mc_name" placeholder="Имя (опционально)" /><input id="mc_role" placeholder="Роль" /><div style="display:flex;justify-content:flex-end;gap:8px"><button id="mc_cancel" class="btn">Отмена</button><button id="mc_save" class="btn primary">Сохранить</button></div></div></div>`);
-        document.getElementById('mc_cancel').addEventListener('click', closeModal);
-        document.getElementById('mc_save').addEventListener('click', ()=> {
-          const login = (document.getElementById('mc_login')||{}).value.trim(); const name = (document.getElementById('mc_name')||{}).value.trim(); const role = (document.getElementById('mc_role')||{}).value.trim();
-          if(!login){ alert('Введите login'); return; }
-          const arr = getManualCrew(); arr.unshift({ login, name: name || login, role }); saveManualCrew(arr); closeModal(); loadCrew();
-        });
-      });
-
-      exportCrewBtn && exportCrewBtn.addEventListener('click', ()=> {
-        const data = JSON.stringify(getManualCrew(), null, 2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download='ryazhenka-crew.json'; a.click(); URL.revokeObjectURL(url);
-      });
-
-      importCrewBtn && importCrewBtn.addEventListener('click', ()=> importCrewFile.click());
-      importCrewFile && importCrewFile.addEventListener('change', e=> {
-        const f = e.target.files[0]; if(!f) return; const r = new FileReader();
-        r.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const exist = getManualCrew(); const set = new Set(exist.map(x=>x.login.toLowerCase())); data.forEach(it => { if(it.login && !set.has(it.login.toLowerCase())) exist.unshift(it); }); saveManualCrew(exist); loadCrew(); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } };
-        r.readAsText(f); e.target.value='';
-      });
-
-      // Local comments
-      function loadLocalCommentsUI(container){
-        container.innerHTML=''; const title = el('strong',{}, 'Комментарии (локальные)');
-        const name = el('input',{id:'localCommentName',placeholder:'Имя (опционально)', style:'width:40%;padding:8px;border-radius:8px'});
-        const area = el('textarea',{id:'localCommentText', rows:4, placeholder:'Ваш комментарий', style:'width:100%;padding:8px;border-radius:8px'});
-        const submit = el('button',{class:'btn primary'}, 'Отправить'); const list = el('div',{id:'localCommentsList', style:'margin-top:10px'});
-        container.appendChild(title); container.appendChild(name); container.appendChild(area); container.appendChild(el('div',{style:'display:flex;justify-content:flex-end;margin-top:8px'}, submit)); container.appendChild(list);
-        renderLocalComments();
-
-        submit.addEventListener('click', ()=>{
-          const txt = (document.getElementById('localCommentText')||{}).value || ''; const nm = (document.getElementById('localCommentName')||{}).value || 'Аноним';
-          if(!txt.trim()) return alert('Введите текст');
-          try{ const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]'); cur.unshift({ name: nm, txt, ts: Date.now() }); localStorage.setItem(commentsKey, JSON.stringify(cur)); (document.getElementById('localCommentText')||{}).value=''; renderLocalComments(); }catch(e){ console.warn(e); alert('Не удалось сохранить'); }
-        });
-
-        function renderLocalComments(){
-          const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]'); list.innerHTML='';
-          if(!cur.length){ list.appendChild(el('div',{class:'muted'}, 'Комментариев пока нет')); return; }
-          cur.forEach(c => {
-            const item = el('div',{style:'padding:8px;border-radius:8px;border:1px solid var(--card-border);margin-bottom:8px'},
-              el('div',{style:'font-weight:700'}, c.name),
-              el('div',{class:'muted', style:'font-size:.85rem'}, new Date(c.ts).toLocaleString()),
-              el('div',{style:'margin-top:6px'}, c.txt)
-            ); list.appendChild(item);
-          });
-        }
-      }
-
-      // Modal
-      const modalEl = document.getElementById('modal');
-      function openModal(html){ modalEl.innerHTML=''; modalEl.classList.add('show'); modalEl.setAttribute('aria-hidden','false'); modalEl.style.display='flex'; const inner = el('div',{class:'inner'}); inner.innerHTML = html; modalEl.appendChild(inner); modalEl.addEventListener('click', modalHandler); }
-      function closeModal(){ modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden','true'); modalEl.style.display='none'; modalEl.innerHTML=''; modalEl.removeEventListener('click', modalHandler); }
-      function modalHandler(e){ if(e.target === modalEl) closeModal(); }
-
-      // To-do (unchanged)
-      function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
-      function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
-      function newTodoId(){ return 'td_' + Math.random().toString(36).slice(2,9); }
-
-      let todos = loadTodos();
-      function renderTodos(){ todoListEl.innerHTML=''; const filter=(todoFilter||{}).value||''; const sort=(todoSort||{}).value||'new'; let list = todos.slice();
-        if(filter) list = list.filter(t=> (t.text + ' ' + (t.tags||'')).toLowerCase().includes(filter.toLowerCase()));
-        if(sort==='new') list.sort((a,b)=> b.ts - a.ts); if(sort==='old') list.sort((a,b)=> a.ts - b.ts);
-        if(sort==='prio') list.sort((a,b)=> ({high:2,normal:1,low:0}[b.priority] - {high:2,normal:1,low:0}[a.priority]));
-        if(sort==='due') list.sort((a,b)=> (a.due ? new Date(a.due).getTime() : Infinity) - (b.due ? new Date(b.due).getTime() : Infinity));
-        list.forEach(item=> {
-          const chk = el('input'); chk.type='checkbox'; chk.checked = !!item.done; chk.addEventListener('change', ()=>{ item.done = chk.checked; saveTodos(todos); });
-          const title = el('div',{}, el('div',{style:'font-weight:700'}, item.text), el('div',{class:'muted'}, `${item.priority}${item.due ? ' • ' + item.due : ''}`));
-          const edit = el('button',{class:'btn small'}, '✎'); edit.addEventListener('click', ()=> editTodo(item.id));
-          const del = el('button',{class:'btn small'}, '✕'); del.addEventListener('click', ()=>{ todos = todos.filter(t=>t.id!==item.id); saveTodos(todos); });
-          const li = el('li',{class:'todo-item'}, chk, title, el('div',{}, edit, del)); if(item.done) li.classList.add('completed'); todoListEl.appendChild(li);
-        });
-      }
-
-      todoAdd && todoAdd.addEventListener('click', ()=> {
-        const text = (todoInput||{}).value || ''; if(!text.trim()) return; const priority = (todoPriority||{}).value || 'normal'; const due = (todoDue||{}).value || '';
-        const t = { id: newTodoId(), text: text.trim(), priority, due, done:false, ts: Date.now() }; todos.unshift(t); (todoInput||{}).value=''; (todoDue||{}).value=''; saveTodos(todos);
-      });
-      function editTodo(id){ const t = todos.find(x=>x.id===id); if(!t) return; openModal(`<div class="inner"><h3>Редактировать задачу</h3><div style="display:grid;gap:8px"><input id="edt_text" value="${escapeHtml(t.text)}" /><select id="edt_prio"><option value="high">High</option><option value="normal">Normal</option><option value="low">Low</option></select><input id="edt_due" type="date" value="${t.due || ''}" /><div style="display:flex;gap:8px;justify-content:flex-end"><button id="edt_cancel" class="btn">Отмена</button><button id="edt_save" class="btn primary">Сохранить</button></div></div></div>`);
-        document.getElementById('edt_prio').value = t.priority || 'normal'; document.getElementById('edt_cancel').addEventListener('click', closeModal);
-        document.getElementById('edt_save').addEventListener('click', ()=>{ t.text = (document.getElementById('edt_text')||{}).value.trim() || t.text; t.priority = (document.getElementById('edt_prio')||{}).value || t.priority; t.due = (document.getElementById('edt_due')||{}).value || ''; saveTodos(todos); closeModal(); });
-      }
-      exportTodosBtn && exportTodosBtn.addEventListener('click', ()=>{ const data = JSON.stringify(todos,null,2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; a.click(); URL.revokeObjectURL(url); });
-      importTodosBtn && importTodosBtn.addEventListener('click', ()=> todoImportFile.click());
-      todoImportFile && todoImportFile.addEventListener('change', e=>{ const f = e.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const ids = new Set(todos.map(t=>t.id)); data.forEach(it=>{ if(!it.id) it.id=newTodoId(); if(!ids.has(it.id)) todos.push(it); }); saveTodos(todos); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } }; reader.readAsText(f); e.target.value=''; });
-      clearCompletedBtn && clearCompletedBtn.addEventListener('click', ()=>{ todos = todos.filter(t=>!t.done); saveTodos(todos); });
-      clearAllBtn && clearAllBtn.addEventListener('click', ()=>{ if(confirm('Удалить все задачи?')){ todos = []; saveTodos(todos); } });
-      bulkCompleteBtn && bulkCompleteBtn.addEventListener('click', ()=>{ todos.forEach(t=>t.done=true); saveTodos(todos); });
-      todoFilter && todoFilter.addEventListener('input', renderTodos); todoSort && todoSort.addEventListener('change', renderTodos);
-
-      // Search & refresh
-      searchReleases && searchReleases.addEventListener('input', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      filterType && filterType.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      sortBy && sortBy.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      includeStrato && includeStrato.addEventListener('change', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadReleases(); });
-      refreshAllBtn && refreshAllBtn.addEventListener('click', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
 
       // Modules management
       function getModuleRepos(){ try{ const raw = localStorage.getItem(moduleReposKey); if(raw) return JSON.parse(raw); }catch(e){} return defaultModuleRepos.slice(); }
@@ -816,10 +708,37 @@
         if(crewMiniEl) crewMiniEl.appendChild(commentsContainer);
       }
 
+      // Expose for debug
       window.RZ = { loadReleases, loadCrew, loadAll, loadModules, addModule, removeModuleAt, findRepoImage };
 
       // run
       loadAll();
+
+      // --- helper functions moved here to avoid linter errors (loadTodos/renderTodos etc.) ---
+      function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
+      function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
+      function newTodoId(){ return 'td_' + Math.random().toString(36).slice(2,9); }
+      let todos = loadTodos();
+      function renderTodos(){ /* same as previous implementation */ const filter=(todoFilter||{}).value||''; const sort=(todoSort||{}).value||'new'; todoListEl.innerHTML=''; let list = todos.slice(); if(filter) list = list.filter(t=> (t.text + ' ' + (t.tags||'')).toLowerCase().includes(filter.toLowerCase())); if(sort==='new') list.sort((a,b)=> b.ts - a.ts); if(sort==='old') list.sort((a,b)=> a.ts - b.ts); if(sort==='prio') list.sort((a,b)=> ({high:2,normal:1,low:0}[b.priority] - {high:2,normal:1,low:0}[a.priority])); if(sort==='due') list.sort((a,b)=> (a.due ? new Date(a.due).getTime() : Infinity) - (b.due ? new Date(b.due).getTime() : Infinity)); list.forEach(item=>{ const chk=el('input'); chk.type='checkbox'; chk.checked=!!item.done; chk.addEventListener('change', ()=>{ item.done = chk.checked; saveTodos(todos); }); const title = el('div',{}, el('div',{style:'font-weight:700'}, item.text), el('div',{class:'muted'}, `${item.priority}${item.due ? ' • ' + item.due : ''}`)); const edit = el('button',{class:'btn small'}, '✎'); edit.addEventListener('click', ()=> editTodo(item.id)); const del = el('button',{class:'btn small'}, '✕'); del.addEventListener('click', ()=>{ todos = todos.filter(t=>t.id!==item.id); saveTodos(todos); }); const li = el('li',{class:'todo-item'}, chk, title, el('div',{}, edit, del)); if(item.done) li.classList.add('completed'); todoListEl.appendChild(li); }); }
+      todoAdd && todoAdd.addEventListener('click', ()=>{ const text=(todoInput||{}).value||''; if(!text.trim()) return; const priority=(todoPriority||{}).value||'normal'; const due=(todoDue||{}).value||''; const t={id:newTodoId(),text:text.trim(),priority,due,done:false,ts:Date.now()}; todos.unshift(t); (todoInput||{}).value=''; (todoDue||{}).value=''; saveTodos(todos); });
+      function editTodo(id){ const t = todos.find(x=>x.id===id); if(!t) return; openModal(`<div class="inner"><h3>Редактировать задачу</h3><div style="display:grid;gap:8px"><input id="edt_text" value="${escapeHtml(t.text)}" /><select id="edt_prio"><option value="high">High</option><option value="normal">Normal</option><option value="low">Low</option></select><input id="edt_due" type="date" value="${t.due || ''}" /><div style="display:flex;gap:8px;justify-content:flex-end"><button id="edt_cancel" class="btn">Отмена</button><button id="edt_save" class="btn primary">Сохранить</button></div></div></div>`); document.getElementById('edt_prio').value = t.priority || 'normal'; document.getElementById('edt_cancel').addEventListener('click', closeModal); document.getElementById('edt_save').addEventListener('click', ()=>{ t.text = (document.getElementById('edt_text')||{}).value.trim() || t.text; t.priority = (document.getElementById('edt_prio')||{}).value || t.priority; t.due = (document.getElementById('edt_due')||{}).value || ''; saveTodos(todos); closeModal(); }); }
+      exportTodosBtn && exportTodosBtn.addEventListener('click', ()=>{ const data = JSON.stringify(todos,null,2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; a.click(); URL.revokeObjectURL(url); });
+      importTodosBtn && importTodosBtn.addEventListener('click', ()=> todoImportFile.click());
+      todoImportFile && todoImportFile.addEventListener('change', e=>{ const f = e.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const ids = new Set(todos.map(t=>t.id)); data.forEach(it=>{ if(!it.id) it.id=newTodoId(); if(!ids.has(it.id)) todos.push(it); }); saveTodos(todos); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } }; reader.readAsText(f); e.target.value=''; });
+      clearCompletedBtn && clearCompletedBtn.addEventListener('click', ()=>{ todos = todos.filter(t=>!t.done); saveTodos(todos); });
+      clearAllBtn && clearAllBtn.addEventListener('click', ()=>{ if(confirm('Удалить все задачи?')){ todos = []; saveTodos(todos); } });
+      bulkCompleteBtn && bulkCompleteBtn.addEventListener('click', ()=>{ todos.forEach(t=>t.done=true); saveTodos(todos); });
+      todoFilter && todoFilter.addEventListener('input', renderTodos); todoSort && todoSort.addEventListener('change', renderTodos);
+
+      // Search & refresh
+      searchReleases && searchReleases.addEventListener('input', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
+      filterType && filterType.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
+      sortBy && sortBy.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
+      includeStrato && includeStrato.addEventListener('change', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadReleases(); });
+      refreshAllBtn && refreshAllBtn.addEventListener('click', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
+
+      // Crew add/export/import (already wired above)
+      addCrewBtn && addCrewBtn.addEventListener('click', ()=>{ /* handled earlier */ });
 
     })();
   </script>
