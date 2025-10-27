@@ -1,87 +1,87 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="glow">
+<html lang="ru" data-theme="glow" data-bg="dark" data-text="default">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ryazhenka — Best CFW for Nintendo Switch</title>
-  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch. Glow/terminal стиль, crew-экосистема, релизы и галерея" />
+  <title>Ryazhenka — CFW</title>
   <link rel="icon" href="./assets/Ryazhalogo.png" />
-  <link rel="stylesheet" href="./styles/style.css" />
-  <script defer src="./scripts/main.js"></script>
   <style>
-    /* Midjourney-like aesthetic: big hero, dark gradient, card glass, rounded gallery */
     :root{
-      --bg:#05060a;
-      --panel:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --bg-dark:#05060a;
+      --bg-light:#ffffff;
+      --panel-dark:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --panel-light:linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
       --accent:#7c5cff;
       --muted:#9aa0a6;
-      --glass: rgba(255,255,255,0.03);
       --card-bg: rgba(255,255,255,0.02);
+      --text-light:#e7eef6;
+      --text-dark:#0b1220;
+      --success:#3bd671;
+      --danger:#ff6b6b;
     }
 
-    /* Theme variations (switched by [data-theme]) */
-    html[data-theme='glow']{ --accent:#7c5cff; --bg:#05060a; --card-bg:rgba(124,92,255,0.06); }
-    html[data-theme='classic']{ --accent:#6ee7b7; --bg:#0b0f13; --card-bg:rgba(255,255,255,0.02); }
-    html[data-theme='cyber']{ --accent:#00e6ff; --bg:#020617; --card-bg:linear-gradient(90deg, rgba(0,230,255,0.04), rgba(124,92,255,0.02)); }
-    html[data-theme='sunset']{ --accent:#ff9f7a; --bg:#0b0706; --card-bg:linear-gradient(90deg, rgba(255,159,122,0.04), rgba(124,92,255,0.01)); }
-    html[data-theme='matrix']{ --accent:#4cff4c; --bg:#081108; --card-bg:rgba(76,255,76,0.02); }
+    html[data-theme='glow']{ --accent:#7c5cff; }
+    html[data-theme='classic']{ --accent:#6ee7b7; }
+    html[data-theme='cyber']{ --accent:#00e6ff; }
+    html[data-theme='sunset']{ --accent:#ff9f7a; }
+    html[data-theme='matrix']{ --accent:#4cff4c; }
 
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background: radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.06), transparent), var(--bg); color: #e7eef6}
-    .wrap{max-width:1100px;margin:0 auto;padding:1rem}
-    header.top{Padding:1.25rem 0}
+    html[data-bg='dark']{ background: radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.06), transparent), var(--bg-dark); color: var(--text-light); --panel:var(--panel-dark); --card-bg: rgba(255,255,255,0.02); }
+    html[data-bg='light']{ background: var(--bg-light); color: var(--text-dark); --panel:var(--panel-light); --card-bg: rgba(0,0,0,0.03); }
+
+    html[data-text='default']{ --muted:#9aa0a6; }
+    html[data-text='alt']{ --muted:#7c6e5a; }
+    html[data-text='high']{ --muted:#444; }
+
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial;font-size:15px;line-height:1.4}
+    .wrap{max-width:1200px;margin:0 auto;padding:1rem}
+    header.top{padding:1rem 0}
     .brand{display:flex;align-items:center;justify-content:space-between;gap:1rem}
     .brand-left{display:flex;align-items:center;gap:0.75rem}
     .logo{width:56px;height:56px;border-radius:10px;cursor:pointer}
-    .title{font-weight:700;font-size:1.25rem;letter-spacing:0.6px}
+    .title{font-weight:700;font-size:1.15rem}
+
+    .controls-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+
+    .panel{background:var(--panel);padding:1rem;border-radius:12px}
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:1rem;padding:1.5rem;border-radius:12px;align-items:start}
+    .cta{display:flex;gap:.5rem;flex-wrap:wrap}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.45rem .6rem;border-radius:8px;color:inherit;text-decoration:none;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#39d6ff);border:0;color:#0b0e12;font-weight:700}
     .muted{color:var(--muted)}
 
-    /* Hero */
-    .hero{padding:3.25rem 1rem;border-radius:12px;background:linear-gradient(180deg, rgba(124,92,255,0.14), rgba(0,0,0,0.12));box-shadow:0 6px 30px rgba(0,0,0,0.6);display:grid;grid-template-columns:1fr 340px;gap:1rem}
-    .hero h1{font-size:2.25rem;margin:0;line-height:1.02}
-    .hero p{margin:.5rem 0 1rem;color:var(--muted);max-width:58ch}
-    .cta{display:flex;gap:.5rem;flex-wrap:wrap}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.5rem .75rem;border-radius:8px;color:inherit;text-decoration:none}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#39d6ff);border:0;color:#0b0e12;font-weight:700}
+    input[type="text"], input[type="date"], select, textarea{padding:.45rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    textarea{resize:vertical}
 
-    /* Controls */
-    .controls{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-    .search{padding:.5rem .75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    .select{padding:.45rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1rem}
+    .release-card{background:var(--card-bg);padding:1rem;border-radius:12px;display:flex;flex-direction:column;gap:.5rem;min-height:170px;border:1px solid rgba(255,255,255,0.02)}
+    .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#05060a}
+    .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
 
-    .releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-top:1rem}
-    .release-card{background:var(--card-bg);padding:1rem;border-radius:12px;display:flex;flex-direction:column;gap:.5rem;min-height:200px;border:1px solid rgba(255,255,255,0.02)}
-    .release-card img{width:100%;height:160px;object-fit:cover;border-radius:8px;background:#05060a}
-    .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:0.85rem}
-    .assets{display:flex;flex-direction:column;gap:.25rem;margin-top:.25rem}
-    .asset{display:flex;gap:.5rem;align-items:center;font-size:0.9rem}
-
-    /* Crew */
-    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-    .crew-card{display:flex;gap:.75rem;align-items:center;padding:.8rem;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border-radius:12px}
-    .crew-card img{width:72px;height:72px;border-radius:12px;object-fit:cover}
-
-    /* Gallery */
     .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem}
-    .gallery img{width:100%;height:200px;object-fit:cover;border-radius:12px;cursor:pointer;transition:transform .2s ease;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
-    .gallery img:hover{transform:translateY(-8px) scale(1.03)}
+    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease}
+    .gallery img:hover{transform:translateY(-6px) scale(1.02)}
 
-    /* Modal */
-    .modal{position:fixed;inset:0;background:rgba(3,4,7,0.6);display:flex;align-items:center;justify-content:center;z-index:1000;padding:2rem}
-    .modal .inner{max-width:1100px;width:100%;border-radius:12px;overflow:hidden}
-    .modal img{width:100%;display:block}
-    .modal .caption{padding:.75rem;background:var(--card-bg);display:flex;justify-content:space-between;align-items:center}
+    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+    .crew-card{display:flex;gap:.75rem;align-items:center;padding:.6rem;border-radius:10px;background:var(--card-bg)}
+    .crew-card img{width:64px;height:64px;border-radius:10px;object-fit:cover}
 
-    /* FAQ & Roadmap */
-    .faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
-    .panel{background:var(--panel);padding:1rem;border-radius:10px}
+    /* ToDo */
+    .todo{display:grid;grid-template-columns:1fr 320px;gap:1rem}
+    .todo-list{padding:0;margin:0;list-style:none;max-height:480px;overflow:auto}
+    .todo-item{display:flex;align-items:center;gap:.5rem;padding:.5rem;border-radius:10px;border:1px solid rgba(255,255,255,0.03);margin-bottom:.5rem;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
+    .todo-item .meta{font-size:.85rem;color:var(--muted)}
+    .todo-item.completed{opacity:.6;text-decoration:line-through}
 
-    footer{margin-top:2rem;padding:1.5rem 0;color:var(--muted)}
+    .tag{padding:.15rem .4rem;border-radius:6px;background:rgba(0,0,0,0.12);font-size:.75rem}
 
-    /* theme selector */
-    .theme-select{display:flex;gap:.5rem;align-items:center}
+    footer{margin-top:2rem;padding:1rem 0;color:var(--muted)}
 
-    @media (max-width:900px){
+    @media (max-width:980px){
       .hero{grid-template-columns:1fr}
+      .todo{grid-template-columns:1fr}
+      .wrap{padding:.75rem}
     }
   </style>
 </head>
@@ -91,25 +91,33 @@
       <div class="brand-left">
         <img alt="Ryazhenka" class="logo" src="./assets/Ryazhalogo.png" onclick="location.href='./'" />
         <div>
-          <div class="title">Ryazhenka CFW — crew.ecosystem</div>
-          <div class="muted" style="font-size:0.9rem;margin-top:4px;">Стабильная кастомная прошивка для Nintendo Switch — современно, безопасно.</div>
+          <div class="title">Ryazhenka</div>
+          <div class="muted" style="font-size:.85rem">CFW — минималистичный интерфейс</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:.6rem">
-        <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
-          <a class="badge btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
-          <a class="badge btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
-          <a class="badge btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">GitHub</a>
-          <a class="badge btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
-        </div>
-        <div class="theme-select">
-          <label class="muted" for="themePicker">Тема:</label>
-          <select id="themePicker" class="select" title="Выберите тему">
+
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <div class="controls-row" aria-hidden="false">
+          <label class="muted" for="themePicker" style="margin-right:6px">Тема</label>
+          <select id="themePicker" aria-label="Выбор темы">
             <option value="glow">Glow</option>
             <option value="classic">Classic</option>
             <option value="cyber">Cyber</option>
             <option value="sunset">Sunset</option>
             <option value="matrix">Matrix</option>
+          </select>
+
+          <label class="muted" for="bgMode" style="margin-left:10px;margin-right:6px">Фон</label>
+          <select id="bgMode" aria-label="Фон">
+            <option value="dark">Темный</option>
+            <option value="light">Светлый</option>
+          </select>
+
+          <label class="muted" for="textMode" style="margin-left:10px;margin-right:6px">Текст</label>
+          <select id="textMode" aria-label="Цвет текста">
+            <option value="default">По умолчанию</option>
+            <option value="alt">Альт</option>
+            <option value="high">Высокая контрастность</option>
           </select>
         </div>
       </div>
@@ -117,125 +125,133 @@
   </header>
 
   <main class="wrap">
-    <section class="hero panel">
+    <section class="hero panel" aria-labelledby="hero-title">
       <div>
-        <h1>Ryazhenka — стабильная CFW, вдохновлённая генеративной эстетикой</h1>
-        <p>Мы собираем лучшее из Atmosphere, Hekate, Tesla и собственных утилит. Профессиональная сборка, удобное управление и упрощённые релизы.</p>
-        <div class="cta">
-          <a class="btn primary" href="#install">Установить</a>
+        <h1 id="hero-title">Ryazhenka</h1>
+        <p class="muted" style="margin-top:.5rem">Упрощённый интерфейс и новые функции.</p>
+        <div class="cta" style="margin-top:.5rem">
+          <a class="btn primary" href="#todo">To‑Do</a>
           <a class="btn" href="#changelog">Релизы</a>
+          <a class="btn" href="#crew">Экипаж</a>
           <a class="btn" href="#gallery">Галерея</a>
-          <a class="btn" href="#wiki">Wiki</a>
         </div>
-        <div style="margin-top:1rem;color:var(--muted)">Подпишитесь на обновления и оставьте фидбек в Discussions.</div>
       </div>
 
       <aside>
-        <div class="panel">
-          <h3 style="margin:0 0 .5rem 0">Быстрые фичи</h3>
-          <ul style="margin:0;padding-left:1rem;color:var(--muted)">
-            <li>Автоматические релизы с логотипом и полной информацией</li>
-            <li>Интеллектуальная галерея превью и пресетов</li>
-            <li>Интеграция с Tesla Menu и Ryazhahand Overlay</li>
-            <li>Режимы: AIO / Lite / BestCFW</li>
-            <li>Roadmap и авто-импорт issues с меткой <code>roadmap</code></li>
-          </ul>
+        <div class="panel" style="margin-bottom:.75rem">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Быстрые</strong>
+            <button class="btn" id="refreshAll" title="Обновить все данные">Обновить</button>
+          </div>
+          <div class="muted" style="margin-top:.5rem;font-size:.9rem">Релизы и экипаж получаем из Dimasick-git/Ryzhenka</div>
         </div>
 
-        <div style="margin-top:.75rem" class="panel">
-          <h4 style="margin:0 0 .5rem 0">Поддержка</h4>
-          <div class="muted">Telegram • Discussions • Issues</div>
-          <div style="margin-top:.5rem"><a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/discussions" target="_blank">Обсуждения</a></div>
+        <div class="panel">
+          <strong>Ссылки</strong>
+          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
+            <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/releases" target="_blank">Релизы</a>
+            <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/graphs/contributors" target="_blank">Contributors</a>
+          </div>
         </div>
       </aside>
     </section>
 
-    <!-- Releases with search/filter -->
-    <section class="panel" id="changelog">
-      <h2 style="margin-top:0">История изменений / Релизы</h2>
-      <div class="muted">Список релизов собирается из нескольких репозиториев (главный репозиторий Ryazhenka + выбранные upstream проекты).</div>
+    <!-- Releases -->
+    <section class="panel" id="changelog" aria-labelledby="releases-title">
+      <h2 id="releases-title" style="margin:0">История изменений / Релизы</h2>
 
-      <div style="margin-top:.75rem;display:flex;justify-content:space-between;gap:.5rem;align-items:center;flex-wrap:wrap">
-        <div class="controls">
-          <input id="searchReleases" class="search" placeholder="Поиск по релизам / версии / названию / описанию" />
-          <select id="filterRepo" class="select" title="Фильтр по репозиторию"><option value="all">Все репозитории</option></select>
-          <select id="filterType" class="select">
+      <div style="margin-top:.75rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <div class="controls-row">
+          <input id="searchReleases" class="search" placeholder="Поиск (версия, название, описание)" aria-label="Поиск релизов" />
+          <select id="filterType" class="select" aria-label="Фильтр по типу">
             <option value="all">Все типы</option>
             <option value="Ryazhenkabestcfw">BestCFW</option>
             <option value="Ryazhenka_AIO">AIO</option>
             <option value="Ryazhenka_lite">Lite</option>
           </select>
-          <select id="sortBy" class="select">
+          <select id="sortBy" class="select" aria-label="Сортировка">
             <option value="date_desc">По дате (новые сначала)</option>
             <option value="date_asc">По дате (старые сначала)</option>
             <option value="downloads_desc">По загрузкам</option>
           </select>
-          <button class="btn" id="refreshReleases">Обновить</button>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end">
-          <div class="muted">Найдено: <span id="releasesCount">…</span> • Статус: <span id="fetchStatus">—</span></div>
-          <div id="statsBlock" class="muted" style="margin-top:6px;font-size:0.95rem">Загрузка статистики…</div>
+
+        <div style="text-align:right">
+          <div class="muted">Найдено: <span id="releasesCount">0</span> • Статус: <span id="fetchStatus">—</span></div>
+          <div id="statsBlock" class="muted" style="margin-top:.35rem;font-size:.9rem"></div>
         </div>
       </div>
 
-      <div class="releases" id="releases-list" aria-live="polite"></div>
+      <div class="releases" id="releases-list" aria-live="polite" style="margin-top:1rem"></div>
     </section>
 
     <!-- Gallery -->
     <section class="panel" id="gallery">
-      <h2>Галерея превью и генеративных обложек</h2>
-      <p class="muted">Коллекция автоматических логотипов и превью — кликните, чтобы открыть в полном размере. Навигация по галерее в модальном окне.</p>
-      <div class="gallery" id="galleryGrid"></div>
+      <h2 style="margin:0">Галерея</h2>
+      <div class="gallery" id="galleryGrid" style="margin-top:.75rem"></div>
     </section>
 
     <!-- Crew -->
     <section class="panel" id="crew">
-      <h2>Стена экипажа / Благодарности</h2>
-      <p class="muted">Автогенерация по contributors + ручные дополнения. Роли указаны для ключевых участников.</p>
-      <div class="crew-grid" id="crew-grid"></div>
-      <div style="margin-top:.75rem" class="muted">Для ручного добавления — редактируйте секцию manualCrew в index.html.</div>
-    </section>
-
-    <!-- Roadmap + FAQ -->
-    <section class="panel" id="roadmap">
-      <h2>Цели / Дорожная карта</h2>
-      <div class="roadmap" id="roadmap-list">
-        <div>• Интеграция быстрой настройки и тюнера из консоли</div>
-        <div>• Темы и пресеты для Ryazhенkhand</div>
-        <div>• Улучшенная совместимость sys-clk и профилей энергопотребления</div>
-        <div>• GUI для управления плагинами и обновлениями</div>
-      </div>
-      <div style="margin-top:.5rem;" class="muted">Можно автоматически подтянуть задачи с меткой <code>roadmap</code>.</div>
-    </section>
-
-    <section class="panel" id="faq">
-      <h2>FAQ / Частые вопросы</h2>
-      <div class="faq">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Стена экипажа</h2>
         <div>
-          <h4>Поддерживается ли A/B NAND?</h4>
-          <p class="muted">Да — используйте Hekate для управления бэкапами и профилями. Ryazhenka не трогает ваши персональные данные.</p>
-        </div>
-        <div>
-          <h4>Какая сборка мне нужна?</h4>
-          <p class="muted">AIO — полная; Lite — минимальная; BestCFW — оптимизированная для стабильности. Смотрите релизы для деталей.</p>
-        </div>
-        <div>
-          <h4>Как сообщить об ошибке?</h4>
-          <p class="muted">Откройте issue в репозитории или опишите проблему в Discussions с логами.</p>
+          <button class="btn" id="addManualCrewBtn">Добавить участника</button>
         </div>
       </div>
+
+      <div class="crew-grid" id="crew-grid" style="margin-top:.75rem"></div>
     </section>
 
-    <!-- Installation -->
-    <section class="panel" id="install">
-      <h2>Установка</h2>
-      <ol>
-        <li>Скачайте последний релиз из раздела <a href="#changelog">История изменений</a>.</li>
-        <li>Распакуйте содержимое на карту microSD, сохраните существующие бэкапы.</li>
-        <li>Запустите через Hekate или ваш метод загрузки.</li>
-        <li>Откройте Tesla Menu, настройте плагины и оверлеи.</li>
-      </ol>
-      <div class="cta"><a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Полная документация / Wiki</a></div>
+    <!-- To-Do -->
+    <section class="panel" id="todo">
+      <h2 style="margin:0">To‑Do (локально)</h2>
+
+      <div class="todo" style="margin-top:.75rem">
+        <div>
+          <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
+            <input id="todoInput" placeholder="Название задачи" class="search" aria-label="Новая задача" />
+            <select id="todoPriority" class="select" aria-label="Приоритет">
+              <option value="normal">Normal</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+            <input id="todoDue" type="date" aria-label="Дата выполнения" />
+            <button class="btn primary" id="todoAdd">Добавить</button>
+          </div>
+
+          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+            <input id="todoFilter" placeholder="Фильтр" class="search" />
+            <select id="todoSort" class="select">
+              <option value="new">Новые сначала</option>
+              <option value="old">Старые сначала</option>
+              <option value="prio">По приоритету</option>
+              <option value="due">По дате</option>
+            </select>
+            <button class="btn" id="exportTodos">Экспорт</button>
+            <input id="importFile" type="file" accept="application/json" style="display:none" />
+            <button class="btn" id="importTodosBtn">Импорт</button>
+          </div>
+
+          <ul id="todoList" class="todo-list" aria-live="polite"></ul>
+        </div>
+
+        <div style="padding:.5rem;border-left:1px solid rgba(255,255,255,0.03);min-width:220px">
+          <h4 style="margin-top:0">Управление</h4>
+          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
+            <button class="btn" id="clearCompleted">Удалить выполненные</button>
+            <button class="btn" id="clearAll">Удалить все</button>
+            <button class="btn" id="bulkComplete">Отметить всё выполненным</button>
+            <div class="muted" style="font-size:.9rem">Данные сохраняются в браузере (localStorage).</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="panel" id="install" style="margin-top:1rem">
+      <h2 style="margin:0">Установка</h2>
+      <div class="muted" style="margin-top:.5rem">Скачайте релиз и распакуйте на microSD.</div>
     </section>
 
   </main>
@@ -245,297 +261,395 @@
       <div class="muted">© Ryazhenka — crew.ecosystem</div>
       <div style="display:flex;gap:.5rem;align-items:center">
         <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
-        <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
         <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">Source</a>
       </div>
     </div>
   </footer>
 
-  <!-- Comments: Utterances + local fallback -->
-  <section class="panel" id="comments" style="margin:1rem">
-    <h2>Комментарии</h2>
-    <div id="utterances-container"></div>
-    <div id="local-comments" style="margin-top:.5rem">
-      <div class="muted">Локальные комментарии (когда внешние сервисы недоступны). Имя и текст сохраняются в localStorage.</div>
-      <div style="margin-top:.5rem;display:grid;grid-template-columns:1fr 120px;gap:.5rem;align-items:start">
-        <input id="localCommentName" placeholder="Имя (необязательно)" class="search" />
-        <button id="localCommentsLoad" class="btn">Показать</button>
-        <textarea id="localCommentText" rows="4" style="width:100%;padding:.5rem;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit" placeholder="Ваш комментарий"></textarea>
-        <div style="display:flex;gap:.5rem;justify-content:flex-end"><button id="localCommentSubmit" class="btn primary">Отправить</button></div>
-      </div>
-      <div id="localCommentsList" style="margin-top:.75rem"></div>
-    </div>
-  </section>
-
-  <!-- Modal placeholder -->
-  <div id="modal" style="display:none"></div>
+  <!-- Modal container -->
+  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:999;padding:1rem"></div>
 
   <script>
-    // Настройки репозитория
+    // ----- Settings & utilities -----
     const owner = 'Dimasick-git';
     const repo = 'Ryzhenka';
-    const apiBase = `https://api.github.com/repos/${owner}/${repo}`;
-    const releasesApi = `${apiBase}/releases?per_page=100`;
-    const contributorsApi = `${apiBase}/contributors?per_page=100`;
+    const releasesApi = `https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`;
+    const contributorsApi = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
+    const doc = document.documentElement;
+
+    function applySettings(){
+      const theme = localStorage.getItem('rz_theme') || 'glow';
+      const bg = localStorage.getItem('rz_bg') || 'dark';
+      const text = localStorage.getItem('rz_text') || 'default';
+      doc.dataset.theme = theme;
+      doc.dataset.bg = bg;
+      doc.dataset.text = text;
+      document.getElementById('themePicker').value = theme;
+      document.getElementById('bgMode').value = bg;
+      document.getElementById('textMode').value = text;
+    }
+    document.getElementById('themePicker').addEventListener('change', e => { localStorage.setItem('rz_theme', e.target.value); applySettings(); });
+    document.getElementById('bgMode').addEventListener('change', e => { localStorage.setItem('rz_bg', e.target.value); applySettings(); });
+    document.getElementById('textMode').addEventListener('change', e => { localStorage.setItem('rz_text', e.target.value); applySettings(); });
+    applySettings();
+
+    function fmtDate(iso){ if(!iso) return ''; try{ return new Date(iso).toLocaleDateString(); }catch(e){ return iso } }
+    function bbootLogoUrl(version){ return `https://github.com/${owner}/${repo}/releases/download/${encodeURIComponent(version)}/bbootlogo.png`; }
+
+    // ----- Releases -----
+    let releases = [];
     const listEl = document.getElementById('releases-list');
-    const crewGrid = document.getElementById('crew-grid');
     const galleryGrid = document.getElementById('galleryGrid');
 
-    // Extra upstream repositories to include (owner/repo)
-    // You can edit this list to add other components: atmosphere, hekate, tesla menu, sys-clk projects
-    const extraRepos = [
-      'Dimasick-git/Ryzhenka',
-      'Atmosphere-NX/Atmosphere',
-      'CTCaer/hekate',
-      // add other repos you want to include, example: 'someowner/somerepo'
-    ];
-
-    // Manual crew overrides / роли (можно редактировать)
-    const manualCrew = [
-      { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель Ryazhenka — координатор и lead developer 🚀' },
-      { login: 'Ryazhenka-Helper-1', name: 'Helper 1', role: 'Создатель модулей и интеграций (sys-clk, плагины)' },
-      { login: 'Ryazhenka-Helper-01', name: 'Helper 01', role: 'Главный помощник, видео/YouTube и тестирование прошивки' },
-      { login: 'Ryazhenka-Helper-2', name: 'Helper 2', role: 'Инфраструктура и CI' }
-    ];
-
-    // Theme picker persistence
-    const themePicker = document.getElementById('themePicker');
-    const doc = document.documentElement;
-    function applyTheme(theme){ doc.dataset.theme = theme; localStorage.setItem('rz_theme', theme); }
-    (function initTheme(){ const stored = localStorage.getItem('rz_theme') || doc.dataset.theme || 'glow'; applyTheme(stored); if(themePicker) themePicker.value = stored; })();
-    themePicker?.addEventListener('change', ()=> applyTheme(themePicker.value));
-
-    function fmtDate(iso) { if(!iso) return ''; try{ const d = new Date(iso); return d.toLocaleDateString('ru-RU', { year: 'numeric', month: 'short', day: 'numeric' }); }catch(e){ return iso; } }
-    function bbootLogoUrl(version, ownerRepo) { const safe = encodeURIComponent(version||''); const repoPath = ownerRepo ? ownerRepo : `${owner}/${repo}`; return `https://github.com/${repoPath}/releases/download/${safe}/bbootlogo.png`; }
-    function tagUrl(version, ownerRepo) { const safe = encodeURIComponent(version||''); const repoPath = ownerRepo ? ownerRepo : `${owner}/${repo}`; return `https://github.com/${repoPath}/releases/tag/${safe}`; }
-
-    function mkCard(r){
+    function makeReleaseCard(r){
       const card = document.createElement('article');
       card.className = 'release-card';
       const ver = r.tag_name || r.name || '';
       const img = document.createElement('img');
       img.alt = `Лого ${ver}`;
       img.loading = 'lazy';
-      const basset = (r.assets || []).find(a => /bbootlogo/i.test(a.name));
-      img.src = basset ? basset.browser_download_url : (r.assets && r.assets[0] && r.assets[0].browser_download_url) || bbootLogoUrl(ver, r._repo);
+      const basset = (r.assets||[]).find(a => /bbootlogo/i.test(a.name));
+      img.src = basset ? basset.browser_download_url : (r.assets && r.assets[0] && r.assets[0].browser_download_url) || bbootLogoUrl(ver);
       card.appendChild(img);
 
-      const h3 = document.createElement('h3'); h3.textContent = r.name || ver; card.appendChild(h3);
+      const h3 = document.createElement('h3');
+      h3.textContent = r.name || ver;
+      card.appendChild(h3);
 
       const meta = document.createElement('div'); meta.className = 'meta';
       const date = document.createElement('span'); date.textContent = fmtDate(r.published_at || r.created_at);
-      const vspan = document.createElement('span'); vspan.textContent = `${r._repo || (owner + '/' + repo)} • ${ver}`;
-      meta.append(date, vspan); card.appendChild(meta);
+      const vspan = document.createElement('span'); vspan.textContent = ver;
+      meta.appendChild(date); meta.appendChild(vspan);
+      card.appendChild(meta);
 
-      if (r.body){ const p = document.createElement('p'); p.textContent = r.body.length > 300 ? r.body.slice(0,300)+'…' : r.body; card.appendChild(p); }
-
-      const assetsWrap = document.createElement('div'); assetsWrap.className='assets';
-      const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
-      titles.forEach(t => {
-        const asset = (r.assets || []).find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
-        const row = document.createElement('div'); row.className='asset';
-        if(asset){
-          const a = document.createElement('a'); a.href = asset.browser_download_url; a.target='_blank'; a.textContent = `${t} — ${asset.name}`; row.appendChild(a);
-          const size = document.createElement('small'); size.className='muted'; size.style.marginLeft='auto'; size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : ''; row.appendChild(size);
-        } else { const span = document.createElement('span'); span.className='muted'; span.textContent = `${t} — отсутствует`; row.appendChild(span); }
-        assetsWrap.appendChild(row);
-      });
-
-      if((r.assets||[]).length>0){
-        const more = document.createElement('details'); more.style.marginTop='0.5rem';
-        const summary = document.createElement('summary'); summary.textContent = `Все файлы (${r.assets.length})`;
-        more.appendChild(summary);
-        const list = document.createElement('div');
-        (r.assets||[]).forEach(a=>{
-          const line = document.createElement('div'); line.className='asset';
-          const link = document.createElement('a'); link.href=a.browser_download_url; link.target='_blank'; link.textContent=a.name; line.appendChild(link);
-          const small = document.createElement('small'); small.className='muted'; small.style.marginLeft='auto'; small.textContent = a.size?`${(a.size/1024/1024).toFixed(2)} MB`:''; line.appendChild(small);
-          list.appendChild(line);
-        });
-        more.appendChild(list); assetsWrap.appendChild(more);
+      if(r.body){
+        const p = document.createElement('p'); p.textContent = r.body.length > 240 ? r.body.slice(0,240) + '…' : r.body;
+        card.appendChild(p);
       }
 
-      card.appendChild(assetsWrap);
-
-      const btnWrap = document.createElement('div'); btnWrap.style.display='flex'; btnWrap.style.gap='.5rem'; btnWrap.style.marginTop='.5rem';
-      const openRel = document.createElement('a'); openRel.className='btn'; openRel.href=tagUrl(ver,r._repo); openRel.target='_blank'; openRel.textContent='Открыть релиз'; btnWrap.appendChild(openRel);
-      if(r.html_url){ const openGH = document.createElement('a'); openGH.className='btn'; openGH.href=r.html_url; openGH.target='_blank'; openGH.textContent='GitHub'; btnWrap.appendChild(openGH); }
+      const btnWrap = document.createElement('div'); btnWrap.style.display='flex'; btnWrap.style.gap='.5rem';
+      if(r.html_url){ const a = document.createElement('a'); a.className='btn'; a.href = r.html_url; a.target='_blank'; a.textContent='Открыть'; btnWrap.appendChild(a); }
       card.appendChild(btnWrap);
       return card;
     }
 
-    // state
-    let releasesData = [];
-    let contributorsCache = [];
-
-    async function fetchReleasesFor(repoFull){
-      const api = `https://api.github.com/repos/${repoFull}/releases?per_page=100`;
-      const res = await fetch(api);
-      if(!res.ok) throw new Error(`Ошибка загрузки ${repoFull}`);
-      const data = await res.json();
-      return data.map(r => ({...r, _repo: repoFull}));
-    }
-
     async function loadReleases(){
+      document.getElementById('fetchStatus').textContent = 'загрузка';
+      listEl.innerHTML = '';
+      galleryGrid.innerHTML = '';
+      releases = [];
       try{
-        listEl.innerHTML = '<p class="muted">Загрузка релизов…</p>';
-        document.getElementById('fetchStatus').textContent = 'загрузка';
-
-        // Try cache
-        const cacheKey = 'rz_multi_cache_v1';
-        try{ const raw = localStorage.getItem(cacheKey); if(raw){ const parsed = JSON.parse(raw); if(Date.now() - parsed.ts < 1000*60*5 && parsed.data){ releasesData = parsed.data; renderReleases(); renderGallery(); renderStats(); document.getElementById('fetchStatus').textContent='ok'; return; } } }catch(e){}
-
-        // Fetch from all repos in parallel
-        const jobs = extraRepos.map(r => fetchReleasesFor(r).catch(e=>{ console.warn(e); return []; }));
-        const results = await Promise.all(jobs);
-        releasesData = results.flat();
-        // annotate missing created/published
-        releasesData.forEach(r=>{ r._timestamp = new Date(r.published_at || r.created_at || 0).getTime(); });
-        // store
-        try{ localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: releasesData })); }catch(e){}
-
-        renderReleases(); renderGallery(); renderStats();
-        populateRepoFilter();
-        document.getElementById('fetchStatus').textContent='ok';
-      }catch(e){ listEl.innerHTML = '<p class="muted">Не удалось загрузить релизы. Попробуйте позже.</p>'; console.error(e); document.getElementById('fetchStatus').textContent='error'; }
-    }
-
-    function populateRepoFilter(){
-      const sel = document.getElementById('filterRepo'); sel.innerHTML = '<option value="all">Все репозитории</option>';
-      const repos = Array.from(new Set((releasesData||[]).map(r=>r._repo))).sort();
-      repos.forEach(r=>{ const o = document.createElement('option'); o.value=r; o.textContent=r; sel.appendChild(o); });
-    }
-
-    function matchesFilter(r,q,repo,type){
-      const ver = (r.tag_name || r.name || '').toLowerCase();
-      const title = (r.name || '').toLowerCase();
-      const body = (r.body || '').toLowerCase();
-      const combined = [ver,title,body,(r._repo||'').toLowerCase()].join(' ');
-      const qOk = !q || combined.includes(q.toLowerCase());
-      let repoOk = !repo || repo==='all' || (r._repo === repo);
-      let typeOk = true;
-      if(type && type !== 'all') typeOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
-      return qOk && repoOk && typeOk;
+        const res = await fetch(releasesApi);
+        if(!res.ok) throw new Error('fetch releases failed');
+        const data = await res.json();
+        releases = (Array.isArray(data) ? data : []).sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
+      }catch(e){
+        console.warn('releases error', e);
+        // keep releases empty
+      }
+      renderReleases();
+      renderGallery();
+      computeStats();
+      document.getElementById('fetchStatus').textContent = 'ok';
     }
 
     function renderReleases(){
       const q = (document.getElementById('searchReleases')||{}).value || '';
-      const repoFilter = (document.getElementById('filterRepo')||{}).value || 'all';
       const type = (document.getElementById('filterType')||{}).value || 'all';
       const sortBy = (document.getElementById('sortBy')||{}).value || 'date_desc';
-      listEl.innerHTML = '';
-      let filtered = releasesData.filter(r => matchesFilter(r,q,repoFilter,type));
-      // sort
-      if(sortBy === 'date_desc') filtered.sort((a,b)=> (b._timestamp||0) - (a._timestamp||0));
-      if(sortBy === 'date_asc') filtered.sort((a,b)=> (a._timestamp||0) - (b._timestamp||0));
+      let filtered = releases.filter(r=>{
+        const combined = [(r.tag_name||''),(r.name||''),(r.body||'')].join(' ').toLowerCase();
+        const qOk = !q || combined.includes(q.toLowerCase());
+        let typeOk = true;
+        if(type !== 'all') typeOk = (r.assets||[]).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
+        return qOk && typeOk;
+      });
+      if(sortBy === 'date_desc') filtered.sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
+      if(sortBy === 'date_asc') filtered.sort((a,b)=> new Date(a.published_at||a.created_at) - new Date(b.published_at||b.created_at));
       if(sortBy === 'downloads_desc') filtered.sort((a,b)=>{
-        const sa = (a.assets||[]).reduce((s,x)=> s + (x.download_count||0),0);
-        const sb = (b.assets||[]).reduce((s,x)=> s + (x.download_count||0),0);
+        const sa = (a.assets||[]).reduce((s,x)=> s + (x.download_count||0), 0);
+        const sb = (b.assets||[]).reduce((s,x)=> s + (x.download_count||0), 0);
         return sb - sa;
       });
 
       document.getElementById('releasesCount').textContent = filtered.length;
-      if(filtered.length === 0){ listEl.innerHTML = '<p class="muted">Релизов не найдено по фильтру.</p>'; return; }
-      filtered.forEach(r => listEl.appendChild(mkCard(r)));
+      listEl.innerHTML = '';
+      // per user request: minimal extra text, don't show "no results" explanation, but keep count/status
+      filtered.forEach(r => listEl.appendChild(makeReleaseCard(r)));
     }
 
-    // Gallery rendering with modal navigation
-    let galleryItems = [];
     function renderGallery(){
       galleryGrid.innerHTML = '';
-      galleryItems = [];
-      releasesData.forEach(r => {
+      releases.forEach(r=>{
         const ver = r.tag_name || r.name || '';
         const assets = r.assets || [];
-        let chosen = null;
-        for(const a of assets){ if(/\.(gif|webp|png|jpe?g)$/i.test(a.name||'')) { chosen = a; break; } }
-        const src = chosen ? chosen.browser_download_url : ( (assets[0] && assets[0].browser_download_url) || bbootLogoUrl(ver, r._repo) );
-        const img = document.createElement('img'); img.src = src; img.alt = `${ver}`; img.loading='lazy'; img.dataset.rel = r.html_url || tagUrl(ver, r._repo);
-        img.addEventListener('click', ()=> openModalGallery(src, r));
+        const chosen = assets.find(a=>/\.(gif|webp|png|jpe?g)$/i.test(a.name||'')) || assets[0];
+        const src = chosen ? chosen.browser_download_url : bbootLogoUrl(ver);
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = ver;
+        img.loading = 'lazy';
         galleryGrid.appendChild(img);
-        galleryItems.push({src, r});
       });
     }
 
-    // Modal gallery with navigation
-    function openModalGallery(src, r){
-      const modal = document.getElementById('modal'); modal.innerHTML=''; modal.style.display='flex';
-      const inner = document.createElement('div'); inner.className='inner';
-      const img = document.createElement('img'); img.src = src; inner.appendChild(img);
-      const caption = document.createElement('div'); caption.className='caption';
-      const left = document.createElement('div'); left.innerHTML = `<strong>${r.name || r.tag_name}</strong><div class="muted">${fmtDate(r.published_at||r.created_at)} • ${r._repo}</div>`;
-      const right = document.createElement('div'); const a = document.createElement('a'); a.href = r.html_url || tagUrl(r.tag_name||r.name, r._repo); a.target='_blank'; a.className='btn'; a.textContent='Открыть релиз'; right.appendChild(a);
-      caption.append(left,right); inner.appendChild(caption);
-      modal.appendChild(inner);
-
-      modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.style.display='none'; });
+    function computeStats(){
+      let total = 0;
+      let ownerTotal = 0;
+      releases.forEach(r => (r.assets||[]).forEach(a => { if(typeof a.download_count === 'number'){ total += a.download_count; } }));
+      const sb = document.getElementById('statsBlock');
+      sb.innerHTML = `⬇️ Всего загрузок (публично): <strong>${total}</strong>`;
     }
 
-    // Crew loading
+    document.getElementById('searchReleases').addEventListener('input', renderReleases);
+    document.getElementById('filterType').addEventListener('change', renderReleases);
+    document.getElementById('sortBy').addEventListener('change', renderReleases);
+
+    // ----- Crew: manual + contributors fallback -----
+    const manualCrew = [
+      { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель — координатор' },
+      { login: 'Ryazhenka-Helper-1', name: 'Ryazhenka-Helper-1', role: 'Создатель модулей' },
+      { login: 'Ryazhenka-Helper-01', name: 'Ryazhenka-Helper-01', role: 'Помощник (видео, тесты)' }
+    ];
+    const crewGrid = document.getElementById('crew-grid');
+
+    function makeCrewCard(p){
+      const card = document.createElement('div'); card.className = 'crew-card';
+      const img = document.createElement('img'); img.src = p.avatar || `https://github.com/${p.login}.png`; img.alt = p.login; card.appendChild(img);
+      const info = document.createElement('div');
+      const name = document.createElement('div'); const link = document.createElement('a'); link.href = `https://github.com/${p.login}`; link.target='_blank'; link.textContent = p.login; link.style.fontWeight = '700'; name.appendChild(link);
+      if(p.name && p.name !== p.login) name.appendChild(document.createTextNode(' — ' + p.name));
+      info.appendChild(name);
+      if(p.role){ const role = document.createElement('div'); role.className='muted'; role.textContent = p.role; info.appendChild(role); }
+      const contrib = document.createElement('div'); contrib.className='muted'; contrib.textContent = `Commits: ${p.contributions || 0}`; info.appendChild(contrib);
+      card.appendChild(info);
+      return card;
+    }
+
     async function loadCrew(){
+      crewGrid.innerHTML = '';
+      // show manual first
+      manualCrew.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
+      // try to fetch contributors and add new ones
       try{
-        crewGrid.innerHTML = '<p class="muted">Загрузка участников…</p>';
         const res = await fetch(contributorsApi);
-        if(!res.ok) throw new Error('Ошибка загрузки участников');
-        const contributors = await res.json();
-        contributorsCache = contributors;
-        const manualMap = new Map(manualCrew.map(m => [m.login.toLowerCase(), m]));
-        const people = contributors.map(c => { const login = c.login; const mm = manualMap.get(login.toLowerCase()); return { login, avatar: c.avatar_url, contributions: c.contributions, role: mm ? mm.role : '' }; });
-        manualCrew.forEach(m => { if(!people.find(p=>p.login.toLowerCase()===m.login.toLowerCase())) { people.unshift({ login: m.login, avatar: `https://github.com/${m.login}.png`, contributions: 0, role: m.role || '' }); } });
-        crewGrid.innerHTML = '';
-        people.forEach(p => {
-          const card = document.createElement('div'); card.className='crew-card';
-          const img = document.createElement('img'); img.src=p.avatar; img.alt=p.login; card.appendChild(img);
-          const info = document.createElement('div'); info.style.flex='1';
-          const name = document.createElement('div'); const link = document.createElement('a'); link.href=`https://github.com/${p.login}`; link.target='_blank'; link.textContent=p.login; link.style.fontWeight='700'; name.appendChild(link);
-          if(p.name) name.appendChild(document.createTextNode(' — ' + p.name));
-          info.appendChild(name);
-          if(p.role){ const role = document.createElement('div'); role.className='muted'; role.textContent=p.role; role.style.fontSize='.95rem'; info.appendChild(role); }
-          const contrib = document.createElement('div'); contrib.className='muted'; contrib.style.fontSize='.85rem'; contrib.textContent=`Commits: ${p.contributions||0}`; info.appendChild(contrib);
-          card.appendChild(info); crewGrid.appendChild(card);
-        });
-      }catch(e){ crewGrid.innerHTML = '<p class="muted">Не удалось загрузить участников.</p>'; console.error(e); }
+        if(!res.ok) throw new Error('contributors fetch failed');
+        const list = await res.json();
+        const manualSet = new Set(manualCrew.map(x => x.login.toLowerCase()));
+        list.forEach(c => { if(!manualSet.has(c.login.toLowerCase())) crewGrid.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
+      }catch(e){
+        // fail silently — manualCrew remains
+        console.warn('contributors error', e);
+      }
     }
 
-    // Local comments: store as array of {name,txt,ts}
-    function loadLocalComments(){
-      const k = 'rz_local_comments_v2';
-      try{ const cur = JSON.parse(localStorage.getItem(k) || '[]'); const list = document.getElementById('localCommentsList'); list.innerHTML=''; if(!cur.length){ list.innerHTML='<div class="muted">Комментариев пока нет.</div>'; return; }
-        cur.forEach(c=>{ const d = document.createElement('div'); d.style.padding='.5rem'; d.style.border='1px solid rgba(255,255,255,0.03)'; d.style.borderRadius='8px'; d.style.marginBottom='.5rem'; d.innerHTML = `<div style="font-weight:700">${escapeHtml(c.name||'Аноним')}</div><div class="muted" style="font-size:.85rem">${new Date(c.ts).toLocaleString()}</div><div style="margin-top:.5rem">${escapeHtml(c.txt)}</div>`; list.appendChild(d); });
-      }catch(e){ console.warn(e); }
-    }
-    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    document.getElementById('localCommentSubmit')?.addEventListener('click', ()=>{
-      const name = (document.getElementById('localCommentName')||{}).value || '';
-      const txt = (document.getElementById('localCommentText')||{}).value || '';
-      if(!txt.trim()) return alert('Введите текст комментария');
-      const k='rz_local_comments_v2';
-      try{ const cur = JSON.parse(localStorage.getItem(k) || '[]'); cur.unshift({ name, txt, ts: Date.now() }); localStorage.setItem(k, JSON.stringify(cur)); (document.getElementById('localCommentText')||{}).value = ''; loadLocalComments(); alert('Комментарий сохранён локально'); }catch(e){ console.error(e); alert('Ошибка сохранения комментария'); }
+    // UI to add manual crew entry (stored in localStorage so user can edit UI without editing file)
+    document.getElementById('addManualCrewBtn').addEventListener('click', () => {
+      openModal(`
+        <div style="max-width:560px;background:var(--card-bg);padding:12px;border-radius:8px">
+          <h3>Добавить участника</h3>
+          <div style="display:grid;gap:.5rem">
+            <input id="mc_login" placeholder="login (github)" />
+            <input id="mc_name" placeholder="имя (опционально)" />
+            <input id="mc_role" placeholder="роль (например: тестирование)" />
+            <div style="display:flex;gap:.5rem;justify-content:flex-end">
+              <button id="mc_cancel" class="btn">Отмена</button>
+              <button id="mc_save" class="btn primary">Сохранить</button>
+            </div>
+          </div>
+        </div>
+      `);
+      document.getElementById('mc_cancel').addEventListener('click', closeModal);
+      document.getElementById('mc_save').addEventListener('click', () => {
+        const login = document.getElementById('mc_login').value.trim();
+        const name = document.getElementById('mc_name').value.trim();
+        const role = document.getElementById('mc_role').value.trim();
+        if(!login) { alert('Введите login'); return; }
+        const saved = JSON.parse(localStorage.getItem('rz_manual_crew') || '[]');
+        saved.unshift({ login, name: name || login, role });
+        localStorage.setItem('rz_manual_crew', JSON.stringify(saved));
+        closeModal();
+        refreshCrewFromStorage();
+      });
     });
-    document.getElementById('localCommentsLoad')?.addEventListener('click', ()=> loadLocalComments());
 
-    // --- Utterances loader ---
-    function loadUtterances(){
-      const container = document.getElementById('utterances-container'); if(!container) return;
-      const s = document.createElement('script'); s.src = 'https://utteranc.es/client.js'; s.async=true; s.setAttribute('repo','Dimasick-git/Ryzhenka'); s.setAttribute('issue-term','pathname'); s.setAttribute('theme','github-light'); s.crossOrigin='anonymous'; s.onerror = ()=>{ document.getElementById('local-comments').style.display='block'; };
-      container.appendChild(s);
+    function refreshCrewFromStorage(){
+      const stored = JSON.parse(localStorage.getItem('rz_manual_crew') || '[]');
+      // rebuild crewGrid with stored manual entries first, then default manualCrew, then contributors
+      crewGrid.innerHTML = '';
+      stored.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
+      manualCrew.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
+      // contributors appended asynchronously by loadCrew (we will call it)
+      fetch(contributorsApi).then(r=> r.ok? r.json(): []).then(list=>{
+        const seen = new Set([...(stored||[]).map(x=>x.login.toLowerCase()), ...manualCrew.map(x=>x.login.toLowerCase())]);
+        list.forEach(c => { if(!seen.has(c.login.toLowerCase())) crewGrid.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
+      }).catch(()=>{});
     }
 
-    // --- tokenless stats ---
-    function renderStats(){
-      try{
-        const el = document.getElementById('statsBlock'); if(!el) return; let total=0; let ownerTotal=0; (releasesData||[]).forEach(r=>{ (r.assets||[]).forEach(a=>{ if(typeof a.download_count === 'number'){ total += a.download_count; if((r._repo||'').toLowerCase().includes(owner.toLowerCase())) ownerTotal += a.download_count; } }); }); el.innerHTML = `⬇️ Всего загрузок (публично доступно): <strong>${total}</strong> • Ваши (прибл.): <strong>${ownerTotal}</strong>`; }catch(e){ console.warn(e); }
+    // ----- Modal helpers -----
+    const modalContainer = document.getElementById('modal');
+    function openModal(html){
+      modalContainer.innerHTML = '';
+      modalContainer.style.display = 'flex';
+      const wrapper = document.createElement('div');
+      wrapper.style.maxWidth = '900px';
+      wrapper.style.width = '100%';
+      wrapper.style.borderRadius = '10px';
+      wrapper.innerHTML = html;
+      modalContainer.appendChild(wrapper);
+      modalContainer.addEventListener('click', modalClickHandler);
+    }
+    function closeModal(){ modalContainer.style.display = 'none'; modalContainer.innerHTML = ''; modalContainer.removeEventListener('click', modalClickHandler); }
+    function modalClickHandler(e){ if(e.target === modalContainer) closeModal(); }
+
+    // ----- ToDo app (advanced) -----
+    const todoKey = 'rz_todos_v2';
+    let todos = [];
+
+    function loadTodos(){
+      try{ todos = JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ todos = []; }
+      renderTodos();
+    }
+    function saveTodos(){ localStorage.setItem(todoKey, JSON.stringify(todos)); renderTodos(); }
+    function uid(){ return 'id_'+Math.random().toString(36).slice(2,9); }
+
+    function renderTodos(){
+      const ul = document.getElementById('todoList'); ul.innerHTML = '';
+      const filter = (document.getElementById('todoFilter')||{}).value || '';
+      const sortBy = (document.getElementById('todoSort')||{}).value || 'new';
+      let list = todos.slice();
+      if(filter) list = list.filter(t => (t.text + ' ' + (t.tags||'')).toLowerCase().includes(filter.toLowerCase()));
+      if(sortBy === 'new') list.sort((a,b)=> b.ts - a.ts);
+      if(sortBy === 'old') list.sort((a,b)=> a.ts - b.ts);
+      if(sortBy === 'prio') {
+        const map = { high: 2, normal: 1, low: 0 };
+        list.sort((a,b)=> (map[b.priority]||0) - (map[a.priority]||0));
+      }
+      if(sortBy === 'due'){
+        list.sort((a,b)=> (a.due? new Date(a.due).getTime(): Infinity) - (b.due? new Date(b.due).getTime(): Infinity));
+      }
+
+      list.forEach((t,i)=>{
+        const li = document.createElement('li'); li.className = 'todo-item' + (t.done? ' completed':'');
+        const chk = document.createElement('input'); chk.type='checkbox'; chk.checked = !!t.done; chk.addEventListener('change', ()=>{ t.done = chk.checked; saveTodos(); });
+        const main = document.createElement('div'); main.style.flex='1';
+        const title = document.createElement('div'); title.textContent = t.text; title.style.fontWeight = '600';
+        const meta = document.createElement('div'); meta.className = 'meta';
+        const parts = [];
+        if(t.priority) parts.push(`<span class="tag">${t.priority}</span>`);
+        if(t.due) parts.push(`<span class="muted">${t.due}</span>`);
+        if(t.tags && t.tags.length) parts.push(`<span class="muted">${t.tags.join(', ')}</span>`);
+        meta.innerHTML = parts.join(' ');
+        main.appendChild(title); main.appendChild(meta);
+
+        const btns = document.createElement('div'); btns.style.display='flex'; btns.style.gap='.4rem';
+        const edit = document.createElement('button'); edit.className = 'btn'; edit.textContent = '✎'; edit.title='Редактировать'; edit.addEventListener('click', ()=> editTodo(t.id));
+        const del = document.createElement('button'); del.className = 'btn'; del.textContent = '✕'; del.title='Удалить'; del.addEventListener('click', ()=> { todos = todos.filter(x => x.id !== t.id); saveTodos(); });
+        btns.appendChild(edit); btns.appendChild(del);
+
+        li.appendChild(chk); li.appendChild(main); li.appendChild(btns);
+        ul.appendChild(li);
+      });
     }
 
-    // Init
-    (function init(){
-      document.getElementById('searchReleases')?.addEventListener('input', () => renderReleases());
-      document.getElementById('filterRepo')?.addEventListener('change', () => renderReleases());
-      document.getElementById('filterType')?.addEventListener('change', () => renderReleases());
-      document.getElementById('sortBy')?.addEventListener('change', () => renderReleases());
-      document.getElementById('refreshReleases')?.addEventListener('click', () => { localStorage.removeItem('rz_multi_cache_v1'); loadReleases(); });
-      loadReleases(); loadCrew(); loadUtterances(); renderStats(); loadLocalComments(); window.RZ = { loadReleases, loadCrew, manualCrew, extraRepos };
-    })();
+    function addTodoFromInput(){
+      const input = document.getElementById('todoInput');
+      const text = (input.value || '').trim();
+      if(!text) return;
+      const priority = document.getElementById('todoPriority').value || 'normal';
+      const due = document.getElementById('todoDue').value || '';
+      const newTodo = { id: uid(), text, priority, due: due || '', done: false, tags: [], ts: Date.now() };
+      todos.unshift(newTodo);
+      input.value = '';
+      document.getElementById('todoDue').value = '';
+      saveTodos();
+    }
+
+    function editTodo(id){
+      const t = todos.find(x=>x.id===id);
+      if(!t) return;
+      openModal(`
+        <div style="max-width:640px;background:var(--card-bg);padding:12px;border-radius:8px">
+          <h3>Редактировать задачу</h3>
+          <div style="display:grid;gap:.5rem">
+            <input id="edt_text" value="${escapeHtml(t.text)}" />
+            <select id="edt_prio">
+              <option value="high">High</option>
+              <option value="normal">Normal</option>
+              <option value="low">Low</option>
+            </select>
+            <input id="edt_due" type="date" value="${t.due || ''}" />
+            <input id="edt_tags" placeholder="теги через запятую" value="${(t.tags||[]).join(', ')}" />
+            <div style="display:flex;gap:.5rem;justify-content:flex-end">
+              <button id="edt_cancel" class="btn">Отмена</button>
+              <button id="edt_save" class="btn primary">Сохранить</button>
+            </div>
+          </div>
+        </div>
+      `);
+      document.getElementById('edt_prio').value = t.priority || 'normal';
+      document.getElementById('edt_cancel').addEventListener('click', closeModal);
+      document.getElementById('edt_save').addEventListener('click', ()=>{
+        t.text = document.getElementById('edt_text').value.trim() || t.text;
+        t.priority = document.getElementById('edt_prio').value;
+        t.due = document.getElementById('edt_due').value || '';
+        t.tags = (document.getElementById('edt_tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+        saveTodos();
+        closeModal();
+      });
+    }
+
+    // Export/Import
+    document.getElementById('exportTodos').addEventListener('click', ()=>{
+      const data = JSON.stringify(todos, null, 2);
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+    document.getElementById('importTodosBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
+    document.getElementById('importFile').addEventListener('change', (e)=>{
+      const f = e.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try{
+          const data = JSON.parse(ev.target.result);
+          if(Array.isArray(data)) {
+            // merge safely by id
+            const existingIds = new Set(todos.map(t=>t.id));
+            data.forEach(it => { if(!it.id) it.id = uid(); if(!existingIds.has(it.id)) todos.push(it); });
+            saveTodos();
+            alert('Импорт завершён');
+          } else alert('Неверный формат');
+        }catch(err){ alert('Ошибка импорта'); }
+      };
+      reader.readAsText(f);
+      e.target.value = '';
+    });
+
+    document.getElementById('todoAdd').addEventListener('click', addTodoFromInput);
+    document.getElementById('todoFilter').addEventListener('input', renderTodos);
+    document.getElementById('todoSort').addEventListener('change', renderTodos);
+    document.getElementById('clearCompleted').addEventListener('click', ()=> { todos = todos.filter(t=>!t.done); saveTodos(); });
+    document.getElementById('clearAll').addEventListener('click', ()=> { if(confirm('Удалить все задачи?')) { todos = []; saveTodos(); }});
+    document.getElementById('bulkComplete').addEventListener('click', ()=> { todos.forEach(t=>t.done = true); saveTodos(); });
+
+    // ----- Helpers -----
+    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    // ----- Init -----
+    document.getElementById('refreshAll').addEventListener('click', ()=> { loadReleases(); refreshCrewFromStorage(); loadTodos(); });
+    window.addEventListener('load', ()=> {
+      // merge manual crew from storage
+      const stored = JSON.parse(localStorage.getItem('rz_manual_crew') || '[]');
+      if(stored.length) {
+        // prepend stored entries to UI via refresh function
+        refreshCrewFromStorage();
+      } else {
+        loadCrew();
+      }
+      loadReleases();
+      loadTodos();
+    });
   </script>
 </body>
 </html>
