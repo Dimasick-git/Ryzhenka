@@ -159,6 +159,10 @@
             <li>Интеграция с Tesla Menu и Ryazhahand Overlay</li>
             <li>Режимы: AIO / Lite / BestCFW</li>
             <li>Roadmap и авто-импорт issues с меткой <code>roadmap</code></li>
+            <li>Integrity checker — проверка контрольных сумм перед установкой</li>
+            <li>Plugin marketplace — установка и обновление плагинов из UI</li>
+            <li>Auto-update notifier — оповещения о новых релизах и ночные сборки</li>
+            <li>One-click rollback — откат до предыдущей стабильной сборки</li>
           </ul>
         </div>
 
@@ -262,7 +266,7 @@
         </div>
         <div>
           <h4>Какая сборка мне нужна?</h4>
-          <p class="muted">AIO — полная; Lite — минимальная; BestCFW — оптимизированная для стабильности. Смотрите релизы для деталей.</p>
+          <p class="muted">Ryazhenka Lite — прошивка только для Nintendo Switch Lite (минимальная и оптимизированная для Lite). Ryazhenka BestCFW — основная сборка для всех остальных моделей (полная и стабильная). Ryazhenka AIO — модуль обновления (AIO) — используется для обновления Ryazhenka BestCFW и Ryazhenka Lite через консольные скрипты/модули.</p>
         </div>
         <div>
           <h4>Как сообщить об ошибке?</h4>
@@ -298,6 +302,45 @@
   </footer>
 
   <!-- Modal placeholder -->
+  <!-- Stats & Widgets -->
+  <div class="wrap" style="margin-top:1rem">
+    <section class="panel" id="site-widgets" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+      <div class="widget">
+        <h4 style="margin:0 0 .5rem 0">Статистика (GitHub)</h4>
+        <div id="statsGitHub">Загрузка…</div>
+        <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+          <button class="btn" id="refreshStats">Обновить</button>
+          <input id="ghToken" placeholder="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" style="padding:.4rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;min-width:220px" />
+          <button class="btn" id="saveToken">Сохранить токен локально</button>
+          <button class="btn" id="clearToken">Очистить токен</button>
+        </div>
+        <div class="muted" style="margin-top:.4rem;font-size:0.85rem">Примечание: для получения просмотров/traffic GitHub требуется Personal Access Token (хранится в localStorage только в вашем браузере).</div>
+      </div>
+
+      <div class="widget">
+        <h4 style="margin:0 0 .5rem 0">Boosty / Донаты</h4>
+        <div class="muted">Boosty: <a href="https://boosty.to/dimasick-git/donate" target="_blank">Страница донатов</a></div>
+        <div style="margin-top:.5rem" class="muted">Статистика донатов отображается как ссылка — для реального количества нужен API-ключ Boosty.</div>
+      </div>
+
+      <div class="widget">
+        <h4 style="margin:0 0 .5rem 0">Видео / Виджет</h4>
+        <div style="margin-bottom:.5rem">
+          <div id="ytSubscribe" style="margin-bottom:.5rem"><a class="btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">Подписаться на YouTube</a></div>
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;">
+            <iframe id="featuredVideo" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Featured video" style="position:absolute;left:0;top:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <h4 style="margin:0 0 .5rem 0">Виджеты</h4>
+        <div id="liveClock" style="font-weight:700;font-size:1.1rem;margin-bottom:.5rem">—</div>
+        <div class="muted">Небольшой набор виджетов: часы, статус репо, быстрые ссылки.</div>
+      </div>
+    </section>
+  </div>
+
   <div id="modal" style="display:none"></div>
 
   <script>
@@ -383,26 +426,33 @@
 
       const assetsWrap = document.createElement('div');
       assetsWrap.className = 'assets';
-      const titles = ['Ryazhenkabestcfw', 'Ryazhenka_AIO', 'Ryazhenka_lite'];
-      titles.forEach(t => {
-        const asset = (r.assets || []).find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
+      // Asset types with user-friendly labels and descriptions
+      const assetTypes = [
+        { key: 'Ryazhenkabestcfw', label: 'Ryazhenka BestCFW', desc: 'Основная сборка — подходит для всех моделей, кроме Switch Lite. Оптимизирована для стабильности и совместимости.' },
+        { key: 'Ryazhenka_AIO', label: 'Ryazhenka AIO (Updater)', desc: 'Модуль обновления из консоли — обновляет Ryazhenka BestCFW и Ryazhenka Lite через консольные скрипты.' },
+        { key: 'Ryazhenka_lite', label: 'Ryazhenka Lite', desc: 'Лёгкая прошивка, предназначенная только для Nintendo Switch Lite (ограниченные функции и размер).' }
+      ];
+      assetTypes.forEach(t => {
+        const asset = (r.assets || []).find(a => a.name && a.name.toLowerCase().includes(t.key.toLowerCase()));
         const row = document.createElement('div');
         row.className = 'asset';
         if (asset) {
           const a = document.createElement('a');
           a.href = asset.browser_download_url;
           a.target = '_blank';
-          a.textContent = `${t} — ${asset.name}`;
+          a.textContent = `${t.label} — ${asset.name}`;
           row.appendChild(a);
           const size = document.createElement('small');
           size.className = 'muted';
           size.style.marginLeft = 'auto';
           size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '';
           row.appendChild(size);
+          const d = document.createElement('div'); d.className='muted'; d.style.fontSize='0.85rem'; d.style.marginTop='0.25rem'; d.textContent = t.desc; row.appendChild(d);
         } else {
-          const span = document.createElement('span');
+          const span = document.createElement('div');
           span.className = 'muted';
-          span.textContent = `${t} — отсутствует`;
+          span.textContent = `${t.label} — отсутствует`;
+          const d = document.createElement('div'); d.className='muted'; d.style.fontSize='0.85rem'; d.style.marginTop='0.15rem'; d.textContent = t.desc; span.appendChild(d);
           row.appendChild(span);
         }
         assetsWrap.appendChild(row);
@@ -561,6 +611,71 @@
         });
       }catch(e){ listEl.innerHTML = '<p class="muted">Не удалось загрузить компоненты.</p>'; console.error(e); }
     }
+
+    // GitHub token helpers
+    function getGitHubToken(){ try{ return localStorage.getItem('rz_github_token') || ''; }catch(e){ return ''; } }
+
+    // Stats: GitHub repo stats, total downloads and traffic/views (requires token)
+    async function fetchStats(){
+      const el = document.getElementById('statsGitHub');
+      if(!el) return;
+      el.innerHTML = 'Загрузка…';
+      const token = getGitHubToken();
+      const headers = { 'Accept':'application/vnd.github.v3+json' };
+      if(token) headers['Authorization'] = 'token ' + token;
+      try{
+        const repoRes = await fetch(apiBase, { headers });
+        if(!repoRes.ok){
+          el.innerHTML = `<div class="muted">Не удалось получить данные репозитория: ${repoRes.status}</div>`;
+          return;
+        }
+        const repoJson = await repoRes.json();
+        const stars = repoJson.stargazers_count || 0;
+        const forks = repoJson.forks_count || 0;
+        const watchers = repoJson.watchers_count || repoJson.subscribers_count || 0;
+
+        // compute downloads from releases data (asset.download_count)
+        let totalDownloads = 0;
+        let rels = releasesData && releasesData.length ? releasesData : [];
+        if(!rels || rels.length === 0){
+          try{ const rr = await fetch(releasesApi, { headers }); if(rr.ok) rels = await rr.json(); }catch(e){}
+        }
+        (rels || []).forEach(r => { (r.assets||[]).forEach(a => { if (typeof a.download_count === 'number') totalDownloads += a.download_count; }); });
+
+        // Try to fetch traffic/views (requires token with repo access if repo is private; public repos may still need token)
+        let viewsInfo = null;
+        if(token){
+          try{
+            const trafficRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/traffic/views`, { headers });
+            if(trafficRes.ok){
+              const tv = await trafficRes.json(); // { count, uniques, views: [...] }
+              viewsInfo = tv;
+            } else if (trafficRes.status === 403 || trafficRes.status === 401) {
+              viewsInfo = { error: `Доступ запрещён (${trafficRes.status}). Проверьте токен/права.` };
+            } else if (trafficRes.status === 202) {
+              viewsInfo = { note: 'Traffic data собирается сервером GitHub (202). Попробуйте позже.' };
+            }
+          }catch(e){ console.warn('traffic fetch error', e); }
+        }
+
+        // Render
+        let html = `<div>Репозиторий: <a href="https://github.com/${owner}/${repo}" target="_blank">${owner}/${repo}</a></div>`;
+        html += `<div style="margin-top:.35rem">⭐ Stars: <strong>${stars}</strong> • 🍴 Forks: ${forks} • 👀 Watchers: ${watchers}</div>`;
+        html += `<div style="margin-top:.35rem">⬇️ Скачиваний (asset.download_count): <strong>${totalDownloads}</strong></div>`;
+        if(viewsInfo){
+          if(viewsInfo.error) html += `<div style="margin-top:.35rem" class="muted">Просмотры: ${viewsInfo.error}</div>`;
+          else if(viewsInfo.note) html += `<div style="margin-top:.35rem" class="muted">Просмотры: ${viewsInfo.note}</div>`;
+          else html += `<div style="margin-top:.35rem">👁‍🗨 Просмотры (за 14 дней): <strong>${viewsInfo.count}</strong> • уникальных: <strong>${viewsInfo.uniques}</strong></div>`;
+        } else {
+          html += `<div style="margin-top:.35rem" class="muted">Просмотры: требуются token для получения данных traffic (если хотите — вставьте Personal Access Token).</div>`;
+        }
+        html += `<div style="margin-top:.25rem" class="muted">Релизов учтено: ${rels.length}</div>`;
+        el.innerHTML = html;
+      }catch(e){ el.innerHTML = '<div class="muted">Не удалось загрузить статистику.</div>'; console.error(e); }
+    }
+
+    // Live clock widget
+    function updateClock(){ const el = document.getElementById('liveClock'); if(el) el.textContent = new Date().toLocaleString(); }
 
     function matchesFilter(r, q, type) {
       const ver = (r.tag_name || r.name || '').toLowerCase();
@@ -730,7 +845,16 @@
       document.getElementById('refreshComponents')?.addEventListener('click', ()=> renderComponents());
       // initial render components
       renderComponents();
-      window.RZ = { loadReleases, loadCrew, manualCrew, renderComponents };
+      // populate token input from localStorage
+      try{ const saved = localStorage.getItem('rz_github_token'); if(saved){ const t = document.getElementById('ghToken'); if(t) t.value = saved; } }catch(e){}
+      // wire stats/token UI
+      document.getElementById('refreshStats')?.addEventListener('click', ()=> fetchStats());
+      document.getElementById('saveToken')?.addEventListener('click', ()=>{ const v = (document.getElementById('ghToken')||{}).value || ''; if(v){ localStorage.setItem('rz_github_token', v); alert('Токен сохранён локально (в вашем браузере)'); } });
+      document.getElementById('clearToken')?.addEventListener('click', ()=>{ localStorage.removeItem('rz_github_token'); const t = document.getElementById('ghToken'); if(t) t.value=''; alert('Токен удалён из localStorage'); });
+      // start clock and fetch initial stats
+      updateClock(); setInterval(updateClock,1000);
+      fetchStats();
+      window.RZ = { loadReleases, loadCrew, manualCrew, renderComponents, fetchStats };
     })();
 
   </script>
