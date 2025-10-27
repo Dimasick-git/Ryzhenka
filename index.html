@@ -1,655 +1,912 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru" data-theme="glow" data-bg="dark" data-text="default">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ryazhenka — CFW</title>
-  <link rel="icon" href="./assets/Ryazhalogo.png" />
+  <title>Ryazhenka — generative-styled CFW</title>
+  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка. Midjourney-like UI, релизы, галерея, crew, темы, локальные комментарии и To-Do." />
   <style>
+    /* ----- Palette & layout (Midjourney-like aesthetic) ----- */
     :root{
       --bg-dark:#05060a;
-      --bg-light:#ffffff;
-      --panel-dark:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      --panel-light:linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+      --bg-light:#fbfbfd;
+      --glass: rgba(255,255,255,0.04);
+      --card: rgba(255,255,255,0.03);
+      --muted-dark:#9aa0a6;
+      --muted-light:#6b7280;
       --accent:#7c5cff;
-      --muted:#9aa0a6;
-      --card-bg: rgba(255,255,255,0.02);
-      --text-light:#e7eef6;
-      --text-dark:#0b1220;
-      --success:#3bd671;
-      --danger:#ff6b6b;
+      --accent-2:#39d6ff;
+      --radius:14px;
+      --maxw:1200px;
     }
+    /* themes */
+    html[data-theme="glow"]{ --accent:#7c5cff; --accent-2:#39d6ff; }
+    html[data-theme="cyber"]{ --accent:#00e6ff; --accent-2:#7c5cff; }
+    html[data-theme="matrix"]{ --accent:#4cff4c; --accent-2:#00e6ff; }
+    html[data-theme="classic"]{ --accent:#6ee7b7; --accent-2:#7c5cff; }
+    html[data-theme="sunset"]{ --accent:#ff9f7a; --accent-2:#ff5e9e; }
 
-    html[data-theme='glow']{ --accent:#7c5cff; }
-    html[data-theme='classic']{ --accent:#6ee7b7; }
-    html[data-theme='cyber']{ --accent:#00e6ff; }
-    html[data-theme='sunset']{ --accent:#ff9f7a; }
-    html[data-theme='matrix']{ --accent:#4cff4c; }
-
-    html[data-bg='dark']{ background: radial-gradient(1200px 400px at 10% 10%, rgba(124,92,255,0.06), transparent), var(--bg-dark); color: var(--text-light); --panel:var(--panel-dark); --card-bg: rgba(255,255,255,0.02); }
-    html[data-bg='light']{ background: var(--bg-light); color: var(--text-dark); --panel:var(--panel-light); --card-bg: rgba(0,0,0,0.03); }
-
-    html[data-text='default']{ --muted:#9aa0a6; }
-    html[data-text='alt']{ --muted:#7c6e5a; }
-    html[data-text='high']{ --muted:#444; }
+    /* background / text mode */
+    html[data-bg="dark"]{
+      background: radial-gradient(1200px 400px at 12% 12%, rgba(124,92,255,0.06), transparent), var(--bg-dark);
+      color: #e7eef6;
+      --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      --muted: var(--muted-dark);
+    }
+    html[data-bg="light"]{
+      background: var(--bg-light);
+      color: #0b1220;
+      --panel: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+      --card: rgba(0,0,0,0.03);
+      --glass: rgba(0,0,0,0.03);
+      --muted: var(--muted-light);
+    }
+    html[data-text="default"]{ --muted: var(--muted); }
+    html[data-text="alt"]{ --muted: #7c6e5a; }
+    html[data-text="high"]{ --muted: #444; }
 
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Arial;font-size:15px;line-height:1.4}
-    .wrap{max-width:1200px;margin:0 auto;padding:1rem}
-    header.top{padding:1rem 0}
-    .brand{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-    .brand-left{display:flex;align-items:center;gap:0.75rem}
-    .logo{width:56px;height:56px;border-radius:10px;cursor:pointer}
-    .title{font-weight:700;font-size:1.15rem}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    .container{max-width:var(--maxw);margin:0 auto;padding:20px}
+    .topbar{position:sticky;top:0;z-index:40;padding:12px 0;background:transparent;backdrop-filter:blur(6px)}
+    .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:12px;object-fit:cover;cursor:pointer}
+    .brand-title{font-weight:800;font-size:18px}
+    .brand-sub{font-size:12px;color:var(--muted)}
 
-    .controls-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .controls{display:flex;align-items:center;gap:10px}
+    .small{padding:6px 8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit}
 
-    .panel{background:var(--panel);padding:1rem;border-radius:12px}
-    .hero{display:grid;grid-template-columns:1fr 360px;gap:1rem;padding:1.5rem;border-radius:12px;align-items:start}
-    .cta{display:flex;gap:.5rem;flex-wrap:wrap}
-    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.45rem .6rem;border-radius:8px;color:inherit;text-decoration:none;cursor:pointer}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#39d6ff);border:0;color:#0b0e12;font-weight:700}
-    .muted{color:var(--muted)}
+    .btn{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;text-decoration:none;cursor:pointer;font-weight:700}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#07101a}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .btn.small{padding:6px 8px;font-size:13px}
 
-    input[type="text"], input[type="date"], select, textarea{padding:.45rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-    textarea{resize:vertical}
+    .panel{background:var(--panel);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:0 14px 50px rgba(0,0,0,0.45)}
+    .glass{backdrop-filter: blur(10px)}
 
-    .releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1rem}
-    .release-card{background:var(--card-bg);padding:1rem;border-radius:12px;display:flex;flex-direction:column;gap:.5rem;min-height:170px;border:1px solid rgba(255,255,255,0.02)}
-    .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#05060a}
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:12px}
+    .huge{font-size:44px;margin:0 0 8px}
+    .lead{font-size:16px;margin:0;color:var(--muted)}
+    .hero-cta{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+
+    .quick-stats{display:flex;flex-direction:column;gap:12px}
+    .stat{display:flex;justify-content:space-between;align-items:center}
+    .stat-value{font-weight:800;font-size:20px}
+
+    /* sections */
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+    .searchbar{display:flex;gap:8px;align-items:center}
+    .searchbar input[type="text"]{min-width:180px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .searchbar select{padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+
+    /* releases */
+    .releases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .release-card{border-radius:12px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-height:170px;border:1px solid rgba(255,255,255,0.02)}
+    .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px}
     .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
 
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem}
-    .gallery img{width:100%;height:160px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease}
-    .gallery img:hover{transform:translateY(-6px) scale(1.02)}
+    /* gallery */
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+    .gallery-grid img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+    .gallery-grid img:hover{transform:translateY(-8px) scale(1.03)}
 
-    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-    .crew-card{display:flex;gap:.75rem;align-items:center;padding:.6rem;border-radius:10px;background:var(--card-bg)}
+    /* crew */
+    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+    .crew-card{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,0.02), transparent)}
     .crew-card img{width:64px;height:64px;border-radius:10px;object-fit:cover}
 
-    /* ToDo */
-    .todo{display:grid;grid-template-columns:1fr 320px;gap:1rem}
-    .todo-list{padding:0;margin:0;list-style:none;max-height:480px;overflow:auto}
-    .todo-item{display:flex;align-items:center;gap:.5rem;padding:.5rem;border-radius:10px;border:1px solid rgba(255,255,255,0.03);margin-bottom:.5rem;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
-    .todo-item .meta{font-size:.85rem;color:var(--muted)}
+    /* todo */
+    .todo-layout{display:grid;grid-template-columns:1fr 260px;gap:12px}
+    .todo-add{display:flex;gap:8px}
+    .todo-add input[type="text"]{flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .todo-list{list-style:none;padding:0;margin:8px 0;max-height:480px;overflow:auto}
+    .todo-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
     .todo-item.completed{opacity:.6;text-decoration:line-through}
+    .tag{padding:.12rem .45rem;border-radius:6px;background:rgba(0,0,0,0.12);font-size:.75rem}
 
-    .tag{padding:.15rem .4rem;border-radius:6px;background:rgba(0,0,0,0.12);font-size:.75rem}
+    /* modal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;visibility:hidden;opacity:0;transition:opacity .15s}
+    .modal.show{visibility:visible;opacity:1;background:rgba(0,0,0,0.6)}
+    .modal > .inner{background:var(--card);padding:18px;border-radius:10px;max-width:900px;width:100%}
 
-    footer{margin-top:2rem;padding:1rem 0;color:var(--muted)}
+    footer{padding:18px 0;text-align:center;color:var(--muted);font-size:13px;margin-top:20px}
 
     @media (max-width:980px){
       .hero{grid-template-columns:1fr}
-      .todo{grid-template-columns:1fr}
-      .wrap{padding:.75rem}
+      .todo-layout{grid-template-columns:1fr}
+      .container{padding:12px}
+      .huge{font-size:34px}
     }
   </style>
 </head>
 <body>
-  <header class="top">
-    <div class="wrap brand">
-      <div class="brand-left">
-        <img alt="Ryazhenka" class="logo" src="./assets/Ryazhalogo.png" onclick="location.href='./'" />
-        <div>
-          <div class="title">Ryazhenka</div>
-          <div class="muted" style="font-size:.85rem">CFW — минималистичный интерфейс</div>
+  <div class="container">
+    <header class="topbar">
+      <div class="top-inner">
+        <div class="brand" onclick="location.href='./'">
+          <img class="logo" src="./assets/Ryazhalogo.png" alt="Ryazhenka logo" />
+          <div>
+            <div class="brand-title">Ryazhenka</div>
+            <div class="brand-sub">CFW • generative-styled UI</div>
+          </div>
         </div>
-      </div>
 
-      <div style="display:flex;align-items:center;gap:.5rem">
-        <div class="controls-row" aria-hidden="false">
-          <label class="muted" for="themePicker" style="margin-right:6px">Тема</label>
-          <select id="themePicker" aria-label="Выбор темы">
+        <div class="controls">
+          <select id="themePicker" class="small" title="Theme">
             <option value="glow">Glow</option>
-            <option value="classic">Classic</option>
             <option value="cyber">Cyber</option>
-            <option value="sunset">Sunset</option>
             <option value="matrix">Matrix</option>
+            <option value="classic">Classic</option>
+            <option value="sunset">Sunset</option>
           </select>
 
-          <label class="muted" for="bgMode" style="margin-left:10px;margin-right:6px">Фон</label>
-          <select id="bgMode" aria-label="Фон">
-            <option value="dark">Темный</option>
-            <option value="light">Светлый</option>
+          <select id="bgMode" class="small" title="Background">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
           </select>
 
-          <label class="muted" for="textMode" style="margin-left:10px;margin-right:6px">Текст</label>
-          <select id="textMode" aria-label="Цвет текста">
-            <option value="default">По умолчанию</option>
-            <option value="alt">Альт</option>
-            <option value="high">Высокая контрастность</option>
+          <select id="textMode" class="small" title="Text color">
+            <option value="default">Default</option>
+            <option value="alt">Alt</option>
+            <option value="high">High</option>
           </select>
+
+          <a class="btn ghost" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
+          <a class="btn ghost" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
+          <a class="btn ghost" href="https://boosty.to/Dimasick" target="_blank">Boosty</a>
+          <a class="btn ghost" href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Wiki</a>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="wrap">
-    <section class="hero panel" aria-labelledby="hero-title">
-      <div>
-        <h1 id="hero-title">Ryazhenka</h1>
-        <p class="muted" style="margin-top:.5rem">Упрощённый интерфейс и новые функции.</p>
-        <div class="cta" style="margin-top:.5rem">
-          <a class="btn primary" href="#todo">To‑Do</a>
-          <a class="btn" href="#changelog">Релизы</a>
-          <a class="btn" href="#crew">Экипаж</a>
-          <a class="btn" href="#gallery">Галерея</a>
-        </div>
-      </div>
-
-      <aside>
-        <div class="panel" style="margin-bottom:.75rem">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <strong>Быстрые</strong>
-            <button class="btn" id="refreshAll" title="Обновить все данные">Обновить</button>
-          </div>
-          <div class="muted" style="margin-top:.5rem;font-size:.9rem">Релизы и экипаж получаем из Dimasick-git/Ryzhenka</div>
-        </div>
-
-        <div class="panel">
-          <strong>Ссылки</strong>
-          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
-            <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/releases" target="_blank">Релизы</a>
-            <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/graphs/contributors" target="_blank">Contributors</a>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- Releases -->
-    <section class="panel" id="changelog" aria-labelledby="releases-title">
-      <h2 id="releases-title" style="margin:0">История изменений / Релизы</h2>
-
-      <div style="margin-top:.75rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap">
-        <div class="controls-row">
-          <input id="searchReleases" class="search" placeholder="Поиск (версия, название, описание)" aria-label="Поиск релизов" />
-          <select id="filterType" class="select" aria-label="Фильтр по типу">
-            <option value="all">Все типы</option>
-            <option value="Ryazhenkabestcfw">BestCFW</option>
-            <option value="Ryazhenka_AIO">AIO</option>
-            <option value="Ryazhenka_lite">Lite</option>
-          </select>
-          <select id="sortBy" class="select" aria-label="Сортировка">
-            <option value="date_desc">По дате (новые сначала)</option>
-            <option value="date_asc">По дате (старые сначала)</option>
-            <option value="downloads_desc">По загрузкам</option>
-          </select>
-        </div>
-
-        <div style="text-align:right">
-          <div class="muted">Найдено: <span id="releasesCount">0</span> • Статус: <span id="fetchStatus">—</span></div>
-          <div id="statsBlock" class="muted" style="margin-top:.35rem;font-size:.9rem"></div>
-        </div>
-      </div>
-
-      <div class="releases" id="releases-list" aria-live="polite" style="margin-top:1rem"></div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="panel" id="gallery">
-      <h2 style="margin:0">Галерея</h2>
-      <div class="gallery" id="galleryGrid" style="margin-top:.75rem"></div>
-    </section>
-
-    <!-- Crew -->
-    <section class="panel" id="crew">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h2 style="margin:0">Стена экипажа</h2>
+    <main>
+      <section class="hero glass panel" aria-labelledby="hero-title">
         <div>
-          <button class="btn" id="addManualCrewBtn">Добавить участника</button>
-        </div>
-      </div>
-
-      <div class="crew-grid" id="crew-grid" style="margin-top:.75rem"></div>
-    </section>
-
-    <!-- To-Do -->
-    <section class="panel" id="todo">
-      <h2 style="margin:0">To‑Do (локально)</h2>
-
-      <div class="todo" style="margin-top:.75rem">
-        <div>
-          <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
-            <input id="todoInput" placeholder="Название задачи" class="search" aria-label="Новая задача" />
-            <select id="todoPriority" class="select" aria-label="Приоритет">
-              <option value="normal">Normal</option>
-              <option value="high">High</option>
-              <option value="low">Low</option>
-            </select>
-            <input id="todoDue" type="date" aria-label="Дата выполнения" />
-            <button class="btn primary" id="todoAdd">Добавить</button>
-          </div>
-
-          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
-            <input id="todoFilter" placeholder="Фильтр" class="search" />
-            <select id="todoSort" class="select">
-              <option value="new">Новые сначала</option>
-              <option value="old">Старые сначала</option>
-              <option value="prio">По приоритету</option>
-              <option value="due">По дате</option>
-            </select>
-            <button class="btn" id="exportTodos">Экспорт</button>
-            <input id="importFile" type="file" accept="application/json" style="display:none" />
-            <button class="btn" id="importTodosBtn">Импорт</button>
-          </div>
-
-          <ul id="todoList" class="todo-list" aria-live="polite"></ul>
-        </div>
-
-        <div style="padding:.5rem;border-left:1px solid rgba(255,255,255,0.03);min-width:220px">
-          <h4 style="margin-top:0">Управление</h4>
-          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem">
-            <button class="btn" id="clearCompleted">Удалить выполненные</button>
-            <button class="btn" id="clearAll">Удалить все</button>
-            <button class="btn" id="bulkComplete">Отметить всё выполненным</button>
-            <div class="muted" style="font-size:.9rem">Данные сохраняются в браузере (localStorage).</div>
+          <h1 id="hero-title" class="huge">Ryazhenka</h1>
+          <p class="lead">Стабильная кастомная прошивка для Nintendo Switch — красиво и удобно. Автоматические релизы, галерея, стена экипажа и tools для команды.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#changelog">Релизы</a>
+            <a class="btn" href="#gallery">Галерея</a>
+            <a class="btn" href="#crew">Благодарности</a>
+            <a class="btn" href="#todo">To‑Do</a>
           </div>
         </div>
 
-      </div>
-    </section>
-
-    <section class="panel" id="install" style="margin-top:1rem">
-      <h2 style="margin:0">Установка</h2>
-      <div class="muted" style="margin-top:.5rem">Скачайте релиз и распакуйте на microSD.</div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap">
-      <div class="muted">© Ryazhenka — crew.ecosystem</div>
-      <div style="display:flex;gap:.5rem;align-items:center">
-        <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
-        <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">Source</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Modal container -->
-  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;z-index:999;padding:1rem"></div>
-
-  <script>
-    // ----- Settings & utilities -----
-    const owner = 'Dimasick-git';
-    const repo = 'Ryzhenka';
-    const releasesApi = `https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`;
-    const contributorsApi = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
-    const doc = document.documentElement;
-
-    function applySettings(){
-      const theme = localStorage.getItem('rz_theme') || 'glow';
-      const bg = localStorage.getItem('rz_bg') || 'dark';
-      const text = localStorage.getItem('rz_text') || 'default';
-      doc.dataset.theme = theme;
-      doc.dataset.bg = bg;
-      doc.dataset.text = text;
-      document.getElementById('themePicker').value = theme;
-      document.getElementById('bgMode').value = bg;
-      document.getElementById('textMode').value = text;
-    }
-    document.getElementById('themePicker').addEventListener('change', e => { localStorage.setItem('rz_theme', e.target.value); applySettings(); });
-    document.getElementById('bgMode').addEventListener('change', e => { localStorage.setItem('rz_bg', e.target.value); applySettings(); });
-    document.getElementById('textMode').addEventListener('change', e => { localStorage.setItem('rz_text', e.target.value); applySettings(); });
-    applySettings();
-
-    function fmtDate(iso){ if(!iso) return ''; try{ return new Date(iso).toLocaleDateString(); }catch(e){ return iso } }
-    function bbootLogoUrl(version){ return `https://github.com/${owner}/${repo}/releases/download/${encodeURIComponent(version)}/bbootlogo.png`; }
-
-    // ----- Releases -----
-    let releases = [];
-    const listEl = document.getElementById('releases-list');
-    const galleryGrid = document.getElementById('galleryGrid');
-
-    function makeReleaseCard(r){
-      const card = document.createElement('article');
-      card.className = 'release-card';
-      const ver = r.tag_name || r.name || '';
-      const img = document.createElement('img');
-      img.alt = `Лого ${ver}`;
-      img.loading = 'lazy';
-      const basset = (r.assets||[]).find(a => /bbootlogo/i.test(a.name));
-      img.src = basset ? basset.browser_download_url : (r.assets && r.assets[0] && r.assets[0].browser_download_url) || bbootLogoUrl(ver);
-      card.appendChild(img);
-
-      const h3 = document.createElement('h3');
-      h3.textContent = r.name || ver;
-      card.appendChild(h3);
-
-      const meta = document.createElement('div'); meta.className = 'meta';
-      const date = document.createElement('span'); date.textContent = fmtDate(r.published_at || r.created_at);
-      const vspan = document.createElement('span'); vspan.textContent = ver;
-      meta.appendChild(date); meta.appendChild(vspan);
-      card.appendChild(meta);
-
-      if(r.body){
-        const p = document.createElement('p'); p.textContent = r.body.length > 240 ? r.body.slice(0,240) + '…' : r.body;
-        card.appendChild(p);
-      }
-
-      const btnWrap = document.createElement('div'); btnWrap.style.display='flex'; btnWrap.style.gap='.5rem';
-      if(r.html_url){ const a = document.createElement('a'); a.className='btn'; a.href = r.html_url; a.target='_blank'; a.textContent='Открыть'; btnWrap.appendChild(a); }
-      card.appendChild(btnWrap);
-      return card;
-    }
-
-    async function loadReleases(){
-      document.getElementById('fetchStatus').textContent = 'загрузка';
-      listEl.innerHTML = '';
-      galleryGrid.innerHTML = '';
-      releases = [];
-      try{
-        const res = await fetch(releasesApi);
-        if(!res.ok) throw new Error('fetch releases failed');
-        const data = await res.json();
-        releases = (Array.isArray(data) ? data : []).sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
-      }catch(e){
-        console.warn('releases error', e);
-        // keep releases empty
-      }
-      renderReleases();
-      renderGallery();
-      computeStats();
-      document.getElementById('fetchStatus').textContent = 'ok';
-    }
-
-    function renderReleases(){
-      const q = (document.getElementById('searchReleases')||{}).value || '';
-      const type = (document.getElementById('filterType')||{}).value || 'all';
-      const sortBy = (document.getElementById('sortBy')||{}).value || 'date_desc';
-      let filtered = releases.filter(r=>{
-        const combined = [(r.tag_name||''),(r.name||''),(r.body||'')].join(' ').toLowerCase();
-        const qOk = !q || combined.includes(q.toLowerCase());
-        let typeOk = true;
-        if(type !== 'all') typeOk = (r.assets||[]).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
-        return qOk && typeOk;
-      });
-      if(sortBy === 'date_desc') filtered.sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
-      if(sortBy === 'date_asc') filtered.sort((a,b)=> new Date(a.published_at||a.created_at) - new Date(b.published_at||b.created_at));
-      if(sortBy === 'downloads_desc') filtered.sort((a,b)=>{
-        const sa = (a.assets||[]).reduce((s,x)=> s + (x.download_count||0), 0);
-        const sb = (b.assets||[]).reduce((s,x)=> s + (x.download_count||0), 0);
-        return sb - sa;
-      });
-
-      document.getElementById('releasesCount').textContent = filtered.length;
-      listEl.innerHTML = '';
-      // per user request: minimal extra text, don't show "no results" explanation, but keep count/status
-      filtered.forEach(r => listEl.appendChild(makeReleaseCard(r)));
-    }
-
-    function renderGallery(){
-      galleryGrid.innerHTML = '';
-      releases.forEach(r=>{
-        const ver = r.tag_name || r.name || '';
-        const assets = r.assets || [];
-        const chosen = assets.find(a=>/\.(gif|webp|png|jpe?g)$/i.test(a.name||'')) || assets[0];
-        const src = chosen ? chosen.browser_download_url : bbootLogoUrl(ver);
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = ver;
-        img.loading = 'lazy';
-        galleryGrid.appendChild(img);
-      });
-    }
-
-    function computeStats(){
-      let total = 0;
-      let ownerTotal = 0;
-      releases.forEach(r => (r.assets||[]).forEach(a => { if(typeof a.download_count === 'number'){ total += a.download_count; } }));
-      const sb = document.getElementById('statsBlock');
-      sb.innerHTML = `⬇️ Всего загрузок (публично): <strong>${total}</strong>`;
-    }
-
-    document.getElementById('searchReleases').addEventListener('input', renderReleases);
-    document.getElementById('filterType').addEventListener('change', renderReleases);
-    document.getElementById('sortBy').addEventListener('change', renderReleases);
-
-    // ----- Crew: manual + contributors fallback -----
-    const manualCrew = [
-      { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель — координатор' },
-      { login: 'Ryazhenka-Helper-1', name: 'Ryazhenka-Helper-1', role: 'Создатель модулей' },
-      { login: 'Ryazhenka-Helper-01', name: 'Ryazhenka-Helper-01', role: 'Помощник (видео, тесты)' }
-    ];
-    const crewGrid = document.getElementById('crew-grid');
-
-    function makeCrewCard(p){
-      const card = document.createElement('div'); card.className = 'crew-card';
-      const img = document.createElement('img'); img.src = p.avatar || `https://github.com/${p.login}.png`; img.alt = p.login; card.appendChild(img);
-      const info = document.createElement('div');
-      const name = document.createElement('div'); const link = document.createElement('a'); link.href = `https://github.com/${p.login}`; link.target='_blank'; link.textContent = p.login; link.style.fontWeight = '700'; name.appendChild(link);
-      if(p.name && p.name !== p.login) name.appendChild(document.createTextNode(' — ' + p.name));
-      info.appendChild(name);
-      if(p.role){ const role = document.createElement('div'); role.className='muted'; role.textContent = p.role; info.appendChild(role); }
-      const contrib = document.createElement('div'); contrib.className='muted'; contrib.textContent = `Commits: ${p.contributions || 0}`; info.appendChild(contrib);
-      card.appendChild(info);
-      return card;
-    }
-
-    async function loadCrew(){
-      crewGrid.innerHTML = '';
-      // show manual first
-      manualCrew.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
-      // try to fetch contributors and add new ones
-      try{
-        const res = await fetch(contributorsApi);
-        if(!res.ok) throw new Error('contributors fetch failed');
-        const list = await res.json();
-        const manualSet = new Set(manualCrew.map(x => x.login.toLowerCase()));
-        list.forEach(c => { if(!manualSet.has(c.login.toLowerCase())) crewGrid.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
-      }catch(e){
-        // fail silently — manualCrew remains
-        console.warn('contributors error', e);
-      }
-    }
-
-    // UI to add manual crew entry (stored in localStorage so user can edit UI without editing file)
-    document.getElementById('addManualCrewBtn').addEventListener('click', () => {
-      openModal(`
-        <div style="max-width:560px;background:var(--card-bg);padding:12px;border-radius:8px">
-          <h3>Добавить участника</h3>
-          <div style="display:grid;gap:.5rem">
-            <input id="mc_login" placeholder="login (github)" />
-            <input id="mc_name" placeholder="имя (опционально)" />
-            <input id="mc_role" placeholder="роль (например: тестирование)" />
-            <div style="display:flex;gap:.5rem;justify-content:flex-end">
-              <button id="mc_cancel" class="btn">Отмена</button>
-              <button id="mc_save" class="btn primary">Сохранить</button>
+        <aside>
+          <div class="panel quick-stats">
+            <div class="stat"><div class="muted">Релизов</div><div id="releasesCount" class="stat-value">—</div></div>
+            <div class="stat"><div class="muted">Загрузок</div><div id="downloadsCount" class="stat-value">—</div></div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <button id="refreshAll" class="btn small">Обновить</button>
+              <label style="display:flex;align-items:center;gap:6px"><input id="includeStratosphere" type="checkbox" /> switchbrew/stratosphere</label>
             </div>
           </div>
-        </div>
-      `);
-      document.getElementById('mc_cancel').addEventListener('click', closeModal);
-      document.getElementById('mc_save').addEventListener('click', () => {
-        const login = document.getElementById('mc_login').value.trim();
-        const name = document.getElementById('mc_name').value.trim();
-        const role = document.getElementById('mc_role').value.trim();
-        if(!login) { alert('Введите login'); return; }
-        const saved = JSON.parse(localStorage.getItem('rz_manual_crew') || '[]');
-        saved.unshift({ login, name: name || login, role });
-        localStorage.setItem('rz_manual_crew', JSON.stringify(saved));
-        closeModal();
-        refreshCrewFromStorage();
-      });
-    });
 
-    function refreshCrewFromStorage(){
-      const stored = JSON.parse(localStorage.getItem('rz_manual_crew') || '[]');
-      // rebuild crewGrid with stored manual entries first, then default manualCrew, then contributors
-      crewGrid.innerHTML = '';
-      stored.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
-      manualCrew.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
-      // contributors appended asynchronously by loadCrew (we will call it)
-      fetch(contributorsApi).then(r=> r.ok? r.json(): []).then(list=>{
-        const seen = new Set([...(stored||[]).map(x=>x.login.toLowerCase()), ...manualCrew.map(x=>x.login.toLowerCase())]);
-        list.forEach(c => { if(!seen.has(c.login.toLowerCase())) crewGrid.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
-      }).catch(()=>{});
-    }
+          <div id="crewMini" class="panel" style="margin-top:12px">
+            <!-- small crew preview -->
+          </div>
+        </aside>
+      </section>
 
-    // ----- Modal helpers -----
-    const modalContainer = document.getElementById('modal');
-    function openModal(html){
-      modalContainer.innerHTML = '';
-      modalContainer.style.display = 'flex';
-      const wrapper = document.createElement('div');
-      wrapper.style.maxWidth = '900px';
-      wrapper.style.width = '100%';
-      wrapper.style.borderRadius = '10px';
-      wrapper.innerHTML = html;
-      modalContainer.appendChild(wrapper);
-      modalContainer.addEventListener('click', modalClickHandler);
-    }
-    function closeModal(){ modalContainer.style.display = 'none'; modalContainer.innerHTML = ''; modalContainer.removeEventListener('click', modalClickHandler); }
-    function modalClickHandler(e){ if(e.target === modalContainer) closeModal(); }
-
-    // ----- ToDo app (advanced) -----
-    const todoKey = 'rz_todos_v2';
-    let todos = [];
-
-    function loadTodos(){
-      try{ todos = JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ todos = []; }
-      renderTodos();
-    }
-    function saveTodos(){ localStorage.setItem(todoKey, JSON.stringify(todos)); renderTodos(); }
-    function uid(){ return 'id_'+Math.random().toString(36).slice(2,9); }
-
-    function renderTodos(){
-      const ul = document.getElementById('todoList'); ul.innerHTML = '';
-      const filter = (document.getElementById('todoFilter')||{}).value || '';
-      const sortBy = (document.getElementById('todoSort')||{}).value || 'new';
-      let list = todos.slice();
-      if(filter) list = list.filter(t => (t.text + ' ' + (t.tags||'')).toLowerCase().includes(filter.toLowerCase()));
-      if(sortBy === 'new') list.sort((a,b)=> b.ts - a.ts);
-      if(sortBy === 'old') list.sort((a,b)=> a.ts - b.ts);
-      if(sortBy === 'prio') {
-        const map = { high: 2, normal: 1, low: 0 };
-        list.sort((a,b)=> (map[b.priority]||0) - (map[a.priority]||0));
-      }
-      if(sortBy === 'due'){
-        list.sort((a,b)=> (a.due? new Date(a.due).getTime(): Infinity) - (b.due? new Date(b.due).getTime(): Infinity));
-      }
-
-      list.forEach((t,i)=>{
-        const li = document.createElement('li'); li.className = 'todo-item' + (t.done? ' completed':'');
-        const chk = document.createElement('input'); chk.type='checkbox'; chk.checked = !!t.done; chk.addEventListener('change', ()=>{ t.done = chk.checked; saveTodos(); });
-        const main = document.createElement('div'); main.style.flex='1';
-        const title = document.createElement('div'); title.textContent = t.text; title.style.fontWeight = '600';
-        const meta = document.createElement('div'); meta.className = 'meta';
-        const parts = [];
-        if(t.priority) parts.push(`<span class="tag">${t.priority}</span>`);
-        if(t.due) parts.push(`<span class="muted">${t.due}</span>`);
-        if(t.tags && t.tags.length) parts.push(`<span class="muted">${t.tags.join(', ')}</span>`);
-        meta.innerHTML = parts.join(' ');
-        main.appendChild(title); main.appendChild(meta);
-
-        const btns = document.createElement('div'); btns.style.display='flex'; btns.style.gap='.4rem';
-        const edit = document.createElement('button'); edit.className = 'btn'; edit.textContent = '✎'; edit.title='Редактировать'; edit.addEventListener('click', ()=> editTodo(t.id));
-        const del = document.createElement('button'); del.className = 'btn'; del.textContent = '✕'; del.title='Удалить'; del.addEventListener('click', ()=> { todos = todos.filter(x => x.id !== t.id); saveTodos(); });
-        btns.appendChild(edit); btns.appendChild(del);
-
-        li.appendChild(chk); li.appendChild(main); li.appendChild(btns);
-        ul.appendChild(li);
-      });
-    }
-
-    function addTodoFromInput(){
-      const input = document.getElementById('todoInput');
-      const text = (input.value || '').trim();
-      if(!text) return;
-      const priority = document.getElementById('todoPriority').value || 'normal';
-      const due = document.getElementById('todoDue').value || '';
-      const newTodo = { id: uid(), text, priority, due: due || '', done: false, tags: [], ts: Date.now() };
-      todos.unshift(newTodo);
-      input.value = '';
-      document.getElementById('todoDue').value = '';
-      saveTodos();
-    }
-
-    function editTodo(id){
-      const t = todos.find(x=>x.id===id);
-      if(!t) return;
-      openModal(`
-        <div style="max-width:640px;background:var(--card-bg);padding:12px;border-radius:8px">
-          <h3>Редактировать задачу</h3>
-          <div style="display:grid;gap:.5rem">
-            <input id="edt_text" value="${escapeHtml(t.text)}" />
-            <select id="edt_prio">
-              <option value="high">High</option>
-              <option value="normal">Normal</option>
-              <option value="low">Low</option>
+      <!-- Releases -->
+      <section id="changelog" class="panel section" aria-labelledby="releases-title">
+        <div class="section-head">
+          <h2 id="releases-title">История изменений / Релизы</h2>
+          <div class="searchbar">
+            <input id="searchReleases" type="text" placeholder="Поиск (версия, название, описание)" />
+            <select id="filterType">
+              <option value="all">Все типы</option>
+              <option value="Ryazhenkabestcfw">BestCFW</option>
+              <option value="Ryazhenka_AIO">AIO</option>
+              <option value="Ryazhenka_lite">Lite</option>
             </select>
+            <select id="sortBy">
+              <option value="date_desc">По дате ↓</option>
+              <option value="date_asc">По дате ↑</option>
+              <option value="downloads_desc">По загрузкам ↓</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="releasesList" class="releases-grid" aria-live="polite"></div>
+      </section>
+
+      <!-- Gallery -->
+      <section id="gallery" class="panel section">
+        <h2>Галерея</h2>
+        <div id="galleryGrid" class="gallery-grid"></div>
+      </section>
+
+      <!-- Crew -->
+      <section id="crew" class="panel section">
+        <div class="section-head">
+          <h2>Благодарности / Стена экипажа</h2>
+          <div style="display:flex;gap:8px">
+            <button id="addCrewBtn" class="btn small">Добавить</button>
+            <button id="exportCrewBtn" class="btn small">Экспорт</button>
+            <button id="importCrewBtn" class="btn small">Импорт</button>
+            <input id="importCrewFile" type="file" accept="application/json" style="display:none" />
+          </div>
+        </div>
+        <div id="crewGrid" class="crew-grid"></div>
+      </section>
+
+      <!-- To-Do -->
+      <section id="todo" class="panel section">
+        <h2>To‑Do (локально)</h2>
+        <div class="todo-layout">
+          <div>
+            <div class="todo-add">
+              <input id="todoInput" placeholder="Название задачи" />
+              <select id="todoPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select>
+              <input id="todoDue" type="date" />
+              <button id="todoAdd" class="btn primary">Добавить</button>
+            </div>
+
+            <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+              <input id="todoFilter" placeholder="Фильтр..." style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+              <select id="todoSort"><option value="new">Новые</option><option value="old">Старые</option><option value="prio">По приоритету</option><option value="due">По дате</option></select>
+              <button id="exportTodos" class="btn">Экспорт</button>
+              <input id="todoImportFile" type="file" accept="application/json" style="display:none" />
+              <button id="importTodosBtn" class="btn">Импорт</button>
+            </div>
+
+            <ul id="todoList" class="todo-list" aria-live="polite" style="margin-top:12px"></ul>
+          </div>
+
+          <aside style="padding-left:12px;border-left:1px solid rgba(255,255,255,0.02)">
+            <button id="clearCompleted" class="btn small">Удалить выполненные</button>
+            <button id="clearAll" class="btn small">Удалить все</button>
+            <button id="bulkComplete" class="btn small">Отметить все</button>
+            <div class="muted" style="margin-top:12px">Задачи сохраняются в вашем браузере (localStorage).</div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="muted">© Ryazhenka — crew.ecosystem</div>
+        <div class="muted">Design: Midjourney‑like • Client‑side</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- modal -->
+  <div id="modal" class="modal" aria-hidden="true"></div>
+
+  <script>
+    /* ------------------------------
+       Single-file client app (no backend)
+       Features:
+         - fetch releases from multiple repos (Dimasick-git/Ryzhenka + Atmosphere + Hekate + optional stratosphere)
+         - picks preview images for each release, gallery + modal
+         - comments: tries Utterances if enabled, otherwise local comments fallback
+         - links to YouTube/Telegram/Boosty/Wiki
+         - crew section with manual entries (prepopulated with user-specified roles), editable & import/export
+         - theme/background/text selectors persisted to localStorage
+         - To-Do manager persisted to localStorage with export/import
+       ------------------------------ */
+
+    (function () {
+      // ----- Config -----
+      const owner = 'Dimasick-git';
+      const baseRepos = [
+        'Dimasick-git/Ryzhenka',
+        'Atmosphere-NX/Atmosphere',
+        'CTCaer/hekate'
+      ];
+      const optionalStratosphere = 'switchbrew/stratosphere'; // included when toggle checked
+      const releasesPerRepo = 100;
+      const cacheKey = 'rz_releases_cache_v1';
+      const cacheTTL = 1000 * 60 * 5; // 5 minutes
+      const crewStorageKey = 'rz_manual_crew_v1';
+      const todoStorageKey = 'rz_todos_v1';
+      const settingsKey = 'rz_ui_settings_v1';
+
+      // ----- Elements -----
+      const releasesListEl = document.getElementById('releasesList');
+      const galleryGrid = document.getElementById('galleryGrid');
+      const crewGrid = document.getElementById('crewGrid');
+      const crewMini = document.getElementById('crewMini');
+      const releasesCount = document.getElementById('releasesCount');
+      const downloadsCount = document.getElementById('downloadsCount');
+      const modal = document.getElementById('modal');
+
+      const searchReleases = document.getElementById('searchReleases');
+      const filterType = document.getElementById('filterType');
+      const sortBy = document.getElementById('sortBy');
+      const includeStrato = document.getElementById('includeStratosphere');
+
+      // Theme controls
+      const themePicker = document.getElementById('themePicker');
+      const bgMode = document.getElementById('bgMode');
+      const textMode = document.getElementById('textMode');
+
+      // Crew controls
+      const addCrewBtn = document.getElementById('addCrewBtn');
+      const exportCrewBtn = document.getElementById('exportCrewBtn');
+      const importCrewBtn = document.getElementById('importCrewBtn');
+      const importCrewFile = document.getElementById('importCrewFile');
+
+      // ToDo controls
+      const todoInput = document.getElementById('todoInput');
+      const todoPriority = document.getElementById('todoPriority');
+      const todoDue = document.getElementById('todoDue');
+      const todoAdd = document.getElementById('todoAdd');
+      const todoList = document.getElementById('todoList');
+      const todoFilter = document.getElementById('todoFilter');
+      const todoSort = document.getElementById('todoSort');
+      const exportTodosBtn = document.getElementById('exportTodos');
+      const importTodosBtn = document.getElementById('importTodosBtn');
+      const todoImportFile = document.getElementById('todoImportFile');
+      const clearCompletedBtn = document.getElementById('clearCompleted');
+      const clearAllBtn = document.getElementById('clearAll');
+      const bulkCompleteBtn = document.getElementById('bulkComplete');
+
+      const refreshAllBtn = document.getElementById('refreshAll');
+
+      // Manual crew default (as user specified)
+      const defaultManualCrew = [
+        { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель' },
+        { login: 'Ryazhenka-Helpr-1', name: 'Ryazhenka-Helpr-1', role: 'Модульный разработчик (например, sys-clk)' },
+        { login: 'Ryazhenka-Helpr-01', name: 'Ryazhenka-Helpr-01', role: 'Видео / тестирование / YouTube' }
+      ];
+
+      // Repos to fetch from (we'll build dynamically)
+      function getRepoList() {
+        const list = baseRepos.slice();
+        if (includeStrato && includeStrato.checked) list.push(optionalStratosphere);
+        return list;
+      }
+
+      // ----- Settings (theme/background/text) -----
+      function loadSettings() {
+        try {
+          const s = JSON.parse(localStorage.getItem(settingsKey) || '{}');
+          const theme = s.theme || 'glow';
+          const bg = s.bg || 'dark';
+          const text = s.text || 'default';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.bg = bg;
+          document.documentElement.dataset.text = text;
+          if (themePicker) themePicker.value = theme;
+          if (bgMode) bgMode.value = bg;
+          if (textMode) textMode.value = text;
+        } catch (e) { /* ignore */ }
+      }
+      function saveSettings() {
+        const s = { theme: themePicker.value, bg: bgMode.value, text: textMode.value };
+        localStorage.setItem(settingsKey, JSON.stringify(s));
+        loadSettings();
+      }
+      themePicker && themePicker.addEventListener('change', saveSettings);
+      bgMode && bgMode.addEventListener('change', saveSettings);
+      textMode && textMode.addEventListener('change', saveSettings);
+
+      // ----- Utilities -----
+      function fmtDate(iso) { if (!iso) return ''; try { return new Date(iso).toLocaleDateString(); } catch (e) { return iso; } }
+      function bbootLogoUrl(repoFull, tag) { return `https://github.com/${repoFull}/releases/download/${encodeURIComponent(tag)}/bbootlogo.png`; }
+      function uid(prefix = 'id') { return prefix + '_' + Math.random().toString(36).slice(2, 9); }
+      function el(tag, attrs = {}, ...children) {
+        const e = document.createElement(tag);
+        for (const k in attrs) {
+          if (k === 'class') e.className = attrs[k];
+          else if (k === 'html') e.innerHTML = attrs[k];
+          else e.setAttribute(k, attrs[k]);
+        }
+        children.forEach(c => { if (typeof c === 'string') e.appendChild(document.createTextNode(c)); else if (c) e.appendChild(c); });
+        return e;
+      }
+
+      // ----- Fetch releases from multiple repos with cache -----
+      async function fetchReleasesFromRepo(repoFull) {
+        const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
+        const r = await fetch(url);
+        if (!r.ok) throw new Error(`Failed ${repoFull}: ${r.status}`);
+        const data = await r.json();
+        return (Array.isArray(data) ? data : []).map(item => ({ ...item, _repo: repoFull }));
+      }
+
+      async function loadReleases() {
+        // Try cache
+        try {
+          const raw = localStorage.getItem(cacheKey);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Date.now() - parsed.ts < cacheTTL && Array.isArray(parsed.data)) {
+              processReleases(parsed.data);
+              return;
+            }
+          }
+        } catch (e) { /* ignore */ }
+
+        const repos = getRepoList();
+        releasesListEl.innerHTML = '';
+        galleryGrid.innerHTML = '';
+        releasesCount.textContent = '…';
+        downloadsCount.textContent = '…';
+        const promises = repos.map(r => fetchReleasesFromRepo(r).catch(err => { console.warn(err); return []; }));
+        const results = await Promise.all(promises);
+        const combined = results.flat();
+        // sort by date desc
+        combined.sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+        try { localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: combined })); } catch(e){}
+        processReleases(combined);
+      }
+
+      function processReleases(data) {
+        // dedupe by repo + tag_name
+        const map = new Map();
+        data.forEach(r => {
+          const key = `${r._repo || (owner + '/' + repo)}::${r.tag_name || r.name}`;
+          if (!map.has(key)) map.set(key, r);
+        });
+        const arr = Array.from(map.values());
+        window.__rz_releases = arr; // debug
+        renderReleases();
+        renderGallery();
+        computeStats();
+      }
+
+      function matchesFilter(r, q, type) {
+        const ver = (r.tag_name || r.name || '').toLowerCase();
+        const title = (r.name || '').toLowerCase();
+        const body = (r.body || '').toLowerCase();
+        const repo = (r._repo || '').toLowerCase();
+        const combined = [ver, title, body, repo].join(' ');
+        const qOk = !q || combined.includes(q.toLowerCase());
+        let tOk = true;
+        if (type && type !== 'all') tOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
+        return qOk && tOk;
+      }
+
+      function makeReleaseCard(r) {
+        const ver = r.tag_name || r.name || '';
+        const assets = r.assets || [];
+        const basset = assets.find(a => /bbootlogo/i.test(a.name));
+        const preview = basset ? basset.browser_download_url : (assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name)) || assets[0])?.browser_download_url || bbootLogoUrl(r._repo || `${owner}/${repo}`, ver);
+        const img = el('img', { src: preview, alt: ver });
+        img.style.width = '100%';
+        img.style.height = '140px';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '8px';
+
+        const title = el('h3', {}, r.name || ver);
+        const meta = el('div', { class: 'meta' },
+          el('span', {}, fmtDate(r.published_at || r.created_at)),
+          el('span', {}, (r._repo || '') + ' • ' + ver)
+        );
+        const p = r.body ? el('p', {}, (r.body.length > 220 ? r.body.slice(0, 220) + '…' : r.body)) : null;
+
+        const card = el('article', { class: 'release-card' });
+        card.appendChild(img);
+        card.appendChild(title);
+        card.appendChild(meta);
+        if (p) card.appendChild(p);
+
+        // assets list (compact)
+        if ((assets || []).length > 0) {
+          const assetsWrap = el('div', { style: 'display:flex;flex-direction:column;gap:6px;margin-top:8px' });
+          const titles = ['Ryazhenkabestcfw', 'Ryazhenka_AIO', 'Ryazhenka_lite'];
+          titles.forEach(t => {
+            const asset = assets.find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
+            const row = el('div', { style: 'display:flex;gap:8px;align-items:center' });
+            if (asset) {
+              const ael = el('a', { href: asset.browser_download_url, target: '_blank' }, `${t} — ${asset.name}`);
+              ael.className = 'btn ghost small';
+              row.appendChild(ael);
+              const size = el('small', { style: 'margin-left:auto;color:var(--muted)' }, asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '');
+              row.appendChild(size);
+            } else {
+              const span = el('small', { style: 'color:var(--muted)' }, `${t} — отсутствует`);
+              row.appendChild(span);
+            }
+            assetsWrap.appendChild(row);
+          });
+          card.appendChild(assetsWrap);
+        }
+
+        const btnBar = el('div', { style: 'display:flex;gap:8px;margin-top:10px' });
+        const openRel = el('a', { class: 'btn', href: r.html_url || '#', target: '_blank' }, 'Открыть релиз');
+        btnBar.appendChild(openRel);
+        card.appendChild(btnBar);
+
+        // click to open modal with bigger preview and body
+        img.addEventListener('click', () => {
+          openModal(`<div class="inner"><img src="${preview}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${r.name || ver}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${r._repo || ''}</div><div style="margin-top:8px">${r.body ? (r.body.length > 1000 ? r.body.slice(0,1000) + '…' : r.body) : ''}</div></div></div>`);
+        });
+
+        return card;
+      }
+
+      function renderReleases() {
+        const data = window.__rz_releases || [];
+        const q = (searchReleases || {}).value || '';
+        const type = (filterType || {}).value || 'all';
+        const sort = (sortBy || {}).value || 'date_desc';
+        let list = data.filter(r => matchesFilter(r, q, type));
+        if (sort === 'date_desc') list.sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+        if (sort === 'date_asc') list.sort((a, b) => new Date(a.published_at || a.created_at) - new Date(b.published_at || b.created_at));
+        if (sort === 'downloads_desc') list.sort((a, b) => {
+          const sa = (a.assets || []).reduce((s, x) => s + (x.download_count || 0), 0);
+          const sb = (b.assets || []).reduce((s, x) => s + (x.download_count || 0), 0);
+          return sb - sa;
+        });
+
+        releasesListEl.innerHTML = '';
+        list.forEach(r => releasesListEl.appendChild(makeReleaseCard(r)));
+        releasesCount.textContent = list.length;
+      }
+
+      function renderGallery() {
+        const data = window.__rz_releases || [];
+        galleryGrid.innerHTML = '';
+        data.forEach(r => {
+          const assets = r.assets || [];
+          const chosen = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || '')) || assets[0];
+          const src = chosen ? chosen.browser_download_url : bbootLogoUrl(r._repo || `${owner}/${repo}`, r.tag_name || r.name || '');
+          const img = el('img', { src, alt: r.tag_name || r.name || '' });
+          img.addEventListener('click', () => openModal(`<div class="inner"><img src="${src}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:8px"><strong>${r.name || r.tag_name}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${r._repo || ''}</div></div></div>`));
+          galleryGrid.appendChild(img);
+        });
+      }
+
+      function computeStats() {
+        const data = window.__rz_releases || [];
+        let total = 0;
+        data.forEach(r => (r.assets || []).forEach(a => { if (typeof a.download_count === 'number') total += a.download_count; }));
+        downloadsCount.textContent = total;
+      }
+
+      // ----- Crew -----
+      function getManualCrew() {
+        try { return JSON.parse(localStorage.getItem(crewStorageKey) || '[]'); } catch (e) { return []; }
+      }
+      function saveManualCrew(arr) { localStorage.setItem(crewStorageKey, JSON.stringify(arr)); }
+
+      function makeCrewCard(p) {
+        const avatar = p.avatar || `https://github.com/${p.login}.png`;
+        const img = el('img', { src: avatar, alt: p.login });
+        img.style.width = '64px'; img.style.height = '64px'; img.style.borderRadius = '10px';
+        const nameLink = el('a', { href: `https://github.com/${p.login}`, target: '_blank' }, p.login);
+        nameLink.style.fontWeight = '700';
+        const name = el('div', {}, nameLink);
+        if (p.name && p.name !== p.login) name.appendChild(document.createTextNode(' — ' + p.name));
+        const role = p.role ? el('div', { class: 'muted' }, p.role) : null;
+        const contrib = el('div', { class: 'muted' }, `Commits: ${p.contributions || 0}`);
+        const info = el('div', {}, name, role || '', contrib);
+        const card = el('div', { class: 'crew-card' }, img, info);
+        return card;
+      }
+
+      async function loadCrew() {
+        crewGrid.innerHTML = '';
+        crewMini.innerHTML = '';
+        const stored = getManualCrew();
+        const mergedManual = (stored || []).concat(defaultManualCrew);
+        // mini preview (first 6)
+        mergedManual.slice(0, 6).forEach(m => crewMini.appendChild(makeCrewCard(m)));
+        // main grid: stored first, then defaults
+        mergedManual.forEach(m => crewGrid.appendChild(makeCrewCard(m)));
+        // then attempt to fetch contributors and append those not already listed
+        try {
+          const url = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
+          const res = await fetch(url);
+          if (res.ok) {
+            const list = await res.json();
+            const seen = new Set(mergedManual.map(x => x.login.toLowerCase()));
+            list.forEach(c => { if (!seen.has(c.login.toLowerCase())) crewGrid.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
+          }
+        } catch (e) {
+          console.warn('contributors load failed', e);
+        }
+      }
+
+      addCrewBtn && addCrewBtn.addEventListener('click', () => {
+        openModal(`
+          <div class="inner">
+            <h3>Добавить участника</h3>
+            <div style="display:grid;gap:8px;margin-top:8px">
+              <input id="mc_login" placeholder="github login" />
+              <input id="mc_name" placeholder="имя (опционально)" />
+              <input id="mc_role" placeholder="роль (опционально)" />
+              <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <button id="mc_cancel" class="btn">Отмена</button>
+                <button id="mc_save" class="btn primary">Сохранить</button>
+              </div>
+            </div>
+          </div>`);
+        document.getElementById('mc_cancel').addEventListener('click', closeModal);
+        document.getElementById('mc_save').addEventListener('click', () => {
+          const login = (document.getElementById('mc_login')||{}).value.trim();
+          const name = (document.getElementById('mc_name')||{}).value.trim();
+          const role = (document.getElementById('mc_role')||{}).value.trim();
+          if (!login) { alert('Введите login'); return; }
+          const arr = getManualCrew();
+          arr.unshift({ login, name: name || login, role });
+          saveManualCrew(arr);
+          closeModal();
+          loadCrew();
+        });
+      });
+
+      exportCrewBtn && exportCrewBtn.addEventListener('click', () => {
+        const data = JSON.stringify(getManualCrew(), null, 2);
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-crew.json'; a.click(); URL.revokeObjectURL(url);
+      });
+
+      importCrewBtn && importCrewBtn.addEventListener('click', () => importCrewFile.click());
+      importCrewFile && importCrewFile.addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = ev => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (Array.isArray(data)) {
+              const existing = getManualCrew();
+              const ids = new Set(existing.map(x => x.login.toLowerCase()));
+              data.forEach(it => { if (it.login && !ids.has(it.login.toLowerCase())) existing.unshift(it); });
+              saveManualCrew(existing);
+              loadCrew();
+              alert('Импорт успешно завершён');
+            } else alert('Неверный формат файла');
+          } catch (err) { alert('Ошибка импорта'); }
+        };
+        r.readAsText(f);
+        e.target.value = '';
+      });
+
+      // ----- Comments (Utterances optional, fallback to local) -----
+      // To avoid external dependency requirement: we try to load Utterances only if the user enables it in settings (not by default).
+      // Default behavior: local comments stored in localStorage.
+      const commentsKey = 'rz_local_comments_v1';
+      function loadLocalCommentsUI(container) {
+        container.innerHTML = '';
+        const area = el('textarea', { id: 'localCommentText', rows: 4, style: 'width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit' });
+        const name = el('input', { id: 'localCommentName', placeholder: 'Имя (опционально)', style: 'width:40%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit' });
+        const submit = el('button', { class: 'btn primary' }, 'Отправить');
+        const list = el('div', { id: 'localCommentsList', style: 'margin-top:10px' });
+        const wrapper = el('div', {}, name, area, el('div', { style: 'display:flex;justify-content:flex-end;margin-top:8px' }, submit), list);
+        container.appendChild(wrapper);
+
+        submit.addEventListener('click', () => {
+          const txt = (document.getElementById('localCommentText')||{}).value || '';
+          const nm = (document.getElementById('localCommentName')||{}).value || '';
+          if (!txt.trim()) return alert('Введите текст комментария');
+          try {
+            const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]');
+            cur.unshift({ name: nm || 'Аноним', txt, ts: Date.now() });
+            localStorage.setItem(commentsKey, JSON.stringify(cur));
+            (document.getElementById('localCommentText')||{}).value = '';
+            renderLocalComments();
+          } catch (e) { console.warn(e); alert('Не удалось сохранить комментарий'); }
+        });
+        function renderLocalComments() {
+          const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]');
+          list.innerHTML = '';
+          if (!cur.length) { list.appendChild(el('div', { class: 'muted' }, 'Комментариев пока нет')); return; }
+          cur.forEach(c => {
+            const d = el('div', { style: 'padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);margin-bottom:8px' },
+              el('div', { style: 'font-weight:700' }, c.name),
+              el('div', { class: 'muted', style: 'font-size:.85rem' }, new Date(c.ts).toLocaleString()),
+              el('div', { style: 'margin-top:6px' }, c.txt)
+            );
+            list.appendChild(d);
+          });
+        }
+        renderLocalComments();
+      }
+
+      // ----- Modal helpers -----
+      function openModal(html) {
+        modal.innerHTML = '';
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+        const inner = el('div', { class: 'inner' });
+        inner.innerHTML = html;
+        modal.appendChild(inner);
+        modal.addEventListener('click', modalClick);
+      }
+      function closeModal() {
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.innerHTML = '';
+        modal.removeEventListener('click', modalClick);
+      }
+      function modalClick(e) { if (e.target === modal) closeModal(); }
+
+      // ----- To-Do manager -----
+      function loadTodos() {
+        try { return JSON.parse(localStorage.getItem(todoStorageKey) || '[]'); } catch (e) { return []; }
+      }
+      function saveTodos(todos) { localStorage.setItem(todoStorageKey, JSON.stringify(todos)); renderTodos(); }
+      function newId() { return 'todo_' + Math.random().toString(36).slice(2, 9); }
+
+      let todos = loadTodos();
+
+      function renderTodos() {
+        todoList.innerHTML = '';
+        const filter = (todoFilter || {}).value || '';
+        const sort = (todoSort || {}).value || 'new';
+        let list = todos.slice();
+        if (filter) list = list.filter(t => (t.text + ' ' + (t.tags || '')).toLowerCase().includes(filter.toLowerCase()));
+        if (sort === 'new') list.sort((a, b) => b.ts - a.ts);
+        if (sort === 'old') list.sort((a, b) => a.ts - b.ts);
+        if (sort === 'prio') list.sort((a, b) => ({ high:2, normal:1, low:0 }[b.priority] - { high:2, normal:1, low:0 }[a.priority]));
+        if (sort === 'due') list.sort((a, b) => (a.due ? new Date(a.due) : Infinity) - (b.due ? new Date(b.due) : Infinity));
+        list.forEach(item => {
+          const chk = el('input'); chk.type = 'checkbox'; chk.checked = !!item.done; chk.addEventListener('change', () => { item.done = chk.checked; saveTodos(todos); });
+          const title = el('div', {}, el('div', { style: 'font-weight:700' }, item.text), el('div', { class: 'muted' }, `${item.priority}${item.due ? ' • ' + item.due : ''}`));
+          const edit = el('button', { class: 'btn small' }, '✎'); edit.addEventListener('click', () => editTodo(item.id));
+          const del = el('button', { class: 'btn small' }, '✕'); del.addEventListener('click', () => { todos = todos.filter(t => t.id !== item.id); saveTodos(todos); });
+          const li = el('li', { class: 'todo-item' }, chk, title, el('div', {}, edit, del));
+          if (item.done) li.classList.add('completed');
+          todoList.appendChild(li);
+        });
+      }
+
+      todoAdd && todoAdd.addEventListener('click', () => {
+        const text = (todoInput || {}).value || '';
+        if (!text.trim()) return;
+        const priority = (todoPriority || {}).value || 'normal';
+        const due = (todoDue || {}).value || '';
+        const t = { id: newId(), text: text.trim(), priority, due, done: false, ts: Date.now() };
+        todos.unshift(t);
+        todoInput.value = '';
+        todoDue.value = '';
+        saveTodos(todos);
+      });
+
+      function editTodo(id) {
+        const t = todos.find(x => x.id === id);
+        if (!t) return;
+        openModal(`<div class="inner">
+          <h3>Редактировать задачу</h3>
+          <div style="display:grid;gap:8px;margin-top:8px">
+            <input id="edt_text" value="${escapeHtml(t.text)}" />
+            <select id="edt_prio"><option value="high">High</option><option value="normal">Normal</option><option value="low">Low</option></select>
             <input id="edt_due" type="date" value="${t.due || ''}" />
-            <input id="edt_tags" placeholder="теги через запятую" value="${(t.tags||[]).join(', ')}" />
-            <div style="display:flex;gap:.5rem;justify-content:flex-end">
+            <div style="display:flex;gap:8px;justify-content:flex-end">
               <button id="edt_cancel" class="btn">Отмена</button>
               <button id="edt_save" class="btn primary">Сохранить</button>
             </div>
           </div>
-        </div>
-      `);
-      document.getElementById('edt_prio').value = t.priority || 'normal';
-      document.getElementById('edt_cancel').addEventListener('click', closeModal);
-      document.getElementById('edt_save').addEventListener('click', ()=>{
-        t.text = document.getElementById('edt_text').value.trim() || t.text;
-        t.priority = document.getElementById('edt_prio').value;
-        t.due = document.getElementById('edt_due').value || '';
-        t.tags = (document.getElementById('edt_tags').value || '').split(',').map(s=>s.trim()).filter(Boolean);
-        saveTodos();
-        closeModal();
-      });
-    }
-
-    // Export/Import
-    document.getElementById('exportTodos').addEventListener('click', ()=>{
-      const data = JSON.stringify(todos, null, 2);
-      const blob = new Blob([data], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
-    document.getElementById('importTodosBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
-    document.getElementById('importFile').addEventListener('change', (e)=>{
-      const f = e.target.files[0]; if(!f) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        try{
-          const data = JSON.parse(ev.target.result);
-          if(Array.isArray(data)) {
-            // merge safely by id
-            const existingIds = new Set(todos.map(t=>t.id));
-            data.forEach(it => { if(!it.id) it.id = uid(); if(!existingIds.has(it.id)) todos.push(it); });
-            saveTodos();
-            alert('Импорт завершён');
-          } else alert('Неверный формат');
-        }catch(err){ alert('Ошибка импорта'); }
-      };
-      reader.readAsText(f);
-      e.target.value = '';
-    });
-
-    document.getElementById('todoAdd').addEventListener('click', addTodoFromInput);
-    document.getElementById('todoFilter').addEventListener('input', renderTodos);
-    document.getElementById('todoSort').addEventListener('change', renderTodos);
-    document.getElementById('clearCompleted').addEventListener('click', ()=> { todos = todos.filter(t=>!t.done); saveTodos(); });
-    document.getElementById('clearAll').addEventListener('click', ()=> { if(confirm('Удалить все задачи?')) { todos = []; saveTodos(); }});
-    document.getElementById('bulkComplete').addEventListener('click', ()=> { todos.forEach(t=>t.done = true); saveTodos(); });
-
-    // ----- Helpers -----
-    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-    // ----- Init -----
-    document.getElementById('refreshAll').addEventListener('click', ()=> { loadReleases(); refreshCrewFromStorage(); loadTodos(); });
-    window.addEventListener('load', ()=> {
-      // merge manual crew from storage
-      const stored = JSON.parse(localStorage.getItem('rz_manual_crew') || '[]');
-      if(stored.length) {
-        // prepend stored entries to UI via refresh function
-        refreshCrewFromStorage();
-      } else {
-        loadCrew();
+        </div>`);
+        document.getElementById('edt_prio').value = t.priority || 'normal';
+        document.getElementById('edt_cancel').addEventListener('click', closeModal);
+        document.getElementById('edt_save').addEventListener('click', () => {
+          t.text = (document.getElementById('edt_text')||{}).value.trim() || t.text;
+          t.priority = (document.getElementById('edt_prio')||{}).value || t.priority;
+          t.due = (document.getElementById('edt_due')||{}).value || '';
+          saveTodos(todos);
+          closeModal();
+        });
       }
-      loadReleases();
-      loadTodos();
-    });
+
+      exportTodosBtn && exportTodosBtn.addEventListener('click', () => {
+        const data = JSON.stringify(todos, null, 2);
+        const blob = new Blob([data], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; a.click(); URL.revokeObjectURL(url);
+      });
+
+      importTodosBtn && importTodosBtn.addEventListener('click', () => todoImportFile.click());
+      todoImportFile && todoImportFile.addEventListener('change', e => {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = ev => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (Array.isArray(data)) {
+              const existingIds = new Set(todos.map(t => t.id));
+              data.forEach(it => { if (!it.id) it.id = newId(); if (!existingIds.has(it.id)) todos.push(it); });
+              saveTodos(todos);
+              alert('Импорт завершён');
+            } else alert('Неверный формат');
+          } catch (err) { alert('Ошибка импорта'); }
+        };
+        r.readAsText(f);
+        e.target.value = '';
+      });
+
+      clearCompletedBtn && clearCompletedBtn.addEventListener('click', () => { todos = todos.filter(t => !t.done); saveTodos(todos); });
+      clearAllBtn && clearAllBtn.addEventListener('click', () => { if (confirm('Удалить все задачи?')) { todos = []; saveTodos(todos); } });
+      bulkCompleteBtn && bulkCompleteBtn.addEventListener('click', () => { todos.forEach(t => t.done = true); saveTodos(todos); });
+
+      // ----- Helpers: local cache clearing and refresh -----
+      refreshAllBtn && refreshAllBtn.addEventListener('click', () => {
+        try { localStorage.removeItem(cacheKey); } catch(e){}
+        loadAll();
+      });
+
+      // ----- Modal open/close -----
+      function openModal(html) {
+        modal.innerHTML = html;
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+        modal.style.display = 'flex';
+        modal.addEventListener('click', modalClick);
+      }
+      function closeModal() {
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        modal.style.display = 'none';
+        modal.innerHTML = '';
+        modal.removeEventListener('click', modalClick);
+      }
+      function modalClick(e) { if (e.target === modal) closeModal(); }
+
+      // escape helper
+      function escapeHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+      // ----- Events: window controls -----
+      searchReleases && searchReleases.addEventListener('input', renderReleases);
+      filterType && filterType.addEventListener('change', renderReleases);
+      sortBy && sortBy.addEventListener('change', renderReleases);
+      includeStrato && includeStrato.addEventListener('change', () => { try { localStorage.removeItem(cacheKey); } catch(e){} loadReleases(); });
+
+      // ----- Initialization -----
+      function renderReleases() { // wrapper to prevent error if not loaded yet
+        try { window.__rz_releases && (renderReleasesInternal?.() || (function(){ /*noop*/ })()); } catch(e){}
+      }
+      function renderReleasesInternal() { // actual renderer (reused)
+        const data = window.__rz_releases || [];
+        const q = (searchReleases || {}).value || '';
+        const type = (filterType || {}).value || 'all';
+        const sort = (sortBy || {}).value || 'date_desc';
+        let list = data.filter(r => matchesFilter(r, q, type));
+        if (sort === 'date_desc') list.sort((a, b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
+        if (sort === 'date_asc') list.sort((a, b) => new Date(a.published_at || a.created_at) - new Date(b.published_at || b.created_at));
+        if (sort === 'downloads_desc') list.sort((a, b) => {
+          const sa = (a.assets || []).reduce((s, x) => s + (x.download_count || 0), 0);
+          const sb = (b.assets || []).reduce((s, x) => s + (x.download_count || 0), 0);
+          return sb - sa;
+        });
+        releasesListEl.innerHTML = '';
+        list.forEach(r => releasesListEl.appendChild(makeReleaseCard(r)));
+        releasesCount.textContent = list.length;
+      }
+
+      // Entry point
+      async function loadAll() {
+        loadSettings();
+        todos = loadTodos();
+        renderTodos();
+        await loadReleases();
+        await loadCrew();
+        // local comments area: append in footer panel if exists
+        // We'll place a minimal comments container in crewMini for demo (local fallback)
+        const commentsContainer = document.createElement('div');
+        commentsContainer.style.marginTop = '12px';
+        commentsContainer.innerHTML = '<strong>Комментарии</strong>';
+        loadLocalCommentsUI(commentsContainer);
+        // append to crewMini (under small crew) if available, else add to footer
+        if (crewMini) crewMini.appendChild(commentsContainer);
+      }
+
+      // function alias used earlier
+      window.loadAllRyazhenka = loadAll;
+
+      // Run
+      loadSettings();
+      loadAll();
+
+      // expose some functions for debugging
+      window.RZ = {
+        loadReleases,
+        loadCrew,
+        openModal,
+        closeModal,
+        getManualCrew: () => getManualCrew(),
+      };
+
+    })();
   </script>
 </body>
 </html>
