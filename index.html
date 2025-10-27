@@ -310,11 +310,8 @@
         <div id="statsGitHub">Загрузка…</div>
         <div style="margin-top:.5rem;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
           <button class="btn" id="refreshStats">Обновить</button>
-          <input id="ghToken" placeholder="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" style="padding:.4rem .6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;min-width:220px" />
-          <button class="btn" id="saveToken">Сохранить токен локально</button>
-          <button class="btn" id="clearToken">Очистить токен</button>
         </div>
-        <div class="muted" style="margin-top:.4rem;font-size:0.85rem">Примечание: для получения просмотров/traffic GitHub требуется Personal Access Token (хранится в localStorage только в вашем браузере).</div>
+        <div class="muted" style="margin-top:.4rem;font-size:0.85rem">Примечание: показ просмотров disabled (token removed). Статистика скачиваний рассчитывается по доступным полям release.assets[].download_count.</div>
       </div>
 
       <div class="widget">
@@ -612,17 +609,12 @@
       }catch(e){ listEl.innerHTML = '<p class="muted">Не удалось загрузить компоненты.</p>'; console.error(e); }
     }
 
-    // GitHub token helpers
-    function getGitHubToken(){ try{ return localStorage.getItem('rz_github_token') || ''; }catch(e){ return ''; } }
-
-    // Stats: GitHub repo stats, total downloads and traffic/views (requires token)
+    // Stats: GitHub repo stats, total downloads (tokenless)
     async function fetchStats(){
       const el = document.getElementById('statsGitHub');
       if(!el) return;
       el.innerHTML = 'Загрузка…';
-      const token = getGitHubToken();
       const headers = { 'Accept':'application/vnd.github.v3+json' };
-      if(token) headers['Authorization'] = 'token ' + token;
       try{
         const repoRes = await fetch(apiBase, { headers });
         if(!repoRes.ok){
@@ -642,33 +634,11 @@
         }
         (rels || []).forEach(r => { (r.assets||[]).forEach(a => { if (typeof a.download_count === 'number') totalDownloads += a.download_count; }); });
 
-        // Try to fetch traffic/views (requires token with repo access if repo is private; public repos may still need token)
-        let viewsInfo = null;
-        if(token){
-          try{
-            const trafficRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/traffic/views`, { headers });
-            if(trafficRes.ok){
-              const tv = await trafficRes.json(); // { count, uniques, views: [...] }
-              viewsInfo = tv;
-            } else if (trafficRes.status === 403 || trafficRes.status === 401) {
-              viewsInfo = { error: `Доступ запрещён (${trafficRes.status}). Проверьте токен/права.` };
-            } else if (trafficRes.status === 202) {
-              viewsInfo = { note: 'Traffic data собирается сервером GitHub (202). Попробуйте позже.' };
-            }
-          }catch(e){ console.warn('traffic fetch error', e); }
-        }
-
-        // Render
+        // Render (no traffic/views call — token removed)
         let html = `<div>Репозиторий: <a href="https://github.com/${owner}/${repo}" target="_blank">${owner}/${repo}</a></div>`;
         html += `<div style="margin-top:.35rem">⭐ Stars: <strong>${stars}</strong> • 🍴 Forks: ${forks} • 👀 Watchers: ${watchers}</div>`;
         html += `<div style="margin-top:.35rem">⬇️ Скачиваний (asset.download_count): <strong>${totalDownloads}</strong></div>`;
-        if(viewsInfo){
-          if(viewsInfo.error) html += `<div style="margin-top:.35rem" class="muted">Просмотры: ${viewsInfo.error}</div>`;
-          else if(viewsInfo.note) html += `<div style="margin-top:.35rem" class="muted">Просмотры: ${viewsInfo.note}</div>`;
-          else html += `<div style="margin-top:.35rem">👁‍🗨 Просмотры (за 14 дней): <strong>${viewsInfo.count}</strong> • уникальных: <strong>${viewsInfo.uniques}</strong></div>`;
-        } else {
-          html += `<div style="margin-top:.35rem" class="muted">Просмотры: требуются token для получения данных traffic (если хотите — вставьте Personal Access Token).</div>`;
-        }
+        html += `<div style="margin-top:.35rem" class="muted">Просмотры: недоступны (token был удалён)</div>`;
         html += `<div style="margin-top:.25rem" class="muted">Релизов учтено: ${rels.length}</div>`;
         el.innerHTML = html;
       }catch(e){ el.innerHTML = '<div class="muted">Не удалось загрузить статистику.</div>'; console.error(e); }
@@ -845,12 +815,8 @@
       document.getElementById('refreshComponents')?.addEventListener('click', ()=> renderComponents());
       // initial render components
       renderComponents();
-      // populate token input from localStorage
-      try{ const saved = localStorage.getItem('rz_github_token'); if(saved){ const t = document.getElementById('ghToken'); if(t) t.value = saved; } }catch(e){}
-      // wire stats/token UI
-      document.getElementById('refreshStats')?.addEventListener('click', ()=> fetchStats());
-      document.getElementById('saveToken')?.addEventListener('click', ()=>{ const v = (document.getElementById('ghToken')||{}).value || ''; if(v){ localStorage.setItem('rz_github_token', v); alert('Токен сохранён локально (в вашем браузере)'); } });
-      document.getElementById('clearToken')?.addEventListener('click', ()=>{ localStorage.removeItem('rz_github_token'); const t = document.getElementById('ghToken'); if(t) t.value=''; alert('Токен удалён из localStorage'); });
+  // wire stats UI
+  document.getElementById('refreshStats')?.addEventListener('click', ()=> fetchStats());
       // start clock and fetch initial stats
       updateClock(); setInterval(updateClock,1000);
       fetchStats();
