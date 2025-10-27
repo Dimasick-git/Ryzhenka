@@ -15,7 +15,7 @@
       --anim-fast:160ms;
       --anim-medium:320ms;
 
-      /* defaults, overridden by html[data-theme] blocks below */
+      /* base defaults - overridden by theme blocks */
       --bg: #05060a;
       --text-color: #e7eef6;
       --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
@@ -28,64 +28,109 @@
       --card-border: rgba(255,255,255,0.02);
     }
 
-    /* Full-site theme variations — these change entire palette (background, text, panels, accents) */
+    /* Full-site themes (change full palette) */
     html[data-theme="glow"]{
       --bg: radial-gradient(1200px 400px at 12% 12%, rgba(124,92,255,0.06), transparent), #05060a;
-      --text-color: #e7eef6;
+      --text-color:#e7eef6;
       --panel: linear-gradient(180deg, rgba(124,92,255,0.06), rgba(0,0,0,0.06));
       --card: rgba(255,255,255,0.02);
-      --muted: #9aa0a6;
+      --muted:#9aa0a6;
       --accent:#7c5cff;
       --accent-2:#39d6ff;
-      --accent-3:#ff9f7a;
-      --card-border: rgba(255,255,255,0.02);
-    }
-    html[data-theme="cyber"]{
-      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(0,230,255,0.03), transparent), #020617;
-      --text-color: #e8ffff;
-      --panel: linear-gradient(180deg, rgba(0,230,255,0.03), rgba(0,0,0,0.06));
-      --card: rgba(0,230,255,0.03);
-      --muted: #8fe7ea;
-      --accent:#00e6ff;
-      --accent-2:#7c5cff;
-      --accent-3:#39d6ff;
-      --card-border: rgba(0,230,255,0.04);
-    }
-    html[data-theme="matrix"]{
-      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(76,255,76,0.03), transparent), #081108;
-      --text-color: #d7ffd7;
-      --panel: linear-gradient(180deg, rgba(76,255,76,0.02), rgba(0,0,0,0.06));
-      --card: rgba(76,255,76,0.02);
-      --muted: #9be99b;
-      --accent:#4cff4c;
-      --accent-2:#00e6ff;
-      --accent-3:#7c5cff;
-      --card-border: rgba(76,255,76,0.03);
-    }
-    html[data-theme="classic"]{
-      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(110,231,183,0.03), transparent), #0b0f13;
-      --text-color: #e7fdf7;
-      --panel: linear-gradient(180deg, rgba(110,231,183,0.02), rgba(0,0,0,0.06));
-      --card: rgba(255,255,255,0.02);
-      --muted: #9aeccd;
-      --accent:#6ee7b7;
-      --accent-2:#7c5cff;
-      --accent-3:#ff9f7a;
-      --card-border: rgba(255,255,255,0.02);
-    }
-    html[data-theme="sunset"]{
-      --bg: radial-gradient(1200px 400px at 12% 12%, rgba(255,159,122,0.03), transparent), #0b0706;
-      --text-color: #ffe7df;
-      --panel: linear-gradient(180deg, rgba(255,159,122,0.03), rgba(0,0,0,0.06));
-      --card: rgba(255,159,122,0.02);
-      --muted: #f0c7b2;
-      --accent:#ff9f7a;
-      --accent-2:#ff5e9e;
-      --accent-3:#7c5cff;
-      --card-border: rgba(255,159,122,0.03);
     }
 
-    /* Background / light mode overrides */
+    html[data-theme="cyber"]{
+      --bg: radial-gradient(900px 300px at 85% 10%, rgba(0,230,255,0.04), transparent), linear-gradient(180deg, #020617, #00121a);
+      --text-color:#dffcff;
+      --panel: linear-gradient(180deg, rgba(0,230,255,0.03), rgba(0,0,0,0.06));
+      --card: rgba(0,230,255,0.03);
+      --muted:#8fe7ea;
+      --accent:#00e6ff;
+      --accent-2:#7c5cff;
+    }
+
+    html[data-theme="matrix"]{
+      --bg: radial-gradient(900px 300px at 10% 20%, rgba(76,255,76,0.03), transparent), linear-gradient(180deg, #081108, #021006);
+      --text-color:#d7ffd7;
+      --panel: linear-gradient(180deg, rgba(76,255,76,0.02), rgba(0,0,0,0.06));
+      --card: rgba(76,255,76,0.02);
+      --muted:#9be99b;
+      --accent:#4cff4c;
+      --accent-2:#00e6ff;
+    }
+
+    html[data-theme="classic"]{
+      --bg: radial-gradient(900px 300px at 15% 10%, rgba(110,231,183,0.03), transparent), linear-gradient(180deg,#08121a,#061018);
+      --text-color:#e7fdf7;
+      --panel: linear-gradient(180deg, rgba(110,231,183,0.02), rgba(0,0,0,0.06));
+      --card: rgba(255,255,255,0.02);
+      --muted:#9aeccd;
+      --accent:#6ee7b7;
+      --accent-2:#7c5cff;
+    }
+
+    html[data-theme="sunset"]{
+      --bg: radial-gradient(900px 300px at 12% 12%, rgba(255,159,122,0.03), transparent), linear-gradient(180deg,#0b0706,#1a0b08);
+      --text-color:#ffe7df;
+      --panel: linear-gradient(180deg, rgba(255,159,122,0.03), rgba(0,0,0,0.06));
+      --card: rgba(255,159,122,0.02);
+      --muted:#f0c7b2;
+      --accent:#ff9f7a;
+      --accent-2:#ff5e9e;
+    }
+
+    /* Extra themes requested: aurora, nebula, sunrise, violet, emerald */
+    html[data-theme="aurora"]{
+      --bg: radial-gradient(900px 400px at 10% 12%, rgba(180,90,255,0.05), transparent), linear-gradient(180deg,#021018,#081022);
+      --text-color:#eaf6ff;
+      --panel: linear-gradient(180deg, rgba(180,90,255,0.04), rgba(0,0,0,0.06));
+      --card: rgba(160,120,255,0.02);
+      --muted:#bdb4ff;
+      --accent:#b46aff;
+      --accent-2:#69f0ff;
+    }
+
+    html[data-theme="nebula"]{
+      --bg: radial-gradient(900px 400px at 80% 15%, rgba(255,100,200,0.04), transparent), linear-gradient(180deg,#011018,#0a0212);
+      --text-color:#ffeefc;
+      --panel: linear-gradient(180deg, rgba(255,100,200,0.03), rgba(0,0,0,0.06));
+      --card: rgba(255,100,200,0.02);
+      --muted:#f0b7de;
+      --accent:#ff68b8;
+      --accent-2:#9b6bff;
+    }
+
+    html[data-theme="sunrise"]{
+      --bg: radial-gradient(900px 400px at 10% 10%, rgba(255,200,120,0.04), transparent), linear-gradient(180deg,#0a0402,#160804);
+      --text-color:#fff6ea;
+      --panel: linear-gradient(180deg, rgba(255,200,120,0.03), rgba(0,0,0,0.06));
+      --card: rgba(255,200,120,0.02);
+      --muted:#f6d6b2;
+      --accent:#ffb86b;
+      --accent-2:#ff6b95;
+    }
+
+    html[data-theme="violet"]{
+      --bg: radial-gradient(900px 400px at 15% 18%, rgba(160,80,220,0.04), transparent), linear-gradient(180deg,#060113,#0b0610);
+      --text-color:#f3eaff;
+      --panel: linear-gradient(180deg, rgba(160,80,220,0.03), rgba(0,0,0,0.06));
+      --card: rgba(160,80,220,0.02);
+      --muted:#c9b2ff;
+      --accent:#b07bff;
+      --accent-2:#6ac1ff;
+    }
+
+    html[data-theme="emerald"]{
+      --bg: radial-gradient(900px 400px at 12% 12%, rgba(80,220,150,0.04), transparent), linear-gradient(180deg,#02120a,#041410);
+      --text-color:#eaffef;
+      --panel: linear-gradient(180deg, rgba(80,220,150,0.03), rgba(0,0,0,0.06));
+      --card: rgba(80,220,150,0.02);
+      --muted:#bfffe0;
+      --accent:#4ff0a0;
+      --accent-2:#39d6ff;
+    }
+
+    /* Background / light mode overrides (always combine with theme) */
     html[data-bg="light"]{
       --bg: #fbfbfd;
       --text-color: #0b1220;
@@ -95,10 +140,10 @@
       --card-border: rgba(0,0,0,0.03);
     }
 
-    /* Text contrast modes (not accents) */
-    html[data-text="default"]{ /* uses --muted from theme/bg */ }
-    html[data-text="alt"]{ --muted: #7c6e5a; }
-    html[data-text="high"]{ --muted: #333; }
+    /* Text contrast modes (we also apply JS overrides for robust behavior) */
+    html[data-text="default"]{}
+    html[data-text="alt"]{}
+    html[data-text="high"]{}
 
     /* Basic layout using theme variables */
     *{box-sizing:border-box}
@@ -108,6 +153,7 @@
       -webkit-font-smoothing:antialiased;
       color:var(--text-color);
       background:var(--bg);
+      transition: background 420ms ease, color 320ms ease;
     }
     .container{max-width:var(--maxw);margin:0 auto;padding:18px}
     .topbar{position:sticky;top:0;z-index:40;padding:12px 0;background:transparent;backdrop-filter:blur(8px)}
@@ -224,6 +270,11 @@
             <option value="matrix">Matrix</option>
             <option value="classic">Classic</option>
             <option value="sunset">Sunset</option>
+            <option value="aurora">Aurora</option>
+            <option value="nebula">Nebula</option>
+            <option value="sunrise">Sunrise</option>
+            <option value="violet">Violet</option>
+            <option value="emerald">Emerald</option>
           </select>
 
           <label class="muted" for="bgMode">Фон</label>
@@ -236,12 +287,12 @@
           <select id="textMode" class="small" title="Text color">
             <option value="default">Default</option>
             <option value="alt">Alt</option>
-            <option value="high">High</option>
+            <option value="high">High contrast</option>
           </select>
 
           <a class="btn ghost" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
           <a class="btn ghost" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
-          <a class="btn ghost" href="https://boosty.to/Dimasick" target="_blank">Boosty</a>
+          <a class="btn ghost" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
           <a class="btn ghost" href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Wiki</a>
         </div>
       </div>
@@ -360,7 +411,7 @@
     <footer class="panel">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
         <div class="muted">© Ryazhenka — crew.ecosystem</div>
-        <div class="muted">Design: Midjourney‑like • Client‑side</div>
+        <div class="muted">Design: Midjourney‑like • Client‑side • Boosty: <a href="https://boosty.to/dimasick-git/donate" target="_blank">boosty.to/dimasick-git/donate</a></div>
       </div>
     </footer>
   </div>
@@ -371,15 +422,15 @@
   <script>
     (function(){
       // Config & keys
-      const owner = 'Dimasick-git';
-      const baseRepos = ['Dimasick-git/Ryzhenka','Atmosphere-NX/Atmosphere','CTCaer/hekate'];
+      const mainRepoFull = 'Dimasick-git/Ryzhenka';
+      const baseRepos = [mainRepoFull,'Atmosphere-NX/Atmosphere','CTCaer/hekate'];
       const optionalRepo = 'switchbrew/stratosphere';
       const releasesPerRepo = 100;
-      const cacheKey = 'rz_cache_v4';
+      const cacheKey = 'rz_cache_v5';
       const cacheTTL = 1000 * 60 * 5;
-      const crewKey = 'rz_manual_crew_v4';
-      const todoKey = 'rz_todos_v4';
-      const settingsKey = 'rz_ui_settings_v4';
+      const crewKey = 'rz_manual_crew_v5';
+      const todoKey = 'rz_todos_v5';
+      const settingsKey = 'rz_ui_settings_v5';
       const commentsKey = 'rz_comments_v1';
 
       // Elements
@@ -444,7 +495,31 @@
       function uid(prefix='id'){ return prefix + '_' + Math.random().toString(36).slice(2,9); }
       function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-      // Load and persist UI settings (theme/bg/text)
+      // Load/persist settings and apply text-mode overrides robustly
+      function applyTextOverrides(textModeValue, bgValue){
+        // Default: remove inline overrides
+        const root = document.documentElement;
+        root.style.removeProperty('--text-color');
+        root.style.removeProperty('--muted');
+        if(textModeValue === 'alt'){
+          if(bgValue === 'light'){
+            root.style.setProperty('--text-color', '#2b2b2b');
+            root.style.setProperty('--muted', '#6b5b4a');
+          } else {
+            root.style.setProperty('--text-color', '#f3e8d8');
+            root.style.setProperty('--muted', '#cdbfa6');
+          }
+        } else if(textModeValue === 'high'){
+          if(bgValue === 'light'){
+            root.style.setProperty('--text-color', '#0b0b0b');
+            root.style.setProperty('--muted', '#444444');
+          } else {
+            root.style.setProperty('--text-color', '#ffffff');
+            root.style.setProperty('--muted', '#bfc9d6');
+          }
+        }
+      }
+
       function loadSettings(){
         try{
           const s = JSON.parse(localStorage.getItem(settingsKey) || '{}');
@@ -457,6 +532,7 @@
           if(themePicker) themePicker.value = theme;
           if(bgMode) bgMode.value = bg;
           if(textMode) textMode.value = text;
+          applyTextOverrides(text, bg);
         }catch(e){}
       }
       function saveSettings(){
@@ -469,7 +545,7 @@
       textMode && textMode.addEventListener('change', saveSettings);
       loadSettings();
 
-      // HERO image loader: try repository raw files first
+      // HERO image loader: try repo raw first
       (function tryLoadHeroFromRepo(){
         const img = document.getElementById('heroImage');
         if(!img) return;
@@ -480,47 +556,38 @@
           '/assets/hero.jpg',
           '/assets/hero.jpeg',
           '/assets/preview.png',
-          '/assets/Ryazhalogo.png' // fallback to logo if hero not present
+          '/assets/Ryazhalogo.png'
         ];
         (async () => {
           for(const p of candidatePaths){
             const url = repoRawBase + p;
             try {
-              // Try HEAD first
               let ok = false;
               try {
                 const res = await fetch(url, { method: 'HEAD' });
                 ok = res.ok && res.status !== 404;
               } catch (headErr) {
-                // fallback to GET probe (small risk)
                 try {
                   const res2 = await fetch(url, { method: 'GET' });
                   ok = res2.ok && res2.status !== 404;
-                } catch (getErr) {
-                  ok = false;
-                }
+                } catch (getErr) { ok = false; }
               }
               if(ok){
                 img.src = url;
                 img.style.display = '';
                 return;
               }
-            } catch(e) {
-              // try next
-            }
+            } catch(e) {}
           }
-          // no remote hero found: keep local ./assets/hero.png (already set) or hide if not present
-          try {
-            // check local presence by creating Image
-            const test = new Image();
-            test.onload = () => { /* local available */ };
-            test.onerror = () => { img.style.display = 'none'; };
-            test.src = img.src;
-          } catch(e){}
+          // fallback: keep local src or hide
+          const test = new Image();
+          test.onload = () => {};
+          test.onerror = () => { img.style.display = 'none'; };
+          test.src = img.src;
         })();
       })();
 
-      // Releases multi-repo fetch with caching
+      // Fetch releases per repo with caching
       async function fetchReleasesFromRepo(repoFull){
         const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
         const res = await fetch(url);
@@ -587,7 +654,7 @@
         });
       }
 
-      // Grouped rendering: Dimasick-git/Ryzhenka first, then others
+      // Render grouped: main repo first, then others
       function renderReleasesGrouped(){
         const all = window.__rz_releases || [];
         const q = (searchReleases || {}).value || '';
@@ -608,13 +675,13 @@
 
         const groups = {};
         filtered.forEach(r => {
-          const repo = r._repo || `${owner}/${repo}`;
+          const repo = r._repo || mainRepoFull;
           groups[repo] = groups[repo] || [];
           groups[repo].push(r);
         });
 
         const orderedRepos = [];
-        const mainKey = 'Dimasick-git/Ryzhenka';
+        const mainKey = mainRepoFull;
         if(groups[mainKey]) orderedRepos.push(mainKey);
         Object.keys(groups).forEach(k => { if(k !== mainKey) orderedRepos.push(k); });
 
@@ -646,7 +713,7 @@
         const ver = r.tag_name || r.name || '';
         const assets = r.assets || [];
         const imageAsset = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || '')) || assets[0];
-        const preview = imageAsset ? imageAsset.browser_download_url : bbootLogoUrl(r._repo || `${owner}/${repo}`, ver);
+        const preview = imageAsset ? imageAsset.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, ver);
         const img = el('img', { src: preview, alt: ver });
         img.style.width = '100%'; img.style.height = '140px'; img.style.objectFit = 'cover'; img.style.borderRadius='8px';
 
@@ -693,7 +760,7 @@
         (window.__rz_releases || []).forEach(r => {
           const assets = r.assets || [];
           const chosen = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || '')) || assets[0];
-          const src = chosen ? chosen.browser_download_url : bbootLogoUrl(r._repo || `${owner}/${repo}`, r.tag_name || r.name || '');
+          const src = chosen ? chosen.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, r.tag_name || r.name || '');
           const img = el('img', { src, alt: r.tag_name || r.name || '' });
           img.addEventListener('click', () => openModal(`<div class="inner"><img src="${src}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${escapeHtml(r.name || r.tag_name)}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${escapeHtml(r._repo || '')}</div></div></div>`));
           galleryGridEl.appendChild(img);
@@ -707,7 +774,7 @@
         downloadsCountEl.textContent = total;
       }
 
-      // Crew: manual + contributors and interactive modal with kudos
+      // Crew
       function getManualCrew(){
         try{ return JSON.parse(localStorage.getItem(crewKey) || '[]'); }catch(e){ return []; }
       }
@@ -766,7 +833,7 @@
         merged.slice(0,6).forEach(m => crewMiniEl.appendChild(makeCrewCard(m)));
         merged.forEach(m => crewGridEl.appendChild(makeCrewCard(m)));
         try{
-          const url = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
+          const url = `https://api.github.com/repos/${mainRepoFull}/contributors?per_page=100`;
           const res = await fetch(url);
           if(res.ok){
             const list = await res.json();
@@ -776,7 +843,7 @@
         }catch(e){ console.warn('contributors failed', e); }
       }
 
-      // Crew add/export/import
+      // Crew add/export/import handlers
       addCrewBtn && addCrewBtn.addEventListener('click', () => {
         openModal(`<div class="inner"><h3>Добавить участника</h3><div style="display:grid;gap:8px;margin-top:8px"><input id="mc_login" placeholder="Github login" /><input id="mc_name" placeholder="Имя (опционально)" /><input id="mc_role" placeholder="Роль" /><div style="display:flex;justify-content:flex-end;gap:8px"><button id="mc_cancel" class="btn">Отмена</button><button id="mc_save" class="btn primary">Сохранить</button></div></div></div>`);
         document.getElementById('mc_cancel').addEventListener('click', closeModal);
@@ -820,7 +887,7 @@
         r.readAsText(f); e.target.value = '';
       });
 
-      // Local comments UI (attached in crewMini)
+      // Local comments UI (attach to crewMini)
       function loadLocalCommentsUI(container){
         container.innerHTML = '';
         const title = el('strong', {}, 'Комментарии (локальные)');
@@ -878,7 +945,7 @@
       function closeModal(){ modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden','true'); modalEl.style.display='none'; modalEl.innerHTML=''; modalEl.removeEventListener('click', modalHandler); }
       function modalHandler(e){ if(e.target === modalEl) closeModal(); }
 
-      // To-Do manager
+      // To-Do
       function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
       function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
       function newTodoId(){ return 'td_' + Math.random().toString(36).slice(2,9); }
@@ -966,20 +1033,21 @@
       todoFilter && todoFilter.addEventListener('input', renderTodos);
       todoSort && todoSort.addEventListener('change', renderTodos);
 
-      // Live search
+      // Live search and events
       searchReleases && searchReleases.addEventListener('input', () => { renderReleasesGrouped(); });
-
-      // Refresh
+      filterType && filterType.addEventListener('change', () => { renderReleasesGrouped(); });
+      sortBy && sortBy.addEventListener('change', () => { renderReleasesGrouped(); });
+      includeStrato && includeStrato.addEventListener('change', () => { try{ localStorage.removeItem(cacheKey); }catch(e){} loadReleases(); });
       refreshAllBtn && refreshAllBtn.addEventListener('click', () => { try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
 
-      // Initial load
+      // Initialization
       async function loadAll(){
         loadSettings();
         todos = loadTodos();
         renderTodos();
         await loadReleases();
         await loadCrew();
-        // attach comments UI
+        // comments
         const commentsContainer = document.createElement('div');
         commentsContainer.style.marginTop = '12px';
         commentsContainer.innerHTML = '<strong>Комментарии</strong>';
@@ -987,7 +1055,7 @@
         if(crewMiniEl) crewMiniEl.appendChild(commentsContainer);
       }
 
-      // Expose debug methods
+      // Expose small API for debugging
       window.RZ = { loadReleases, loadCrew, loadAll, openModal, closeModal };
 
       // Start
