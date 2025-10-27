@@ -9,10 +9,9 @@
 [![📢 Telegram](https://img.shields.io/badge/📢_Telegram-Ryazhenkabestcfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenkabestcfw)
 [![▶️ YouTube](https://img.shields.io/badge/▶️_YouTube-Dimasick--git-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=000000)](https://www.youtube.com/@Dimaick-git)
 [![🚀 Официальный сайт](https://img.shields.io/badge/🚀_Официальный_сайт-Ryzhenka-00D9FF?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
-[![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
 
+[![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
 ![GitHub Все Загрузки](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?color=blue)
-![Latest Release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?label=Последний%20релиз)
 
 </div>
 
@@ -32,53 +31,42 @@
   <tr>
     <td align="center" width="25%">
       <img src="https://user-images.githubusercontent.com/3665130/60391760-bc1e8c00-9afe-11e9-8b7a-b065873081b2.png" alt="Hekate" width="120" height="120"/>
-      <br />
-      <strong>🚀 Hekate</strong><br />
-      <em>Bootloader</em><br />
+      <br/>
+      <strong>🚀 Hekate</strong><br/>
+      <em>Bootloader</em><br/>
       <a href="https://github.com/CTCaer/hekate">Перейти к Hekate</a>
     </td>
     <td align="center" width="25%">
       <img src="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/img/banner.png" alt="Atmosphere" width="120" height="120"/>
-      <br />
-      <strong>🌪️ Atmosphere</strong><br />
-      <em>Custom Firmware</em><br />
+      <br/>
+      <strong>🌪️ Atmosphere</strong><br/>
+      <em>Custom Firmware</em><br/>
       <a href="https://github.com/Atmosphere-NX/Atmosphere">Перейти к Atmosphere</a>
     </td>
     <td align="center" width="25%">
-      <img src="https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/files/.pics/Ryazhahand.png" alt="Ryazhahand-Overlay" width="120" height="120"/>
-      <br />
-      <strong>🎮 Ryazhahand-Overlay</strong><br />
-      <em>Tesla Overlay</em><br />
-      <a href="https://github.com/Dimasick-git/Ryazhahand-Overlay">Управление системой</a>
+      <img src="https://raw.githubusercontent.com/Dimasick-git/Ryazhahand-Overlay/main/.pics/Ryazhahand.png" alt="Ryazhahand-Overlay" width="120" height="120"/>
+      <br/>
+      <strong>🎮 Ryazhahand-Overlay</strong><br/>
+      <em>Overlay</em><br/>
+      <a href="https://github.com/Dimasick-git/Ryazhahand-Overlay">Перейти к Ryazhahand-Overlay</a>
     </td>
     <td align="center" width="25%">
-      <img src="https://raw.githubusercontent.com/Dimasick-git/libRYAZHAHAND/main/files/.pics/libRyazhahand.png" alt="libRYAZHAHAND" width="120" height="120"/>
-      <br />
-      <strong>📚 libRYAZHAHAND</strong><br />
-      <em>Библиотека</em><br />
-      <a href="https://github.com/Dimasick-git/libRYAZHAHAND">Инструменты разработки</a>
+      <img src="https://raw.githubusercontent.com/Dimasick-git/libRYAZHAHAND/main/.pics/libRyazhahand.png" alt="libRYAZHAHAND" width="120" height="120"/>
+      <br/>
+      <strong>📚 libRYAZHAHAND</strong><br/>
+      <em>Library</em><br/>
+      <a href="https://github.com/Dimasick-git/libRYAZHAHAND">Перейти к libRYAZHAHAND</a>
     </td>
   </tr>
 </table>
 
 ---
 
-## 📦 **Варианты сборки**
+## ✨ **Основные возможности**
 
-Ryazhenka предлагает три сборки на любой вкус:
-
-| Сборка | Описание | Размер |
-|--------|----------|--------|
-| **Ryazhenkabestcfw** | Полная версия со всеми модулями и визуальными элементами | ~150 MB |
-| **Ryazhenka_lite** | Облегчённая версия без дополнительных ассетов | ~80 MB |
-| **Ryazhenka_AIO** | All-in-One с инструментами для разработки | ~200 MB |
-
----
-
-## ✨ **Особенности**
-
-- ✅ **Полная поддержка `.ovl` модулей** — интеграция с Tesla Menu и overlay-системой
-- 🎨 **Branded UI** — кастомные splash-экраны, лого и визуальные элементы
+- 🎨 **Современный UX** — интуитивный интерфейс с темной темой и русификацией
+- 🔥 **Мощные визуалы** — анимации, иконки и кастомные элементы
+- ⚡ **Полная автоматизация** — скрипты установки и настройки
 - 📖 **Русскоязычная документация** — `INSTALL.md`, `FAQ.md`, `CONTRIBUTING.md`
 - 🔄 **Регулярные обновления** — актуальные версии Atmosphère и компонентов
 - 🛠️ **Crew-инфраструктура** — поддержка российских платформ и Boosty
@@ -108,6 +96,7 @@ Ryazhenka предлагает три сборки на любой вкус:
 ## 🔗 **Ссылки**
 
 - 💾 **GitHub:** [github.com/Dimasick-git/Ryzhenka](https://github.com/Dimasick-git/Ryzhenka)
+- 📚 **Вики:** [Вики](https://github.com/Dimasick-git/Ryzhenka/wiki)
 - 💸 **Донат:** [boosty.to/dimasick-git/donate](https://boosty.to/dimasick-git/donate)
 - 📢 **Telegram:** [t.me/Ryazhenkabestcfw](https://t.me/Ryazhenkabestcfw)
 - ▶️ **YouTube:** [youtube.com/@Dimaick-git](https://www.youtube.com/@Dimaick-git)
@@ -124,6 +113,7 @@ Ryazhenka распространяется под лицензией MIT. См. 
 ## 💬 **Благодарности**
 
 Особая благодарность:
+
 - [CTCaer](https://github.com/CTCaer) за Hekate
 - [Atmosphere-NX](https://github.com/Atmosphere-NX) за Atmosphère
 - Всему crew и комьюнити за поддержку
