@@ -89,6 +89,19 @@
     .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-top:.75rem}
     .btn{display:inline-block;padding:.4rem .6rem;border-radius:8px;background:rgba(255,255,255,0.03);color:inherit;text-decoration:none}
     footer{margin-top:1.5rem;color:var(--muted)}
+    /* Fancy cards and firmware block */
+    .firmware-block{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1rem}
+  .firmware-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(0,0,0,0.5);transition:transform .22s ease,box-shadow .22s ease}
+  .firmware-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 22px 48px rgba(0,0,0,0.65)}
+  .firmware-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:.5rem;background:#071018}
+  .firmware-card .meta-row{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem}
+  .badge{padding:.2rem .5rem;border-radius:999px;font-size:.78rem;background:rgba(255,255,255,0.03);color:var(--muted)}
+  .last-updated{font-size:0.85rem;color:var(--muted);margin-left:8px}
+  /* Thanks block */
+  .thanks-block{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem}
+  .thanks-card{display:flex;gap:.75rem;align-items:flex-start;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  .thanks-card img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+    .theme-indicator{padding:.25rem .5rem;border-radius:999px;background:rgba(255,255,255,0.02);font-size:0.85rem}
   </style>
 </head>
 <body>
@@ -104,7 +117,10 @@
       <a class="btn" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
       <a class="btn" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
       <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka" target="_blank">GitHub</a>
+      <a class="btn" href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Wiki</a>
       <a class="btn" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
+      <!-- Theme toggle -->
+      <button id="themeBtn" title="Сменить тему" style="margin-left:6px;padding:6px 10px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),#39d6ff);color:#071018;font-weight:700;cursor:pointer">Тема</button>
     </div>
   </header>
 
@@ -135,6 +151,8 @@
           <option value="Ryazhenka_lite">Lite</option>
         </select>
         <button id="refreshReleases" class="btn">Обновить</button>
+        <label style="display:flex;align-items:center;gap:.4rem;margin-left:.5rem"><input type="checkbox" id="autoRefresh" checked /> Автообновление</label>
+        <div id="lastUpdated" class="last-updated muted">Обновлено: —</div>
       </div>
       <div id="releases-list" class="releases"></div>
     </section>
@@ -144,9 +162,22 @@
       <div id="galleryGrid" class="gallery"></div>
     </section>
 
+    <!-- Firmware Section: Ryazhenka releases with images/links -->
+    <section id="firmware">
+      <h2>Прошивка Ryazhenka</h2>
+      <p class="muted">Последние официальные релизы Ryazhenka — описание, превью и быстрые ссылки на скачивание.</p>
+      <div id="firmwareBlock" class="firmware-block"></div>
+    </section>
+
     <section id="crew">
       <h2>Команда</h2>
       <div id="crew-grid" class="crew-grid"></div>
+    </section>
+
+    <section id="thanks">
+      <h2>Благодарности</h2>
+      <p class="muted">Особая благодарность людям и проектам, которые помогали тестировать и переводить Ryazhenka.</p>
+      <div id="thanksBlock" class="thanks-block"></div>
     </section>
 
     <section id="comments" style="margin-top:1rem">
@@ -172,14 +203,18 @@
   </footer>
 
   <script>
-    // Basic aggregator: owner + popular Switch components
-    const owner = 'Dimasick-git';
-    const repo = 'Ryzhenka';
-    const releasesApi = `https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`;
-    const contributorsApi = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
-    const listEl = document.getElementById('releases-list');
-    const crewGrid = document.getElementById('crew-grid');
-    const galleryGrid = document.getElementById('galleryGrid');
+  // Basic aggregator: owner + popular Switch components
+  const owner = 'Dimasick-git';
+  const repo = 'Ryzhenka';
+  const releasesApi = `https://api.github.com/repos/${owner}/${repo}/releases?per_page=100`;
+  const contributorsApi = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
+  const listEl = document.getElementById('releases-list');
+  const crewGrid = document.getElementById('crew-grid');
+  const galleryGrid = document.getElementById('galleryGrid');
+  const firmwareBlock = document.getElementById('firmwareBlock');
+  const lastUpdatedEl = document.getElementById('lastUpdated');
+  const autoRefreshEl = document.getElementById('autoRefresh');
+  const thanksBlock = document.getElementById('thanksBlock');
 
     const manualCrew = [
       { login: 'Dimasick-git', role: 'Автор' },
@@ -194,7 +229,14 @@
       { owner: 'yifanlu', repo: 'Tesla' }
     ];
 
-    let releasesData = [];
+  let releasesData = [];
+  // Theme handling
+  const THEMES = ['glow','classic','solarized','neon'];
+  function applyTheme(t){ try{ document.documentElement.dataset.theme = t || 'glow'; localStorage.setItem('rz_theme', t); document.getElementById('themeBtn').textContent = `Тема: ${t}`; }catch(e){}
+  }
+  // initialize theme
+  (function(){ const stored = localStorage.getItem('rz_theme') || 'glow'; applyTheme(stored); })();
+  document.getElementById('themeBtn').addEventListener('click', ()=>{ const cur = document.documentElement.dataset.theme || 'glow'; const idx = THEMES.indexOf(cur); const next = THEMES[(idx+1)%THEMES.length]; applyTheme(next); });
 
     function fmtDate(iso){ if(!iso) return ''; try{ return new Date(iso).toLocaleDateString('ru-RU'); }catch(e){return iso;} }
 
@@ -249,8 +291,41 @@
         combined.sort((a,b)=> new Date(b.published_at||b.created_at)-new Date(a.published_at||a.created_at));
         for(const it of combined){ const key = it.html_url || (it.id?String(it.id): (it.tag_name||it.name||'')); if(!key) continue; if(seen.has(key)) continue; seen.add(key); ded.push(it); }
         releasesData = ded.slice(0,200);
-        renderReleases(); renderGallery();
+        renderReleases(); renderGallery(); renderFirmwareBlock();
+        // update last-updated indicator
+        if(lastUpdatedEl) lastUpdatedEl.textContent = 'Обновлено: ' + new Date().toLocaleString('ru-RU');
       }catch(e){ listEl.innerHTML = '<div class="muted">Ошибка загрузки релизов.</div>'; console.error(e); }
+    }
+
+    // Render a dedicated firmware block with only Ryazhenka releases
+    function renderFirmwareBlock(){
+      if(!firmwareBlock) return;
+      firmwareBlock.innerHTML = '';
+      // detect releases that belong to the owner (by __source or repository.owner.login)
+      const mine = (releasesData||[]).filter(r=> {
+        const src = (r.__source||'').toLowerCase();
+        const repoOwner = (r.repository && r.repository.owner && (r.repository.owner.login||'')).toLowerCase();
+        return src.startsWith(owner.toLowerCase() + '/') || repoOwner === owner.toLowerCase();
+      });
+      if(mine.length===0){ firmwareBlock.innerHTML = '<div class="muted">Релизов Ryazhenka не найдено.</div>'; return; }
+      mine.slice(0,12).forEach(r=>{
+        const c = document.createElement('div'); c.className='firmware-card';
+        const img = document.createElement('img');
+  const assetImg = (r.assets||[]).find(a=>/\.(png|jpe?g|gif|webp)$/i.test(a.name||''));
+  const _fallback = './assets/Ryazhalogo.png';
+  img.src = assetImg? assetImg.browser_download_url : (r.assets&&r.assets[0]&&r.assets[0].browser_download_url) || _fallback;
+  img.onerror = ()=>{ img.onerror = null; img.src = _fallback; };
+        img.alt = r.name || r.tag_name || '';
+        c.appendChild(img);
+        const title = document.createElement('div'); title.style.fontWeight='700'; title.textContent = r.name || r.tag_name || ''; c.appendChild(title);
+        const desc = document.createElement('div'); desc.className='muted'; desc.textContent = (r.body||'').slice(0,140); c.appendChild(desc);
+        if(r.assets && r.assets.length){
+          const list = document.createElement('div'); list.style.marginTop='.5rem';
+          r.assets.forEach(a=>{ const ael=document.createElement('a'); ael.className='btn'; ael.style.marginRight='6px'; ael.href=a.browser_download_url; ael.target='_blank'; ael.textContent = a.name + (a.download_count?(' ('+a.download_count+')'):''); list.appendChild(ael); });
+          c.appendChild(list);
+        }
+        firmwareBlock.appendChild(c);
+      });
     }
 
     function renderReleases(){
@@ -272,10 +347,30 @@
     function loadUtterances(){ const c=document.getElementById('utterances-container'); if(!c) return; const s=document.createElement('script'); s.src='https://utteranc.es/client.js'; s.async=true; s.setAttribute('repo','Dimasick-git/Ryzhenka'); s.setAttribute('issue-term','pathname'); s.setAttribute('theme','github-light'); s.crossOrigin='anonymous'; s.onerror=()=>{ document.getElementById('local-comments').style.display='block'; }; c.appendChild(s); }
 
     // Stats (tokenless): sum of asset.download_count across aggregated releases
-    async function fetchStats(){ const el=document.getElementById('statsGitHub'); el.innerHTML='Загрузка…'; try{ const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`); const repoJson = repoRes.ok?await repoRes.json():{}; const stars=repoJson.stargazers_count||0; const forks=repoJson.forks_count||0; let total=0, ownerTotal=0; (releasesData||[]).forEach(r=> (r.assets||[]).forEach(a=>{ if(typeof a.download_count==='number'){ total+=a.download_count; if((r.__source||'').toLowerCase().startsWith(owner.toLowerCase()+'/')) ownerTotal+=a.download_count; } })); el.innerHTML=`⭐ ${stars} • 🍴 ${forks} • ⬇️ Ваши: ${ownerTotal} • Всего: ${total} <div class="muted" style="margin-top:.3rem">Уникальные скачивания/просмотры: требуют серверной интеграции (GitHub traffic API).</div>`; }catch(e){ el.innerHTML='<div class="muted">Не удалось загрузить статистику.</div>'; }}
+    async function fetchStats(){ const el=document.getElementById('statsGitHub'); el.innerHTML='Загрузка…'; try{ const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`); const repoJson = repoRes.ok?await repoRes.json():{}; const stars=repoJson.stargazers_count||0; const forks=repoJson.forks_count||0; let total=0, ownerTotal=0; (releasesData||[]).forEach(r=> (r.assets||[]).forEach(a=>{ if(typeof a.download_count==='number'){ total+=a.download_count; if((r.__source||'').toLowerCase().startsWith(owner.toLowerCase()+'/')) ownerTotal+=a.download_count; } }));
+      el.innerHTML=`⭐ ${stars} • 🍴 ${forks} • ⬇️ Ваши: ${ownerTotal} • Всего: ${total} <div class="muted" style="margin-top:.3rem">Уникальные скачивания/просмотры: требуют серверной интеграции (GitHub traffic API).\nДля точных уникальных метрик можно реализовать serverless-прокси с приватным GitHub token (на Cloudflare Workers / AWS Lambda) и безопасно опрашивать GitHub Traffic API.</div>`;
+    }catch(e){ el.innerHTML='<div class="muted">Не удалось загрузить статистику.</div>'; }}
+
+    // Populate thanks block
+    function loadThanks(){ if(!thanksBlock) return; thanksBlock.innerHTML=''; const list = [
+      {login:'Dimasick-git', note:'Автор и ведущий разработчик', avatar:`https://github.com/Dimasick-git.png`},
+      {login:'Ryazhenka-Helper-1', note:'Помощник по тестам', avatar:`https://github.com/Ryazhenka-Helper-1.png`},
+      {login:'Ryazhenka-Helper-01', note:'Документация и локализация', avatar:`https://github.com/Ryazhenka-Helper-01.png`}
+    ];
+    list.forEach(p=>{ const c=document.createElement('div'); c.className='thanks-card'; const img=document.createElement('img'); img.src=p.avatar; img.alt=p.login; const col=document.createElement('div'); const a=document.createElement('a'); a.href=`https://github.com/${p.login}`; a.target='_blank'; a.textContent=p.login; a.style.fontWeight='700'; const note=document.createElement('div'); note.className='muted'; note.style.fontSize='0.92rem'; note.textContent=p.note; col.appendChild(a); col.appendChild(note); c.appendChild(img); c.appendChild(col); thanksBlock.appendChild(c); }); }
 
     // Init
-    (function(){ document.getElementById('refreshReleases').addEventListener('click', loadReleases); document.getElementById('searchReleases').addEventListener('input', renderReleases); document.getElementById('filterType').addEventListener('change', renderReleases); document.getElementById('refreshStats').addEventListener('click', fetchStats); loadReleases(); loadCrew(); loadUtterances(); setInterval(()=>{ loadReleases(); fetchStats(); }, 1000*60*5); window.RZ={loadReleases, loadCrew}; })();
+    (function(){
+      document.getElementById('refreshReleases').addEventListener('click', loadReleases);
+      document.getElementById('searchReleases').addEventListener('input', renderReleases);
+      document.getElementById('filterType').addEventListener('change', renderReleases);
+      document.getElementById('refreshStats').addEventListener('click', fetchStats);
+      if(autoRefreshEl){ autoRefreshEl.addEventListener('change', ()=>{ if(autoRefreshEl.checked){ lastUpdatedEl && (lastUpdatedEl.textContent='Автообновление включено'); } else { lastUpdatedEl && (lastUpdatedEl.textContent='Автообновление отключено'); } }); }
+      loadReleases(); loadCrew(); loadUtterances(); loadThanks(); fetchStats();
+      // background refresh respects the autoRefresh checkbox
+      setInterval(()=>{ if(!autoRefreshEl || autoRefreshEl.checked){ loadReleases(); fetchStats(); } }, 1000*60*2);
+      window.RZ={loadReleases, loadCrew};
+    })();
   </script>
 </body>
 </html>
