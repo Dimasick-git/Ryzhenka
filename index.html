@@ -353,6 +353,88 @@
     /* Убрать лишние пустоты */
     .panel,section,footer{margin-bottom:10px!important;}section.panel:last-of-type,footer.panel{margin-bottom:0!important;}@media (max-width:700px){.panel,section{padding:14px 4vw!important;}}
 
+    :root {
+      --radius: 18px;
+      --maxw: 1200px;
+      --anim-fast: 160ms;
+      --anim-medium: 320ms;
+      --text-color: #e8ebfa;
+      --muted: #858fae;
+      --bg: #08090f;
+      --panel: #0b0e18;
+      --card: #10121b;
+      --accent: #2350ff;
+      --accent-2: #394973;
+      --accent-3: #07568e;
+      --glass: #1a182544;
+      --card-border: #1f223277;
+    }
+    html[data-theme="deepnight"] {
+      --bg: #06070c;
+      --panel: #090c16;
+      --card: #10101b;
+      --accent: #2d3d82;
+      --accent-2: #131c3c;
+      --muted: #707ca0;
+      --text-color: #d6e2f1;
+    }
+    html[data-theme="indigo"] {
+      --bg: #080917;
+      --panel: #111327;
+      --card: #111234;
+      --accent: #21285f;
+      --accent-2: #171b33;
+      --muted: #8f99ba;
+      --text-color: #e2e5fb; 
+    }
+    html[data-theme="abyss"] {
+      --bg: #050815;
+      --panel: #070b18;
+      --card: #151832;
+      --accent: #02304f;
+      --accent-2: #01081a;
+      --muted: #4e6985;
+      --text-color: #e7f9ff;
+    }
+    html[data-theme="phantom"] {
+      --bg: #0a0916;
+      --panel: #181729;
+      --card: #18152b;
+      --accent: #29194b;
+      --accent-2: #131339;
+      --muted: #7d69a3;
+      --text-color: #ecefff;
+    }
+    html[data-theme="cyber"] {
+      --bg: #060a13;
+      --panel: #0d1221;
+      --card: #171a28;
+      --accent: #1ab0dc;
+      --accent-2: #1e203b;
+      --muted: #3893a2;
+      --text-color: #e9fdfc;
+    }
+    html[data-theme="midnight"] {
+      --bg: #06092d;
+      --panel: #0b0d1d;
+      --card: #0e1021;
+      --accent: #313f69;
+      --accent-2: #202736;
+      --muted: #7c92b4;
+      --text-color: #e6eafd;
+    }
+    body, .container, .panel { background: var(--bg)!important; color: var(--text-color)!important; }
+    .panel, .release-card {
+      background: var(--panel)!important;
+      box-shadow: 0 6px 24px #07091fdd;
+      border-radius: 18px;
+      border: 1.4px solid var(--card-border);
+    }
+    .release-card img, .release-card svg { background: var(--card)!important; border-radius: 11px;}
+    .btn{ background: linear-gradient(120deg,#15161f 70%,#131327 100%); border-radius: 12px; border: 1px solid #23233b; color: var(--text-color)!important; transition: background .22s, box-shadow .22s;}
+    .btn:hover{ background: linear-gradient(120deg,#23254c,#151428 100%); color: #fff;}
+    .topbar,.hero{ background: var(--panel)!important; box-shadow: 0 7px 18px #070a1999;}
+
     </style>
     <script>
     // SVG GRID animation (soft wavy)
@@ -1353,7 +1435,7 @@
 
       function renderModulesGrouped(){
         const all = window.__rz_modules || []; const q = (searchReleases||{}).value||''; const type = (filterType||{}).value||'all'; const sort = (sortBy||{}).value||'date_desc';
-        const filtered = all.filter(r => { const ver=(r.tag_name||r.name||'').toLowerCase(); const title=(r.name||'').toLowerCase(); const body=(r.body||'').toLowerCase(); const repo=(r._repo||'').toLowerCase(); const combined=[ver,title,body,repo].join(' '); const qOk = !q || combined.includes(q.toLowerCase()); let tOk=true; if(type && type!=='all') tOk = (r.assets||[]).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase())); return qOk && tOk; });
+        const filtered = all.filter(r => { const ver=(r.tag_name||r.name||'').toLowerCase(); const title=(r.name||'').toLowerCase(); const body=(r.body||'').toLowerCase(); const repo=(r.body||'').toLowerCase(); const combined=[ver,title,body,repo].join(' '); const qOk = !q || combined.includes(q.toLowerCase()); let tOk=true; if(type && type!=='all') tOk = (r.assets||[]).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase())); return qOk && tOk; });
 
         const groups = {}; filtered.forEach(r => { const repo = r._repo || ''; (groups[repo] = groups[repo]||[]).push(r); });
 
