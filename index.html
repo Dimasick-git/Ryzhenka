@@ -57,7 +57,7 @@
     <header class="topbar">
       <div class="top-inner">
         <div class="brand" onclick="location.href='./'">
-          <img class="logo" src="./assets/Ryazhalogo.png" alt="Ryazhenka" />
+          <img class="logo" src="/Ryzhenka/assets/Ryazhalogo.png" alt="Ryazhenka" />
           <div>
             <div class="brand-title">Ryazhenka</div>
             <div class="brand-sub">CFW — generative aesthetic</div>
@@ -94,7 +94,7 @@
         <p class="lead">Стабильная кастомная прошивка для Nintendo Switch — красиво, безопасно, удобно. Всё в одном месте: релизы, галерея, благодарности, модули, To‑Do.</p>
 
         <div class="hero-image" id="heroImageWrap">
-          <img id="heroImage" src="./assets/hero.png" alt="Hero preview (from repository if available)" onerror="this.style.display='none'" />
+          <img id="heroImage" src="/Ryzhenka/assets/hero.png" alt="Hero preview (from repository if available)" onerror="this.style.display='none'" />
         </div>
 
         <div class="hero-cta">
@@ -205,6 +205,41 @@
         </aside>
       </div>
     </section>
+
+    <!-- TUNER RELEASES -->
+    <section id="tuner-releases" class="panel section">
+      <div class="section-head">
+        <h2>Релизы Ryazhenkabestcfw-Tuner</h2>
+        <div class="muted" id="tuner-timestamp"></div>
+      </div>
+      <div id="tunerReleasesList"></div>
+    </section>
+    <script>
+    (async function loadTunerReleases(){
+      const list = document.getElementById('tunerReleasesList');
+      const timeEl = document.getElementById('tuner-timestamp');
+      list.innerHTML = '<div class="muted">Загрузка...</div>';
+      try{
+        const url = 'https://api.github.com/repos/Dimasick-git/Ryazhenkabestcfw-Tuner/releases?per_page=5';
+        const res = await fetch(url); const data = await res.json();
+        timeEl.textContent = 'Последнее обновление: ' + new Date().toLocaleString();
+        list.innerHTML = '';
+        data.forEach(rel => {
+          const card = document.createElement('div');
+          card.className = 'release-card';
+          card.style = 'margin-bottom:15px;background:var(--card);padding:16px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,0.07);';
+          const head = `<div style="font-size:1.18em;font-weight:700;">${rel.name||rel.tag_name||'Release'}</div>`;
+          const date = `<div class="muted" style="font-size:.92em;margin-bottom:7px;">${new Date(rel.published_at).toLocaleDateString()} • <a href="${rel.html_url}" target="_blank">GitHub</a></div>`;
+          const body = `<div style="margin:5px 0 9px;color:var(--text-color);white-space:pre-line;">${rel.body ? rel.body.slice(0,1200): ''}</div>`;
+          const assets = (rel.assets||[]).map(a=>`<a class="btn" style="margin:6px 6px 0 0;display:inline-block;" href="${a.browser_download_url}">${a.name}</a>`).join('');
+          card.innerHTML = head + date + body + (assets ? `<div style="margin-top:8px">${assets}</div>` :'');
+          list.appendChild(card);
+        });
+      }catch(e){
+        list.innerHTML = '<div class="muted">Ошибка при загрузке релизов :(</div>';
+      }
+    })();
+    </script>
 
     <!-- FOOTER -->
     <footer class="panel">
