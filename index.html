@@ -286,6 +286,29 @@
     .theme-preview-dot-mint {background:linear-gradient(120deg,#aafea9,#059c7b);}  /* Mint */
     .theme-preview-dot-gold {background:linear-gradient(120deg,#ffe083,#ffb400);}   /* Gold */
 
+    /* Новые space/космос soft-glass стили, без неона */
+    body, .panel, .release-card, .btn, .hero, .topbar {
+      box-shadow: 0 7px 28px #19193228 !important;
+      border: none !important;
+      background: linear-gradient(120deg,rgba(28,45,70,0.92) 70%,rgba(33,24,48,.96) 100%);
+    }
+    .hero, .panel {
+      background: linear-gradient(120deg,rgba(41,54,81,0.96) 60%,rgba(27,18,48,.94) 100%); 
+      backdrop-filter: blur(18px) brightness(1.01);
+    }
+    .release-card {
+      background: linear-gradient(120deg,rgba(34,44,62,0.98),rgba(16,12,25,0.96) 83%);
+      box-shadow: 0 4px 30px #0c0f2b44;
+      transition:background .31s,box-shadow .22s;
+    }
+    .release-card:hover {background:linear-gradient(120deg,#34396a 10%,#232545 90%);box-shadow: 0 12px 32px #17208033;}
+    .btn {
+      background:rgba(44,57,86,0.81); color:#e4eaff;box-shadow:0 1px 6px #15182527; border-radius:13px;font-weight:700;
+      border:1.5px solid #23327766;
+      transition:background .23s,border .16s,box-shadow .18s;
+    }
+    .btn:hover {background:rgba(58,67,108,1);color:#fff;border:1.5px solid #82e7f7bb}
+
     </style>
     <script>
     // SVG GRID animation (soft wavy)
@@ -1218,21 +1241,13 @@
 
     })();
 
-    (function enhanceReleaseImages(){
+    (function enhanceReleaseImagesUniversal(){
+      // Универсальный finder картинки для релиза:
       function getReleaseImg(r) {
-        // Atmosphere
-        if(r._repo && r._repo.toLowerCase().includes('atmosphere-nx/atmosphere')) {
-          return 'https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/img/banner.png';
-        }
-        // Hekate
-        if(r._repo && r._repo.toLowerCase().includes('ctcaer/hekate')) {
-          return 'https://user-images.githubusercontent.com/3665130/60391760-bc1e8c00-9afe-11e9-8b7a-b065873081b2.png';
-        }
-        // Есть asset картинка
         const assets = r.assets||[];
         const assetImg = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
         if(assetImg) return assetImg.browser_download_url;
-        // Попробовать найти github raw preview:
+        // Попытаться найти стандартные github raw превью
         if(r._repo) {
           const tryUrls = [
             `https://raw.githubusercontent.com/${r._repo}/main/assets/preview.png`,
@@ -1240,14 +1255,12 @@
             `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`,
             `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`
           ];
-          // Синхронно проверим только первую, остальное через onerror/onload (см. ниже)
           return tryUrls[0];
         }
         // Fallback логотип
         return '/Ryzhenka/assets/Ryazhalogo.png';
       }
-
-      // Patch makeReleaseCard визуал и логику изображения:
+      // Создание и отрисовка карточки релиза с fade-in/svg fallback
       window.makeReleaseCard = function(r){
         const ver = r.tag_name || r.name || '';
         let imgSrc = getReleaseImg(r);
@@ -1261,10 +1274,8 @@
         img.style.transition = 'opacity .54s cubic-bezier(.5,1.3,.7,1),filter .38s';
         img.style.opacity = '0';
         img.style.background = 'linear-gradient(90deg,#33125a22,#2fc6de11 70%,#12065013)';
-        // Fade-in при загрузке
         img.onload = ()=>{ img.style.opacity = '1'; img.style.filter='none'; };
         img.onerror = ()=>{
-          // Попробовать другие альтернативные картинки:
           if(img.src.includes('preview.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`;
           else if(img.src.includes('hero.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`;
           else if(img.src.includes('banner.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`;
@@ -1281,7 +1292,6 @@
           svg.innerHTML = `<rect width="290" height="84" rx="16" fill="#191931"/><text x="50%" y="51%" dominant-baseline="middle" text-anchor="middle" fill="#836bfa" style="font-family:'Montserrat',sans-serif;font-size:22px;letter-spacing:1px;">Нет картинки</text><circle cx="45" cy="42" r="21" fill="#6ae0ff44"/><circle cx="45" cy="42" r="14" fill="#8F4CFF" opacity=".7"/>`;
           return svg;
         }
-        // --- ВЕРСТКА КАРТОЧКИ (всё остальное как было ---
         const repoBadge = document.createElement('div'); repoBadge.className = 'repo-badge'; repoBadge.textContent = r._repo || '';
         const h3 = document.createElement('h3'); h3.textContent = r.name || ver;
         const meta = document.createElement('div'); meta.className = 'meta';
@@ -1291,7 +1301,6 @@
         const card = document.createElement('article'); card.className = 'release-card';
         card.appendChild(repoBadge); card.appendChild(img); card.appendChild(h3); card.appendChild(meta);
         if(bodyP) card.appendChild(bodyP);
-        // Assets/buttons
         if((r.assets||[]).length > 0){
           const assetsWrap = document.createElement('div'); assetsWrap.style = 'display:flex;flex-direction:column;gap:6px;margin-top:8px';
           const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
@@ -1310,15 +1319,7 @@
           });
           card.appendChild(assetsWrap);
         }
-        // Клик на img — откроет полноразмерно (не svgFallback)
-        img.addEventListener('click',()=>{
-          openModal(`<div class='inner'><img src='${img.src}' style='width:100%;height:auto;border-radius:8px' /><div style='margin-top:10px'><strong>${r.name||ver}</strong><div class='muted'>${(r.published_at||r.created_at)?new Date(r.published_at||r.created_at).toLocaleDateString():''} • ${r._repo||''}</div><div style='margin-top:8px'>${r.body?r.body.slice(0,1200):''}</div></div></div>`);
-        });
-        // Ссылка на релиз
-        if(r.html_url){
-          const link = document.createElement('a'); link.className='btn'; link.href = r.html_url; link.target='_blank'; link.style='margin-top:8px'; link.textContent='Открыть релиз';
-          card.appendChild(link);
-        }
+        // img click больше не открывает modal (widget только)
         return card;
       };
     })();
@@ -1379,6 +1380,38 @@
     dv.innerHTML = role==='user'? `<span style='color:#48e9fb;'>ты:</span> <span>${txt}</span>` : `<span style='color:#8F4CFF;'>ryazhenka.ai:</span> ${txt}`;
     return dv;
   }
+  </script>
+  <script>
+  // Космический widget для описания релиза сбоку
+  (function releaseWidget(){
+    let widget = document.getElementById('releaseWidget');
+    if(!widget) {
+      widget = document.createElement('aside');
+      widget.id = 'releaseWidget';
+      widget.style = 'position:fixed;top:75px;right:20px;width:380px;max-width:96vw;height:auto;z-index:90;background:linear-gradient(120deg,#181e3bEE 55%,#22212fD8 100%);backdrop-filter:blur(22px) brightness(1.05);border-radius:18px 24px 18px 24px;box-shadow:0 12px 50px #23265033,0 0 0 #33e5fe00;margin-top:11px;display:none;overflow-y:auto;padding:1.3em 1.2em 1.1em 1.2em;transition:transform .27s cubic-bezier(.62,1.9,.25,1), opacity .26s;background-blend-mode:overlay;';
+      widget.innerHTML = '<div id="rw-content"></div><span id="rw-close" style="position:absolute;top:11px;right:15px;cursor:pointer;font-size:1.5em;opacity:.55">✕</span>';
+      document.body.appendChild(widget);
+      widget.querySelector('#rw-close').onclick = ()=>{ widget.style.display='none';document.body.classList.remove('widget-open'); };
+    }
+    // Patch attach to cards
+    document.addEventListener('click', function(e){
+      let card = e.target.closest('.release-card');
+      if(card && !e.target.matches('.btn, a')) {
+        e.preventDefault();
+        const ct = card.cloneNode(true);
+        ct.querySelectorAll('.btn, a').forEach(b=>b.setAttribute('target','_blank'));
+        widget.querySelector('#rw-content').innerHTML='';
+        widget.querySelector('#rw-content').appendChild(ct);
+        widget.style.display='block';
+        widget.style.opacity=.1;widget.style.transform='translateX(44px) scale(.97)';
+        setTimeout(()=>{widget.style.opacity=1;widget.style.transform='translateX(0) scale(1)';},22);
+        document.body.classList.add('widget-open');
+      } else if(!e.target.closest('#releaseWidget') && !e.target.classList.contains('release-card')) {
+        widget.style.opacity=0;setTimeout(()=>widget.style.display='none',180);
+        document.body.classList.remove('widget-open');
+      }
+    });
+  })();
   </script>
 </body>
 </html>
