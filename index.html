@@ -48,10 +48,286 @@
     .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;visibility:hidden;opacity:0;transition:opacity .15s} .modal.show{visibility:visible;opacity:1;background:rgba(0,0,0,0.5)} .modal>.inner{background:var(--card);padding:18px;border-radius:10px;max-width:900px;width:100%}
     footer{padding:18px 0;text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
     @media (max-width:980px){ .hero{grid-template-columns:1fr} .todo-layout{grid-template-columns:1fr} .huge{font-size:34px} }
+
+    /* === Midjourney Vibe: Glass, Glow, Neon, Animated Background === */
+    html, body { scroll-behavior:smooth; }
+    :root {
+      --radius: 20px;
+      --card-radius: 22px;
+      --maxw: 1240px;
+      --anim-fast: 140ms;
+      --anim-medium: 330ms;
+      --anim-slow: 620ms;
+      --bg: #0c0f1d;
+      --text-color: #F6F7FD;
+      --panel: linear-gradient(120deg, rgba(90,70,230,0.11) 0%, rgba(60,220,255,0.06) 100%), rgba(28,19,44,0.59);
+      --card:rgba(90,70,230,0.05);
+      --muted: #a8b0d3;
+      --accent: #8F4CFF;
+      --accent-2: #36e4ff;
+      --accent-3: #ffb47a;
+      --glass:rgba(255,255,255,0.08);
+      --card-border:#533ede44;
+      --glow: 0 0 30px 0 #a868ff99, 0 0 80px 5px #55fff744;
+      --shadow:0 2px 16px 0 #32266966,0 1.5px 14px #1b137c33;
+      --blur: blur(16px);
+    }
+    
+    body {
+      position:relative;
+      color:var(--text-color);
+      font-family: 'Inter', 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      background: var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 580ms ease, color 440ms ease;
+    }
+    body::before {
+      /* animated background gradient glow */
+      content: '';
+      pointer-events:none;
+      position:fixed;z-index:0;inset:0;
+      background: radial-gradient(ellipse 70% 60% at 17% 0%, #6b47ff44 0%,#ff8fbb00 90%), radial-gradient(ellipse 60% 80% at 87% 30%, #00fff922 0%, #7e71ff00 100%), linear-gradient(120deg,#1f165b30 10%,#2c1e4d77 95%);
+      opacity:.70;
+      animation:bgWave 21s cubic-bezier(.7,.2,.4,1.0) infinite alternate;
+    }
+    @keyframes bgWave {
+      0%{filter: blur(15px) brightness(1.1);}
+      100%{filter: blur(30px) brightness(.94);}
+    }
+
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 28px 16px 10px 16px;
+      z-index:2;
+      position:relative;
+    }
+    .panel {
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+      padding: 1.6em 1.45em;
+      animation: fadeInUp var(--anim-slow) cubic-bezier(.33,1.1,.61,1.0) both;
+      transition: box-shadow .23s cubic-bezier(.5,1.5,.13,1.0), background .39s cubic-bezier(.51,.9,.21,1.0);
+    }
+    @keyframes fadeInUp {
+      from { opacity:0; transform:translateY(28px) scale(.97); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    
+    .panel:hover {
+      box-shadow:0 2px 42px 0 #ac62ff2e,0 2px 28px #41e4fd29,0 2px 16px #32266955;
+      background:linear-gradient(104deg,#1c1037cc 30%,#21385d99 99%) !important;
+    }
+
+    /* Glass and neon buttons */
+    .btn {
+      background:linear-gradient(90deg,var(--accent),var(--accent-2) 76%);
+      border:0;
+      color:#0a111f;
+      text-shadow:0 2px 10px #06f3fc55;
+      box-shadow: 0 0 0 #222,0 2px 20px #23213836;
+      border-radius:17px;
+      transition: box-shadow .16s, background .29s, color .09s, scale .09s;
+      padding: 9px 18px 9px 18px;
+      font-weight:800;font-size:1.01em;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn:before {
+      content: '';
+      position: absolute;
+      inset:0;
+      z-index:0;
+      border-radius:inherit;
+      background: radial-gradient(ellipse 70% 48% at 35% 12%, #fff7ffd8 0, #b7ebff02 80%);
+      opacity:0.69;
+      filter: blur(15px) brightness(1.14);
+      transition: opacity .4s;
+    }
+    .btn:hover,
+    .btn:focus {
+      box-shadow:0 6px 60px #915aff33, 0 1.5px 20px #21f7ff22 !important;
+      background:linear-gradient(90deg,#a278ff 10%,#3ffcfa 69%,#644cff 100%);
+      color:#fff;
+      scale:1.06;
+    }
+    .btn:active {
+      scale:0.97;
+      background:#251634;
+      color:#65fff6;
+    }
+    .btn.ghost {
+      background:rgba(28,24,51,0.66);
+      color:var(--text-color); border:1px solid var(--card-border);
+      box-shadow:none;
+    }
+    .btn.primary { color:#091124; border:0;}
+
+    /* Scrollbar */
+    ::-webkit-scrollbar{width:13px; background:transparent;}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(120deg,#7b52fe 10%,#3ad7fd 90%); border-radius:13px; opacity:.77;}
+    ::-webkit-scrollbar-thumb:hover{background:linear-gradient(120deg,#3c1fd7,#18bbb2);}
+
+    /* Cards and release-cards */
+    .release-card {
+      background: linear-gradient(120deg,#1f163d55,#191a2b22 65%,#311f4e11 100%);
+      box-shadow:0 2px 20px #38266e33;
+      border:1.1px solid #be7cff19;
+      border-radius: var(--card-radius);
+      overflow:hidden;
+      animation: fadeInUp calc(var(--anim-fast) * 1.9) both;
+      margin-bottom:18px;
+      transition:box-shadow .27s, border .17s, background .17s;
+    }
+    .release-card:hover {
+      box-shadow:0 7px 68px #7a6fff33,0 2px 16px #326bb590;
+      background:linear-gradient(90deg,#26144190 45%,#2a446a55 100%);
+      border:1.7px solid #bd34ffbb;
+    }
+    .release-card h3 {
+      font-size:1.15em; margin:8px 0 2px 0; letter-spacing: -.2px; font-weight:800;
+      color:var(--accent);
+      text-shadow:0 1px 12px #6b52e655;
+    }
+    .release-card .meta {
+      font-size:.97em; color:var(--muted); display:flex;justify-content:space-between;margin-bottom:5px;
+    }
+
+    /* Typo: headers, sub, muted, vibrancy */
+    h1, .huge {font-size:52px;font-family:Montserrat,cursive,Inter,sans-serif; background:linear-gradient(90deg,#a681fa,#7dfafc 70%,#ffb8e0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 11px 38px #9f70fe22;letter-spacing:1.1px;}
+    h2 {font-size:1.55em; font-weight:900; letter-spacing:.3px; color:var(--accent); text-shadow:0 2px 13px #2cc1ffd2; margin-bottom:5px;}
+    .muted, .brand-sub {color:var(--muted); font-size:.94em; font-weight:600;filter:brightness(.96); letter-spacing:.22px;}
+
+    /* Modal window */
+    .modal.show {background:rgba(16,15,29,0.93);backdrop-filter:blur(15px);animation:fadeInUp .27s;}
+    .modal .inner {border-radius:20px; box-shadow:0 8px 32px #8163fbe5;background:linear-gradient(131deg,#260e36f2 68%,#111a2ad9 100%);animation: modalAppear .4s cubic-bezier(.25,.88,.66,1.15) forwards; padding:32px;}
+    @keyframes modalAppear { from {opacity:0; transform:scale(.87);} to {opacity:1;transform:scale(1);} }
+
+    /* Hero special: fancy SVG glow wave */
+    .hero {
+      position:relative;z-index:1;
+      background:linear-gradient(120deg,rgba(166,129,253,.10),rgba(61,254,255,0.04)),rgba(34,25,51,0.39);
+      overflow:hidden;
+      isolation:isolate;
+      margin-top:9px;
+      border-radius:28px;
+      box-shadow:0 9px 72px #492bff19;
+    }
+    .hero::after {
+      content:''; position:absolute; z-index:0; inset:0 auto -100px 0; pointer-events:none;
+      width:140%; height:180px;
+      left:-11%; top:91%;
+      background: radial-gradient(ellipse 67% 75% at 77% 2%, #04fff960 0%,#8a72ff00 90%), radial-gradient(ellipse 23% 70% at -19% 65%, #7950ff34 0, #fff7 100%);
+      opacity:0.92; filter:blur(13px) contrast(1.12); mix-blend-mode:lighten;
+      animation: heroSVGGlow 23s infinite alternate cubic-bezier(.5,.7,.5,1);
+    }
+    @keyframes heroSVGGlow {
+      0% { filter:blur(10px) brightness(1.1); }
+      100% { filter:blur(25px) brightness(.95); }
+    }
+
+    /* НОВЫЕ ГРАДИЕНТНЫЕ БОРДЕРЫ ДЛЯ .panel, .gallery-grid, .module-list */
+    .panel,.gallery-grid,.module-list{
+      border:2.2px solid;
+      border-image: linear-gradient(120deg, var(--accent) 15%, var(--accent-2) 88%) 1;
+    }
+
+    /* HERO и TOPBAR c неон-подсветкой */
+    .hero, .topbar{
+      border-bottom:2.9px solid;
+      border-image: linear-gradient(90deg,#a968fd 12%,#48fcf6 82%,#ffb5fd 100%) 1;
+      box-shadow:0 7px 24px #ac70ff18;
+    }
+    @media (max-width:900px){.hero{border-radius:16px;} .topbar{border-radius:0 0 18px 18px;} }
+
+    /* Эффект shine на кнопках */
+    .btn:after{
+      content:'';
+      display:block;
+      position:absolute;
+      top:0; left:-80%;
+      width:80%; height:100%;
+      background: linear-gradient(111deg,rgba(255,255,255,0.24) 0,rgba(255,255,255,0.08) 100%);
+      filter: blur(9px); opacity:0.46;
+      transform: skewX(-23deg);
+      pointer-events: none;
+      transition:.4s;
+    }
+    .btn:hover:after{left:120%;transition: left .7s cubic-bezier(.7,.3,.65,1.1);}
+
+    /* .crew-card эффект halo + подсветка border */
+    .crew-card{
+      box-shadow:0 4px 24px #5f38e129; border:1.7px solid #6e7fff55;transition:box-shadow .23s, border-color .21s,background .21s;
+    }
+    .crew-card:hover{
+      border: 2.6px solid #44e3fecc !important;
+      box-shadow:0 13px 40px #44e3fec1, 0 2px 9px #644cff88;
+      background:linear-gradient(90deg,#23244488 20%,#41257633 100%);
+    }
+
+    </style>
+    <script>
+    // SVG GRID animation (soft wavy)
+    (function(){
+      const lines = ['line1','line2','line3','line4'];
+      let t=0;
+      function animate(){
+        t+=.022;
+        lines.forEach((id,num)=>{
+          let poly=document.getElementById(id);
+          if(!poly) return;
+          let ybase=[80,230,380,510][num],amp=10+9*num,p=poly.points;
+          for(let i=0;i<p.numberOfItems;i++){
+            let b=[0,200,450,760,910][i]||0;
+            let v = ybase+(Math.sin(t+num*1.5+i)*amp*(.88-Math.abs(i-2)*.19));
+            p.getItem(i).y=v;
+          }
+        });
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    })();
+    // IntersectionObserver для fade-slide карточек
+    (function(){
+      const allPanels = document.querySelectorAll('.panel,.release-card,.crew-card,.widget');
+      let delay = 0;
+      allPanels.forEach((el,i)=>{
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(28px) scale(.98)';
+      });
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            entry.target.style.transition = 'all .7s cubic-bezier(.53,1.3,.31,1.07)';
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0) scale(1)';
+            obs.unobserve(entry.target);
+          }
+        });
+      },{ threshold:0.13 });
+      allPanels.forEach((el)=>{obs.observe(el);});
+    })();
+    </script>
   </style>
 </head>
 
 <body>
+  <!-- SVG фон в body над .container -->
+  <div class="bg-animated-net" aria-hidden="true">
+    <svg viewBox="0 0 920 520" width="100%" height="95%" id="svgGrid" style="position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.13;filter:blur(1.7px)">
+      <g id="gridLines" stroke="#77e4ff" stroke-width="1.4" opacity=".42">
+        <polyline id="line1" points="10,80 200,30 450,80 760,30 910,80"/>
+        <polyline id="line2" points="30,230 210,140 450,200 700,130 900,230"/>
+        <polyline id="line3" points="50,380 220,310 470,340 720,310 870,380"/>
+        <polyline id="line4" points="70,510 240,460 490,470 740,440 850,510"/>
+      </g>
+    </svg>
+  </div>
+
   <div class="container">
     <!-- TOPBAR -->
     <header class="topbar">
@@ -237,6 +513,41 @@
         });
       }catch(e){
         list.innerHTML = '<div class="muted">Ошибка при загрузке релизов :(</div>';
+      }
+    })();
+    </script>
+
+    <!-- NEWS BLOCK -->
+    <section id="tuner-news" class="panel glass" style="margin-top:14px; margin-bottom:18px; padding:16px 18px; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,0.07); background:var(--panel);">
+      <h2 style="margin:0 0 10px 0;font-size:1.20em;">Новости и нововведения от Dimasick-git</h2>
+      <div id="dimasickNewsList">
+        <div class="muted">Загрузка новостей...</div>
+      </div>
+    </section>
+    <script>
+    (async function loadTunerNews(){
+      const list = document.getElementById('dimasickNewsList');
+      try {
+        const url = 'https://api.github.com/repos/Dimasick-git/Ryazhenkabestcfw-Tuner/releases?per_page=3';
+        const res = await fetch(url);
+        const data = await res.json();
+        list.innerHTML = '';
+        data.forEach(rel => {
+          // Вырежем лид (первые 1-2 предложения)
+          let desc = (rel.body||'').split(/\n|[.!?]\s/).slice(0,2).join('. ') + '.';
+          if (desc.length > 170) desc = desc.slice(0,170) + '…';
+          const el = document.createElement('div');
+          el.style = 'margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--card-border)';
+          el.innerHTML = `
+            <div style="font-weight:700;font-size:1.03em; color:var(--accent);">${rel.name || rel.tag_name}</div>
+            <div class="muted" style="font-size:.92em;">${new Date(rel.published_at).toLocaleDateString()}</div>
+            <div style="margin:5px 0 7px;">${desc}</div>
+            <a href="${rel.html_url}" class="btn small" target="_blank">Подробнее</a>
+          `;
+          list.appendChild(el);
+        });
+      } catch (e) {
+        list.innerHTML = '<div class="muted">Ошибка загрузки новостей :(</div>';
       }
     })();
     </script>
@@ -860,4 +1171,3 @@
   </script>
 </body>
 </html>
-
