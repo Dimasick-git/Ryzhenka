@@ -30,6 +30,10 @@ dist-ssr
 
 # Build files
 build/
-*.nro
+# *.nro - оставляем для загрузки
 *.elf
 *.nacp
+
+# Временные файлы
+*.txt
+!README.txt

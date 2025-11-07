@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react'
 
 function FAQ() {
   const [openIndex, setOpenIndex] = useState(null)
@@ -49,42 +49,43 @@ function FAQ() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Modern header */}
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold gradient-text mb-4">
-          ❓ Часто задаваемые вопросы
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 mb-6">
+          <HelpCircle className="w-8 h-8 text-purple-400" />
+        </div>
+        <h2 className="text-4xl font-bold text-white mb-4">
+          Часто Задаваемые Вопросы
         </h2>
         <p className="text-gray-400">
-          Все что нужно знать о Nintendo Switch CFW и Ryazhenka!
+          Всё о Nintendo Switch CFW, взломе и Ryazhenka прошивке
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="bg-ryaha-card rounded-xl border border-ryaha-border overflow-hidden hover:border-indigo-500/50 transition-all"
+            className="bg-white/[0.02] backdrop-blur-2xl rounded-2xl border border-white/10 overflow-hidden transition-all duration-300 hover:border-purple-500/30"
           >
             <button
               onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-ryaha-hover transition-colors"
+              className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/[0.03] transition-colors"
             >
-              <span className="font-semibold text-white text-lg pr-4">
+              <span className="text-base font-medium text-white pr-4">
                 {faq.question}
               </span>
               {openIndex === index ? (
-                <ChevronUp className="flex-shrink-0 text-indigo-400" size={24} />
+                <ChevronUp className="w-5 h-5 text-purple-400 flex-shrink-0" />
               ) : (
-                <ChevronDown className="flex-shrink-0 text-gray-400" size={24} />
+                <ChevronDown className="w-5 h-5 text-gray-500 flex-shrink-0" />
               )}
             </button>
-            
             {openIndex === index && (
-              <div className="px-6 pb-6">
-                <div className="pt-4 border-t border-ryaha-border">
-                  <p className="text-gray-300 whitespace-pre-line leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
+              <div className="px-6 py-5 bg-white/[0.01] border-t border-white/5 animate-fadeIn">
+                <p className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
+                  {faq.answer}
+                </p>
               </div>
             )}
           </div>

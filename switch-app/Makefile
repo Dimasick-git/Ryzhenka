@@ -7,7 +7,7 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>/devkitpro")
 endif
 
-TOPDIR ?= $(CURDIR)
+TOPDIR ?= $(shell cygpath -m "$(CURDIR)")
 include $(DEVKITPRO)/libnx/switch_rules
 
 #---------------------------------------------------------------------------------
