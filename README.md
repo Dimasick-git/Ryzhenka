@@ -11,6 +11,8 @@
 [![🚀 Официальный сайт](https://img.shields.io/badge/🚀_Официальный_сайт-Ryzhenka-00D9FF?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
 [![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
 ![GitHub Все Загрузки](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?color=blue)
+![Views](https://komarev.com/ghpvc/?username=Dimasick-git&repo=RyazhaAI&style=flat-square)
+
 
 </div>
 
