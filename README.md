@@ -170,8 +170,8 @@
 - **[Atmosphere-NX Team](https://github.com/Atmosphere-NX)** — за надежную кастомную прошивку
 - **[WerWolv](https://github.com/WerWolv)** — за Tesla Menu и overlay систему
 - **[ITotalJustice](https://github.com/ITotalJustice)** — за актуальные sigpatches
- * **[UltraNX](https://github.com/UltraNX)** — за инновационные решения и качественный код
-*    **[Ultrahand](https://github.com/ppkantorski/Ultrahand-Overlay)** — за мощный и удобный overlay
+[[](url)](url)[[](url)](url)[](url)[[](url)](url) * **[UltraNX](https://github.com/UltraNX)** — за инновационные решения и качественный код
+[](url)*    **[Ultrahand](https://github.com/ppkantorski/Ultrahand-Overlay)** — за мощный и удобный overlay
 - **Switch Homebrew Community** — за постоянную поддержку и развитие экосистемы
  
 ### 💝 **Поддержка сообщества**
