@@ -6,7 +6,7 @@
 
 ### *Кастомная прошивка с современным UX, мощными визуалами и полной автоматизацией*
 
-[![📢 Telegram](https://img.shields.io/badge/📢_Telegram-Ryazhenkabestcfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenkabestcfw)
+[![📢 Telegram](https://img.shields.io/badge/📢_Telegram-Ryazhenkacfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenkacfw)
 [![▶️ YouTube](https://img.shields.io/badge/▶️_YouTube-Dimasick--git-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=000000)](https://www.youtube.com/@Dimaick-git)
 [![🚀 Официальный сайт](https://img.shields.io/badge/🚀_Официальный_сайт-Ryzhenka-00D9FF?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
 [![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
