@@ -1,8 +1,39 @@
 {
-  "ams": {
-    "Ryazhenka Best CFW": "https://github.com/Dimasick-git/Ryzhenka/releases/latest/download/Ryazhenkabestcfw.zip"
+  "project": "Ryazhenka",
+  "description": "Best Custom Firmware for Nintendo Switch",
+  "repository": "https://github.com/Dimasick-git/Ryzhenka",
+  "latest_version": "1.0.0",
+  "updated": "2025-12-07T23:47:51.231719",
+  "components": {
+    "hekate": {
+      "description": "Bootloader",
+      "repository": "https://github.com/CTCaer/hekate",
+      "version": "6.2.0+"
+    },
+    "atmosphere": {
+      "description": "Custom Firmware",
+      "repository": "https://github.com/Atmosphere-NX/Atmosphere",
+      "version": "1.8.0+"
+    },
+    "tesla-menu": {
+      "description": "Overlay System",
+      "repository": "https://github.com/WerWolv/Tesla-Menu"
+    },
+    "ryazhahand-overlay": {
+      "description": "Controller Management Overlay",
+      "repository": "https://github.com/Dimasick-git/Ryazhahand-Overlay"
+    },
+    "sys-clk": {
+      "description": "CPU/GPU Overclocking Module",
+      "repository": "https://github.com/Ryazhenka-Helper-1/Sys-clk-for-RYZ"
+    }
   },
-  "misc": {
-    "Refresh Ryazhenka AIO": "https://github.com/Dimasick-git/Ryzhenka/releases/latest/download/Ryazhenka_AIO.zip"
+  "quick_links": {
+    "downloads": "https://github.com/Dimasick-git/Ryzhenka/releases",
+    "installation": "https://github.com/Dimasick-git/Ryzhenka/blob/main/INSTALL.md",
+    "documentation": "https://github.com/Dimasick-git/Ryzhenka/wiki",
+    "issues": "https://github.com/Dimasick-git/Ryzhenka/issues",
+    "telegram": "https://t.me/Ryazhenkacfw",
+    "youtube": "https://www.youtube.com/@Dimaick-git"
   }
 }
