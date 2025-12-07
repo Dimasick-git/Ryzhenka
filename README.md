@@ -10,11 +10,23 @@
 [![▶️ YouTube](https://img.shields.io/badge/▶️_YouTube-Dimasick--git-FF0000?style=for-the-badge&logo=youtube&logoColor=white&labelColor=000000)](https://www.youtube.com/@Dimaick-git)
 [![🚀 Официальный сайт](https://img.shields.io/badge/🚀_Официальный_сайт-Ryzhenka-00D9FF?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
 [![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
-![GitHub Все Загрузки](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?color=blue)
-![Views](https://komarev.com/ghpvc/?username=Dimasick-git&repo=Ryzhenka&style=flat-square)
-
+[![GitHub Downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge&color=blue&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Dimasick-git/Ryzhenka/build.yml?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/actions)
+[![Лицензия](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/blob/main/LICENCE)
 
 </div>
+
+---
+
+## 📢 Быстрые ссылки
+
+| Тип | Ссылка |
+|-----|--------|
+| 📥 **Последний релиз** | [Download Latest](https://github.com/Dimasick-git/Ryzhenka/releases/latest) |
+| 📖 **Установка** | [Installation Guide](https://github.com/Dimasick-git/Ryzhenka/blob/main/INSTALL.md) |
+| 📋 **История изменений** | [CHANGELOG](https://github.com/Dimasick-git/Ryzhenka/blob/main/CHANGELOG.md) |
+| 🤝 **Вклад** | [Contributing](https://github.com/Dimasick-git/Ryzhenka/blob/main/CONTRIBUTING.md) |
+| ❓ **FAQ** | [Часто Задаваемые Вопросы](https://github.com/Dimasick-git/Ryzhenka/blob/main/FAQ.md) |
 
 ---
 
@@ -23,7 +35,7 @@
 > 💎 **Поддержи разработку Ryazhenka!**  
 > Твоя поддержка помогает поддерживать актуальные версии, разрабатывать новые функции и развивать crew-инфраструктуру.  
 >  
-> **[→ Донат на Boosty](https://boosty.to/dimasick-git/donate)**
+> **[→ Донат на Boosty](https://boosty.to/dimasick-git/donate)** | **[→ Другие способы поддержки](https://github.com/sponsors/Dimasick-git)**
 
 ---
 
@@ -34,37 +46,37 @@
     <td align="center" width="25%">
       <img src="https://user-images.githubusercontent.com/3665130/60391760-bc1e8c00-9afe-11e9-8b7a-b065873081b2.png" alt="Hekate" width="120" height="120"/>
       <br/>
-      <strong>🚀 Hekate</strong><br/>
+      <strong>🚀 Hekate 6.2+</strong><br/>
       <em>Bootloader</em><br/>
-      <a href="https://github.com/CTCaer/hekate">Перейти к Hekate</a>
+      <a href="https://github.com/CTCaer/hekate">📖 Перейти к Hekate</a>
     </td>
     <td align="center" width="25%">
       <img src="https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/img/banner.png" alt="Atmosphere" width="120" height="120"/>
       <br/>
-      <strong>🌪️ Atmosphere</strong><br/>
+      <strong>🌪️ Atmosphere 1.8+</strong><br/>
       <em>Custom Firmware</em><br/>
-      <a href="https://github.com/Atmosphere-NX/Atmosphere">Перейти к Atmosphere</a>
+      <a href="https://github.com/Atmosphere-NX/Atmosphere">📖 Перейти к Atmosphere</a>
     </td>
     <td align="center" width="25%">
       <img src="https://github.com/ReiNX-NX/ReiNX-libs/raw/master/teslamenu/icon.jpg" alt="Tesla Menu" width="120" height="120"/>
       <br/>
       <strong>⚡ Tesla Menu</strong><br/>
       <em>Overlay System</em><br/>
-      <a href="https://github.com/WerWolv/Tesla-Menu">Перейти к Tesla</a>
+      <a href="https://github.com/WerWolv/Tesla-Menu">📖 Перейти к Tesla</a>
     </td>
     <td align="center" width="25%">
       <img src="https://switchbrew.org/w/images/b/ba/Nx-hbmenu.png" alt="Homebrew Menu" width="120" height="120"/>
       <br/>
       <strong>🏠 Homebrew</strong><br/>
       <em>Application Loader</em><br/>
-      <a href="https://github.com/switchbrew/nx-hbmenu">Перейти к HB Menu</a>
+      <a href="https://github.com/switchbrew/nx-hbmenu">📖 Перейти к HB Menu</a>
     </td>
   </tr>
 </table>
 
 ---
 
-## 👥 **Модули от команды**
+## 👥 **Модули от команды Ryazhenka**
 
 <table align="center">
   <tr>
@@ -74,7 +86,7 @@
       <strong>🎮 Ryazhahand-Overlay</strong><br/>
       <em>by Dimasick-git</em><br/>
       <p><em>Overlay для управления контроллерами и настройками геймпада Nintendo Switch</em></p>
-      <a href="https://github.com/Dimasick-git/Ryazhahand-Overlay">Перейти к Ryazhahand-Overlay</a>
+      <a href="https://github.com/Dimasick-git/Ryazhahand-Overlay">📖 Перейти к Ryazhahand-Overlay</a>
     </td>
     <td align="center" width="50%">
       <img src="https://img.shields.io/badge/⚡-SYS--CLK-FF6B35?style=flat-square&logo=speedtest&logoColor=white" alt="Sys-clk Badge" width="120" height="60"/>
@@ -82,14 +94,39 @@
       <strong>⚡ Sys-clk-for-RYZ</strong><br/>
       <em>by Ryazhenka-Helper-1</em><br/>
       <p><em>Модуль для разгона процессора и управления профилями производительности Nintendo Switch</em></p>
-      <a href="https://github.com/Ryazhenka-Helper-1/Sys-clk-for-RYZ">Перейти к Sys-clk-for-RYZ</a>
+      <a href="https://github.com/Ryazhenka-Helper-1/Sys-clk-for-RYZ">📖 Перейти к Sys-clk-for-RYZ</a>
     </td>
   </tr>
 </table>
 
 ---
 
-## ✨ **Особенности**
+## 🚀 **Процесс разработки и CI/CD**
+
+### 🔄 **Workflow разработки**
+
+```
+develop (автоматическая сборка) 
+   ↓
+staging (тестирование)
+   ↓
+main (стабильный релиз с генерацией)
+```
+
+### ⚙️ **Автоматизация**
+
+| Workflow | Триггер | Что делает |
+|----------|---------|-----------|
+| **🔨 Build** | Push в `develop` | Автоматически собирает проект, генерирует артефакты |
+| **🚀 Release** | Tag или manual workflow | Создаёт GitHub Release с ссылками, контрольными суммами и чейнджлогом |
+| **📤 Deploy** | Manual workflow | Мержит код из `develop` в `main`, создаёт tag и уведомления |
+
+### 📊 **Status Checks**
+- ✅ **Build Status** — проверка успешной сборки
+- ✅ **Code Quality** — проверка качества кода
+- ✅ **Documentation** — наличие и актуальность документации
+
+---
 
 ### 🎯 **Что делает Ryazhenka особенной?**
 
