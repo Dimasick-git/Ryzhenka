@@ -2,7 +2,7 @@
   "project": "Ryazhenka",
   "description": "Best Custom Firmware for Nintendo Switch",
   "repository": "https://github.com/Dimasick-git/Ryzhenka",
-  "latest_version": "1.0.0",
+  "latest_version": "7.0.0",
   "updated": "2025-12-07T23:47:51.231719",
   "components": {
     "hekate": {
