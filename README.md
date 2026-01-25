@@ -11,7 +11,6 @@
 [![Официальный сайт](https://img.shields.io/badge/Официальный_сайт-Ryzhenka-00D9FF?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
 [![GitHub release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
 [![GitHub Downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge&color=blue&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Dimasick-git/Ryzhenka/build.yml?style=for-the-badge&logo=github&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/actions)
 [![Лицензия](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/blob/main/LICENCE)
 
 </div>
