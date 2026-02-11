@@ -55,7 +55,7 @@
 
 ---
 
-**Все репозитории относящиеся к проекту(динамические шильды загрузок)**
+## Все репозитории относящиеся к проекту (динамические шильды загрузок)
 
 | Репозиторий | Шильды |
 |---|---|
@@ -63,7 +63,12 @@
 | Ryazhahand-Overlay | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhahand-Overlay/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryazhahand-Overlay?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases/latest) |
 | Sys-clk | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Sys-clk/total?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/Sys-clk?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases/latest) |
 | Ryazhenkabestcfw-Tuner | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhenkabestcfw-Tuner/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryazhenkabestcfw-Tuner?style=flat-square)](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner/releases/latest) |
-
+| Ryazha-Status-Monitor | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazha-Status-Monitor/total?style=flat-square)](https://github.com/Dimasick-git/Ryazha-Status-Monitor/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryazha-Status-Monitor?style=flat-square)](https://github.com/Dimasick-git/Ryazha-Status-Monitor/releases/latest) |
+| EdiZon | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/EdiZon/total?style=flat-square)](https://github.com/Dimasick-git/EdiZon/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/EdiZon?style=flat-square)](https://github.com/Dimasick-git/EdiZon/releases/latest) |
+| ovlSysmodules | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/ovlSysmodules/total?style=flat-square)](https://github.com/Dimasick-git/ovlSysmodules/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/ovlSysmodules?style=flat-square)](https://github.com/Dimasick-git/ovlSysmodules/releases/latest) |
+| FPSLocker | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/FPSLocker/total?style=flat-square)](https://github.com/Dimasick-git/FPSLocker/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/FPSLocker?style=flat-square)](https://github.com/Dimasick-git/FPSLocker/releases/latest) |
+| Fizeau | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Fizeau/total?style=flat-square)](https://github.com/Dimasick-git/Fizeau/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/Fizeau?style=flat-square)](https://github.com/Dimasick-git/Fizeau/releases/latest) |
+| RyazhaTune | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/RyazhaTune/total?style=flat-square)](https://github.com/Dimasick-git/RyazhaTune/releases) [![release](https://img.shields.io/github/v/release/Dimasick-git/RyazhaTune?style=flat-square)](https://github.com/Dimasick-git/RyazhaTune/releases/latest) |
 ---
 
 **Установка (микро-инструкция)**
