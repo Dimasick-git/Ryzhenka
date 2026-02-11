@@ -4,7 +4,14 @@ import urllib.request
 import json
 import subprocess
 
-OWNER = os.environ.get('GITHUB_REPOSITORY_OWNER', 'Dimasick-git')
+OWNER = os.environ.get('GITHUB_REPOSITORY_OWNER', '')
+if not OWNER:
+    # fallback to parse from GITHUB_REPOSITORY if provided (owner/repo)
+    repo_env = os.environ.get('GITHUB_REPOSITORY', '')
+    if repo_env and '/' in repo_env:
+        OWNER = repo_env.split('/')[0]
+    else:
+        OWNER = 'Dimasick-git'
 API_URL = f'https://api.github.com/users/{OWNER}/repos?per_page=200'
 HEADERS = {'User-Agent': 'update-downloads-script'}
 
@@ -15,14 +22,28 @@ def get_json(url, token=None):
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
-def sum_downloads(token=None):
-    repos = get_json(API_URL, token=token)
+def load_repos_list(path='scripts/repos.txt'):
+    if os.path.isfile(path):
+        with open(path, 'r', encoding='utf-8') as f:
+            lines = [l.strip() for l in f.readlines()]
+        # filter out empty lines and comments
+        return [l for l in lines if l and not l.startswith('#')]
+    return None
+
+
+def sum_downloads(token=None, repo_list=None):
     total = 0
-    for r in repos:
-        name = r['name']
+    if repo_list is None:
+        repos = get_json(API_URL, token=token)
+        repo_names = [r['name'] for r in repos]
+    else:
+        repo_names = repo_list
+
+    for name in repo_names:
         try:
             releases = get_json(f'https://api.github.com/repos/{OWNER}/{name}/releases?per_page=100', token=token)
         except Exception:
+            # skip repos that are not found or have no releases
             continue
         for rel in releases:
             for a in rel.get('assets', []):
@@ -66,7 +87,8 @@ def git_commit_push(token=None):
 
 def main():
     token = os.environ.get('GITHUB_TOKEN')
-    total = sum_downloads(token=token)
+    repo_list = load_repos_list()
+    total = sum_downloads(token=token, repo_list=repo_list)
     changed = update_readme(total)
     if changed:
         git_commit_push(token=token)
