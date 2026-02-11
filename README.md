@@ -76,6 +76,15 @@
 2. Запустить устройство используя RCM в hekate.
 3. Запустить: Launch/atmosphere.
 
+
+---
+## Особая благодарность:
+-@Cooler3d
+-@redraz
+-@ppkantorski
+-@MasaGratoR
+-@ItotalJuice
+-А также уважемому коммюнити за отличные идеи!
 ---
 
 **Лицензия**
