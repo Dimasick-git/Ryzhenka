@@ -1,14 +1,15 @@
+
+<div align="center">
+
 ![Ryazhenka Logo](assets/Ryazhalogo.png)
+
+[![Telegram](https://img.shields.io/badge/Telegram-@Ryazhenka-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenka) [![Release](https://img.shields.io/badge/Release-latest-blue?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENCE)
+
+</div>
 
 # Ryazhenka
 
-Краткое техническое описание
-
-Ryazhenka — кастомная прошивка для Nintendo Switch. Фокус: управление производительностью, модульная архитектура оверлеев и детальная конфигурация системных параметров.
-
-Репозиторий содержит релизы, сборки и документацию для установки и управления прошивкой.
----
-
+Коротко и по делу.
 **Содержание**
 - Назначение
 - Ключевые компоненты
@@ -40,7 +41,35 @@ Ryazhenka — кастомная прошивка для Nintendo Switch. Фок
 
 - Общее количество загрузок артефактов релизов по репозиториям `Dimasick-git`: **13094**
 - Текущий релиз `Ryzhenka`: **v7.2.0** — см. [releases/tag/v7.2.0](https://github.com/Dimasick-git/Ryzhenka/releases/tag/v7.2.0) (детали в разделе Releases)
+---
 
+**Сводная статистика (агрегированная по репозиториям автора)**
+
+- Суммарные загрузки всех релизов: **11281**
+- Последний релиз Ryazhenka: [releases/latest](https://github.com/Dimasick-git/Ryzhenka/releases/latest) (тег: v7.2.0)
+
+---
+
+**Основные модули**
+
+| Модуль | Описание | Скачивания | Ссылка |
+|---|---|---:|---|
+| `Ryzhenka` | Основной пакет прошивки | 11000 | https://github.com/Dimasick-git/Ryzhenka/releases/latest |
+| `Ryazhahand-Overlay` | Оверлей управления контроллером (разработано: Dimasick-git) | 281 | https://github.com/Dimasick-git/Ryazhahand-Overlay |
+| `Ryazha-clk` | Управление частотами CPU/GPU (разработано: Dimasick-git) | — | https://github.com/Dimasick-git/Ryazha-clk |
+| `Ryazhenka Tuner` | Инструменты настройки и диагностики (разработано: Dimasick-git) | — | https://github.com/Dimasick-git/Ryazhenka-Tuner |
+
+---
+
+**Установка (микро-инструкция)**
+
+1. Скопировать содержимое релиза на корень SD-карты.
+2. Запустить устройство в RCM и загрузиться через Hekate.
+3. Запустить профиль Ryazhenka.
+
+---
+
+Все ссылки и числа отражают актуальное состояние репозиториев автора. Для правок используйте `CONTRIBUTING.md`.
 ---
 
 **Основные модули и ссылки**
