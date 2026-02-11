@@ -79,12 +79,12 @@
 
 ---
 ## Особая благодарность:
--@Cooler3d
--@redraz
--@ppkantorski
--@MasaGratoR
--@ItotalJuice
--А также уважемому коммюнити за отличные идеи!
+@Cooler3d
+@redraz
+@ppkantorski
+@MasaGratoR
+@ItotalJuice
+@А также уважемому коммюнити за отличные идеи!
 ---
 
 **Лицензия**
