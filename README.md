@@ -3,7 +3,7 @@
 
 ![Ryazhenka Logo](assets/Ryazhalogo.png)
 
-[![Telegram](https://img.shields.io/badge/Telegram-@Ryazhenka-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenka) [![Release](https://img.shields.io/badge/Release-latest-blue?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENCE)
+[![Telegram](https://img.shields.io/badge/Telegram-@Ryazhenkacfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenka) [![Release](https://img.shields.io/badge/Release-latest-blue?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENCE)
 
 </div>
 
@@ -190,7 +190,7 @@ v1.2.0
 
 **Сообщество**
 
-Подписка на канал для оперативных уведомлений и обсуждений: https://t.me/Ryazhenka
+Подписка на канал для оперативных уведомлений и обсуждений: https://t.me/Ryazhenkacfw
 
 ---
 
