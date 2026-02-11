@@ -56,8 +56,8 @@
 |---|---|---:|---|
 | `Ryzhenka` | Основной пакет прошивки | 11000 | https://github.com/Dimasick-git/Ryzhenka/releases/latest |
 | `Ryazhahand-Overlay` | Оверлей управления контроллером (разработано: Dimasick-git) | 281 | https://github.com/Dimasick-git/Ryazhahand-Overlay |
-| `Ryazha-clk` | Управление частотами CPU/GPU (разработано: Dimasick-git) | — | https://github.com/Dimasick-git/Ryazha-clk |
-| `Ryazhenka Tuner` | Инструменты настройки и диагностики (разработано: Dimasick-git) | — | https://github.com/Dimasick-git/Ryazhenka-Tuner |
+| `Ryazha-clk` | Управление частотами CPU/GPU (разработано: Dimasick-git) | — | https://github.com/Dimasick-git/Sys-clk |
+| `Ryazhenka Tuner` | Инструменты настройки и диагностики (разработано: Dimasick-git) | — | https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner |
 
 ---
 
@@ -103,7 +103,7 @@
 |---|---:|---|
 | `Ryazhahand-Overlay` | Оверлей для управления контроллером и профилями | https://github.com/Dimasick-git/Ryazhahand-Overlay |
 | `Ryazha-clk` | Управление частотами CPU/GPU и профилями производительности | https://github.com/Dimasick-git/Ryazha-clk |
-| `Ryazhenka Tuner` | Инструменты тонкой настройки и диагностики системы | https://github.com/Dimasick-git/Ryazhenka-Tuner |
+| `Ryazhenka Tuner` | Инструменты тонкой настройки и диагностики системы | https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner |
 
 ---
 
