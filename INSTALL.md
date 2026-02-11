@@ -73,8 +73,6 @@
 ## 8) Полезные ссылки
 - Atmosphere: https://github.com/Atmosphere-NX/Atmosphere
 - Hekate: https://github.com/CTCaer/hekate
-- Tesla Menu: https://github.com/WerWolv/Tesla-Menu
-- Sigpatches: https://github.com/ITotalJustice/patches
 - Поддержка: https://t.me/Ryazhenkabestcfw
 
 —
