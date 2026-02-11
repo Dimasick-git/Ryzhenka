@@ -1,48 +1,41 @@
-# 🤝 Руководство по вкладу в Ryazhenka
+# Contributing to Ryazhenka
 
-Спасибо за интерес к проекту! Ниже — простой и современный процесс: форк, ветка, PR, ревью. Следуйте шагам — и ваш вклад будет принят максимально быстро.
+This document describes the required workflow for contributions. Keep changes focused and documented.
 
----
+1) Fork and clone
+- Fork the repository on GitHub.
+- Clone your fork: `git clone https://github.com/<your-username>/Ryzhenka.git`
+- Add upstream: `git remote add upstream https://github.com/Dimasick-git/Ryzhenka.git`
 
-## 1) Форк и подготовка окружения
-- Нажмите Fork вверху справа и создайте свою копию репозитория
-- Клонируйте форк: `git clone https://github.com/<your-username>/Ryzhenka.git`
-- Перейдите в каталог проекта: `cd Ryzhenka`
-- Добавьте upstream: `git remote add upstream https://github.com/Dimasick-git/Ryzhenka.git`
+2) Branching
+- Update local main: `git fetch upstream && git checkout main && git merge upstream/main`
+- Create a feature branch: `git checkout -b feature/short-description` or `fix/issue-<number>`
 
-## 2) Создание ветки
-- Обновите main: `git fetch upstream && git checkout main && git merge upstream/main`
-- Создайте ветку: `git checkout -b feature/your-topic` или `fix/issue-123`
+3) Changes and style
+- Keep commits small and focused: one logical change per PR.
+- Documentation changes must include examples and expected outcomes.
+- For changes affecting bootloader/CFW behavior, include compatibility notes and test steps.
+- Update `CHANGELOG.md` with a concise entry for user-visible changes.
 
-## 3) Изменения и стиль
-- Делайте маленькие и логичные изменения — один PR = одна задача
-- Следите за чистотой Markdown и читаемостью
-- Если трогаете низкоуровневые конфиги (bootloader/hekate/atmosphere) — опишите совместимость и тест-кейсы
-- Обновляйте CHANGELOG.md для пользовательских изменений (кратко и по делу)
+4) Commits
+- Use clear commit messages. Examples:
+  - `feat: add overlay preset for controller profiles`
+  - `fix: correct profile application in Ryazha-clk`
+  - `docs: document install procedure for Mariko`
 
-## 4) Коммиты
-- Используйте понятные сообщения коммитов, например:
-  - `feat: add Tesla overlay preset`
-  - `fix: update sigpatches link`
-  - `docs: improve install guide`
+5) Pull Request
+- Push your branch to your fork: `git push -u origin feature/short-description`
+- Create a PR targeting `main` in the upstream repository.
+- PR description must state: what changed, why, how it was tested, and include linked issues.
 
-## 5) Pull Request
-- Запушьте ветку в ваш форк: `git push -u origin feature/your-topic`
-- Создайте PR из форка в `main` оригинального репо
-- В описании PR укажите: что изменено, зачем, как тестировали, связанные Issues
+6) Review
+- Respond to review comments in the same branch.
+- Do not merge your own PR into `main` unless explicitly authorized.
 
-## 6) Ревью и правки
-- Мейнтейнеры проверят PR и могут попросить правки — это нормально
-- Вносите изменения в ту же ветку; PR обновится автоматически
-- После аппрува PR будет смержен, релиз — по мере накопления изменений
+7) Communication
+- Use GitHub Issues for bugs and enhancement requests.
+- For operational coordination use the project Telegram channel: https://t.me/Ryazhenka
 
-## 7) Каналы для вопросов
-- GitHub Issues: баги, улучшения, обсуждения
-- Telegram: @Ryazhenkabestcfw — быстрые вопросы
+Code of conduct: maintain professional conduct and constructive review comments.
 
----
-
-## Кодекс поведения
-Будьте доброжелательны, уважайте других участников и следуйте принципу «review не критикует человека, а помогает улучшить код/документацию».
-
-Спасибо за вклад! 🥛💙
+The project maintainers will process PRs according to priority and release schedule.
