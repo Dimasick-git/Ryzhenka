@@ -31,9 +31,9 @@
 
 **Ключевые компоненты**
 
-- `Ryazhahand-Overlay` — система оверлеев для управления контроллерами и пользовательских настроек геймпада. Разработано: Dimasick-git.
-- `Ryazha-clk` — модуль управления частотами CPU/GPU и профилями производительности. Разработано: Dimasick-git.
-- `Ryazhenka Tuner` — инструмент тонкой настройки прошивки и системных параметров. Разработано: Dimasick-git.
+- `Ryazhahand-Overlay` — система управляющая оверлеями, пользовательскими настройками.Основано на базе Ultrahand. Переаботано: Dimasick-git.
+- `Ryazha-clk` — модуль управления частотами CPU/GPU/MEM/LCD и профилями производительности. Разработано: Dimasick-git.
+- `Ryazhenka Tuner` — инструмент тонкой настройки прошивки и системных параметров. Основан на базе Ultra Tuner. Переработано: Dimasick-git.
 
 ---
 
@@ -49,8 +49,8 @@
 | Модуль | Описание | Скачивания | Ссылка |
 |---|---|---:|---|
 | `Ryzhenka` | Основной пакет прошивки (разработано: Dimasick-git) | [![repo downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=flat-square)](https://github.com/Dimasick-git/Ryzhenka/releases) | https://github.com/Dimasick-git/Ryzhenka/releases/latest |
-| `Ryazhahand-Overlay` | Оверлей управления контроллером (разработано: Dimasick-git) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhahand-Overlay/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases) | https://github.com/Dimasick-git/Ryazhahand-Overlay |
-| `Ryazha-clk` (`Sys-clk` репозиторий) | Управление частотами CPU/GPU (разработано: Dimasick-git) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Sys-clk/total?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases) | https://github.com/Dimasick-git/Sys-clk |
+| `Ryazhahand-Overlay` | Оверлей управления (разработано: Dimasick-git) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhahand-Overlay/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases) | https://github.com/Dimasick-git/Ryazhahand-Overlay |
+| `Ryazha-clk` (`Sys-clk` репозиторий) | Управление частотами CPU/GPU/MEM/LCD (разработано: Dimasick-git) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Sys-clk/total?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases) | https://github.com/Dimasick-git/Sys-clk |
 | `Ryazhenka Tuner` | Инструменты настройки и диагностики (разработано: Dimasick-git) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhenkabestcfw-Tuner/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner/releases) | https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner |
 
 ---
@@ -71,12 +71,8 @@
 **Установка (микро-инструкция)**
 
 1. Скопировать содержимое релиза на корень SD-карты.
-2. Запустить устройство в RCM и загрузиться через Hekate.
-3. Запустить профиль Ryazhenka.
-
----
-
-Все ссылки и шильды показывают актуальные значения в реальном времени.
+2. Запустить устройсУправлениеили использовать hekate загрузчик. 
+3. Запустить: Launch/atmosphere.
 
 ---
 
