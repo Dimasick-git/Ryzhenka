@@ -1,2904 +1,1547 @@
 <!doctype html>
-<html lang="ru" data-theme="glow">
+<html lang="ru" data-theme="deepnight" data-bg="dark" data-text="default">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ryazhenka — Custom Firmware</title>
-  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    /* =============================
-       CSS VARIABLES & THEMES
-       ============================= */
-    :root {
-      --radius: 16px;
-      --radius-lg: 24px;
-      --radius-sm: 10px;
-      --maxw: 1280px;
-      --anim-fast: 150ms;
-      --anim-med: 300ms;
-      --anim-slow: 600ms;
-      --sidebar-w: 260px;
-
-      /* Default (glow) theme */
-      --bg-base: #080b14;
-      --bg-surface: rgba(255,255,255,0.03);
-      --bg-surface-hover: rgba(255,255,255,0.055);
-      --bg-elevated: rgba(255,255,255,0.06);
-      --border: rgba(255,255,255,0.07);
-      --border-accent: rgba(139,92,246,0.4);
-      --text: #f0f2ff;
-      --text-secondary: #8b93b8;
-      --text-muted: #5a6282;
-      --accent: #8b5cf6;
-      --accent-2: #22d3ee;
-      --accent-3: #f472b6;
-      --accent-rgb: 139,92,246;
-      --accent2-rgb: 34,211,238;
-      --glow-color: rgba(139,92,246,0.3);
-      --glow-color-2: rgba(34,211,238,0.2);
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
-      --shadow-lg: 0 8px 48px rgba(0,0,0,0.5);
-      --shadow-glow: 0 0 40px var(--glow-color), 0 0 80px var(--glow-color-2);
-    }
-
-    /* Themes */
-    [data-theme="cyber"] {
-      --bg-base: #030d1a;
-      --bg-surface: rgba(0,240,255,0.03);
-      --bg-elevated: rgba(0,240,255,0.06);
-      --border: rgba(0,240,255,0.1);
-      --border-accent: rgba(0,240,255,0.4);
-      --text: #d0faff;
-      --text-secondary: #6dcad4;
-      --text-muted: #3a6a70;
-      --accent: #00f0ff;
-      --accent-2: #7c5cff;
-      --accent-3: #ff6b9d;
-      --accent-rgb: 0,240,255;
-      --glow-color: rgba(0,240,255,0.25);
-      --glow-color-2: rgba(124,92,255,0.2);
-    }
-    [data-theme="matrix"] {
-      --bg-base: #030a03;
-      --bg-surface: rgba(0,255,65,0.03);
-      --bg-elevated: rgba(0,255,65,0.06);
-      --border: rgba(0,255,65,0.08);
-      --border-accent: rgba(0,255,65,0.35);
-      --text: #c8ffca;
-      --text-secondary: #5abf5c;
-      --text-muted: #2d6b2f;
-      --accent: #00ff41;
-      --accent-2: #00ccff;
-      --accent-3: #ffff00;
-      --accent-rgb: 0,255,65;
-      --glow-color: rgba(0,255,65,0.2);
-      --glow-color-2: rgba(0,204,255,0.15);
-    }
-    [data-theme="sunset"] {
-      --bg-base: #0d0604;
-      --bg-surface: rgba(255,120,60,0.04);
-      --bg-elevated: rgba(255,120,60,0.07);
-      --border: rgba(255,120,60,0.1);
-      --border-accent: rgba(255,120,60,0.4);
-      --text: #ffe8d6;
-      --text-secondary: #c4896a;
-      --text-muted: #6b4030;
-      --accent: #ff7c3a;
-      --accent-2: #ff3e84;
-      --accent-3: #ffd166;
-      --accent-rgb: 255,124,58;
-      --glow-color: rgba(255,124,58,0.25);
-      --glow-color-2: rgba(255,62,132,0.2);
-    }
-    [data-theme="aurora"] {
-      --bg-base: #040e1a;
-      --bg-surface: rgba(160,80,255,0.04);
-      --bg-elevated: rgba(160,80,255,0.08);
-      --border: rgba(160,80,255,0.1);
-      --border-accent: rgba(160,80,255,0.4);
-      --text: #e8f0ff;
-      --text-secondary: #9b8fd4;
-      --text-muted: #4a4070;
-      --accent: #b060ff;
-      --accent-2: #60efff;
-      --accent-3: #ff60af;
-      --accent-rgb: 176,96,255;
-      --glow-color: rgba(176,96,255,0.25);
-      --glow-color-2: rgba(96,239,255,0.2);
-    }
-    [data-theme="emerald"] {
-      --bg-base: #030f08;
-      --bg-surface: rgba(52,211,153,0.04);
-      --bg-elevated: rgba(52,211,153,0.08);
-      --border: rgba(52,211,153,0.1);
-      --border-accent: rgba(52,211,153,0.4);
-      --text: #d1fae5;
-      --text-secondary: #6ee7b7;
-      --text-muted: #2d6a50;
-      --accent: #34d399;
-      --accent-2: #38bdf8;
-      --accent-3: #a78bfa;
-      --accent-rgb: 52,211,153;
-      --glow-color: rgba(52,211,153,0.2);
-      --glow-color-2: rgba(56,189,248,0.15);
-    }
-    [data-theme="nebula"] {
-      --bg-base: #080412;
-      --bg-surface: rgba(200,80,200,0.04);
-      --bg-elevated: rgba(200,80,200,0.08);
-      --border: rgba(200,80,200,0.1);
-      --border-accent: rgba(200,80,200,0.4);
-      --text: #fce7ff;
-      --text-secondary: #d09ad0;
-      --text-muted: #6b3a6b;
-      --accent: #e040e0;
-      --accent-2: #8b5cf6;
-      --accent-3: #60efff;
-      --accent-rgb: 224,64,224;
-      --glow-color: rgba(224,64,224,0.2);
-      --glow-color-2: rgba(139,92,246,0.15);
-    }
-
-    /* Light mode override */
-    [data-theme="light"] {
-      --bg-base: #f4f6fb;
-      --bg-surface: rgba(0,0,0,0.04);
-      --bg-elevated: rgba(0,0,0,0.07);
-      --border: rgba(0,0,0,0.1);
-      --border-accent: rgba(139,92,246,0.4);
-      --text: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
-      --glow-color: rgba(139,92,246,0.15);
-      --glow-color-2: rgba(34,211,238,0.1);
-    }
-
-    /* =============================
-       RESET & BASE
-       ============================= */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
-      background: var(--bg-base);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      transition: background 400ms ease, color 300ms ease;
-    }
-
-    /* Animated background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 80% 60% at 10% 5%, rgba(var(--accent-rgb),0.12) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(var(--accent2-rgb),0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(var(--accent-rgb),0.04) 0%, transparent 70%);
-      animation: bgPulse 15s ease-in-out infinite alternate;
-    }
-    @keyframes bgPulse {
-      0%   { opacity: 0.7; transform: scale(1); }
-      50%  { opacity: 1; transform: scale(1.05); }
-      100% { opacity: 0.8; transform: scale(1); }
-    }
-
-    /* Floating particles */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(circle 1px at 20% 30%, rgba(var(--accent-rgb),0.4), transparent),
-        radial-gradient(circle 1px at 80% 20%, rgba(var(--accent2-rgb),0.4), transparent),
-        radial-gradient(circle 1px at 60% 70%, rgba(var(--accent-rgb),0.3), transparent),
-        radial-gradient(circle 1px at 40% 80%, rgba(var(--accent2-rgb),0.3), transparent),
-        radial-gradient(circle 1.5px at 70% 40%, rgba(var(--accent-rgb),0.5), transparent),
-        radial-gradient(circle 1px at 15% 60%, rgba(var(--accent2-rgb),0.4), transparent),
-        radial-gradient(circle 2px at 90% 60%, rgba(var(--accent-rgb),0.3), transparent),
-        radial-gradient(circle 1px at 30% 10%, rgba(var(--accent2-rgb),0.5), transparent);
-      animation: particleFloat 20s ease-in-out infinite alternate;
-    }
-    @keyframes particleFloat {
-      0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
-      33%  { transform: translateY(-15px) translateX(8px); opacity: 0.9; }
-      66%  { transform: translateY(-5px) translateX(-10px); opacity: 0.7; }
-      100% { transform: translateY(-20px) translateX(5px); opacity: 0.8; }
-    }
-
-    /* =============================
-       LAYOUT
-       ============================= */
-    .app-wrapper {
-      display: flex;
-      min-height: 100vh;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* =============================
-       SIDEBAR
-       ============================= */
-    .sidebar {
-      width: var(--sidebar-w);
-      min-height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      background: rgba(8,11,20,0.7);
-      backdrop-filter: blur(24px) saturate(1.8);
-      -webkit-backdrop-filter: blur(24px) saturate(1.8);
-      border-right: 1px solid var(--border);
-      transition: transform 350ms cubic-bezier(0.4,0,0.2,1);
-      padding: 0 0 24px 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .sidebar::-webkit-scrollbar { width: 4px; }
-    .sidebar::-webkit-scrollbar-track { background: transparent; }
-    .sidebar::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 10px; }
-
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 24px 20px 20px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .sidebar-logo img {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      object-fit: cover;
-      box-shadow: 0 0 20px var(--glow-color);
-    }
-    .sidebar-logo-text { flex: 1; }
-    .sidebar-logo-title {
-      font-size: 17px;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      line-height: 1.2;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    .sidebar-logo-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-top: 2px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .sidebar-section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      padding: 14px 20px 6px;
-    }
-
-    .sidebar-nav { list-style: none; padding: 0 10px; }
-    .sidebar-nav-item { }
-    .sidebar-nav-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all var(--anim-fast) ease;
-      cursor: pointer;
-      border: 1px solid transparent;
-      position: relative;
-      overflow: hidden;
-    }
-    .sidebar-nav-link::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2));
-      border-radius: 0 3px 3px 0;
-      opacity: 0;
-      transition: opacity var(--anim-fast) ease;
-    }
-    .sidebar-nav-link:hover,
-    .sidebar-nav-link.active {
-      color: var(--text);
-      background: var(--bg-surface);
-      border-color: var(--border);
-    }
-    .sidebar-nav-link:hover::before,
-    .sidebar-nav-link.active::before {
-      opacity: 1;
-    }
-    .sidebar-nav-link.active {
-      color: var(--accent);
-      background: rgba(var(--accent-rgb), 0.08);
-      border-color: rgba(var(--accent-rgb), 0.2);
-    }
-    .nav-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      opacity: 0.7;
-    }
-    .sidebar-nav-link:hover .nav-icon,
-    .sidebar-nav-link.active .nav-icon {
-      opacity: 1;
-    }
-
-    .sidebar-version {
-      margin: auto 20px 0;
-      padding: 14px;
-      border-radius: var(--radius-sm);
-      background: rgba(var(--accent-rgb), 0.06);
-      border: 1px solid rgba(var(--accent-rgb), 0.15);
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .sidebar-version strong {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    /* =============================
-       MAIN CONTENT
-       ============================= */
-    .main-content {
-      flex: 1;
-      margin-left: var(--sidebar-w);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* =============================
-       TOPBAR
-       ============================= */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(8,11,20,0.6);
-      backdrop-filter: blur(20px) saturate(1.6);
-      -webkit-backdrop-filter: blur(20px) saturate(1.6);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      transition: background 300ms ease;
-    }
-
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .hamburger {
-      display: none;
-      width: 36px;
-      height: 36px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 4px;
-      transition: all var(--anim-fast) ease;
-    }
-    .hamburger:hover { background: var(--bg-elevated); border-color: var(--border-accent); }
-    .hamburger span {
-      display: block;
-      width: 16px;
-      height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: all var(--anim-fast) ease;
-    }
-
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 14px;
-      transition: all var(--anim-fast) ease;
-      min-width: 220px;
-    }
-    .search-bar:focus-within {
-      border-color: var(--border-accent);
-      background: var(--bg-elevated);
-      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
-    }
-    .search-bar svg { color: var(--text-muted); flex-shrink: 0; }
-    .search-bar input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-size: 14px;
-      font-family: inherit;
-      width: 100%;
-    }
-    .search-bar input::placeholder { color: var(--text-muted); }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .theme-select {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 13px;
-      padding: 7px 12px;
-      cursor: pointer;
-      outline: none;
-      transition: all var(--anim-fast) ease;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b93b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 30px;
-    }
-    .theme-select:hover, .theme-select:focus {
-      border-color: var(--border-accent);
-      background-color: var(--bg-elevated);
-    }
-
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: rgba(34,197,94,0.1);
-      border: 1px solid rgba(34,197,94,0.25);
-      font-size: 12px;
-      font-weight: 600;
-      color: #4ade80;
-    }
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #4ade80;
-      animation: statusPulse 2s ease-in-out infinite;
-    }
-    @keyframes statusPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.8); }
-    }
-
-    /* =============================
-       PAGE CONTENT
-       ============================= */
-    .page-content {
-      flex: 1;
-      padding: 32px 28px;
-      overflow-y: auto;
-    }
-
-    /* Sections */
-    .section {
-      display: none;
-      animation: sectionFadeIn 350ms cubic-bezier(0.4,0,0.2,1) both;
-    }
-    .section.active { display: block; }
-    @keyframes sectionFadeIn {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-header {
-      margin-bottom: 28px;
-    }
-    .section-title {
-      font-size: 28px;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-family: 'Space Grotesk', sans-serif;
-      line-height: 1.2;
-    }
-    .section-subtitle {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-top: 6px;
-      font-weight: 400;
-    }
-
-    /* =============================
-       CARDS
-       ============================= */
-    .card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      transition: all var(--anim-med) cubic-bezier(0.4,0,0.2,1);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(var(--accent-rgb),0.03), transparent 60%);
-      opacity: 0;
-      transition: opacity var(--anim-med) ease;
-      pointer-events: none;
-    }
-    .card:hover {
-      border-color: var(--border-accent);
-      box-shadow: 0 4px 32px rgba(var(--accent-rgb), 0.12), var(--shadow-md);
-      transform: translateY(-2px);
-    }
-    .card:hover::before { opacity: 1; }
-
-    /* =============================
-       HERO SECTION
-       ============================= */
-    .hero-section {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 24px;
-      align-items: start;
-      margin-bottom: 32px;
-    }
-
-    .hero-card {
-      background: linear-gradient(135deg, rgba(var(--accent-rgb),0.08) 0%, rgba(var(--accent2-rgb),0.04) 100%);
-      border: 1px solid rgba(var(--accent-rgb),0.2);
-      border-radius: var(--radius-lg);
-      padding: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(var(--accent-rgb),0.15), transparent 70%);
-      pointer-events: none;
-    }
-    .hero-card::after {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      left: -5%;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(var(--accent2-rgb),0.1), transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      background: rgba(var(--accent-rgb),0.12);
-      border: 1px solid rgba(var(--accent-rgb),0.3);
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 20px;
-      letter-spacing: 0.5px;
-    }
-    .hero-tag-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: statusPulse 2s ease-in-out infinite;
-    }
-
-    .hero-title {
-      font-size: 52px;
-      font-weight: 900;
-      font-family: 'Space Grotesk', sans-serif;
-      background: linear-gradient(135deg, #ffffff 0%, rgba(var(--accent-rgb),1) 50%, rgba(var(--accent2-rgb),1) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      line-height: 1.1;
-      margin-bottom: 14px;
-      letter-spacing: -1px;
-    }
-
-    .hero-desc {
-      font-size: 16px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 28px;
-      max-width: 480px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 24px;
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border);
-    }
-    .hero-stat-item {
-      text-align: center;
-    }
-    .hero-stat-value {
-      font-size: 24px;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    .hero-stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-      font-weight: 500;
-    }
-
-    /* Right sidebar panel */
-    .hero-side { display: flex; flex-direction: column; gap: 16px; }
-
-    .info-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      transition: all var(--anim-med) ease;
-    }
-    .info-card:hover {
-      border-color: var(--border-accent);
-      box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.1);
-    }
-    .info-card-title {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .info-card-title::before {
-      content: '';
-      width: 3px;
-      height: 14px;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2));
-      border-radius: 3px;
-    }
-
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-    }
-    .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .stat-row-label { color: var(--text-secondary); }
-    .stat-row-value { font-weight: 700; color: var(--text); }
-    .stat-row-value.accent { color: var(--accent); }
-    .stat-row-value.accent-2 { color: var(--accent-2); }
-    .stat-row-value.success { color: #4ade80; }
-
-    /* =============================
-       BUTTONS
-       ============================= */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 22px;
-      border-radius: 12px;
-      border: none;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all var(--anim-fast) cubic-bezier(0.4,0,0.2,1);
-      position: relative;
-      overflow: hidden;
-      white-space: nowrap;
-      user-select: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #0f172a;
-      box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.35);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.45);
-      filter: brightness(1.05);
-    }
-    .btn-primary:active { transform: translateY(0); }
-
-    /* Shimmer effect */
-    .btn-primary::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-      transition: left 0.5s ease;
-    }
-    .btn-primary:hover::after { left: 100%; }
-
-    .btn-ghost {
-      background: var(--bg-surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover {
-      border-color: var(--border-accent);
-      background: var(--bg-elevated);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.1);
-    }
-
-    .btn-sm { padding: 7px 14px; font-size: 13px; border-radius: 8px; }
-    .btn-xs { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
-    .btn-icon { padding: 8px; border-radius: 10px; aspect-ratio: 1; }
-
-    /* =============================
-       GRID LAYOUTS
-       ============================= */
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-    .grid-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-
-    /* =============================
-       RELEASE CARDS
-       ============================= */
-    .release-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: all var(--anim-med) cubic-bezier(0.4,0,0.2,1);
-      cursor: pointer;
-    }
-    .release-card:hover {
-      border-color: var(--border-accent);
-      box-shadow: 0 8px 40px rgba(var(--accent-rgb), 0.15), var(--shadow-md);
-      transform: translateY(-4px);
-    }
-
-    .release-card-image {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      display: block;
-      transition: transform var(--anim-slow) ease;
-    }
-    .release-card:hover .release-card-image { transform: scale(1.04); }
-
-    .release-card-body { padding: 16px; }
-
-    .release-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .release-card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.3;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .badge-accent {
-      background: rgba(var(--accent-rgb), 0.12);
-      color: var(--accent);
-      border: 1px solid rgba(var(--accent-rgb), 0.25);
-    }
-    .badge-success {
-      background: rgba(74,222,128,0.1);
-      color: #4ade80;
-      border: 1px solid rgba(74,222,128,0.2);
-    }
-    .badge-warning {
-      background: rgba(251,191,36,0.1);
-      color: #fbbf24;
-      border: 1px solid rgba(251,191,36,0.2);
-    }
-    .badge-error {
-      background: rgba(248,113,113,0.1);
-      color: #f87171;
-      border: 1px solid rgba(248,113,113,0.2);
-    }
-    .badge-muted {
-      background: var(--bg-elevated);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-    .badge-new {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #0f172a;
-      border: none;
-    }
-
-    .release-card-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      margin-bottom: 12px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .release-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-    }
-    .release-card-meta {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Repo group header */
-    .repo-group {
-      margin-bottom: 32px;
-    }
-    .repo-group-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .repo-group-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: rgba(var(--accent-rgb), 0.1);
-      border: 1px solid rgba(var(--accent-rgb), 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .repo-group-title {
-      font-size: 16px;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    .repo-group-count {
-      margin-left: auto;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* =============================
-       GALLERY
-       ============================= */
-    .gallery-item {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      aspect-ratio: 4/3;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      transition: all var(--anim-med) ease;
-    }
-    .gallery-item:hover {
-      transform: scale(1.03) translateY(-4px);
-      box-shadow: 0 16px 40px rgba(var(--accent-rgb), 0.2), var(--shadow-lg);
-      border-color: var(--border-accent);
-      z-index: 1;
-    }
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform var(--anim-slow) ease;
-    }
-    .gallery-item:hover img { transform: scale(1.06); }
-    .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity var(--anim-med) ease;
-      display: flex;
-      align-items: flex-end;
-      padding: 12px;
-    }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-    .gallery-overlay-text {
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    /* =============================
-       CREW / TEAM CARDS
-       ============================= */
-    .crew-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
-
-    .crew-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 14px;
-      cursor: pointer;
-      transition: all var(--anim-med) cubic-bezier(0.4,0,0.2,1);
-      position: relative;
-      overflow: hidden;
-    }
-    .crew-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      opacity: 0;
-      transition: opacity var(--anim-fast) ease;
-    }
-    .crew-card:hover {
-      border-color: var(--border-accent);
-      box-shadow: 0 8px 40px rgba(var(--accent-rgb), 0.15);
-      transform: translateY(-4px);
-    }
-    .crew-card:hover::before { opacity: 1; }
-
-    .crew-avatar-wrapper {
-      position: relative;
-    }
-    .crew-avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--border);
-      transition: border-color var(--anim-fast) ease;
-      display: block;
-    }
-    .crew-card:hover .crew-avatar { border-color: var(--accent); }
-    .crew-avatar-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2)) border-box;
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: destination-out;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity var(--anim-med) ease;
-    }
-    .crew-card:hover .crew-avatar-ring { opacity: 1; }
-
-    .crew-role-badge {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      border: 2px solid var(--bg-base);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-    }
-
-    .crew-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .crew-role {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .crew-stats-row {
-      display: flex;
-      gap: 16px;
-      margin-top: 4px;
-    }
-    .crew-stat {
-      text-align: center;
-    }
-    .crew-stat-value {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--accent);
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    .crew-stat-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-top: 1px;
-    }
-    .crew-links {
-      display: flex;
-      gap: 8px;
-    }
-    .crew-link {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all var(--anim-fast) ease;
-      text-decoration: none;
-      color: var(--text-secondary);
-    }
-    .crew-link:hover {
-      background: rgba(var(--accent-rgb), 0.1);
-      border-color: var(--border-accent);
-      color: var(--accent);
-    }
-
-    /* =============================
-       MODULES
-       ============================= */
-    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
-
-    .module-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      transition: all var(--anim-med) ease;
-      cursor: pointer;
-    }
-    .module-card:hover {
-      border-color: var(--border-accent);
-      box-shadow: 0 4px 24px rgba(var(--accent-rgb), 0.1);
-      transform: translateX(4px);
-    }
-    .module-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(var(--accent-rgb), 0.1);
-      border: 1px solid rgba(var(--accent-rgb), 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 20px;
-    }
-    .module-info { flex: 1; min-width: 0; }
-    .module-name { font-size: 14px; font-weight: 700; color: var(--text); }
-    .module-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-
-    /* =============================
-       TODO
-       ============================= */
-    .todo-layout {
-      display: grid;
-      grid-template-columns: 1fr 280px;
-      gap: 20px;
-    }
-
-    .todo-add-form {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .todo-input {
-      flex: 1;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 14px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: all var(--anim-fast) ease;
-    }
-    .todo-input:focus {
-      border-color: var(--border-accent);
-      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
-    }
-    .todo-input::placeholder { color: var(--text-muted); }
-
-    .todo-select {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 30px 10px 12px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 13px;
-      outline: none;
-      cursor: pointer;
-      transition: all var(--anim-fast) ease;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b93b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-    }
-    .todo-select:focus, .todo-select:hover {
-      border-color: var(--border-accent);
-    }
-
-    .todo-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .todo-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      transition: all var(--anim-fast) ease;
-      animation: sectionFadeIn 300ms ease both;
-    }
-    .todo-item:hover {
-      border-color: var(--border-accent);
-      background: var(--bg-elevated);
-    }
-    .todo-item.completed {
-      opacity: 0.5;
-    }
-    .todo-item.completed .todo-text { text-decoration: line-through; color: var(--text-muted); }
-
-    .todo-checkbox {
-      width: 18px;
-      height: 18px;
-      border-radius: 5px;
-      border: 2px solid var(--border);
-      cursor: pointer;
-      flex-shrink: 0;
-      appearance: none;
-      -webkit-appearance: none;
-      background: transparent;
-      transition: all var(--anim-fast) ease;
-      position: relative;
-    }
-    .todo-checkbox:checked {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      border-color: transparent;
-    }
-    .todo-checkbox:checked::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 5px;
-      width: 4px;
-      height: 7px;
-      border: 2px solid #0f172a;
-      border-top: none;
-      border-left: none;
-      transform: rotate(45deg);
-    }
-
-    .todo-text { flex: 1; font-size: 14px; color: var(--text); }
-    .todo-priority {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 5px;
-    }
-    .todo-priority.high { background: rgba(248,113,113,0.1); color: #f87171; }
-    .todo-priority.medium { background: rgba(251,191,36,0.1); color: #fbbf24; }
-    .todo-priority.low { background: rgba(74,222,128,0.1); color: #4ade80; }
-
-    .todo-delete {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--anim-fast) ease;
-      font-size: 14px;
-    }
-    .todo-delete:hover {
-      background: rgba(248,113,113,0.1);
-      color: #f87171;
-    }
-
-    /* Todo sidebar stats */
-    .todo-stats-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-    }
-    .todo-stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      font-size: 13px;
-      border-bottom: 1px solid var(--border);
-    }
-    .todo-stat-row:last-child { border-bottom: none; }
-    .todo-stat-row-label { color: var(--text-secondary); }
-    .todo-stat-row-value { font-weight: 700; color: var(--text); }
-
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background: var(--bg-elevated);
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 16px;
-    }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      border-radius: 6px;
-      transition: width 400ms ease;
-    }
-
-    /* =============================
-       MODAL / LIGHTBOX
-       ============================= */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      visibility: hidden;
-      transition: all var(--anim-med) ease;
-    }
-    .modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .modal-box {
-      background: linear-gradient(135deg, rgba(var(--accent-rgb),0.05), rgba(8,11,20,0.98));
-      border: 1px solid var(--border-accent);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      max-width: 600px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      transform: scale(0.9) translateY(20px);
-      transition: transform var(--anim-med) cubic-bezier(0.4,0,0.2,1);
-      box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--border), var(--shadow-glow);
-    }
-    .modal-overlay.show .modal-box {
-      transform: scale(1) translateY(0);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--text);
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    .modal-close {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-surface);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--anim-fast) ease;
-      font-size: 16px;
-      line-height: 1;
-    }
-    .modal-close:hover {
-      border-color: rgba(248,113,113,0.4);
-      background: rgba(248,113,113,0.08);
-      color: #f87171;
-    }
-
-    /* Lightbox */
-    .lightbox-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(0,0,0,0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all var(--anim-med) ease;
-    }
-    .lightbox-overlay.show { opacity: 1; visibility: visible; }
-    .lightbox-overlay img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 12px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.8);
-      transform: scale(0.9);
-      transition: transform var(--anim-med) cubic-bezier(0.4,0,0.2,1);
-    }
-    .lightbox-overlay.show img { transform: scale(1); }
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      transition: all var(--anim-fast) ease;
-      backdrop-filter: blur(10px);
-    }
-    .lightbox-close:hover {
-      background: rgba(255,255,255,0.2);
-      transform: scale(1.1);
-    }
-
-    /* =============================
-       SEARCH BAR FILTER
-       ============================= */
-    .filter-bar {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-      padding: 16px 20px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-    .filter-input {
-      flex: 1;
-      min-width: 200px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 14px;
-      outline: none;
-      transition: all var(--anim-fast) ease;
-    }
-    .filter-input:focus {
-      border-color: var(--border-accent);
-      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
-    }
-    .filter-input::placeholder { color: var(--text-muted); }
-
-    /* =============================
-       TIMELINE / CHANGELOG
-       ============================= */
-    .timeline { position: relative; padding-left: 28px; }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: linear-gradient(180deg, var(--accent), var(--accent-2), transparent);
-      border-radius: 2px;
-    }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 24px;
-      animation: sectionFadeIn 400ms ease both;
-    }
-    .timeline-dot {
-      position: absolute;
-      left: -24px;
-      top: 6px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 0 12px var(--glow-color);
-    }
-    .timeline-date {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .timeline-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .timeline-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* =============================
-       SCROLLBAR
-       ============================= */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(var(--accent-rgb), 0.4);
-      border-radius: 6px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(var(--accent-rgb), 0.7);
-    }
-
-    /* =============================
-       NOTIFICATIONS / TOAST
-       ============================= */
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    }
-    .toast {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-accent);
-      border-radius: 12px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px var(--glow-color);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      animation: toastIn 400ms cubic-bezier(0.4,0,0.2,1) both;
-      pointer-events: all;
-      max-width: 320px;
-    }
-    @keyframes toastIn {
-      from { opacity:0; transform: translateX(100%) scale(0.9); }
-      to   { opacity:1; transform: translateX(0) scale(1); }
-    }
-    .toast.hiding {
-      animation: toastOut 300ms ease forwards;
-    }
-    @keyframes toastOut {
-      to { opacity:0; transform: translateX(100%) scale(0.9); }
-    }
-    .toast-icon { font-size: 18px; }
-
-    /* =============================
-       FOOTER
-       ============================= */
-    .page-footer {
-      padding: 24px 28px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .footer-text {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .footer-text a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .footer-text a:hover { text-decoration: underline; }
-    .footer-links {
-      display: flex;
-      gap: 16px;
-    }
-    .footer-link {
-      font-size: 13px;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color var(--anim-fast) ease;
-    }
-    .footer-link:hover { color: var(--accent); }
-
-    /* =============================
-       MOBILE RESPONSIVE
-       ============================= */
-    @media (max-width: 1024px) {
-      :root { --sidebar-w: 240px; }
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-      .sidebar.open {
-        transform: translateX(0);
-        box-shadow: 4px 0 32px rgba(0,0,0,0.5);
-      }
-      .main-content {
-        margin-left: 0;
-      }
-      .hamburger { display: flex; }
-      .hero-section { grid-template-columns: 1fr; }
-      .hero-side { display: none; }
-      .hero-title { font-size: 36px; }
-      .hero-card { padding: 28px; }
-      .todo-layout { grid-template-columns: 1fr; }
-      .page-content { padding: 20px 16px; }
-      .topbar { padding: 12px 16px; }
-      .grid-4 { grid-template-columns: repeat(2, 1fr); }
-      .grid-3 { grid-template-columns: repeat(2, 1fr); }
-      .search-bar { display: none; }
-      .page-footer { flex-direction: column; text-align: center; }
-    }
-
-    @media (max-width: 480px) {
-      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-      .hero-title { font-size: 28px; }
-      .hero-actions { flex-direction: column; }
-      .crew-grid { grid-template-columns: repeat(2, 1fr); }
-      .crew-card { padding: 16px; }
-    }
-
-    /* Sidebar overlay for mobile */
-    .sidebar-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 49;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-    }
-    .sidebar-overlay.show { display: block; }
-
-    /* =============================
-       UTILITY
-       ============================= */
-    .flex { display: flex; }
-    .flex-col { flex-direction: column; }
-    .items-center { align-items: center; }
-    .justify-between { justify-content: space-between; }
-    .gap-2 { gap: 8px; }
-    .gap-3 { gap: 12px; }
-    .gap-4 { gap: 16px; }
-    .mt-2 { margin-top: 8px; }
-    .mt-4 { margin-top: 16px; }
-    .mt-6 { margin-top: 24px; }
-    .mb-4 { margin-bottom: 16px; }
-    .mb-6 { margin-bottom: 24px; }
-    .text-muted { color: var(--text-muted); }
-    .text-accent { color: var(--accent); }
-    .font-bold { font-weight: 700; }
-    .w-full { width: 100%; }
-    .hidden { display: none !important; }
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      margin: 20px 0;
-    }
-    .text-gradient {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    /* Stagger animations for grids */
-    .grid-auto > *:nth-child(1),
-    .releases-grid > *:nth-child(1) { animation-delay: 0ms; }
-    .grid-auto > *:nth-child(2),
-    .releases-grid > *:nth-child(2) { animation-delay: 60ms; }
-    .grid-auto > *:nth-child(3),
-    .releases-grid > *:nth-child(3) { animation-delay: 120ms; }
-    .grid-auto > *:nth-child(4),
-    .releases-grid > *:nth-child(4) { animation-delay: 180ms; }
-    .grid-auto > *:nth-child(5),
-    .releases-grid > *:nth-child(5) { animation-delay: 240ms; }
-    .grid-auto > *:nth-child(6),
-    .releases-grid > *:nth-child(6) { animation-delay: 300ms; }
-
-    .releases-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 14px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ryazhenka — CFW</title>
+<meta name="description" content="Ryazhenka — стабильная кастомная прошивка. Релизы, модули команды, галерея, благодарности, темы и To-Do." />
+<style>
+/* ============ ОДИН НАБОР ПЕРЕМЕННЫХ И ТЕМ ============ */
+:root{
+  --radius:18px;
+  --card-radius:16px;
+  --maxw:1240px;
+  --anim-fast:160ms;
+  --anim-medium:320ms;
+  --anim-slow:560ms;
+  --bg:#08090f;
+  --panel:#0d1018;
+  --card:#131826;
+  --text-color:#e8ebfa;
+  --muted:#858fae;
+  --accent:#5e99ec;
+  --accent-2:#36e4ff;
+  --accent-3:#ffb47a;
+  --card-border:rgba(135,156,255,.10);
+  --shadow:0 6px 24px rgba(7,9,31,.55);
+  --shadow-hover:0 12px 36px rgba(46,80,180,.25);
+}
+
+html[data-theme="deepnight"]{--bg:#06070c;--panel:#0a0d18;--card:#10131f;--accent:#5e99ec;--accent-2:#3b6ec8;--muted:#7c89aa;--text-color:#dbe5f5;}
+html[data-theme="indigo"]{--bg:#080917;--panel:#10122a;--card:#161a36;--accent:#877bff;--accent-2:#5644c9;--muted:#9aa3cd;--text-color:#e2e5fb;}
+html[data-theme="abyss"]{--bg:#040712;--panel:#080d1c;--card:#0f1730;--accent:#0cd6e0;--accent-2:#0d7794;--muted:#5d80a0;--text-color:#dff6ff;}
+html[data-theme="phantom"]{--bg:#0a0916;--panel:#13112b;--card:#1a1638;--accent:#a044fa;--accent-2:#5d2db4;--muted:#9d8bc4;--text-color:#ecefff;}
+html[data-theme="cyber"]{--bg:#040a13;--panel:#0a1322;--card:#101a2c;--accent:#0de0fb;--accent-2:#117c98;--muted:#5cb0c4;--text-color:#e9fdfc;}
+html[data-theme="midnight"]{--bg:#06092d;--panel:#0c1131;--card:#121839;--accent:#6eaaff;--accent-2:#1e3772;--muted:#94a8d0;--text-color:#e6eafd;}
+html[data-theme="emerald"]{--bg:#04120a;--panel:#0a1c14;--card:#102820;--accent:#4ff0a0;--accent-2:#1e7a52;--muted:#7eb8a0;--text-color:#dcfdec;}
+html[data-theme="sunset"]{--bg:#150805;--panel:#23110a;--card:#2c180f;--accent:#ff9f7a;--accent-2:#c25b3d;--muted:#c9a194;--text-color:#ffe7df;}
+
+html[data-bg="light"]{--bg:#f4f6fb;--panel:#ffffff;--card:#f8f9ff;--text-color:#101426;--muted:#5b6378;--card-border:rgba(0,0,0,.06);--shadow:0 4px 14px rgba(60,80,140,.10);}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  font-family:'Inter','Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  color:var(--text-color);
+  background:var(--bg);
+  transition:background .35s ease, color .25s ease;
+  overflow-x:hidden;
+}
+
+.container{
+  flex:1 0 auto;
+  max-width:var(--maxw);
+  width:100%;
+  margin:0 auto;
+  padding:18px 16px 10px;
+  position:relative;
+  z-index:2;
+}
+
+/* ============ TOPBAR + NAV ============ */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  padding:10px 16px;
+  background:rgba(8,10,18,.75);
+  backdrop-filter:blur(14px) saturate(1.2);
+  -webkit-backdrop-filter:blur(14px) saturate(1.2);
+  border-bottom:1px solid var(--card-border);
+}
+.top-inner{
+  max-width:var(--maxw);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo{width:48px;height:48px;border-radius:12px;object-fit:cover;background:var(--card)}
+.brand-title{font-weight:800;font-size:18px;letter-spacing:.3px}
+.brand-sub{font-size:12px;color:var(--muted)}
+.controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+select,input[type="text"],input[type="date"],textarea{
+  padding:8px 10px;border-radius:10px;
+  border:1px solid var(--card-border);
+  background:var(--card);color:var(--text-color);
+  font-family:inherit;font-size:14px;
+  outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+select:focus,input:focus,textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.small{padding:6px 9px;font-size:13px}
+
+.btn{
+  padding:8px 14px;border-radius:10px;
+  border:1px solid var(--card-border);
+  background:var(--card);color:var(--text-color);
+  cursor:pointer;font-weight:600;font-size:14px;
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  transition:transform .12s, background .18s, border-color .18s, box-shadow .18s;
+  position:relative;overflow:hidden;
+}
+.btn:hover{background:color-mix(in srgb, var(--card) 80%, var(--accent) 20%);border-color:var(--accent);}
+.btn:active{transform:translateY(1px)}
+.btn.primary{
+  background:linear-gradient(120deg,var(--accent),var(--accent-2));
+  border:0;color:#fff;
+  box-shadow:0 4px 14px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.btn.primary:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent}
+.btn.danger{border-color:#c0392b;color:#ff8a7a}
+.btn.danger:hover{background:rgba(192,57,43,.12)}
+
+/* ============ PANELS ============ */
+.panel{
+  background:var(--panel);
+  border-radius:var(--radius);
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--card-border);
+}
+.panel.glass{
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* ============ HERO ============ */
+.hero{
+  display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;
+  margin-top:14px;
+}
+.huge{
+  font-size:44px;margin:0;line-height:1.05;font-weight:800;letter-spacing:-.5px;
+  background:linear-gradient(110deg,var(--accent),var(--accent-2) 80%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lead{font-size:15px;margin:10px 0;color:var(--muted);line-height:1.55}
+.hero-cta{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.hero-image{
+  margin-top:14px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--card-border);background:var(--card);
+  max-height:300px;
+}
+.hero-image img{display:block;width:100%;height:auto;object-fit:cover}
+
+.quick-stats{display:flex;flex-direction:column;gap:10px}
+.stat{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed var(--card-border)}
+.stat:last-child{border-bottom:0}
+.stat-value{font-weight:800;font-size:20px;color:var(--accent)}
+
+.widgets{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.widget{
+  display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;
+  background:var(--card);border:1px solid var(--card-border);
+  transition:border-color .15s, transform .15s;
+}
+.widget:hover{border-color:var(--accent);transform:translateY(-2px)}
+.widget img{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--panel)}
+.widget .w-info{flex:1;min-width:0}
+.widget .w-info strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.widget .w-info small{display:block;color:var(--muted);font-size:11px}
+
+/* ============ SECTION ============ */
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin-bottom:14px;flex-wrap:wrap;
+}
+.section-head h2{margin:0;font-size:1.4em;font-weight:800;color:var(--accent)}
+.searchbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.searchbar input[type="text"]{min-width:200px}
+
+/* ============ RELEASES ============ */
+.releases-by-repo{margin-bottom:22px}
+.repo-title{
+  display:flex;align-items:center;gap:10px;margin:6px 0 12px;
+  font-weight:700;flex-wrap:wrap;
+}
+.repo-name-gradient{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-weight:800;padding:4px 10px;border-radius:8px;
+  background-color:var(--card);
+  border:1px solid var(--card-border);
+  text-decoration:none;display:inline-block;
+}
+
+.releases-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:14px;
+}
+.release-card{
+  border-radius:var(--card-radius);padding:12px;
+  background:var(--card);
+  display:flex;flex-direction:column;gap:8px;
+  min-height:170px;
+  border:1px solid var(--card-border);
+  position:relative;overflow:hidden;
+  transition:transform .18s, border-color .18s, box-shadow .18s;
+  cursor:pointer;
+}
+.release-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+  box-shadow:var(--shadow-hover);
+}
+.release-card .repo-badge{
+  position:absolute;top:10px;left:10px;
+  background:rgba(0,0,0,.55);
+  padding:4px 8px;border-radius:6px;font-size:11px;
+  color:#fff;backdrop-filter:blur(4px);z-index:2;
+}
+.release-card .img-wrap{
+  width:100%;height:140px;border-radius:10px;overflow:hidden;
+  background:var(--panel);position:relative;
+}
+.release-card img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .35s ease, opacity .3s;
+  opacity:0;
+}
+.release-card img.loaded{opacity:1}
+.release-card:hover img{transform:scale(1.05)}
+.release-card h3{
+  font-size:1.05em;margin:4px 0 0;font-weight:700;color:var(--text-color);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.release-card .meta{
+  display:flex;justify-content:space-between;color:var(--muted);
+  font-size:.82rem;
+}
+.release-card p{
+  margin:0;color:var(--muted);font-size:.88em;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* ============ GALLERY ============ */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:10px;
+}
+.gallery-grid .g-item{
+  width:100%;height:140px;border-radius:10px;overflow:hidden;
+  cursor:pointer;background:var(--card);
+  border:1px solid var(--card-border);
+  transition:transform .18s, border-color .18s;
+}
+.gallery-grid .g-item:hover{transform:translateY(-4px) scale(1.02);border-color:var(--accent)}
+.gallery-grid img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .3s}
+.gallery-grid img.loaded{opacity:1}
+
+/* ============ CREW ============ */
+.crew-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;
+}
+.crew-card{
+  display:flex;gap:12px;align-items:center;padding:12px;
+  border-radius:12px;background:var(--card);
+  border:1px solid var(--card-border);
+  cursor:pointer;
+  transition:transform .15s, border-color .15s, box-shadow .15s;
+}
+.crew-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow-hover)}
+.crew-card img{width:56px;height:56px;border-radius:10px;object-fit:cover;background:var(--panel);flex-shrink:0}
+.crew-card .info{min-width:0;flex:1}
+.crew-card .info strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crew-card .info small{display:block;color:var(--muted);font-size:12px}
+
+/* ============ MODULES ============ */
+.modules-config{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.modules-config input{flex:1;min-width:200px}
+.module-list{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.module-item{
+  padding:6px 10px;border-radius:8px;background:var(--card);
+  border:1px solid var(--card-border);display:flex;gap:8px;align-items:center;
+  font-size:13px;
+}
+.module-item .x{cursor:pointer;color:var(--muted);font-size:14px;line-height:1}
+.module-item .x:hover{color:#ff8a7a}
+
+/* ============ TODO ============ */
+.todo-layout{display:grid;grid-template-columns:1fr 240px;gap:16px}
+.todo-add{display:flex;gap:8px;flex-wrap:wrap}
+.todo-add input[type="text"]{flex:1;min-width:160px}
+.todo-list{list-style:none;padding:0;margin:12px 0;max-height:480px;overflow:auto}
+.todo-item{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;
+  border-radius:10px;border:1px solid var(--card-border);
+  background:var(--card);margin-bottom:6px;
+  transition:opacity .2s, border-color .15s;
+}
+.todo-item:hover{border-color:var(--accent)}
+.todo-item.completed{opacity:.55}
+.todo-item.completed .t-text{text-decoration:line-through}
+.todo-item .t-content{flex:1;min-width:0}
+.todo-item .t-text{font-weight:600;font-size:14px;word-break:break-word}
+.todo-item .t-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.todo-item .badge{
+  padding:2px 6px;border-radius:5px;font-size:10px;font-weight:700;text-transform:uppercase;
+}
+.badge.high{background:rgba(255,90,90,.18);color:#ff7e7e}
+.badge.normal{background:rgba(94,153,236,.18);color:var(--accent)}
+.badge.low{background:rgba(140,150,180,.18);color:var(--muted)}
+.todo-aside{
+  padding-left:16px;border-left:1px solid var(--card-border);
+  display:flex;flex-direction:column;gap:8px;
+}
+
+/* ============ MODAL ============ */
+.modal{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:20px;z-index:200;
+  visibility:hidden;opacity:0;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(8px);
+  transition:opacity .2s, visibility .2s;
+}
+.modal.show{visibility:visible;opacity:1}
+.modal .inner{
+  background:var(--panel);
+  padding:24px;border-radius:16px;
+  max-width:780px;width:100%;max-height:88vh;overflow:auto;
+  border:1px solid var(--card-border);
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+  transform:scale(.96);transition:transform .25s;
+}
+.modal.show .inner{transform:scale(1)}
+.modal h3{margin-top:0}
+.modal .close-x{
+  position:absolute;top:12px;right:14px;
+  background:transparent;border:0;color:var(--muted);
+  font-size:22px;cursor:pointer;
+}
+.modal .close-x:hover{color:var(--text-color)}
+
+/* ============ NAV LINKS ============ */
+.navbar{display:flex;gap:.5em;align-items:center;flex-wrap:wrap}
+.nav-link{
+  color:var(--muted);font-weight:600;text-decoration:none;
+  padding:6px 12px;font-size:14px;border-radius:8px;
+  transition:color .18s, background .18s;
+}
+.nav-link:hover,.nav-link.active{color:var(--accent);background:color-mix(in srgb, var(--accent) 12%, transparent)}
+
+/* ============ FOOTER ============ */
+footer.panel{
+  margin-top:auto;text-align:center;color:var(--muted);font-size:13px;padding:18px 20px;
+}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* ============ CHAT WIDGET ============ */
+#ryazhenka-chat{
+  position:fixed;z-index:150;right:20px;bottom:20px;
+  width:340px;max-width:calc(100vw - 40px);
+  background:var(--panel);
+  border:1px solid var(--card-border);
+  border-radius:16px;
+  box-shadow:0 12px 40px rgba(0,0,0,.5);
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:translateY(20px);opacity:0;
+  transition:transform .3s, opacity .3s;
+  pointer-events:none;
+}
+#ryazhenka-chat.open{transform:translateY(0);opacity:1;pointer-events:auto}
+.chat-toggle{
+  position:fixed;z-index:149;right:20px;bottom:20px;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(120deg,var(--accent),var(--accent-2));
+  border:0;color:#fff;cursor:pointer;
+  box-shadow:0 8px 24px color-mix(in srgb, var(--accent) 40%, transparent);
+  font-size:24px;display:flex;align-items:center;justify-content:center;
+  transition:transform .2s, box-shadow .2s;
+}
+.chat-toggle:hover{transform:scale(1.05)}
+.chat-toggle.hidden{display:none}
+#ryazhenka-chat .head{
+  padding:14px 16px;border-bottom:1px solid var(--card-border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+#ryazhenka-chat .head strong{color:var(--accent);font-size:15px}
+#ryazhenka-chat .close{
+  background:transparent;border:0;color:var(--muted);font-size:18px;cursor:pointer;
+}
+#ryazhenka-chat .body{
+  flex:1;padding:12px 16px;min-height:80px;max-height:280px;overflow-y:auto;
+  font-size:13px;line-height:1.5;
+}
+#ryazhenka-chat .body .msg{margin-bottom:8px}
+#ryazhenka-chat .body .msg.user{color:var(--accent-2)}
+#ryazhenka-chat .body .msg.ai{color:var(--text-color)}
+#ryazhenka-chat .body .msg.ai .label{color:var(--accent);font-weight:700}
+#ryazhenka-chat form{display:flex;gap:6px;padding:10px;border-top:1px solid var(--card-border)}
+#ryazhenka-chat input{flex:1}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar{width:10px;height:10px;background:transparent}
+::-webkit-scrollbar-thumb{background:var(--card);border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent-2)}
+
+/* ============ ANIMATIONS ============ */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.panel,.release-card,.crew-card,.widget{animation:fadeInUp .5s ease both}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .todo-layout{grid-template-columns:1fr}
+  .todo-aside{padding-left:0;border-left:0;border-top:1px solid var(--card-border);padding-top:12px}
+  .huge{font-size:34px}
+}
+@media (max-width:600px){
+  .panel{padding:14px}
+  .controls{gap:6px}
+  .btn{padding:7px 10px;font-size:13px}
+  .searchbar input[type="text"]{min-width:140px}
+  #ryazhenka-chat{width:calc(100vw - 24px);right:12px;bottom:80px}
+  .chat-toggle{right:12px;bottom:12px}
+}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--panel);color:var(--text-color);
+  padding:10px 18px;border-radius:10px;
+  border:1px solid var(--card-border);
+  box-shadow:0 8px 28px rgba(0,0,0,.4);
+  font-size:14px;z-index:300;
+  opacity:0;transition:opacity .25s, transform .25s;
+  pointer-events:none;max-width:90vw;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:#3dbf78}
+.toast.error{border-color:#c0392b}
+
+/* ============ EMPTY STATE ============ */
+.empty{padding:24px;text-align:center;color:var(--muted);font-size:14px}
+.spinner{
+  display:inline-block;width:18px;height:18px;
+  border:2px solid var(--card-border);border-top-color:var(--accent);
+  border-radius:50%;animation:spin 1s linear infinite;
+  vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
 </head>
 <body>
-  <!-- Sidebar Overlay (mobile) -->
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-  <!-- App Wrapper -->
-  <div class="app-wrapper">
+<header class="topbar">
+  <div class="top-inner">
+    <div class="brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <img class="logo" src="/Ryzhenka/assets/Ryazhalogo.png" alt="Ryazhenka" onerror="this.style.background='linear-gradient(120deg,#5e99ec,#36e4ff)';this.removeAttribute('src')" />
+      <div>
+        <div class="brand-title">Ryazhenka</div>
+        <div class="brand-sub">Custom Firmware</div>
+      </div>
+    </div>
 
-    <!-- ==================== SIDEBAR ==================== -->
-    <aside class="sidebar" id="sidebar">
-      <a class="sidebar-logo" onclick="showSection('home')">
-        <img src="https://via.placeholder.com/42x42/8b5cf6/ffffff?text=R" alt="Ryazhenka" id="sidebarLogoImg" />
-        <div class="sidebar-logo-text">
-          <div class="sidebar-logo-title">Ryazhenka</div>
-          <div class="sidebar-logo-sub">Custom Firmware</div>
+    <nav class="navbar" aria-label="Навигация">
+      <a class="nav-link" href="#changelog">Релизы</a>
+      <a class="nav-link" href="#modules">Модули</a>
+      <a class="nav-link" href="#gallery">Галерея</a>
+      <a class="nav-link" href="#crew">Команда</a>
+      <a class="nav-link" href="#todo">To-Do</a>
+    </nav>
+
+    <div class="controls">
+      <select id="themePicker" class="small" title="Тема">
+        <option value="deepnight">Deep Night</option>
+        <option value="indigo">Indigo</option>
+        <option value="abyss">Abyss</option>
+        <option value="phantom">Phantom</option>
+        <option value="cyber">Cyber</option>
+        <option value="midnight">Midnight</option>
+        <option value="emerald">Emerald</option>
+        <option value="sunset">Sunset</option>
+      </select>
+      <select id="bgMode" class="small" title="Фон">
+        <option value="dark">Тёмный</option>
+        <option value="light">Светлый</option>
+      </select>
+      <a class="btn ghost small" href="[t.me](https://t.me/Ryazhenkabestcfw)" target="_blank" rel="noopener">Telegram</a>
+      <a class="btn ghost small" href="[github.com](https://github.com/Dimasick-git/Ryzhenka/wiki)" target="_blank" rel="noopener">Wiki</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="hero panel glass" aria-labelledby="hero-title">
+    <div>
+      <h1 id="hero-title" class="huge">Ryazhenka</h1>
+      <p class="lead">Стабильная кастомная прошивка для Nintendo Switch — релизы, модули, галерея и инструменты управления в одном месте.</p>
+      <div class="hero-image">
+        <img id="heroImage" alt="Hero preview" loading="lazy" />
+      </div>
+      <div class="hero-cta">
+        <a class="btn primary" href="#changelog">Релизы</a>
+        <a class="btn" href="#gallery">Галерея</a>
+        <a class="btn" href="#crew">Команда</a>
+        <a class="btn" href="#modules">Модули</a>
+        <a class="btn" href="[boosty.to](https://boosty.to/dimasick-git/donate)" target="_blank" rel="noopener">Boosty</a>
+      </div>
+    </div>
+
+    <aside>
+      <div class="panel quick-stats" style="margin:0">
+        <div class="stat"><div class="muted">Релизов</div><div id="releasesCount" class="stat-value">—</div></div>
+        <div class="stat"><div class="muted">Загрузок</div><div id="downloadsCount" class="stat-value">—</div></div>
+        <div class="widgets" id="widgetsArea"></div>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center">
+          <button id="refreshAll" class="btn small">Обновить</button>
+          <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)">
+            <input id="includeStratosphere" type="checkbox" /> stratosphere
+          </label>
         </div>
-      </a>
-
-      <div class="sidebar-section-label">Навигация</div>
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link active" data-section="home" onclick="showSection('home')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            Главная
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" data-section="releases" onclick="showSection('releases')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-            Релизы
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" data-section="modules" onclick="showSection('modules')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="7" height="7"/>
-              <rect x="14" y="3" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/>
-              <rect x="3" y="14" width="7" height="7"/>
-            </svg>
-            Модули
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" data-section="gallery" onclick="showSection('gallery')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-            Галерея
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" data-section="crew" onclick="showSection('crew')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            Команда
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" data-section="todo" onclick="showSection('todo')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 11l3 3L22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
-            To‑Do
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" data-section="changelog" onclick="showSection('changelog')">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-            Changelog
-          </a>
-        </li>
-      </ul>
-
-      <div class="sidebar-section-label">Ссылки</div>
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" href="https://t.me/ryazhenka" target="_blank">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            Telegram
-          </a>
-        </li>
-        <li class="sidebar-nav-item">
-          <a class="sidebar-nav-link" href="https://github.com/ryazhenka" target="_blank">
-            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-            </svg>
-            GitHub
-          </a>
-        </li>
-      </ul>
-
-      <div class="sidebar-version" style="margin-top:16px;">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;color:var(--text-muted)">Версия прошивки</div>
-        <strong>v4.3.2 Stable</strong>
-        <div style="font-size:11px;margin-top:4px;color:var(--text-muted)">Последнее обновление: 15.01.2025</div>
       </div>
     </aside>
+  </section>
 
-    <!-- ==================== MAIN ==================== -->
-    <div class="main-content">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <div class="topbar-left">
-          <button class="hamburger" onclick="toggleSidebar()" aria-label="Меню">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-          <div class="search-bar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <input type="text" placeholder="Поиск..." id="globalSearch" oninput="handleGlobalSearch(this.value)" />
-          </div>
-        </div>
-        <div class="topbar-right">
-          <div class="status-badge">
-            <div class="status-dot"></div>
-            Активна
-          </div>
-          <select class="theme-select" id="themeSelect" onchange="setTheme(this.value)">
-            <option value="glow">🌟 Glow</option>
-            <option value="cyber">💻 Cyber</option>
-            <option value="matrix">🟢 Matrix</option>
-            <option value="sunset">🌅 Sunset</option>
-            <option value="aurora">🌌 Aurora</option>
-            <option value="emerald">💚 Emerald</option>
-            <option value="nebula">🌸 Nebula</option>
-            <option value="light">☀️ Light</option>
-          </select>
-          <button class="btn btn-ghost btn-sm" onclick="showToast('📋 Ссылка скопирована!', 'success')" style="display:flex;align-items:center;gap:6px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-            </svg>
-            Поделиться
-          </button>
-        </div>
-      </header>
-
-      <!-- PAGE CONTENT -->
-      <main class="page-content">
-
-        <!-- ==================== HOME ==================== -->
-        <section class="section active" id="section-home">
-          <div class="hero-section">
-            <!-- Hero Card -->
-            <div class="hero-card">
-              <div class="hero-tag">
-                <div class="hero-tag-dot"></div>
-                Актуальная версия доступна
-              </div>
-              <h1 class="hero-title">Ryazhenka<br/>CFW</h1>
-              <p class="hero-desc">
-                Стабильная кастомная прошивка для Nintendo Switch. Объединяет лучшие модули, 
-                регулярные обновления и поддержку сообщества. Безопасность и производительность в приоритете.
-              </p>
-              <div class="hero-actions">
-                <button class="btn btn-primary" onclick="showSection('releases')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                  </svg>
-                  Скачать v4.3.2
-                </button>
-                <button class="btn btn-ghost" onclick="showSection('changelog')">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                  </svg>
-                  Что нового
-                </button>
-              </div>
-              <div class="hero-stats">
-                <div class="hero-stat-item">
-                  <div class="hero-stat-value">4.3.2</div>
-                  <div class="hero-stat-label">Версия</div>
-                </div>
-                <div class="hero-stat-item">
-                  <div class="hero-stat-value">12+</div>
-                  <div class="hero-stat-label">Модулей</div>
-                </div>
-                <div class="hero-stat-item">
-                  <div class="hero-stat-value">99.9%</div>
-                  <div class="hero-stat-label">Стабильность</div>
-                </div>
-                <div class="hero-stat-item">
-                  <div class="hero-stat-value">5K+</div>
-                  <div class="hero-stat-label">Пользователей</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Side Panel -->
-            <div class="hero-side">
-              <div class="info-card">
-                <div class="info-card-title">Системная информация</div>
-                <div class="stat-row">
-                  <span class="stat-row-label">Версия CFW</span>
-                  <span class="stat-row-value accent">v4.3.2</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-row-label">Статус</span>
-                  <span class="stat-row-value success">Stable</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-row-label">Atmosphere</span>
-                  <span class="stat-row-value accent-2">1.7.1</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-row-label">Hekate</span>
-                  <span class="stat-row-value">6.2.2</span>
-                </div>
-                <div class="stat-row">
-                  <span class="stat-row-label">Платформа</span>
-                  <span class="stat-row-value">Switch OLED</span>
-                </div>
-              </div>
-
-              <div class="info-card">
-                <div class="info-card-title">Последний релиз</div>
-                <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">
-                  Исправлена критическая ошибка с сохранениями, обновлены системные модули, 
-                  улучшена совместимость с emuMMC.
-                </div>
-                <button class="btn btn-primary w-full" style="margin-top:14px;justify-content:center;" onclick="showSection('releases')">
-                  Подробнее →
-                </button>
-              </div>
-
-              <div class="info-card" style="background:linear-gradient(135deg,rgba(var(--accent-rgb),0.08),rgba(var(--accent2-rgb),0.04));border-color:rgba(var(--accent-rgb),0.2);">
-                <div class="info-card-title">Telegram канал</div>
-                <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
-                  Следите за обновлениями в официальном канале
-                </div>
-                <a href="https://t.me/ryazhenka" target="_blank" class="btn btn-ghost btn-sm w-full" style="justify-content:center;">
-                  📢 Подписаться
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Quick Cards Row -->
-          <div class="grid-4 mb-6">
-            <div class="card" style="cursor:pointer;" onclick="showSection('releases')">
-              <div style="font-size:28px;margin-bottom:12px;">🚀</div>
-              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Релизы</div>
-              <div style="font-size:13px;color:var(--text-muted);">Последние версии прошивки</div>
-              <div class="badge badge-new" style="margin-top:10px;">NEW</div>
-            </div>
-            <div class="card" style="cursor:pointer;" onclick="showSection('modules')">
-              <div style="font-size:28px;margin-bottom:12px;">🧩</div>
-              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Модули</div>
-              <div style="font-size:13px;color:var(--text-muted);">Расширения и плагины</div>
-              <div class="badge badge-accent" style="margin-top:10px;">12 активных</div>
-            </div>
-            <div class="card" style="cursor:pointer;" onclick="showSection('gallery')">
-              <div style="font-size:28px;margin-bottom:12px;">🖼️</div>
-              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Галерея</div>
-              <div style="font-size:13px;color:var(--text-muted);">Скриншоты интерфейса</div>
-              <div class="badge badge-muted" style="margin-top:10px;">24 фото</div>
-            </div>
-            <div class="card" style="cursor:pointer;" onclick="showSection('crew')">
-              <div style="font-size:28px;margin-bottom:12px;">👥</div>
-              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Команда</div>
-              <div style="font-size:13px;color:var(--text-muted);">Разработчики проекта</div>
-              <div class="badge badge-success" style="margin-top:10px;">6 участников</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==================== RELEASES ==================== -->
-        <section class="section" id="section-releases">
-          <div class="section-header">
-            <h2 class="section-title">Релизы</h2>
-            <p class="section-subtitle">Все версии кастомной прошивки Ryazhenka</p>
-          </div>
-
-          <div class="filter-bar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <input class="filter-input" type="text" placeholder="Поиск релизов..." oninput="filterReleases(this.value)" />
-            <select class="todo-select" onchange="filterReleasesByType(this.value)">
-              <option value="">Все типы</option>
-              <option value="stable">Stable</option>
-              <option value="beta">Beta</option>
-              <option value="legacy">Legacy</option>
-            </select>
-            <button class="btn btn-primary btn-sm" onclick="showToast('📥 Скачивание началось!', 'success')">
-              Скачать последний
-            </button>
-          </div>
-
-          <div id="releasesContainer">
-            <!-- Ryazhenka Repo -->
-            <div class="repo-group">
-              <div class="repo-group-header">
-                <div class="repo-group-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="repo-group-title">ryazhenka/ryazhenka-cfw</div>
-                  <div style="font-size:12px;color:var(--text-muted);">Основная прошивка</div>
-                </div>
-                <div class="repo-group-count">3 релиза</div>
-              </div>
-              <div class="releases-grid" id="releasesGrid1">
-                <!-- Release cards generated by JS -->
-              </div>
-            </div>
-
-            <!-- Modules Repo -->
-            <div class="repo-group">
-              <div class="repo-group-header">
-                <div class="repo-group-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7"/>
-                    <rect x="14" y="3" width="7" height="7"/>
-                    <rect x="14" y="14" width="7" height="7"/>
-                    <rect x="3" y="14" width="7" height="7"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="repo-group-title">ryazhenka/modules</div>
-                  <div style="font-size:12px;color:var(--text-muted);">Системные модули</div>
-                </div>
-                <div class="repo-group-count">2 релиза</div>
-              </div>
-              <div class="releases-grid" id="releasesGrid2">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==================== MODULES ==================== -->
-        <section class="section" id="section-modules">
-          <div class="section-header">
-            <h2 class="section-title">Модули</h2>
-            <p class="section-subtitle">Расширения и плагины Ryazhenka CFW</p>
-          </div>
-
-          <div class="filter-bar mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <input class="filter-input" type="text" placeholder="Поиск модулей..." oninput="filterModules(this.value)" />
-            <select class="todo-select">
-              <option>Все категории</option>
-              <option>Система</option>
-              <option>Игры</option>
-              <option>Утилиты</option>
-              <option>Безопасность</option>
-            </select>
-          </div>
-
-          <div class="module-grid" id="modulesGrid">
-            <!-- Generated by JS -->
-          </div>
-        </section>
-
-        <!-- ==================== GALLERY ==================== -->
-        <section class="section" id="section-gallery">
-          <div class="section-header">
-            <h2 class="section-title">Галерея</h2>
-            <p class="section-subtitle">Скриншоты и визуальные материалы</p>
-          </div>
-
-          <div class="filter-bar mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <input class="filter-input" type="text" placeholder="Поиск в галерее..." />
-            <select class="todo-select">
-              <option>Все</option>
-              <option>Интерфейс</option>
-              <option>Игры</option>
-              <option>Настройки</option>
-            </select>
-          </div>
-
-          <div class="grid-gallery" id="galleryGrid">
-            <!-- Generated by JS -->
-          </div>
-        </section>
-
-        <!-- ==================== CREW ==================== -->
-        <section class="section" id="section-crew">
-          <div class="section-header">
-            <h2 class="section-title">Команда</h2>
-            <p class="section-subtitle">Люди, создающие Ryazhenka CFW</p>
-          </div>
-
-          <div class="crew-grid" id="crewGrid">
-            <!-- Generated by JS -->
-          </div>
-        </section>
-
-        <!-- ==================== TODO ==================== -->
-        <section class="section" id="section-todo">
-          <div class="section-header">
-            <h2 class="section-title">To‑Do</h2>
-            <p class="section-subtitle">Список задач и планов разработки</p>
-          </div>
-
-          <div class="todo-layout">
-            <div>
-              <div class="todo-add-form">
-                <input class="todo-input" type="text" id="todoInput" placeholder="Добавить задачу..." onkeydown="if(event.key==='Enter')addTodo()" />
-                <select class="todo-select" id="todoPriority">
-                  <option value="high">🔴 Высокий</option>
-                  <option value="medium" selected>🟡 Средний</option>
-                  <option value="low">🟢 Низкий</option>
-                </select>
-                <button class="btn btn-primary" onclick="addTodo()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                  </svg>
-                  Добавить
-                </button>
-              </div>
-              <ul class="todo-list" id="todoList">
-                <!-- Generated by JS -->
-              </ul>
-            </div>
-
-            <div style="display:flex;flex-direction:column;gap:16px;">
-              <div class="todo-stats-card">
-                <div class="info-card-title">Статистика</div>
-                <div class="todo-stat-row">
-                  <span class="todo-stat-row-label">Всего задач</span>
-                  <span class="todo-stat-row-value" id="statTotal">0</span>
-                </div>
-                <div class="todo-stat-row">
-                  <span class="todo-stat-row-label">Выполнено</span>
-                  <span class="todo-stat-row-value" style="color:#4ade80;" id="statDone">0</span>
-                </div>
-                <div class="todo-stat-row">
-                  <span class="todo-stat-row-label">В процессе</span>
-                  <span class="todo-stat-row-value" style="color:var(--accent);" id="statPending">0</span>
-                </div>
-                <div class="progress-bar">
-                  <div class="progress-fill" id="progressFill" style="width:0%"></div>
-                </div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:center;" id="progressText">0% выполнено</div>
-              </div>
-
-              <div class="todo-stats-card">
-                <div class="info-card-title">Быстрые действия</div>
-                <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
-                  <button class="btn btn-ghost btn-sm w-full" style="justify-content:flex-start;gap:8px;" onclick="markAllDone()">
-                    ✅ Отметить все выполненными
-                  </button>
-                  <button class="btn btn-ghost btn-sm w-full" style="justify-content:flex-start;gap:8px;" onclick="clearCompleted()">
-                    🗑️ Удалить выполненные
-                  </button>
-                  <button class="btn btn-ghost btn-sm w-full" style="justify-content:flex-start;gap:8px;" onclick="clearAllTodos()">
-                    ❌ Очистить всё
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ==================== CHANGELOG ==================== -->
-        <section class="section" id="section-changelog">
-          <div class="section-header">
-            <h2 class="section-title">Changelog</h2>
-            <p class="section-subtitle">История изменений и обновлений прошивки</p>
-          </div>
-
-          <div class="timeline" id="changelogTimeline">
-            <!-- Generated by JS -->
-          </div>
-        </section>
-
-      </main>
-
-      <!-- FOOTER -->
-      <footer class="page-footer">
-        <div class="footer-text">
-          © 2025 <a href="#">Ryazhenka CFW</a> — Сделано с ❤️ для Switch сообщества
-        </div>
-        <div class="footer-links">
-          <a href="https://t.me/ryazhenka" class="footer-link" target="_blank">Telegram</a>
-          <a href="https://github.com/ryazhenka" class="footer-link" target="_blank">GitHub</a>
-          <a href="#" class="footer-link" onclick="showSection('changelog')">Changelog</a>
-        </div>
-      </footer>
-
-    </div>
-  </div>
-
-  <!-- ==================== LIGHTBOX ==================== -->
-  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <img src="" alt="" id="lightboxImg" onclick="event.stopPropagation()" />
-  </div>
-
-  <!-- ==================== CREW MODAL ==================== -->
-  <div class="modal-overlay" id="crewModal" onclick="closeCrewModal()">
-    <div class="modal-box" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span class="modal-title" id="crewModalTitle">Участник команды</span>
-        <button class="modal-close" onclick="closeCrewModal()">✕</button>
+  <section id="changelog" class="panel">
+    <div class="section-head">
+      <h2>Релизы</h2>
+      <div class="searchbar">
+        <input id="searchReleases" type="text" placeholder="Поиск..." />
+        <select id="filterType">
+          <option value="all">Все типы</option>
+          <option value="bestcfw">BestCFW</option>
+          <option value="aio">AIO</option>
+          <option value="lite">Lite</option>
+        </select>
+        <select id="sortBy">
+          <option value="date_desc">Новые</option>
+          <option value="date_asc">Старые</option>
+          <option value="downloads_desc">По загрузкам</option>
+        </select>
       </div>
-      <div id="crewModalContent"></div>
     </div>
+    <div id="releasesGrouped"><div class="empty"><span class="spinner"></span> Загрузка релизов...</div></div>
+  </section>
+
+  <section id="modules" class="panel">
+    <div class="section-head">
+      <h2>Модули команды</h2>
+      <div class="modules-config">
+        <input id="moduleRepoInput" type="text" placeholder="owner/repo" />
+        <button id="addModuleBtn" class="btn small">Добавить</button>
+        <button id="refreshModules" class="btn small">Обновить</button>
+      </div>
+    </div>
+    <div id="moduleList" class="module-list"></div>
+    <div id="modulesGrouped"></div>
+  </section>
+
+  <section id="gallery" class="panel">
+    <div class="section-head"><h2>Галерея</h2></div>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </section>
+
+  <section id="crew" class="panel">
+    <div class="section-head">
+      <h2>Команда и благодарности</h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button id="addCrewBtn" class="btn small">Добавить</button>
+        <button id="exportCrewBtn" class="btn small">Экспорт</button>
+        <button id="importCrewBtn" class="btn small">Импорт</button>
+        <input id="importCrewFile" type="file" accept="application/json" hidden />
+      </div>
+    </div>
+    <div id="crewGrid" class="crew-grid"></div>
+  </section>
+
+  <section id="todo" class="panel">
+    <div class="section-head"><h2>To-Do (локально)</h2></div>
+    <div class="todo-layout">
+      <div>
+        <div class="todo-add">
+          <input id="todoInput" type="text" placeholder="Новая задача..." />
+          <select id="todoPriority">
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+          </select>
+          <input id="todoDue" type="date" />
+          <button id="todoAdd" class="btn primary">Добавить</button>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
+          <input id="todoFilter" type="text" placeholder="Фильтр..." style="flex:1;min-width:140px" />
+          <select id="todoSort">
+            <option value="new">Новые</option>
+            <option value="old">Старые</option>
+            <option value="prio">Приоритет</option>
+            <option value="due">По дате</option>
+          </select>
+        </div>
+        <ul id="todoList" class="todo-list"></ul>
+      </div>
+      <aside class="todo-aside">
+        <button id="bulkComplete" class="btn small">Отметить все</button>
+        <button id="clearCompleted" class="btn small">Удалить выполненные</button>
+        <button id="clearAll" class="btn small danger">Удалить всё</button>
+        <button id="exportTodos" class="btn small">Экспорт</button>
+        <button id="importTodosBtn" class="btn small">Импорт</button>
+        <input id="todoImportFile" type="file" accept="application/json" hidden />
+        <small class="muted" style="margin-top:8px">Сохраняется локально в браузере</small>
+      </aside>
+    </div>
+  </section>
+
+  <footer class="panel">
+    <div>© Ryazhenka — community-driven CFW</div>
+    <div style="margin-top:6px">
+      <a href="[t.me](https://t.me/Ryazhenkabestcfw)" target="_blank" rel="noopener">Telegram</a> ·
+      <a href="[youtube.com](https://www.youtube.com/@Dimaick-git)" target="_blank" rel="noopener">YouTube</a> ·
+      <a href="[boosty.to](https://boosty.to/dimasick-git/donate)" target="_blank" rel="noopener">Boosty</a>
+    </div>
+  </footer>
+
+</div>
+
+<div id="modal" class="modal" aria-hidden="true"></div>
+
+<button class="chat-toggle" id="chatToggle" title="Открыть чат" aria-label="Открыть чат">💬</button>
+<div id="ryazhenka-chat" role="dialog" aria-label="Ryazhenka AI чат">
+  <div class="head">
+    <strong>Ryazhenka AI</strong>
+    <button class="close" id="chatClose" aria-label="Закрыть">✕</button>
   </div>
+  <div class="body" id="chatBody">
+    <div class="msg ai"><span class="label">ryazhenka.ai:</span> Привет! Спрашивайте про прошивку, модули или нашу команду.</div>
+  </div>
+  <form id="chatForm">
+    <input id="chatInput" type="text" maxlength="400" placeholder="Ваш вопрос..." autocomplete="off" />
+    <button class="btn primary small" type="submit">→</button>
+  </form>
+</div>
 
-  <!-- ==================== TOAST CONTAINER ==================== -->
-  <div class="toast-container" id="toastContainer"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script>
-    // ==================== DATA ====================
+<script>
+(function(){
+  'use strict';
 
-    const RELEASES = [
-      {
-        grid: 'releasesGrid1',
-        title: 'Ryazhenka v4.3.2 Stable',
-        version: 'v4.3.2',
-        type: 'stable',
-        date: '15 янв 2025',
-        desc: 'Исправлена ошибка с сохранениями, обновлены модули безопасности, улучшена поддержка OLED.',
-        image: 'https://picsum.photos/seed/r1/400/200',
-        size: '248 МБ',
-        downloads: '2.1K'
-      },
-      {
-        grid: 'releasesGrid1',
-        title: 'Ryazhenka v4.3.0 Stable',
-        version: 'v4.3.0',
-        type: 'stable',
-        date: '02 янв 2025',
-        desc: 'Крупное обновление: новый загрузчик, улучшенная совместимость с emuMMC, новые темы.',
-        image: 'https://picsum.photos/seed/r2/400/200',
-        size: '241 МБ',
-        downloads: '5.8K'
-      },
-      {
-        grid: 'releasesGrid1',
-        title: 'Ryazhenka v4.2.9 Legacy',
-        version: 'v4.2.9',
-        type: 'legacy',
-        date: '14 дек 2024',
-        desc: 'Стабильная legacy версия для старых устройств. Минимальные изменения.',
-        image: 'https://picsum.photos/seed/r3/400/200',
-        size: '230 МБ',
-        downloads: '1.2K'
-      },
-      {
-        grid: 'releasesGrid2',
-        title: 'Sys-Modules Pack v2.1',
-        version: 'v2.1',
-        type: 'stable',
-        date: '10 янв 2025',
-        desc: 'Пакет системных модулей: sys-clk, sys-con, sys-botbase с оптимизациями.',
-        image: 'https://picsum.photos/seed/m1/400/200',
-        size: '18 МБ',
-        downloads: '3.4K'
-      },
-      {
-        grid: 'releasesGrid2',
-        title: 'Overlay Pack Beta',
-        version: 'v1.5-beta',
-        type: 'beta',
-        date: '08 янв 2025',
-        desc: 'Тестовый пакет оверлеев с новым дизайном. Возможны баги.',
-        image: 'https://picsum.photos/seed/m2/400/200',
-        size: '12 МБ',
-        downloads: '890'
+  // ============ CONFIG ============
+  const MAIN_REPO = 'Dimasick-git/Ryzhenka';
+  const BASE_REPOS = [MAIN_REPO,'Atmosphere-NX/Atmosphere','CTCaer/hekate'];
+  const LIMITED_REPOS = new Set(['Atmosphere-NX/Atmosphere','CTCaer/hekate']);
+  const OPTIONAL_REPO = 'switchbrew/stratosphere';
+  const RELEASES_PER_REPO = 30;
+  const CACHE_TTL = 5 * 60 * 1000;
+  const IMG_CACHE_TTL = 6 * 60 * 60 * 1000;
+
+  const KEYS = {
+    cache:'rz_cache_v8',
+    crew:'rz_crew_v8',
+    todos:'rz_todos_v8',
+    settings:'rz_settings_v8',
+    modules:'rz_modules_v8',
+    modulesCache:'rz_modules_cache_v8',
+    imgCache:'rz_img_cache_v8'
+  };
+
+  const DEFAULT_CREW = [
+    {login:'Dimasick-git',name:'Dimasick-git',role:'Основатель'},
+    {login:'Ryazhenka-Helper-1',name:'Ryazhenka-Helper-1',role:'Модули (sys-clk)'},
+    {login:'Ryazhenka-Helper-01',name:'Ryazhenka-Helper-01',role:'Видео / тестирование'}
+  ];
+  const DEFAULT_MODULES = [
+    'Dimasick-git/Ryazhahand-Overlay',
+    'Dimasick-git/libRYAZHAHAND',
+    'Ryazhenka-Helper-1/Sys-clk-for-RYZ'
+  ];
+
+  // ============ STATE ============
+  const state = {
+    releases:[],
+    modules:[],
+    imgCache:{},
+    abortControllers:new Map()
+  };
+
+  // ============ HELPERS ============
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs={}, ...kids) => {
+    const e = document.createElement(tag);
+    for(const k in attrs){
+      if(k==='class') e.className = attrs[k];
+      else if(k==='html') e.innerHTML = attrs[k];
+      else if(k.startsWith('on') && typeof attrs[k]==='function') e.addEventListener(k.slice(2),attrs[k]);
+      else if(attrs[k] !== null && attrs[k] !== undefined) e.setAttribute(k, attrs[k]);
+    }
+    kids.flat().forEach(c => {
+      if(c==null) return;
+      if(typeof c === 'string') e.appendChild(document.createTextNode(c));
+      else e.appendChild(c);
+    });
+    return e;
+  };
+  const fmtDate = iso => { try { return iso ? new Date(iso).toLocaleDateString() : ''; } catch { return ''; } };
+  const escapeHtml = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+  const lsGet = (k, def) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch { return def; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){ console.warn('localStorage full',e); } };
+
+  function toast(msg, type=''){
+    const t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(()=> t.className = 'toast ' + type, 2400);
+  }
+
+  // ============ FETCH WITH CACHE/RETRY ============
+  async function fetchJSON(url, signal){
+    let attempt = 0;
+    while(attempt < 2){
+      try {
+        const res = await fetch(url, {signal, headers:{'Accept':'application/vnd.github+json'}});
+        if(res.status === 403){
+          const reset = res.headers.get('X-RateLimit-Reset');
+          throw new Error(`Rate limit${reset?' (reset '+new Date(reset*1000).toLocaleTimeString()+')':''}`);
+        }
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        return await res.json();
+      } catch(e){
+        if(e.name === 'AbortError') throw e;
+        attempt++;
+        if(attempt >= 2) throw e;
+        await new Promise(r => setTimeout(r, 600));
       }
-    ];
+    }
+  }
 
-    const MODULES = [
-      { icon: '⚙️', name: 'sys-clk', desc: 'Управление частотами CPU/GPU/RAM', cat: 'Система', version: 'v2.0.0' },
-      { icon: '🎮', name: 'sys-con', desc: 'Поддержка контроллеров Bluetooth', cat: 'Игры', version: 'v1.1.2' },
-      { icon: '🌡️', name: 'sys-ftpd', desc: 'FTP сервер для передачи файлов', cat: 'Утилиты', version: 'v1.0.3' },
-      { icon: '🛡️', name: 'sys-dns-mitm', desc: 'Блокировка серверов Nintendo', cat: 'Безопасность', version: 'v1.1.0' },
-      { icon: '📊', name: 'Status Monitor', desc: 'Оверлей температур и нагрузки', cat: 'Утилиты', version: 'v0.9.8' },
-      { icon: '🔧', name: 'Tesla Menu', desc: 'Главное меню оверлея (Nx-Ovlloader)', cat: 'Система', version: 'v1.2.2' },
-      { icon: '🎵', name: 'MusicOverlay', desc: 'Воспроизведение музыки в фоне', cat: 'Утилиты', version: 'v1.0.1' },
-      { icon: '💾', name: 'Checkpoint', desc: 'Менеджер сохранений игр', cat: 'Игры', version: 'v3.8.1' },
-      { icon: '🌐', name: 'Linkalho', desc: 'Привязка аккаунтов без NNID', cat: 'Система', version: 'v2.1.0' },
-      { icon: '🎨', name: 'NXThemes', desc: 'Установщик тем HOME меню', cat: 'Утилиты', version: 'v2.5.0' },
-      { icon: '📺', name: 'HDMI-Fix', desc: 'Исправление вывода HDMI сигнала', cat: 'Система', version: 'v1.0.0' },
-      { icon: '🔐', name: 'LockScreen+', desc: 'Расширенная блокировка экрана', cat: 'Безопасность', version: 'v0.8.3' }
+  // ============ IMAGE FALLBACK ============
+  async function findRepoImage(repoFull){
+    if(!repoFull) return null;
+    state.imgCache = state.imgCache || lsGet(KEYS.imgCache, {});
+    const cached = state.imgCache[repoFull];
+    if(cached && (Date.now() - cached.ts < IMG_CACHE_TTL)){
+      return cached.url;
+    }
+    const branches = ['main','master'];
+    const paths = [
+      '/assets/preview.png','/assets/hero.png','/assets/banner.png','/assets/logo.png',
+      '/preview.png','/banner.png','/logo.png','/screenshot.png',
+      '/images/preview.png','/docs/preview.png'
     ];
-
-    const GALLERY_IMAGES = [
-      { url: 'https://picsum.photos/seed/g1/400/300', title: 'Главное меню' },
-      { url: 'https://picsum.photos/seed/g2/400/300', title: 'Tesla Overlay' },
-      { url: 'https://picsum.photos/seed/g3/400/300', title: 'sys-clk настройки' },
-      { url: 'https://picsum.photos/seed/g4/400/300', title: 'Hekate загрузчик' },
-      { url: 'https://picsum.photos/seed/g5/400/300', title: 'emuMMC раздел' },
-      { url: 'https://picsum.photos/seed/g6/400/300', title: 'Кастомная тема' },
-      { url: 'https://picsum.photos/seed/g7/400/300', title: 'Status Monitor' },
-      { url: 'https://picsum.photos/seed/g8/400/300', title: 'Checkpoint' },
-      { url: 'https://picsum.photos/seed/g9/400/300', title: 'Альбом скриншотов' },
-      { url: 'https://picsum.photos/seed/g10/400/300', title: 'OLED дисплей' },
-      { url: 'https://picsum.photos/seed/g11/400/300', title: 'Настройки системы' },
-      { url: 'https://picsum.photos/seed/g12/400/300', title: 'Магазин модулей' }
-    ];
-
-    const CREW = [
-      {
-        name: 'Ryazhenka Dev',
-        role: 'Главный разработчик',
-        badge: '👑',
-        avatar: 'https://i.pravatar.cc/100?img=1',
-        tg: '@ryazhenka_dev',
-        gh: 'ryazhenka',
-        commits: '1.2K',
-        modules: '8',
-        desc: 'Основатель проекта. Занимается ядром прошивки, стабильностью и архитектурой.'
-      },
-      {
-        name: 'ModderMax',
-        role: 'Разработчик модулей',
-        badge: '🔧',
-        avatar: 'https://i.pravatar.cc/100?img=2',
-        tg: '@moddermax',
-        gh: 'moddermax',
-        commits: '648',
-        modules: '6',
-        desc: 'Создаёт системные модули и оверлеи. Отвечает за интеграцию Tesla Menu.'
-      },
-      {
-        name: 'SwitchArt',
-        role: 'UI/UX Дизайнер',
-        badge: '🎨',
-        avatar: 'https://i.pravatar.cc/100?img=3',
-        tg: '@switchart',
-        gh: 'switchart',
-        commits: '312',
-        modules: '3',
-        desc: 'Разрабатывает темы HOME меню, иконки и визуальную составляющую проекта.'
-      },
-      {
-        name: 'DebugQueen',
-        role: 'QA / Тестирование',
-        badge: '🐛',
-        avatar: 'https://i.pravatar.cc/100?img=4',
-        tg: '@debugqueen',
-        gh: 'debugqueen',
-        commits: '198',
-        modules: '2',
-        desc: 'Тестирует каждый релиз перед публикацией. Пишет отчёты о багах.'
-      },
-      {
-        name: 'DocWriter',
-        role: 'Документация',
-        badge: '📝',
-        avatar: 'https://i.pravatar.cc/100?img=5',
-        tg: '@docwriter',
-        gh: 'docwriter',
-        commits: '87',
-        modules: '1',
-        desc: 'Ведёт документацию, README и инструкции по установке.'
-      },
-      {
-        name: 'CommunityLead',
-        role: 'Менеджер сообщества',
-        badge: '🌟',
-        avatar: 'https://i.pravatar.cc/100?img=6',
-        tg: '@communitylead',
-        gh: 'communitylead',
-        commits: '44',
-        modules: '0',
-        desc: 'Управляет Telegram-каналом, отвечает на вопросы пользователей.'
+    for(const br of branches){
+      for(const p of paths){
+        const url = `[raw.githubusercontent.com](https://raw.githubusercontent.com/${repoFull}/${br}${p})`;
+        try {
+          const r = await fetch(url, {method:'HEAD'});
+          if(r.ok && r.status !== 404){
+            state.imgCache[repoFull] = {url, ts:Date.now()};
+            lsSet(KEYS.imgCache, state.imgCache);
+            return url;
+          }
+        } catch {}
       }
-    ];
-
-    const CHANGELOG = [
-      {
-        date: '15 января 2025',
-        version: 'v4.3.2',
-        title: 'Исправление критических ошибок',
-        desc: 'Устранена ошибка с потерей сохранений при shutdown. Обновлены сертификаты безопасности. Улучшена стабильность emuMMC.',
-        type: 'stable'
-      },
-      {
-        date: '2 января 2025',
-        version: 'v4.3.0',
-        title: 'Крупное обновление',
-        desc: 'Переработан загрузчик Hekate. Новые темы Home меню. Поддержка Switch OLED v2. Обновлена Atmosphere до 1.7.1.',
-        type: 'stable'
-      },
-      {
-        date: '20 декабря 2024',
-        version: 'v4.2.9',
-        title: 'Legacy ветка',
-        desc: 'Поддержка старых устройств продолжается. Минорные патчи безопасности.',
-        type: 'legacy'
-      },
-      {
-        date: '5 декабря 2024',
-        version: 'v4.2.8',
-        title: 'Обновление модулей',
-        desc: 'Обновлён sys-clk до v2.0, Tesla Menu до v1.2, исправлены конфликты модулей.',
-        type: 'stable'
-      },
-      {
-        date: '18 ноября 2024',
-        version: 'v4.2.5',
-        title: 'Beta тестирование',
-        desc: 'Тестирование нового оверлея Status Monitor. Экспериментальная поддержка bluetooth 5.0.',
-        type: 'beta'
-      }
-    ];
-
-    let todos = [
-      { id: 1, text: 'Обновить Atmosphere до 1.7.2', priority: 'high', done: false },
-      { id: 2, text: 'Добавить поддержку новых Joy-Con', priority: 'medium', done: false },
-      { id: 3, text: 'Исправить баг с Bluetooth Audio', priority: 'high', done: true },
-      { id: 4, text: 'Написать документацию для v4.3', priority: 'low', done: false },
-      { id: 5, text: 'Обновить Tesla Menu', priority: 'medium', done: true }
-    ];
-
-    let todoIdCounter = 6;
-
-    // ==================== NAVIGATION ====================
-
-    function showSection(name) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.sidebar-nav-link').forEach(l => l.classList.remove('active'));
-
-      const sec = document.getElementById('section-' + name);
-      if (sec) sec.classList.add('active');
-
-      document.querySelectorAll(`.sidebar-nav-link[data-section="${name}"]`).forEach(l => l.classList.add('active'));
-
-      // Close sidebar on mobile
-      if (window.innerWidth < 768) toggleSidebar(false);
     }
+    state.imgCache[repoFull] = {url:null, ts:Date.now()};
+    lsSet(KEYS.imgCache, state.imgCache);
+    return null;
+  }
 
-    function toggleSidebar(forceState) {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebarOverlay');
-      const isOpen = sidebar.classList.contains('open');
-      const shouldOpen = forceState !== undefined ? forceState : !isOpen;
+  // ============ SETTINGS ============
+  function loadSettings(){
+    const s = lsGet(KEYS.settings, {});
+    const theme = s.theme || 'deepnight';
+    const bg = s.bg || 'dark';
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.bg = bg;
+    if($('themePicker')) $('themePicker').value = theme;
+    if($('bgMode')) $('bgMode').value = bg;
+  }
+  function saveSettings(){
+    lsSet(KEYS.settings, {
+      theme: $('themePicker').value,
+      bg: $('bgMode').value
+    });
+    loadSettings();
+  }
 
-      sidebar.classList.toggle('open', shouldOpen);
-      overlay.classList.toggle('show', shouldOpen);
-    }
+  // ============ HERO IMAGE ============
+  async function loadHeroImage(){
+    const img = $('heroImage');
+    const url = await findRepoImage(MAIN_REPO);
+    if(url) img.src = url;
+    else img.style.display = 'none';
+  }
 
-    // ==================== THEME ====================
+  // ============ RELEASE CARD ============
+  function getRepoList(){
+    const list = BASE_REPOS.slice();
+    if($('includeStratosphere')?.checked) list.push(OPTIONAL_REPO);
+    return list;
+  }
 
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('ryazhenka-theme', theme);
-      showToast('🎨 Тема изменена!', 'info');
-    }
+  function createImage(src, alt){
+    const wrap = el('div',{class:'img-wrap'});
+    const img = el('img',{alt:alt||'', loading:'lazy'});
+    img.addEventListener('load', () => img.classList.add('loaded'));
+    img.addEventListener('error', () => {
+      // graceful SVG fallback
+      const svg = `data:image/svg+xml;utf8,<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" viewBox="0 0 320 140"><rect width="320" height="140" fill="%23131826"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="%23858fae" font-family="sans-serif" font-size="13">No preview</text></svg>`;
+      if(img.src !== svg){ img.src = svg; img.classList.add('loaded'); }
+    });
+    img.src = src;
+    wrap.appendChild(img);
+    return {wrap, img};
+  }
 
-    // ==================== RENDER RELEASES ====================
+  function makeReleaseCard(r){
+    const ver = r.tag_name || r.name || '';
+    const repo = r._repo || MAIN_REPO;
 
-    function renderReleases() {
-      const grids = { releasesGrid1: [], releasesGrid2: [] };
-      RELEASES.forEach(r => {
-        if (grids[r.grid]) grids[r.grid].push(r);
+    let imgSrc = '';
+    const assetImg = (r.assets||[]).find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
+    if(assetImg) imgSrc = assetImg.browser_download_url;
+    else if(repo.toLowerCase().includes('atmosphere')) imgSrc = '[raw.githubusercontent.com](https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/master/img/banner.png)';
+    else if(repo.toLowerCase().includes('hekate')) imgSrc = '[raw.githubusercontent.com](https://raw.githubusercontent.com/CTCaer/hekate/master/res/hekate_ctcaer.png)';
+    else imgSrc = `[opengraph.githubassets.com](https://opengraph.githubassets.com/1/${repo})`;
+
+    const {wrap:imgWrap, img} = createImage(imgSrc, ver);
+
+    const card = el('article', {class:'release-card'},
+      el('div',{class:'repo-badge'}, repo),
+      imgWrap,
+      el('h3',{title:r.name||ver}, r.name || ver),
+      el('div',{class:'meta'},
+        el('span',{}, fmtDate(r.published_at || r.created_at)),
+        el('span',{}, ver)
+      ),
+      r.body ? el('p',{}, r.body.length > 220 ? r.body.slice(0,220) + '…' : r.body) : null
+    );
+
+    // assets
+    const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
+    const matched = titles.map(t => ({t, asset:(r.assets||[]).find(a => a.name?.toLowerCase().includes(t.toLowerCase()))})).filter(x => x.asset);
+    if(matched.length){
+      const wrap2 = el('div',{style:'display:flex;flex-direction:column;gap:6px;margin-top:8px'});
+      matched.forEach(({t,asset}) => {
+        wrap2.appendChild(el('a',{
+          class:'btn small',
+          href:asset.browser_download_url,
+          target:'_blank',
+          rel:'noopener',
+          onclick:e=>e.stopPropagation()
+        }, `${t} — ${(asset.size/1048576).toFixed(1)} MB`));
       });
-
-      Object.entries(grids).forEach(([gridId, releases]) => {
-        const grid = document.getElementById(gridId);
-        if (!grid) return;
-        grid.innerHTML = releases.map((r, i) => `
-          <div class="release-card" style="animation-delay:${i*60}ms" onclick="showToast('📥 Скачивание ${r.title}...', 'success')">
-            <img class="release-card-image" src="${r.image}" alt="${r.title}" loading="lazy" />
-            <div class="release-card-body">
-              <div class="release-card-header">
-                <div class="release-card-title">${r.title}</div>
-                <span class="badge badge-${r.type === 'stable' ? 'success' : r.type === 'beta' ? 'warning' : 'muted'}">${r.type.toUpperCase()}</span>
-              </div>
-              <p class="release-card-desc">${r.desc}</p>
-              <div class="release-card-footer">
-                <span class="release-card-meta">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
-                  ${r.date}
-                </span>
-                <span class="release-card-meta">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                  </svg>
-                  ${r.downloads}
-                </span>
-                <span class="badge badge-muted">${r.size}</span>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      });
+      card.appendChild(wrap2);
+    } else if(r.html_url){
+      const link = el('a',{
+        class:'btn small',
+        href:r.html_url,
+        target:'_blank',
+        rel:'noopener',
+        style:'margin-top:6px',
+        onclick:e=>e.stopPropagation()
+      }, 'Открыть на GitHub');
+      card.appendChild(link);
     }
 
-    function filterReleases(query) {
-      const q = query.toLowerCase();
-      document.querySelectorAll('.release-card').forEach(card => {
-        const text = card.querySelector('.release-card-title').textContent.toLowerCase();
-        card.style.display = text.includes(q) ? '' : 'none';
-      });
-    }
+    card.addEventListener('click', () => openReleaseModal(r, img.src));
 
-    function filterReleasesByType(type) {
-      if (!type) {
-        document.querySelectorAll('.release-card').forEach(c => c.style.display = '');
+    return card;
+  }
+
+  function openReleaseModal(r, imgSrc){
+    const ver = r.tag_name || r.name || '';
+    const body = r.body ? escapeHtml(r.body).replace(/\n/g,'<br>').slice(0,4000) : '<em class="muted">Без описания</em>';
+    openModal(`
+      <button class="close-x" aria-label="Закрыть">✕</button>
+      <img src="${escapeHtml(imgSrc)}" style="width:100%;max-height:280px;object-fit:cover;border-radius:10px;margin-bottom:12px" />
+      <h3 style="margin:0 0 4px">${escapeHtml(r.name || ver)}</h3>
+      <div class="muted" style="font-size:13px;margin-bottom:12px">${fmtDate(r.published_at||r.created_at)} • ${escapeHtml(r._repo||'')} • ${escapeHtml(ver)}</div>
+      <div style="line-height:1.6;font-size:14px">${body}</div>
+      ${r.html_url ? `<div style="margin-top:14px"><a class="btn primary" href="${r.html_url}" target="_blank" rel="noopener">Открыть на GitHub</a></div>` : ''}
+    `);
+  }
+
+  // ============ LOAD RELEASES ============
+  async function loadReleases(forceRefresh=false){
+    if(!forceRefresh){
+      const cached = lsGet(KEYS.cache);
+      if(cached && Date.now() - cached.ts < CACHE_TTL && Array.isArray(cached.data)){
+        state.releases = cached.data;
+        renderAll();
         return;
       }
-      RELEASES.forEach((r, i) => {
-        // find all release cards
+    }
+
+    const repos = getRepoList();
+    const ctrl = new AbortController();
+    state.abortControllers.set('releases', ctrl);
+
+    try {
+      const results = await Promise.allSettled(
+        repos.map(r => fetchJSON(`[api.github.com](https://api.github.com/repos/${r}/releases?per_page=${RELEASES_PER_REPO})`, ctrl.signal)
+          .then(arr => (Array.isArray(arr)?arr:[]).map(rel => ({...rel, _repo:r}))))
+      );
+
+      const combined = [];
+      results.forEach((res, i) => {
+        if(res.status === 'fulfilled') combined.push(...res.value);
+        else console.warn(`Failed ${repos[i]}:`, res.reason?.message);
       });
-      document.querySelectorAll('.release-card').forEach(card => {
-        const badge = card.querySelector('.badge');
-        const cardType = badge ? badge.textContent.toLowerCase() : '';
-        card.style.display = cardType.includes(type) ? '' : 'none';
+
+      // dedupe + sort
+      const map = new Map();
+      combined.forEach(r => {
+        const k = `${r._repo}::${r.tag_name||r.name||''}`;
+        if(!map.has(k)) map.set(k, r);
       });
-    }
+      const all = Array.from(map.values()).sort((a,b) =>
+        new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at)
+      );
 
-    // ==================== RENDER MODULES ====================
-
-    function renderModules() {
-      const grid = document.getElementById('modulesGrid');
-      grid.innerHTML = MODULES.map((m, i) => `
-        <div class="module-card" style="animation:sectionFadeIn 350ms ease both;animation-delay:${i*40}ms">
-          <div class="module-icon">${m.icon}</div>
-          <div class="module-info">
-            <div class="module-name">${m.name}</div>
-            <div class="module-desc">${m.desc}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0;">
-            <span class="badge badge-accent">${m.version}</span>
-            <span class="badge badge-muted" style="font-size:10px;">${m.cat}</span>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function filterModules(query) {
-      const q = query.toLowerCase();
-      document.querySelectorAll('.module-card').forEach(card => {
-        const name = card.querySelector('.module-name').textContent.toLowerCase();
-        const desc = card.querySelector('.module-desc').textContent.toLowerCase();
-        card.style.display = (name.includes(q) || desc.includes(q)) ? '' : 'none';
+      // limit certain repos to top 3
+      const byRepo = {};
+      all.forEach(r => { (byRepo[r._repo] = byRepo[r._repo]||[]).push(r); });
+      const finalArr = [];
+      Object.keys(byRepo).forEach(repo => {
+        const items = byRepo[repo];
+        finalArr.push(...(LIMITED_REPOS.has(repo) ? items.slice(0,3) : items));
       });
+
+      state.releases = finalArr;
+      lsSet(KEYS.cache, {ts:Date.now(), data:finalArr});
+      renderAll();
+    } catch(e){
+      if(e.name !== 'AbortError'){
+        console.error(e);
+        $('releasesGrouped').innerHTML = `<div class="empty">Не удалось загрузить релизы: ${escapeHtml(e.message)}</div>`;
+        toast('Ошибка загрузки релизов', 'error');
+      }
+    }
+  }
+
+  function renderAll(){
+    renderReleasesGrouped();
+    renderGallery();
+    renderStats();
+    renderWidgets();
+  }
+
+  function getFilters(){
+    return {
+      q: ($('searchReleases')?.value||'').toLowerCase().trim(),
+      type: $('filterType')?.value || 'all',
+      sort: $('sortBy')?.value || 'date_desc'
+    };
+  }
+
+  function applyFilters(items, {q, type, sort}){
+    let arr = items.filter(r => {
+      if(q){
+        const blob = `${r.tag_name||''} ${r.name||''} ${r.body||''} ${r._repo||''}`.toLowerCase();
+        if(!blob.includes(q)) return false;
+      }
+      if(type !== 'all'){
+        const matchMap = {bestcfw:'bestcfw', aio:'aio', lite:'lite'};
+        const needle = matchMap[type];
+        if(!(r.assets||[]).some(a => a.name?.toLowerCase().includes(needle))) return false;
+      }
+      return true;
+    });
+    if(sort==='date_desc') arr.sort((a,b)=>new Date(b.published_at||b.created_at)-new Date(a.published_at||a.created_at));
+    else if(sort==='date_asc') arr.sort((a,b)=>new Date(a.published_at||a.created_at)-new Date(b.published_at||b.created_at));
+    else if(sort==='downloads_desc') arr.sort((a,b)=>{
+      const dlA = (a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0);
+      const dlB = (b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0);
+      return dlB - dlA;
+    });
+    return arr;
+  }
+
+  function renderReleasesGrouped(){
+    const container = $('releasesGrouped');
+    const filtered = applyFilters(state.releases, getFilters());
+
+    if(!filtered.length){
+      container.innerHTML = '<div class="empty">Нет релизов по запросу</div>';
+      $('releasesCount').textContent = 0;
+      return;
     }
 
-    // ==================== RENDER GALLERY ====================
+    const groups = {};
+    filtered.forEach(r => { (groups[r._repo] = groups[r._repo]||[]).push(r); });
 
-    function renderGallery() {
-      const grid = document.getElementById('galleryGrid');
-      grid.innerHTML = GALLERY_IMAGES.map((img, i) => `
-        <div class="gallery-item" style="animation:sectionFadeIn 350ms ease both;animation-delay:${i*50}ms" onclick="openLightbox('${img.url}','${img.title}')">
-          <img src="${img.url}" alt="${img.title}" loading="lazy" />
-          <div class="gallery-overlay">
-            <span class="gallery-overlay-text">${img.title}</span>
-          </div>
+    const ordered = [MAIN_REPO, ...Object.keys(groups).filter(k => k !== MAIN_REPO)];
+
+    const frag = document.createDocumentFragment();
+    let total = 0;
+
+    ordered.forEach(repo => {
+      const items = groups[repo];
+      if(!items?.length) return;
+      const section = el('div',{class:'releases-by-repo'},
+        el('div',{class:'repo-title'},
+          el('a',{href:`[github.com](https://github.com/${repo})`, target:'_blank', rel:'noopener', class:'repo-name-gradient'}, repo),
+          el('span',{class:'muted',style:'font-size:13px'}, `${items.length} релизов`)
+        )
+      );
+      const grid = el('div',{class:'releases-grid'});
+      items.forEach(r => grid.appendChild(makeReleaseCard(r)));
+      section.appendChild(grid);
+      frag.appendChild(section);
+      total += items.length;
+    });
+
+    container.innerHTML = '';
+    container.appendChild(frag);
+    $('releasesCount').textContent = total;
+  }
+
+  function renderGallery(){
+    const grid = $('galleryGrid');
+    grid.innerHTML = '';
+    const items = state.releases.slice(0, 24);
+    if(!items.length){
+      grid.innerHTML = '<div class="empty">Галерея пуста</div>';
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    items.forEach(r => {
+      const asset = (r.assets||[]).find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
+      const src = asset ? asset.browser_download_url : `[opengraph.githubassets.com](https://opengraph.githubassets.com/1/${r._repo})`;
+      const item = el('div',{class:'g-item', title:r.name||r.tag_name});
+      const img = el('img',{src, alt:r.tag_name||r.name||'', loading:'lazy'});
+      img.addEventListener('load', () => img.classList.add('loaded'));
+      img.addEventListener('error', () => img.classList.add('loaded'));
+      item.appendChild(img);
+      item.addEventListener('click', () => openReleaseModal(r, src));
+      frag.appendChild(item);
+    });
+    grid.appendChild(frag);
+  }
+
+  function renderStats(){
+    let total = 0;
+    state.releases.forEach(r => (r.assets||[]).forEach(a => { if(typeof a.download_count==='number') total += a.download_count; }));
+    $('downloadsCount').textContent = total.toLocaleString();
+  }
+
+  async function renderWidgets(){
+    const area = $('widgetsArea');
+    area.innerHTML = '';
+    const repos = [MAIN_REPO,'Atmosphere-NX/Atmosphere','CTCaer/hekate'];
+    const seen = new Set();
+    const frag = document.createDocumentFragment();
+    for(const repo of repos){
+      if(seen.has(repo)) continue;
+      seen.add(repo);
+      const items = state.releases.filter(r => r._repo === repo);
+      if(!items.length) continue;
+      const latest = items[0];
+      const asset = (latest.assets||[]).find(a => /\.(png|jpg|jpeg|webp)$/i.test(a.name||''));
+      const imgSrc = asset?.browser_download_url || `[opengraph.githubassets.com](https://opengraph.githubassets.com/1/${repo})`;
+      const w = el('div',{class:'widget'},
+        el('img',{src:imgSrc, alt:repo, loading:'lazy'}),
+        el('div',{class:'w-info'},
+          el('strong',{}, repo.split('/')[1]),
+          el('small',{}, `${latest.tag_name||latest.name} • ${fmtDate(latest.published_at||latest.created_at)}`)
+        )
+      );
+      w.addEventListener('click', () => openReleaseModal(latest, imgSrc));
+      frag.appendChild(w);
+    }
+    area.appendChild(frag);
+  }
+
+  // ============ CREW ============
+  function getCrew(){ return lsGet(KEYS.crew, []); }
+  function saveCrew(arr){ lsSet(KEYS.crew, arr); }
+
+  function makeCrewCard(p){
+    const avatar = p.avatar || `[github.com](https://github.com/${p.login}.png?size=128)`;
+    const card = el('div',{class:'crew-card', title:'Подробнее'},
+      el('img',{src:avatar, alt:p.login, loading:'lazy', onerror:function(){this.src='data:image/svg+xml;utf8,<svg xmlns=%22[w3.org](http://www.w3.org/2000/svg%22) viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%23131826%22/></svg>';}}),
+      el('div',{class:'info'},
+        el('strong',{}, p.name || p.login),
+        el('small',{}, p.role || '@'+p.login),
+        p.contributions != null ? el('small',{}, `Коммитов: ${p.contributions}`) : null
+      )
+    );
+    card.addEventListener('click', () => openCrewModal(p, avatar));
+    return card;
+  }
+
+  function openCrewModal(p, avatar){
+    const kKey = `kudos_${p.login.toLowerCase()}`;
+    const cur = parseInt(localStorage.getItem(kKey)||'0', 10);
+    openModal(`
+      <button class="close-x" aria-label="Закрыть">✕</button>
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        <img src="${escapeHtml(avatar)}" style="width:96px;height:96px;border-radius:14px;object-fit:cover" />
+        <div>
+          <h3 style="margin:0">${escapeHtml(p.name||p.login)}</h3>
+          <div class="muted">${escapeHtml(p.role||'')}</div>
+          ${p.contributions != null ? `<small class="muted">Коммитов: ${p.contributions}</small>` : ''}
         </div>
-      `).join('');
-    }
+      </div>
+      <div style="margin-top:18px;display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn primary" href="[github.com](https://github.com/${escapeHtml(p.login)})" target="_blank" rel="noopener">GitHub</a>
+        <button id="kudosBtn" class="btn">+1 Kudos</button>
+      </div>
+      <div id="kudosCount" class="muted" style="margin-top:10px">Kudos: ${cur}</div>
+    `);
+    $('kudosBtn')?.addEventListener('click', () => {
+      const n = parseInt(localStorage.getItem(kKey)||'0', 10) + 1;
+      localStorage.setItem(kKey, String(n));
+      $('kudosCount').textContent = 'Kudos: ' + n;
+      toast('Спасибо за поддержку!','success');
+    });
+  }
 
-    function openLightbox(src, alt) {
-      const lb = document.getElementById('lightbox');
-      const img = document.getElementById('lightboxImg');
-      img.src = src;
-      img.alt = alt;
-      lb.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
+  async function loadCrew(){
+    const grid = $('crewGrid');
+    grid.innerHTML = '';
+    const stored = getCrew();
+    const merged = [...stored, ...DEFAULT_CREW.filter(d => !stored.some(s => s.login.toLowerCase() === d.login.toLowerCase()))];
 
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('show');
-      document.body.style.overflow = '';
-    }
+    const frag = document.createDocumentFragment();
+    merged.forEach(m => frag.appendChild(makeCrewCard(m)));
+    grid.appendChild(frag);
 
-    // ==================== RENDER CREW ====================
+    // contributors
+    try {
+      const list = await fetchJSON(`[api.github.com](https://api.github.com/repos/${MAIN_REPO}/contributors?per_page=50)`);
+      const seen = new Set(merged.map(x => x.login.toLowerCase()));
+      const frag2 = document.createDocumentFragment();
+      list.forEach(c => {
+        if(!seen.has(c.login.toLowerCase())){
+          frag2.appendChild(makeCrewCard({login:c.login, avatar:c.avatar_url, contributions:c.contributions}));
+        }
+      });
+      grid.appendChild(frag2);
+    } catch(e){ console.warn('contributors failed', e); }
+  }
 
-    function renderCrew() {
-      const grid = document.getElementById('crewGrid');
-      grid.innerHTML = CREW.map((m, i) => `
-        <div class="crew-card" style="animation:sectionFadeIn 350ms ease both;animation-delay:${i*60}ms" onclick="openCrewModal(${i})">
-          <div class="crew-avatar-wrapper">
-            <img class="crew-avatar" src="${m.avatar}" alt="${m.name}" loading="lazy" />
-            <div class="crew-avatar-ring"></div>
-            <div class="crew-role-badge">${m.badge}</div>
-          </div>
-          <div class="crew-name">${m.name}</div>
-          <div class="crew-role">${m.role}</div>
-          <div class="crew-stats-row">
-            <div class="crew-stat">
-              <div class="crew-stat-value">${m.commits}</div>
-              <div class="crew-stat-label">Коммитов</div>
-            </div>
-            <div class="crew-stat">
-              <div class="crew-stat-value">${m.modules}</div>
-              <div class="crew-stat-label">Модулей</div>
-            </div>
-          </div>
-          <div class="crew-links" onclick="event.stopPropagation()">
-            <a class="crew-link" href="https://t.me/${m.tg.replace('@','')}" target="_blank" title="Telegram">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="22" y1="2" x2="11" y2="13"/>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-              </svg>
-            </a>
-            <a class="crew-link" href="https://github.com/${m.gh}" target="_blank" title="GitHub">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      `).join('');
-    }
+  // ============ MODULES ============
+  function getModules(){ return lsGet(KEYS.modules, DEFAULT_MODULES.slice()); }
+  function saveModules(arr){ lsSet(KEYS.modules, arr); }
 
-    function openCrewModal(index) {
-      const m = CREW[index];
-      document.getElementById('crewModalTitle').textContent = m.name;
-      document.getElementById('crewModalContent').innerHTML = `
-        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
-          <img src="${m.avatar}" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--accent);box-shadow:0 0 20px var(--glow-color);" />
-          <div style="flex:1;min-width:200px;">
-            <div style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px;">${m.name} ${m.badge}</div>
-            <div style="color:var(--text-muted);font-size:14px;margin-bottom:12px;">${m.role}</div>
-            <p style="color:var(--text-secondary);font-size:14px;line-height:1.6;">${m.desc}</p>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="grid-2" style="gap:12px;">
-          <div style="padding:14px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);text-align:center;">
-            <div style="font-size:24px;font-weight:800;color:var(--accent);">${m.commits}</div>
-            <div style="font-size:12px;color:var(--text-muted);">Коммитов</div>
-          </div>
-          <div style="padding:14px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);text-align:center;">
-            <div style="font-size:24px;font-weight:800;color:var(--accent-2);">${m.modules}</div>
-            <div style="font-size:12px;color:var(--text-muted);">Модулей</div>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://t.me/${m.tg.replace('@','')}" target="_blank" class="btn btn-ghost btn-sm">📢 ${m.tg}</a>
-          <a href="https://github.com/${m.gh}" target="_blank" class="btn btn-ghost btn-sm">🐙 github.com/${m.gh}</a>
-        </div>
-      `;
-      document.getElementById('crewModal').classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
+  function renderModuleList(){
+    const arr = getModules();
+    const list = $('moduleList');
+    list.innerHTML = '';
+    if(!arr.length){ list.innerHTML = '<small class="muted">Нет модулей</small>'; return; }
+    const frag = document.createDocumentFragment();
+    arr.forEach((r, i) => {
+      const item = el('div',{class:'module-item'},
+        el('span',{}, r),
+        el('span',{class:'x', title:'Удалить', onclick:()=>removeModule(i)}, '✕')
+      );
+      frag.appendChild(item);
+    });
+    list.appendChild(frag);
+  }
 
-    function closeCrewModal() {
-      document.getElementById('crewModal').classList.remove('show');
-      document.body.style.overflow = '';
-    }
+  function addModule(repo){
+    repo = repo?.trim();
+    if(!repo || !repo.includes('/')){ toast('Формат: owner/repo','error'); return; }
+    const arr = getModules();
+    if(arr.includes(repo)){ toast('Уже добавлен','error'); return; }
+    arr.unshift(repo);
+    saveModules(arr);
+    renderModuleList();
+    loadModules(true);
+    toast('Модуль добавлен','success');
+  }
 
-    // ==================== CHANGELOG ====================
+  function removeModule(i){
+    const arr = getModules();
+    arr.splice(i, 1);
+    saveModules(arr);
+    renderModuleList();
+    loadModules(true);
+  }
 
-    function renderChangelog() {
-      const container = document.getElementById('changelogTimeline');
-      container.innerHTML = CHANGELOG.map((item, i) => `
-        <div class="timeline-item" style="animation-delay:${i*80}ms">
-          <div class="timeline-dot"></div>
-          <div class="timeline-date">${item.date}</div>
-          <div class="timeline-title">
-            ${item.title}
-            <span class="badge badge-${item.type === 'stable' ? 'success' : item.type === 'beta' ? 'warning' : 'muted'}" style="margin-left:8px;">${item.version}</span>
-          </div>
-          <div class="timeline-desc">${item.desc}</div>
-        </div>
-      `).join('');
-    }
+  async function loadModules(forceRefresh=false){
+    const repos = getModules();
+    const container = $('modulesGrouped');
+    if(!repos.length){ container.innerHTML = ''; return; }
 
-    // ==================== TODO ====================
-
-    function renderTodos() {
-      const list = document.getElementById('todoList');
-      list.innerHTML = todos.map(t => `
-        <li class="todo-item ${t.done ? 'completed' : ''}" id="todo-${t.id}">
-          <input class="todo-checkbox" type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo(${t.id})" />
-          <span class="todo-text">${escapeHtml(t.text)}</span>
-          <span class="todo-priority ${t.priority}">${
-            t.priority === 'high' ? '🔴' : t.priority === 'medium' ? '🟡' : '🟢'
-          } ${t.priority === 'high' ? 'Высокий' : t.priority === 'medium' ? 'Средний' : 'Низкий'}</span>
-          <button class="todo-delete" onclick="deleteTodo(${t.id})" title="Удалить">✕</button>
-        </li>
-      `).join('');
-      updateTodoStats();
-    }
-
-    function addTodo() {
-      const input = document.getElementById('todoInput');
-      const priority = document.getElementById('todoPriority').value;
-      const text = input.value.trim();
-      if (!text) {
-        showToast('⚠️ Введите текст задачи', 'warning');
+    if(!forceRefresh){
+      const cached = lsGet(KEYS.modulesCache);
+      if(cached && Date.now() - cached.ts < CACHE_TTL && Array.isArray(cached.data)){
+        state.modules = cached.data;
+        renderModulesGrouped();
         return;
       }
-      todos.unshift({ id: todoIdCounter++, text, priority, done: false });
-      input.value = '';
-      renderTodos();
-      showToast('✅ Задача добавлена!', 'success');
     }
 
-    function toggleTodo(id) {
-      const t = todos.find(t => t.id === id);
-      if (t) { t.done = !t.done; renderTodos(); }
+    container.innerHTML = '<div class="empty"><span class="spinner"></span> Загрузка модулей...</div>';
+
+    const ctrl = new AbortController();
+    state.abortControllers.set('modules', ctrl);
+
+    try {
+      const results = await Promise.allSettled(
+        repos.map(r => fetchJSON(`[api.github.com](https://api.github.com/repos/${r}/releases?per_page=10)`, ctrl.signal)
+          .then(arr => (Array.isArray(arr)?arr:[]).map(rel => ({...rel, _repo:r}))))
+      );
+      const combined = [];
+      results.forEach(res => { if(res.status==='fulfilled') combined.push(...res.value); });
+      combined.sort((a,b)=>new Date(b.published_at||b.created_at)-new Date(a.published_at||a.created_at));
+      state.modules = combined;
+      lsSet(KEYS.modulesCache, {ts:Date.now(), data:combined});
+      renderModulesGrouped();
+    } catch(e){
+      if(e.name !== 'AbortError'){
+        container.innerHTML = `<div class="empty">Ошибка: ${escapeHtml(e.message)}</div>`;
+      }
     }
+  }
 
-    function deleteTodo(id) {
-      todos = todos.filter(t => t.id !== id);
-      renderTodos();
-      showToast('🗑️ Задача удалена', 'info');
+  function renderModulesGrouped(){
+    const container = $('modulesGrouped');
+    const filtered = applyFilters(state.modules, getFilters());
+    if(!filtered.length){
+      container.innerHTML = '<div class="empty">Нет релизов модулей</div>';
+      return;
     }
+    const groups = {};
+    filtered.forEach(r => { (groups[r._repo] = groups[r._repo]||[]).push(r); });
+    const frag = document.createDocumentFragment();
+    Object.keys(groups).forEach(repo => {
+      const items = groups[repo];
+      const section = el('div',{class:'releases-by-repo'},
+        el('div',{class:'repo-title'},
+          el('a',{href:`[github.com](https://github.com/${repo})`, target:'_blank', rel:'noopener', class:'repo-name-gradient'}, repo),
+          el('span',{class:'muted',style:'font-size:13px'}, `${items.length} релизов`)
+        )
+      );
+      const grid = el('div',{class:'releases-grid'});
+      items.forEach(r => grid.appendChild(makeReleaseCard(r)));
+      section.appendChild(grid);
+      frag.appendChild(section);
+    });
+    container.innerHTML = '';
+    container.appendChild(frag);
+  }
 
-    function markAllDone() {
-      todos.forEach(t => t.done = true);
-      renderTodos();
-      showToast('✅ Все задачи выполнены!', 'success');
-    }
+  // ============ TODO ============
+  let todos = lsGet(KEYS.todos, []);
+  const newId = () => 'td_' + Math.random().toString(36).slice(2,10);
 
-    function clearCompleted() {
-      const count = todos.filter(t => t.done).length;
-      todos = todos.filter(t => !t.done);
-      renderTodos();
-      showToast(`🗑️ Удалено ${count} задач`, 'info');
-    }
+  function saveTodos(){ lsSet(KEYS.todos, todos); renderTodos(); }
 
-    function clearAllTodos() {
-      if (todos.length === 0) return;
-      todos = [];
-      renderTodos();
-      showToast('❌ Список очищен', 'info');
-    }
+  function renderTodos(){
+    const list = $('todoList');
+    const filter = ($('todoFilter')?.value||'').toLowerCase().trim();
+    const sort = $('todoSort')?.value || 'new';
+    let arr = todos.filter(t => !filter || t.text.toLowerCase().includes(filter));
+    const prioMap = {high:2, normal:1, low:0};
+    if(sort==='new') arr.sort((a,b)=>b.ts-a.ts);
+    else if(sort==='old') arr.sort((a,b)=>a.ts-b.ts);
+    else if(sort==='prio') arr.sort((a,b)=>prioMap[b.priority]-prioMap[a.priority]);
+    else if(sort==='due') arr.sort((a,b)=>(a.due?new Date(a.due).getTime():Infinity)-(b.due?new Date(b.due).getTime():Infinity));
 
-    function updateTodoStats() {
-      const total = todos.length;
-      const done = todos.filter(t => t.done).length;
-      const pending = total - done;
-      const pct = total ? Math.round((done / total) * 100) : 0;
+    list.innerHTML = '';
+    if(!arr.length){ list.innerHTML = '<div class="empty">Задач нет</div>'; return; }
+    const frag = document.createDocumentFragment();
+    arr.forEach(t => {
+      const chk = el('input',{type:'checkbox'});
+      chk.checked = !!t.done;
+      chk.addEventListener('change', () => { t.done = chk.checked; saveTodos(); });
 
-      document.getElementById('statTotal').textContent = total;
-      document.getElementById('statDone').textContent = done;
-      document.getElementById('statPending').textContent = pending;
-      document.getElementById('progressFill').style.width = pct + '%';
-      document.getElementById('progressText').textContent = pct + '% выполнено';
-    }
+      const li = el('li',{class:'todo-item'+(t.done?' completed':'')},
+        chk,
+        el('div',{class:'t-content'},
+          el('div',{class:'t-text'}, t.text),
+          el('div',{class:'t-meta'},
+            el('span',{class:`badge ${t.priority||'normal'}`}, t.priority||'normal'),
+            t.due ? ' • ' + t.due : ''
+          )
+        ),
+        el('button',{class:'btn small ghost', title:'Изменить', onclick:()=>editTodo(t.id)}, '✎'),
+        el('button',{class:'btn small ghost', title:'Удалить', onclick:()=>{ todos = todos.filter(x=>x.id!==t.id); saveTodos(); }}, '✕')
+      );
+      frag.appendChild(li);
+    });
+    list.appendChild(frag);
+  }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+  function editTodo(id){
+    const t = todos.find(x => x.id === id);
+    if(!t) return;
+    openModal(`
+      <button class="close-x" aria-label="Закрыть">✕</button>
+      <h3 style="margin-top:0">Редактировать задачу</h3>
+      <div style="display:grid;gap:8px">
+        <input id="edt_text" type="text" value="${escapeHtml(t.text)}" />
+        <select id="edt_prio">
+          <option value="high">High</option>
+          <option value="normal">Normal</option>
+          <option value="low">Low</option>
+        </select>
+        <input id="edt_due" type="date" value="${t.due||''}" />
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+          <button class="btn" id="edt_cancel">Отмена</button>
+          <button class="btn primary" id="edt_save">Сохранить</button>
+        </div>
+      </div>
+    `);
+    $('edt_prio').value = t.priority || 'normal';
+    $('edt_cancel').addEventListener('click', closeModal);
+    $('edt_save').addEventListener('click', () => {
+      t.text = $('edt_text').value.trim() || t.text;
+      t.priority = $('edt_prio').value;
+      t.due = $('edt_due').value;
+      saveTodos();
+      closeModal();
+      toast('Сохранено','success');
+    });
+  }
 
-    // ==================== GLOBAL SEARCH ====================
+  // ============ MODAL ============
+  function openModal(html){
+    const m = $('modal');
+    m.innerHTML = `<div class="inner">${html}</div>`;
+    requestAnimationFrame(() => m.classList.add('show'));
+    m.setAttribute('aria-hidden','false');
+    m.addEventListener('click', modalBackdrop);
+    m.querySelector('.close-x')?.addEventListener('click', closeModal);
+    document.addEventListener('keydown', escClose);
+  }
+  function closeModal(){
+    const m = $('modal');
+    m.classList.remove('show');
+    m.setAttribute('aria-hidden','true');
+    m.removeEventListener('click', modalBackdrop);
+    document.removeEventListener('keydown', escClose);
+    setTimeout(() => { if(!m.classList.contains('show')) m.innerHTML=''; }, 250);
+  }
+  function modalBackdrop(e){ if(e.target.id === 'modal') closeModal(); }
+  function escClose(e){ if(e.key === 'Escape') closeModal(); }
 
-    function handleGlobalSearch(query) {
-      if (!query.trim()) return;
-      // Simple: switch to releases and filter
-      showSection('releases');
-      filterReleases(query);
-    }
+  // ============ CHAT ============
+  const QA_FAQ = [
+    {k:['ryazhenka','что это','что такое'], a:'Ryazhenka — стабильная кастомная прошивка для Nintendo Switch с модульной архитектурой и удобным UI.'},
+    {k:['atmosphere'], a:'Atmosphere — основная база CFW для Switch, на которой строится Ryazhenka.'},
+    {k:['hekate'], a:'Hekate — bootloader для Switch. Используется для запуска CFW и модификаций.'},
+    {k:['установ','setup','инструкц','как поставить'], a:'Скачайте релиз → распакуйте на SD-карту → запустите Hekate → выберите профиль Ryazhenka.'},
+    {k:['модул','module'], a:'Модули добавляются через раздел «Модули команды» — вписывайте owner/repo, релизы подтянутся автоматически.'},
+    {k:['todo','задач','to-do'], a:'Раздел To-Do хранит задачи локально в браузере. Можно экспортировать/импортировать JSON.'},
+    {k:['автор','dimasick','команд','crew'], a:'Главный разработчик — Dimasick-git, помогают Ryazhenka-Helper-1 и Ryazhenka-Helper-01. Связь — Telegram.'},
+    {k:['donat','boosty','помоч','поддерж'], a:'Поддержать проект: boosty.to/dimasick-git/donate'},
+    {k:['тема','цвет','оформ'], a:'Темы переключаются справа вверху. Доступны Deep Night, Indigo, Abyss, Phantom, Cyber, Midnight и другие.'}
+  ];
+  function answerAI(q){
+    const low = q.toLowerCase();
+    for(const p of QA_FAQ) if(p.k.some(k => low.includes(k))) return p.a;
+    return 'Я знаю про Ryazhenka, Atmosphere, Hekate, модули, To-Do и темы. Уточните вопрос или напишите в Telegram.';
+  }
 
-    // ==================== TOAST ====================
+  // ============ INIT EVENTS ============
+  function bindEvents(){
+    $('themePicker').addEventListener('change', saveSettings);
+    $('bgMode').addEventListener('change', saveSettings);
 
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
+    const debouncedRender = debounce(() => { renderReleasesGrouped(); renderModulesGrouped(); }, 220);
+    $('searchReleases').addEventListener('input', debouncedRender);
+    $('filterType').addEventListener('change', debouncedRender);
+    $('sortBy').addEventListener('change', debouncedRender);
 
-      const icons = { success: '✅', warning: '⚠️', error: '❌', info: 'ℹ️' };
-      toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+    $('includeStratosphere').addEventListener('change', () => loadReleases(true));
+    $('refreshAll').addEventListener('click', () => { loadReleases(true); loadModules(true); toast('Обновляю...','success'); });
 
-      container.appendChild(toast);
+    $('addModuleBtn').addEventListener('click', () => {
+      const v = $('moduleRepoInput').value;
+      addModule(v);
+      $('moduleRepoInput').value = '';
+    });
+    $('moduleRepoInput').addEventListener('keydown', e => { if(e.key==='Enter') $('addModuleBtn').click(); });
+    $('refreshModules').addEventListener('click', () => loadModules(true));
 
+    // Crew
+    $('addCrewBtn').addEventListener('click', () => {
+      openModal(`
+        <button class="close-x" aria-label="Закрыть">✕</button>
+        <h3 style="margin-top:0">Добавить участника</h3>
+        <div style="display:grid;gap:8px">
+          <input id="mc_login" placeholder="GitHub login" type="text" />
+          <input id="mc_name" placeholder="Имя (опционально)" type="text" />
+          <input id="mc_role" placeholder="Роль" type="text" />
+          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+            <button class="btn" id="mc_cancel">Отмена</button>
+            <button class="btn primary" id="mc_save">Сохранить</button>
+          </div>
+        </div>
+      `);
+      $('mc_cancel').addEventListener('click', closeModal);
+      $('mc_save').addEventListener('click', () => {
+        const login = $('mc_login').value.trim();
+        if(!login){ toast('Введите login','error'); return; }
+        const arr = getCrew();
+        arr.unshift({login, name:$('mc_name').value.trim()||login, role:$('mc_role').value.trim()});
+        saveCrew(arr);
+        closeModal();
+        loadCrew();
+        toast('Добавлен','success');
+      });
+    });
+
+    $('exportCrewBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(getCrew(), null, 2)], {type:'application/json'});
+      const a = el('a',{href:URL.createObjectURL(blob), download:'ryazhenka-crew.json'});
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    });
+    $('importCrewBtn').addEventListener('click', () => $('importCrewFile').click());
+    $('importCrewFile').addEventListener('change', e => {
+      const f = e.target.files[0]; if(!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if(!Array.isArray(data)) throw new Error('not array');
+          const exist = getCrew();
+          const seen = new Set(exist.map(x => x.login.toLowerCase()));
+          data.forEach(it => { if(it.login && !seen.has(it.login.toLowerCase())) exist.unshift(it); });
+          saveCrew(exist); loadCrew();
+          toast('Импорт завершён','success');
+        } catch { toast('Неверный формат','error'); }
+      };
+      r.readAsText(f);
+      e.target.value = '';
+    });
+
+    // Todo
+    $('todoAdd').addEventListener('click', () => {
+      const text = $('todoInput').value.trim();
+      if(!text) return;
+      todos.unshift({
+        id:newId(), text,
+        priority:$('todoPriority').value,
+        due:$('todoDue').value,
+        done:false, ts:Date.now()
+      });
+      $('todoInput').value = ''; $('todoDue').value = '';
+      saveTodos();
+    });
+    $('todoInput').addEventListener('keydown', e => { if(e.key==='Enter') $('todoAdd').click(); });
+    $('todoFilter').addEventListener('input', debounce(renderTodos, 150));
+    $('todoSort').addEventListener('change', renderTodos);
+    $('clearCompleted').addEventListener('click', () => { todos = todos.filter(t=>!t.done); saveTodos(); toast('Готово','success'); });
+    $('clearAll').addEventListener('click', () => { if(confirm('Удалить все задачи?')){ todos=[]; saveTodos(); }});
+    $('bulkComplete').addEventListener('click', () => { todos.forEach(t=>t.done=true); saveTodos(); });
+    $('exportTodos').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(todos,null,2)], {type:'application/json'});
+      const a = el('a',{href:URL.createObjectURL(blob), download:'ryazhenka-todos.json'});
+      a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    });
+    $('importTodosBtn').addEventListener('click', () => $('todoImportFile').click());
+    $('todoImportFile').addEventListener('change', e => {
+      const f = e.target.files[0]; if(!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if(!Array.isArray(data)) throw new Error();
+          const ids = new Set(todos.map(t=>t.id));
+          data.forEach(it => { if(!it.id) it.id = newId(); if(!ids.has(it.id)) todos.push(it); });
+          saveTodos();
+          toast('Импорт завершён','success');
+        } catch { toast('Неверный формат','error'); }
+      };
+      r.readAsText(f);
+      e.target.value = '';
+    });
+
+    // Chat
+    $('chatToggle').addEventListener('click', () => {
+      $('ryazhenka-chat').classList.add('open');
+      $('chatToggle').classList.add('hidden');
+      $('chatInput').focus();
+    });
+    $('chatClose').addEventListener('click', () => {
+      $('ryazhenka-chat').classList.remove('open');
+      $('chatToggle').classList.remove('hidden');
+    });
+    $('chatForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const inp = $('chatInput');
+      const txt = inp.value.trim();
+      if(!txt) return;
+      const body = $('chatBody');
+      body.appendChild(el('div',{class:'msg user'}, el('span',{}, 'Вы: '), el('span',{}, txt)));
+      const wait = el('div',{class:'msg ai'}, el('span',{class:'label'}, 'ryazhenka.ai: '), el('span',{}, '...'));
+      body.appendChild(wait);
+      body.scrollTop = body.scrollHeight;
+      inp.value = '';
       setTimeout(() => {
-        toast.classList.add('hiding');
-        toast.addEventListener('animationend', () => toast.remove());
-      }, 3000);
-    }
-
-    // ==================== KEYBOARD SHORTCUTS ====================
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        closeLightbox();
-        closeCrewModal();
-        if (window.innerWidth < 768) toggleSidebar(false);
-      }
+        wait.lastChild.textContent = answerAI(txt);
+        body.scrollTop = body.scrollHeight;
+      }, 320);
     });
 
-    // ==================== INIT ====================
-
-    document.addEventListener('DOMContentLoaded', () => {
-      // Restore theme
-      const savedTheme = localStorage.getItem('ryazhenka-theme');
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        const sel = document.getElementById('themeSelect');
-        if (sel) sel.value = savedTheme;
-      }
-
-      // Render all sections
-      renderReleases();
-      renderModules();
-      renderGallery();
-      renderCrew();
-      renderChangelog();
-      renderTodos();
-
-      // Show home by default
-      showSection('home');
-
-      // Handle sidebar links that are <a> without href
-      document.querySelectorAll('.sidebar-nav-link[data-section]').forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          showSection(link.dataset.section);
-        });
+    // Active nav highlight on scroll
+    const sections = ['changelog','modules','gallery','crew','todo'].map(id => $(id)).filter(Boolean);
+    const navLinks = document.querySelectorAll('.nav-link');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+e.target.id));
+        }
       });
+    }, {rootMargin:'-40% 0px -55% 0px'});
+    sections.forEach(s => obs.observe(s));
+  }
 
-      // Logo click
-      document.querySelector('.sidebar-logo').addEventListener('click', () => showSection('home'));
-    });
-  </script>
+  // ============ INIT ============
+  async function init(){
+    loadSettings();
+    bindEvents();
+    renderTodos();
+    renderModuleList();
+    loadHeroImage();
+    await Promise.all([
+      loadReleases(),
+      loadCrew(),
+      loadModules()
+    ]);
+  }
+
+  // expose for debugging
+  window.RZ = { state, loadReleases, loadModules, loadCrew };
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>
