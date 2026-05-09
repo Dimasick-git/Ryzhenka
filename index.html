@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="ru" data-theme="glow">
 <head>
   <meta charset="utf-8" />
@@ -672,4 +672,2233 @@
     .hero-stats {
       display: flex;
       gap: 24px;
-      margin-top: 32pxц
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-item {
+      text-align: center;
+    }
+    .hero-stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* Right sidebar panel */
+    .hero-side { display: flex; flex-direction: column; gap: 16px; }
+
+    .info-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: all var(--anim-med) ease;
+    }
+    .info-card:hover {
+      border-color: var(--border-accent);
+      box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.1);
+    }
+    .info-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .info-card-title::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      border-radius: 3px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .stat-row-label { color: var(--text-secondary); }
+    .stat-row-value { font-weight: 700; color: var(--text); }
+    .stat-row-value.accent { color: var(--accent); }
+    .stat-row-value.accent-2 { color: var(--accent-2); }
+    .stat-row-value.success { color: #4ade80; }
+
+    /* =============================
+       BUTTONS
+       ============================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 12px;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--anim-fast) cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0f172a;
+      box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.45);
+      filter: brightness(1.05);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* Shimmer effect */
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-primary:hover::after { left: 100%; }
+
+    .btn-ghost {
+      background: var(--bg-surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-elevated);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.1);
+    }
+
+    .btn-sm { padding: 7px 14px; font-size: 13px; border-radius: 8px; }
+    .btn-xs { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
+    .btn-icon { padding: 8px; border-radius: 10px; aspect-ratio: 1; }
+
+    /* =============================
+       GRID LAYOUTS
+       ============================= */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .grid-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+
+    /* =============================
+       RELEASE CARDS
+       ============================= */
+    .release-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all var(--anim-med) cubic-bezier(0.4,0,0.2,1);
+      cursor: pointer;
+    }
+    .release-card:hover {
+      border-color: var(--border-accent);
+      box-shadow: 0 8px 40px rgba(var(--accent-rgb), 0.15), var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .release-card-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--anim-slow) ease;
+    }
+    .release-card:hover .release-card-image { transform: scale(1.04); }
+
+    .release-card-body { padding: 16px; }
+
+    .release-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .release-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-accent {
+      background: rgba(var(--accent-rgb), 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
+    }
+    .badge-success {
+      background: rgba(74,222,128,0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.2);
+    }
+    .badge-warning {
+      background: rgba(251,191,36,0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(251,191,36,0.2);
+    }
+    .badge-error {
+      background: rgba(248,113,113,0.1);
+      color: #f87171;
+      border: 1px solid rgba(248,113,113,0.2);
+    }
+    .badge-muted {
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .badge-new {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0f172a;
+      border: none;
+    }
+
+    .release-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .release-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .release-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Repo group header */
+    .repo-group {
+      margin-bottom: 32px;
+    }
+    .repo-group-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .repo-group-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .repo-group-title {
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .repo-group-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* =============================
+       GALLERY
+       ============================= */
+    .gallery-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 4/3;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      transition: all var(--anim-med) ease;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03) translateY(-4px);
+      box-shadow: 0 16px 40px rgba(var(--accent-rgb), 0.2), var(--shadow-lg);
+      border-color: var(--border-accent);
+      z-index: 1;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform var(--anim-slow) ease;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity var(--anim-med) ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 12px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* =============================
+       CREW / TEAM CARDS
+       ============================= */
+    .crew-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+
+    .crew-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all var(--anim-med) cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .crew-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0;
+      transition: opacity var(--anim-fast) ease;
+    }
+    .crew-card:hover {
+      border-color: var(--border-accent);
+      box-shadow: 0 8px 40px rgba(var(--accent-rgb), 0.15);
+      transform: translateY(-4px);
+    }
+    .crew-card:hover::before { opacity: 1; }
+
+    .crew-avatar-wrapper {
+      position: relative;
+    }
+    .crew-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      transition: border-color var(--anim-fast) ease;
+      display: block;
+    }
+    .crew-card:hover .crew-avatar { border-color: var(--accent); }
+    .crew-avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity var(--anim-med) ease;
+    }
+    .crew-card:hover .crew-avatar-ring { opacity: 1; }
+
+    .crew-role-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border: 2px solid var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+    }
+
+    .crew-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .crew-role {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .crew-stats-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 4px;
+    }
+    .crew-stat {
+      text-align: center;
+    }
+    .crew-stat-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .crew-stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .crew-links {
+      display: flex;
+      gap: 8px;
+    }
+    .crew-link {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--anim-fast) ease;
+      text-decoration: none;
+      color: var(--text-secondary);
+    }
+    .crew-link:hover {
+      background: rgba(var(--accent-rgb), 0.1);
+      border-color: var(--border-accent);
+      color: var(--accent);
+    }
+
+    /* =============================
+       MODULES
+       ============================= */
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+
+    .module-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all var(--anim-med) ease;
+      cursor: pointer;
+    }
+    .module-card:hover {
+      border-color: var(--border-accent);
+      box-shadow: 0 4px 24px rgba(var(--accent-rgb), 0.1);
+      transform: translateX(4px);
+    }
+    .module-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+    .module-info { flex: 1; min-width: 0; }
+    .module-name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .module-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* =============================
+       TODO
+       ============================= */
+    .todo-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 20px;
+    }
+
+    .todo-add-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .todo-input {
+      flex: 1;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: all var(--anim-fast) ease;
+    }
+    .todo-input:focus {
+      border-color: var(--border-accent);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+    }
+    .todo-input::placeholder { color: var(--text-muted); }
+
+    .todo-select {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 30px 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+      transition: all var(--anim-fast) ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b93b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+    }
+    .todo-select:focus, .todo-select:hover {
+      border-color: var(--border-accent);
+    }
+
+    .todo-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all var(--anim-fast) ease;
+      animation: sectionFadeIn 300ms ease both;
+    }
+    .todo-item:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-elevated);
+    }
+    .todo-item.completed {
+      opacity: 0.5;
+    }
+    .todo-item.completed .todo-text { text-decoration: line-through; color: var(--text-muted); }
+
+    .todo-checkbox {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      flex-shrink: 0;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      transition: all var(--anim-fast) ease;
+      position: relative;
+    }
+    .todo-checkbox:checked {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: transparent;
+    }
+    .todo-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 5px;
+      width: 4px;
+      height: 7px;
+      border: 2px solid #0f172a;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .todo-text { flex: 1; font-size: 14px; color: var(--text); }
+    .todo-priority {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+    .todo-priority.high { background: rgba(248,113,113,0.1); color: #f87171; }
+    .todo-priority.medium { background: rgba(251,191,36,0.1); color: #fbbf24; }
+    .todo-priority.low { background: rgba(74,222,128,0.1); color: #4ade80; }
+
+    .todo-delete {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--anim-fast) ease;
+      font-size: 14px;
+    }
+    .todo-delete:hover {
+      background: rgba(248,113,113,0.1);
+      color: #f87171;
+    }
+
+    /* Todo sidebar stats */
+    .todo-stats-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .todo-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .todo-stat-row:last-child { border-bottom: none; }
+    .todo-stat-row-label { color: var(--text-secondary); }
+    .todo-stat-row-value { font-weight: 700; color: var(--text); }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-elevated);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 6px;
+      transition: width 400ms ease;
+    }
+
+    /* =============================
+       MODAL / LIGHTBOX
+       ============================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--anim-med) ease;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-box {
+      background: linear-gradient(135deg, rgba(var(--accent-rgb),0.05), rgba(8,11,20,0.98));
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: scale(0.9) translateY(20px);
+      transition: transform var(--anim-med) cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px var(--border), var(--shadow-glow);
+    }
+    .modal-overlay.show .modal-box {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--anim-fast) ease;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .modal-close:hover {
+      border-color: rgba(248,113,113,0.4);
+      background: rgba(248,113,113,0.08);
+      color: #f87171;
+    }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--anim-med) ease;
+    }
+    .lightbox-overlay.show { opacity: 1; visibility: visible; }
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.8);
+      transform: scale(0.9);
+      transition: transform var(--anim-med) cubic-bezier(0.4,0,0.2,1);
+    }
+    .lightbox-overlay.show img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all var(--anim-fast) ease;
+      backdrop-filter: blur(10px);
+    }
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.1);
+    }
+
+    /* =============================
+       SEARCH BAR FILTER
+       ============================= */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding: 16px 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .filter-input {
+      flex: 1;
+      min-width: 200px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: all var(--anim-fast) ease;
+    }
+    .filter-input:focus {
+      border-color: var(--border-accent);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+    }
+    .filter-input::placeholder { color: var(--text-muted); }
+
+    /* =============================
+       TIMELINE / CHANGELOG
+       ============================= */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2), transparent);
+      border-radius: 2px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+      animation: sectionFadeIn 400ms ease both;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -24px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 12px var(--glow-color);
+    }
+    .timeline-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .timeline-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .timeline-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* =============================
+       SCROLLBAR
+       ============================= */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent-rgb), 0.4);
+      border-radius: 6px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(var(--accent-rgb), 0.7);
+    }
+
+    /* =============================
+       NOTIFICATIONS / TOAST
+       ============================= */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-accent);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 20px var(--glow-color);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      animation: toastIn 400ms cubic-bezier(0.4,0,0.2,1) both;
+      pointer-events: all;
+      max-width: 320px;
+    }
+    @keyframes toastIn {
+      from { opacity:0; transform: translateX(100%) scale(0.9); }
+      to   { opacity:1; transform: translateX(0) scale(1); }
+    }
+    .toast.hiding {
+      animation: toastOut 300ms ease forwards;
+    }
+    @keyframes toastOut {
+      to { opacity:0; transform: translateX(100%) scale(0.9); }
+    }
+    .toast-icon { font-size: 18px; }
+
+    /* =============================
+       FOOTER
+       ============================= */
+    .page-footer {
+      padding: 24px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-text a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-text a:hover { text-decoration: underline; }
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--anim-fast) ease;
+    }
+    .footer-link:hover { color: var(--accent); }
+
+    /* =============================
+       MOBILE RESPONSIVE
+       ============================= */
+    @media (max-width: 1024px) {
+      :root { --sidebar-w: 240px; }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .hamburger { display: flex; }
+      .hero-section { grid-template-columns: 1fr; }
+      .hero-side { display: none; }
+      .hero-title { font-size: 36px; }
+      .hero-card { padding: 28px; }
+      .todo-layout { grid-template-columns: 1fr; }
+      .page-content { padding: 20px 16px; }
+      .topbar { padding: 12px 16px; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .search-bar { display: none; }
+      .page-footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .hero-title { font-size: 28px; }
+      .hero-actions { flex-direction: column; }
+      .crew-grid { grid-template-columns: repeat(2, 1fr); }
+      .crew-card { padding: 16px; }
+    }
+
+    /* Sidebar overlay for mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 49;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+    }
+    .sidebar-overlay.show { display: block; }
+
+    /* =============================
+       UTILITY
+       ============================= */
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 8px; }
+    .gap-3 { gap: 12px; }
+    .gap-4 { gap: 16px; }
+    .mt-2 { margin-top: 8px; }
+    .mt-4 { margin-top: 16px; }
+    .mt-6 { margin-top: 24px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+    .text-muted { color: var(--text-muted); }
+    .text-accent { color: var(--accent); }
+    .font-bold { font-weight: 700; }
+    .w-full { width: 100%; }
+    .hidden { display: none !important; }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Stagger animations for grids */
+    .grid-auto > *:nth-child(1),
+    .releases-grid > *:nth-child(1) { animation-delay: 0ms; }
+    .grid-auto > *:nth-child(2),
+    .releases-grid > *:nth-child(2) { animation-delay: 60ms; }
+    .grid-auto > *:nth-child(3),
+    .releases-grid > *:nth-child(3) { animation-delay: 120ms; }
+    .grid-auto > *:nth-child(4),
+    .releases-grid > *:nth-child(4) { animation-delay: 180ms; }
+    .grid-auto > *:nth-child(5),
+    .releases-grid > *:nth-child(5) { animation-delay: 240ms; }
+    .grid-auto > *:nth-child(6),
+    .releases-grid > *:nth-child(6) { animation-delay: 300ms; }
+
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- App Wrapper -->
+  <div class="app-wrapper">
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="sidebar" id="sidebar">
+      <a class="sidebar-logo" onclick="showSection('home')">
+        <img src="https://via.placeholder.com/42x42/8b5cf6/ffffff?text=R" alt="Ryazhenka" id="sidebarLogoImg" />
+        <div class="sidebar-logo-text">
+          <div class="sidebar-logo-title">Ryazhenka</div>
+          <div class="sidebar-logo-sub">Custom Firmware</div>
+        </div>
+      </a>
+
+      <div class="sidebar-section-label">Навигация</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link active" data-section="home" onclick="showSection('home')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Главная
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" data-section="releases" onclick="showSection('releases')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Релизы
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" data-section="modules" onclick="showSection('modules')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            Модули
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" data-section="gallery" onclick="showSection('gallery')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            Галерея
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" data-section="crew" onclick="showSection('crew')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Команда
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" data-section="todo" onclick="showSection('todo')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            To‑Do
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" data-section="changelog" onclick="showSection('changelog')">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            Changelog
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-section-label">Ссылки</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" href="https://t.me/ryazhenka" target="_blank">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Telegram
+          </a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a class="sidebar-nav-link" href="https://github.com/ryazhenka" target="_blank">
+            <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-version" style="margin-top:16px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;color:var(--text-muted)">Версия прошивки</div>
+        <strong>v4.3.2 Stable</strong>
+        <div style="font-size:11px;margin-top:4px;color:var(--text-muted)">Последнее обновление: 15.01.2025</div>
+      </div>
+    </aside>
+
+    <!-- ==================== MAIN ==================== -->
+    <div class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" onclick="toggleSidebar()" aria-label="Меню">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" placeholder="Поиск..." id="globalSearch" oninput="handleGlobalSearch(this.value)" />
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="status-badge">
+            <div class="status-dot"></div>
+            Активна
+          </div>
+          <select class="theme-select" id="themeSelect" onchange="setTheme(this.value)">
+            <option value="glow">🌟 Glow</option>
+            <option value="cyber">💻 Cyber</option>
+            <option value="matrix">🟢 Matrix</option>
+            <option value="sunset">🌅 Sunset</option>
+            <option value="aurora">🌌 Aurora</option>
+            <option value="emerald">💚 Emerald</option>
+            <option value="nebula">🌸 Nebula</option>
+            <option value="light">☀️ Light</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="showToast('📋 Ссылка скопирована!', 'success')" style="display:flex;align-items:center;gap:6px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            Поделиться
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+
+        <!-- ==================== HOME ==================== -->
+        <section class="section active" id="section-home">
+          <div class="hero-section">
+            <!-- Hero Card -->
+            <div class="hero-card">
+              <div class="hero-tag">
+                <div class="hero-tag-dot"></div>
+                Актуальная версия доступна
+              </div>
+              <h1 class="hero-title">Ryazhenka<br/>CFW</h1>
+              <p class="hero-desc">
+                Стабильная кастомная прошивка для Nintendo Switch. Объединяет лучшие модули, 
+                регулярные обновления и поддержку сообщества. Безопасность и производительность в приоритете.
+              </p>
+              <div class="hero-actions">
+                <button class="btn btn-primary" onclick="showSection('releases')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Скачать v4.3.2
+                </button>
+                <button class="btn btn-ghost" onclick="showSection('changelog')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                  Что нового
+                </button>
+              </div>
+              <div class="hero-stats">
+                <div class="hero-stat-item">
+                  <div class="hero-stat-value">4.3.2</div>
+                  <div class="hero-stat-label">Версия</div>
+                </div>
+                <div class="hero-stat-item">
+                  <div class="hero-stat-value">12+</div>
+                  <div class="hero-stat-label">Модулей</div>
+                </div>
+                <div class="hero-stat-item">
+                  <div class="hero-stat-value">99.9%</div>
+                  <div class="hero-stat-label">Стабильность</div>
+                </div>
+                <div class="hero-stat-item">
+                  <div class="hero-stat-value">5K+</div>
+                  <div class="hero-stat-label">Пользователей</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="hero-side">
+              <div class="info-card">
+                <div class="info-card-title">Системная информация</div>
+                <div class="stat-row">
+                  <span class="stat-row-label">Версия CFW</span>
+                  <span class="stat-row-value accent">v4.3.2</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-row-label">Статус</span>
+                  <span class="stat-row-value success">Stable</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-row-label">Atmosphere</span>
+                  <span class="stat-row-value accent-2">1.7.1</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-row-label">Hekate</span>
+                  <span class="stat-row-value">6.2.2</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-row-label">Платформа</span>
+                  <span class="stat-row-value">Switch OLED</span>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <div class="info-card-title">Последний релиз</div>
+                <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">
+                  Исправлена критическая ошибка с сохранениями, обновлены системные модули, 
+                  улучшена совместимость с emuMMC.
+                </div>
+                <button class="btn btn-primary w-full" style="margin-top:14px;justify-content:center;" onclick="showSection('releases')">
+                  Подробнее →
+                </button>
+              </div>
+
+              <div class="info-card" style="background:linear-gradient(135deg,rgba(var(--accent-rgb),0.08),rgba(var(--accent2-rgb),0.04));border-color:rgba(var(--accent-rgb),0.2);">
+                <div class="info-card-title">Telegram канал</div>
+                <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
+                  Следите за обновлениями в официальном канале
+                </div>
+                <a href="https://t.me/ryazhenka" target="_blank" class="btn btn-ghost btn-sm w-full" style="justify-content:center;">
+                  📢 Подписаться
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Cards Row -->
+          <div class="grid-4 mb-6">
+            <div class="card" style="cursor:pointer;" onclick="showSection('releases')">
+              <div style="font-size:28px;margin-bottom:12px;">🚀</div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Релизы</div>
+              <div style="font-size:13px;color:var(--text-muted);">Последние версии прошивки</div>
+              <div class="badge badge-new" style="margin-top:10px;">NEW</div>
+            </div>
+            <div class="card" style="cursor:pointer;" onclick="showSection('modules')">
+              <div style="font-size:28px;margin-bottom:12px;">🧩</div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Модули</div>
+              <div style="font-size:13px;color:var(--text-muted);">Расширения и плагины</div>
+              <div class="badge badge-accent" style="margin-top:10px;">12 активных</div>
+            </div>
+            <div class="card" style="cursor:pointer;" onclick="showSection('gallery')">
+              <div style="font-size:28px;margin-bottom:12px;">🖼️</div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Галерея</div>
+              <div style="font-size:13px;color:var(--text-muted);">Скриншоты интерфейса</div>
+              <div class="badge badge-muted" style="margin-top:10px;">24 фото</div>
+            </div>
+            <div class="card" style="cursor:pointer;" onclick="showSection('crew')">
+              <div style="font-size:28px;margin-bottom:12px;">👥</div>
+              <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;">Команда</div>
+              <div style="font-size:13px;color:var(--text-muted);">Разработчики проекта</div>
+              <div class="badge badge-success" style="margin-top:10px;">6 участников</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== RELEASES ==================== -->
+        <section class="section" id="section-releases">
+          <div class="section-header">
+            <h2 class="section-title">Релизы</h2>
+            <p class="section-subtitle">Все версии кастомной прошивки Ryazhenka</p>
+          </div>
+
+          <div class="filter-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input class="filter-input" type="text" placeholder="Поиск релизов..." oninput="filterReleases(this.value)" />
+            <select class="todo-select" onchange="filterReleasesByType(this.value)">
+              <option value="">Все типы</option>
+              <option value="stable">Stable</option>
+              <option value="beta">Beta</option>
+              <option value="legacy">Legacy</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="showToast('📥 Скачивание началось!', 'success')">
+              Скачать последний
+            </button>
+          </div>
+
+          <div id="releasesContainer">
+            <!-- Ryazhenka Repo -->
+            <div class="repo-group">
+              <div class="repo-group-header">
+                <div class="repo-group-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="repo-group-title">ryazhenka/ryazhenka-cfw</div>
+                  <div style="font-size:12px;color:var(--text-muted);">Основная прошивка</div>
+                </div>
+                <div class="repo-group-count">3 релиза</div>
+              </div>
+              <div class="releases-grid" id="releasesGrid1">
+                <!-- Release cards generated by JS -->
+              </div>
+            </div>
+
+            <!-- Modules Repo -->
+            <div class="repo-group">
+              <div class="repo-group-header">
+                <div class="repo-group-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="repo-group-title">ryazhenka/modules</div>
+                  <div style="font-size:12px;color:var(--text-muted);">Системные модули</div>
+                </div>
+                <div class="repo-group-count">2 релиза</div>
+              </div>
+              <div class="releases-grid" id="releasesGrid2">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== MODULES ==================== -->
+        <section class="section" id="section-modules">
+          <div class="section-header">
+            <h2 class="section-title">Модули</h2>
+            <p class="section-subtitle">Расширения и плагины Ryazhenka CFW</p>
+          </div>
+
+          <div class="filter-bar mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input class="filter-input" type="text" placeholder="Поиск модулей..." oninput="filterModules(this.value)" />
+            <select class="todo-select">
+              <option>Все категории</option>
+              <option>Система</option>
+              <option>Игры</option>
+              <option>Утилиты</option>
+              <option>Безопасность</option>
+            </select>
+          </div>
+
+          <div class="module-grid" id="modulesGrid">
+            <!-- Generated by JS -->
+          </div>
+        </section>
+
+        <!-- ==================== GALLERY ==================== -->
+        <section class="section" id="section-gallery">
+          <div class="section-header">
+            <h2 class="section-title">Галерея</h2>
+            <p class="section-subtitle">Скриншоты и визуальные материалы</p>
+          </div>
+
+          <div class="filter-bar mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input class="filter-input" type="text" placeholder="Поиск в галерее..." />
+            <select class="todo-select">
+              <option>Все</option>
+              <option>Интерфейс</option>
+              <option>Игры</option>
+              <option>Настройки</option>
+            </select>
+          </div>
+
+          <div class="grid-gallery" id="galleryGrid">
+            <!-- Generated by JS -->
+          </div>
+        </section>
+
+        <!-- ==================== CREW ==================== -->
+        <section class="section" id="section-crew">
+          <div class="section-header">
+            <h2 class="section-title">Команда</h2>
+            <p class="section-subtitle">Люди, создающие Ryazhenka CFW</p>
+          </div>
+
+          <div class="crew-grid" id="crewGrid">
+            <!-- Generated by JS -->
+          </div>
+        </section>
+
+        <!-- ==================== TODO ==================== -->
+        <section class="section" id="section-todo">
+          <div class="section-header">
+            <h2 class="section-title">To‑Do</h2>
+            <p class="section-subtitle">Список задач и планов разработки</p>
+          </div>
+
+          <div class="todo-layout">
+            <div>
+              <div class="todo-add-form">
+                <input class="todo-input" type="text" id="todoInput" placeholder="Добавить задачу..." onkeydown="if(event.key==='Enter')addTodo()" />
+                <select class="todo-select" id="todoPriority">
+                  <option value="high">🔴 Высокий</option>
+                  <option value="medium" selected>🟡 Средний</option>
+                  <option value="low">🟢 Низкий</option>
+                </select>
+                <button class="btn btn-primary" onclick="addTodo()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  Добавить
+                </button>
+              </div>
+              <ul class="todo-list" id="todoList">
+                <!-- Generated by JS -->
+              </ul>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div class="todo-stats-card">
+                <div class="info-card-title">Статистика</div>
+                <div class="todo-stat-row">
+                  <span class="todo-stat-row-label">Всего задач</span>
+                  <span class="todo-stat-row-value" id="statTotal">0</span>
+                </div>
+                <div class="todo-stat-row">
+                  <span class="todo-stat-row-label">Выполнено</span>
+                  <span class="todo-stat-row-value" style="color:#4ade80;" id="statDone">0</span>
+                </div>
+                <div class="todo-stat-row">
+                  <span class="todo-stat-row-label">В процессе</span>
+                  <span class="todo-stat-row-value" style="color:var(--accent);" id="statPending">0</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:center;" id="progressText">0% выполнено</div>
+              </div>
+
+              <div class="todo-stats-card">
+                <div class="info-card-title">Быстрые действия</div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                  <button class="btn btn-ghost btn-sm w-full" style="justify-content:flex-start;gap:8px;" onclick="markAllDone()">
+                    ✅ Отметить все выполненными
+                  </button>
+                  <button class="btn btn-ghost btn-sm w-full" style="justify-content:flex-start;gap:8px;" onclick="clearCompleted()">
+                    🗑️ Удалить выполненные
+                  </button>
+                  <button class="btn btn-ghost btn-sm w-full" style="justify-content:flex-start;gap:8px;" onclick="clearAllTodos()">
+                    ❌ Очистить всё
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== CHANGELOG ==================== -->
+        <section class="section" id="section-changelog">
+          <div class="section-header">
+            <h2 class="section-title">Changelog</h2>
+            <p class="section-subtitle">История изменений и обновлений прошивки</p>
+          </div>
+
+          <div class="timeline" id="changelogTimeline">
+            <!-- Generated by JS -->
+          </div>
+        </section>
+
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="page-footer">
+        <div class="footer-text">
+          © 2025 <a href="#">Ryazhenka CFW</a> — Сделано с ❤️ для Switch сообщества
+        </div>
+        <div class="footer-links">
+          <a href="https://t.me/ryazhenka" class="footer-link" target="_blank">Telegram</a>
+          <a href="https://github.com/ryazhenka" class="footer-link" target="_blank">GitHub</a>
+          <a href="#" class="footer-link" onclick="showSection('changelog')">Changelog</a>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- ==================== LIGHTBOX ==================== -->
+  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img src="" alt="" id="lightboxImg" onclick="event.stopPropagation()" />
+  </div>
+
+  <!-- ==================== CREW MODAL ==================== -->
+  <div class="modal-overlay" id="crewModal" onclick="closeCrewModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span class="modal-title" id="crewModalTitle">Участник команды</span>
+        <button class="modal-close" onclick="closeCrewModal()">✕</button>
+      </div>
+      <div id="crewModalContent"></div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST CONTAINER ==================== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // ==================== DATA ====================
+
+    const RELEASES = [
+      {
+        grid: 'releasesGrid1',
+        title: 'Ryazhenka v4.3.2 Stable',
+        version: 'v4.3.2',
+        type: 'stable',
+        date: '15 янв 2025',
+        desc: 'Исправлена ошибка с сохранениями, обновлены модули безопасности, улучшена поддержка OLED.',
+        image: 'https://picsum.photos/seed/r1/400/200',
+        size: '248 МБ',
+        downloads: '2.1K'
+      },
+      {
+        grid: 'releasesGrid1',
+        title: 'Ryazhenka v4.3.0 Stable',
+        version: 'v4.3.0',
+        type: 'stable',
+        date: '02 янв 2025',
+        desc: 'Крупное обновление: новый загрузчик, улучшенная совместимость с emuMMC, новые темы.',
+        image: 'https://picsum.photos/seed/r2/400/200',
+        size: '241 МБ',
+        downloads: '5.8K'
+      },
+      {
+        grid: 'releasesGrid1',
+        title: 'Ryazhenka v4.2.9 Legacy',
+        version: 'v4.2.9',
+        type: 'legacy',
+        date: '14 дек 2024',
+        desc: 'Стабильная legacy версия для старых устройств. Минимальные изменения.',
+        image: 'https://picsum.photos/seed/r3/400/200',
+        size: '230 МБ',
+        downloads: '1.2K'
+      },
+      {
+        grid: 'releasesGrid2',
+        title: 'Sys-Modules Pack v2.1',
+        version: 'v2.1',
+        type: 'stable',
+        date: '10 янв 2025',
+        desc: 'Пакет системных модулей: sys-clk, sys-con, sys-botbase с оптимизациями.',
+        image: 'https://picsum.photos/seed/m1/400/200',
+        size: '18 МБ',
+        downloads: '3.4K'
+      },
+      {
+        grid: 'releasesGrid2',
+        title: 'Overlay Pack Beta',
+        version: 'v1.5-beta',
+        type: 'beta',
+        date: '08 янв 2025',
+        desc: 'Тестовый пакет оверлеев с новым дизайном. Возможны баги.',
+        image: 'https://picsum.photos/seed/m2/400/200',
+        size: '12 МБ',
+        downloads: '890'
+      }
+    ];
+
+    const MODULES = [
+      { icon: '⚙️', name: 'sys-clk', desc: 'Управление частотами CPU/GPU/RAM', cat: 'Система', version: 'v2.0.0' },
+      { icon: '🎮', name: 'sys-con', desc: 'Поддержка контроллеров Bluetooth', cat: 'Игры', version: 'v1.1.2' },
+      { icon: '🌡️', name: 'sys-ftpd', desc: 'FTP сервер для передачи файлов', cat: 'Утилиты', version: 'v1.0.3' },
+      { icon: '🛡️', name: 'sys-dns-mitm', desc: 'Блокировка серверов Nintendo', cat: 'Безопасность', version: 'v1.1.0' },
+      { icon: '📊', name: 'Status Monitor', desc: 'Оверлей температур и нагрузки', cat: 'Утилиты', version: 'v0.9.8' },
+      { icon: '🔧', name: 'Tesla Menu', desc: 'Главное меню оверлея (Nx-Ovlloader)', cat: 'Система', version: 'v1.2.2' },
+      { icon: '🎵', name: 'MusicOverlay', desc: 'Воспроизведение музыки в фоне', cat: 'Утилиты', version: 'v1.0.1' },
+      { icon: '💾', name: 'Checkpoint', desc: 'Менеджер сохранений игр', cat: 'Игры', version: 'v3.8.1' },
+      { icon: '🌐', name: 'Linkalho', desc: 'Привязка аккаунтов без NNID', cat: 'Система', version: 'v2.1.0' },
+      { icon: '🎨', name: 'NXThemes', desc: 'Установщик тем HOME меню', cat: 'Утилиты', version: 'v2.5.0' },
+      { icon: '📺', name: 'HDMI-Fix', desc: 'Исправление вывода HDMI сигнала', cat: 'Система', version: 'v1.0.0' },
+      { icon: '🔐', name: 'LockScreen+', desc: 'Расширенная блокировка экрана', cat: 'Безопасность', version: 'v0.8.3' }
+    ];
+
+    const GALLERY_IMAGES = [
+      { url: 'https://picsum.photos/seed/g1/400/300', title: 'Главное меню' },
+      { url: 'https://picsum.photos/seed/g2/400/300', title: 'Tesla Overlay' },
+      { url: 'https://picsum.photos/seed/g3/400/300', title: 'sys-clk настройки' },
+      { url: 'https://picsum.photos/seed/g4/400/300', title: 'Hekate загрузчик' },
+      { url: 'https://picsum.photos/seed/g5/400/300', title: 'emuMMC раздел' },
+      { url: 'https://picsum.photos/seed/g6/400/300', title: 'Кастомная тема' },
+      { url: 'https://picsum.photos/seed/g7/400/300', title: 'Status Monitor' },
+      { url: 'https://picsum.photos/seed/g8/400/300', title: 'Checkpoint' },
+      { url: 'https://picsum.photos/seed/g9/400/300', title: 'Альбом скриншотов' },
+      { url: 'https://picsum.photos/seed/g10/400/300', title: 'OLED дисплей' },
+      { url: 'https://picsum.photos/seed/g11/400/300', title: 'Настройки системы' },
+      { url: 'https://picsum.photos/seed/g12/400/300', title: 'Магазин модулей' }
+    ];
+
+    const CREW = [
+      {
+        name: 'Ryazhenka Dev',
+        role: 'Главный разработчик',
+        badge: '👑',
+        avatar: 'https://i.pravatar.cc/100?img=1',
+        tg: '@ryazhenka_dev',
+        gh: 'ryazhenka',
+        commits: '1.2K',
+        modules: '8',
+        desc: 'Основатель проекта. Занимается ядром прошивки, стабильностью и архитектурой.'
+      },
+      {
+        name: 'ModderMax',
+        role: 'Разработчик модулей',
+        badge: '🔧',
+        avatar: 'https://i.pravatar.cc/100?img=2',
+        tg: '@moddermax',
+        gh: 'moddermax',
+        commits: '648',
+        modules: '6',
+        desc: 'Создаёт системные модули и оверлеи. Отвечает за интеграцию Tesla Menu.'
+      },
+      {
+        name: 'SwitchArt',
+        role: 'UI/UX Дизайнер',
+        badge: '🎨',
+        avatar: 'https://i.pravatar.cc/100?img=3',
+        tg: '@switchart',
+        gh: 'switchart',
+        commits: '312',
+        modules: '3',
+        desc: 'Разрабатывает темы HOME меню, иконки и визуальную составляющую проекта.'
+      },
+      {
+        name: 'DebugQueen',
+        role: 'QA / Тестирование',
+        badge: '🐛',
+        avatar: 'https://i.pravatar.cc/100?img=4',
+        tg: '@debugqueen',
+        gh: 'debugqueen',
+        commits: '198',
+        modules: '2',
+        desc: 'Тестирует каждый релиз перед публикацией. Пишет отчёты о багах.'
+      },
+      {
+        name: 'DocWriter',
+        role: 'Документация',
+        badge: '📝',
+        avatar: 'https://i.pravatar.cc/100?img=5',
+        tg: '@docwriter',
+        gh: 'docwriter',
+        commits: '87',
+        modules: '1',
+        desc: 'Ведёт документацию, README и инструкции по установке.'
+      },
+      {
+        name: 'CommunityLead',
+        role: 'Менеджер сообщества',
+        badge: '🌟',
+        avatar: 'https://i.pravatar.cc/100?img=6',
+        tg: '@communitylead',
+        gh: 'communitylead',
+        commits: '44',
+        modules: '0',
+        desc: 'Управляет Telegram-каналом, отвечает на вопросы пользователей.'
+      }
+    ];
+
+    const CHANGELOG = [
+      {
+        date: '15 января 2025',
+        version: 'v4.3.2',
+        title: 'Исправление критических ошибок',
+        desc: 'Устранена ошибка с потерей сохранений при shutdown. Обновлены сертификаты безопасности. Улучшена стабильность emuMMC.',
+        type: 'stable'
+      },
+      {
+        date: '2 января 2025',
+        version: 'v4.3.0',
+        title: 'Крупное обновление',
+        desc: 'Переработан загрузчик Hekate. Новые темы Home меню. Поддержка Switch OLED v2. Обновлена Atmosphere до 1.7.1.',
+        type: 'stable'
+      },
+      {
+        date: '20 декабря 2024',
+        version: 'v4.2.9',
+        title: 'Legacy ветка',
+        desc: 'Поддержка старых устройств продолжается. Минорные патчи безопасности.',
+        type: 'legacy'
+      },
+      {
+        date: '5 декабря 2024',
+        version: 'v4.2.8',
+        title: 'Обновление модулей',
+        desc: 'Обновлён sys-clk до v2.0, Tesla Menu до v1.2, исправлены конфликты модулей.',
+        type: 'stable'
+      },
+      {
+        date: '18 ноября 2024',
+        version: 'v4.2.5',
+        title: 'Beta тестирование',
+        desc: 'Тестирование нового оверлея Status Monitor. Экспериментальная поддержка bluetooth 5.0.',
+        type: 'beta'
+      }
+    ];
+
+    let todos = [
+      { id: 1, text: 'Обновить Atmosphere до 1.7.2', priority: 'high', done: false },
+      { id: 2, text: 'Добавить поддержку новых Joy-Con', priority: 'medium', done: false },
+      { id: 3, text: 'Исправить баг с Bluetooth Audio', priority: 'high', done: true },
+      { id: 4, text: 'Написать документацию для v4.3', priority: 'low', done: false },
+      { id: 5, text: 'Обновить Tesla Menu', priority: 'medium', done: true }
+    ];
+
+    let todoIdCounter = 6;
+
+    // ==================== NAVIGATION ====================
+
+    function showSection(name) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.sidebar-nav-link').forEach(l => l.classList.remove('active'));
+
+      const sec = document.getElementById('section-' + name);
+      if (sec) sec.classList.add('active');
+
+      document.querySelectorAll(`.sidebar-nav-link[data-section="${name}"]`).forEach(l => l.classList.add('active'));
+
+      // Close sidebar on mobile
+      if (window.innerWidth < 768) toggleSidebar(false);
+    }
+
+    function toggleSidebar(forceState) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const isOpen = sidebar.classList.contains('open');
+      const shouldOpen = forceState !== undefined ? forceState : !isOpen;
+
+      sidebar.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('show', shouldOpen);
+    }
+
+    // ==================== THEME ====================
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('ryazhenka-theme', theme);
+      showToast('🎨 Тема изменена!', 'info');
+    }
+
+    // ==================== RENDER RELEASES ====================
+
+    function renderReleases() {
+      const grids = { releasesGrid1: [], releasesGrid2: [] };
+      RELEASES.forEach(r => {
+        if (grids[r.grid]) grids[r.grid].push(r);
+      });
+
+      Object.entries(grids).forEach(([gridId, releases]) => {
+        const grid = document.getElementById(gridId);
+        if (!grid) return;
+        grid.innerHTML = releases.map((r, i) => `
+          <div class="release-card" style="animation-delay:${i*60}ms" onclick="showToast('📥 Скачивание ${r.title}...', 'success')">
+            <img class="release-card-image" src="${r.image}" alt="${r.title}" loading="lazy" />
+            <div class="release-card-body">
+              <div class="release-card-header">
+                <div class="release-card-title">${r.title}</div>
+                <span class="badge badge-${r.type === 'stable' ? 'success' : r.type === 'beta' ? 'warning' : 'muted'}">${r.type.toUpperCase()}</span>
+              </div>
+              <p class="release-card-desc">${r.desc}</p>
+              <div class="release-card-footer">
+                <span class="release-card-meta">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  ${r.date}
+                </span>
+                <span class="release-card-meta">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  ${r.downloads}
+                </span>
+                <span class="badge badge-muted">${r.size}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      });
+    }
+
+    function filterReleases(query) {
+      const q = query.toLowerCase();
+      document.querySelectorAll('.release-card').forEach(card => {
+        const text = card.querySelector('.release-card-title').textContent.toLowerCase();
+        card.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    function filterReleasesByType(type) {
+      if (!type) {
+        document.querySelectorAll('.release-card').forEach(c => c.style.display = '');
+        return;
+      }
+      RELEASES.forEach((r, i) => {
+        // find all release cards
+      });
+      document.querySelectorAll('.release-card').forEach(card => {
+        const badge = card.querySelector('.badge');
+        const cardType = badge ? badge.textContent.toLowerCase() : '';
+        card.style.display = cardType.includes(type) ? '' : 'none';
+      });
+    }
+
+    // ==================== RENDER MODULES ====================
+
+    function renderModules() {
+      const grid = document.getElementById('modulesGrid');
+      grid.innerHTML = MODULES.map((m, i) => `
+        <div class="module-card" style="animation:sectionFadeIn 350ms ease both;animation-delay:${i*40}ms">
+          <div class="module-icon">${m.icon}</div>
+          <div class="module-info">
+            <div class="module-name">${m.name}</div>
+            <div class="module-desc">${m.desc}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0;">
+            <span class="badge badge-accent">${m.version}</span>
+            <span class="badge badge-muted" style="font-size:10px;">${m.cat}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterModules(query) {
+      const q = query.toLowerCase();
+      document.querySelectorAll('.module-card').forEach(card => {
+        const name = card.querySelector('.module-name').textContent.toLowerCase();
+        const desc = card.querySelector('.module-desc').textContent.toLowerCase();
+        card.style.display = (name.includes(q) || desc.includes(q)) ? '' : 'none';
+      });
+    }
+
+    // ==================== RENDER GALLERY ====================
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = GALLERY_IMAGES.map((img, i) => `
+        <div class="gallery-item" style="animation:sectionFadeIn 350ms ease both;animation-delay:${i*50}ms" onclick="openLightbox('${img.url}','${img.title}')">
+          <img src="${img.url}" alt="${img.title}" loading="lazy" />
+          <div class="gallery-overlay">
+            <span class="gallery-overlay-text">${img.title}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openLightbox(src, alt) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      img.alt = alt;
+      lb.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // ==================== RENDER CREW ====================
+
+    function renderCrew() {
+      const grid = document.getElementById('crewGrid');
+      grid.innerHTML = CREW.map((m, i) => `
+        <div class="crew-card" style="animation:sectionFadeIn 350ms ease both;animation-delay:${i*60}ms" onclick="openCrewModal(${i})">
+          <div class="crew-avatar-wrapper">
+            <img class="crew-avatar" src="${m.avatar}" alt="${m.name}" loading="lazy" />
+            <div class="crew-avatar-ring"></div>
+            <div class="crew-role-badge">${m.badge}</div>
+          </div>
+          <div class="crew-name">${m.name}</div>
+          <div class="crew-role">${m.role}</div>
+          <div class="crew-stats-row">
+            <div class="crew-stat">
+              <div class="crew-stat-value">${m.commits}</div>
+              <div class="crew-stat-label">Коммитов</div>
+            </div>
+            <div class="crew-stat">
+              <div class="crew-stat-value">${m.modules}</div>
+              <div class="crew-stat-label">Модулей</div>
+            </div>
+          </div>
+          <div class="crew-links" onclick="event.stopPropagation()">
+            <a class="crew-link" href="https://t.me/${m.tg.replace('@','')}" target="_blank" title="Telegram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </a>
+            <a class="crew-link" href="https://github.com/${m.gh}" target="_blank" title="GitHub">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCrewModal(index) {
+      const m = CREW[index];
+      document.getElementById('crewModalTitle').textContent = m.name;
+      document.getElementById('crewModalContent').innerHTML = `
+        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;">
+          <img src="${m.avatar}" style="width:80px;height:80px;border-radius:50%;border:2px solid var(--accent);box-shadow:0 0 20px var(--glow-color);" />
+          <div style="flex:1;min-width:200px;">
+            <div style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px;">${m.name} ${m.badge}</div>
+            <div style="color:var(--text-muted);font-size:14px;margin-bottom:12px;">${m.role}</div>
+            <p style="color:var(--text-secondary);font-size:14px;line-height:1.6;">${m.desc}</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="grid-2" style="gap:12px;">
+          <div style="padding:14px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);text-align:center;">
+            <div style="font-size:24px;font-weight:800;color:var(--accent);">${m.commits}</div>
+            <div style="font-size:12px;color:var(--text-muted);">Коммитов</div>
+          </div>
+          <div style="padding:14px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border);text-align:center;">
+            <div style="font-size:24px;font-weight:800;color:var(--accent-2);">${m.modules}</div>
+            <div style="font-size:12px;color:var(--text-muted);">Модулей</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://t.me/${m.tg.replace('@','')}" target="_blank" class="btn btn-ghost btn-sm">📢 ${m.tg}</a>
+          <a href="https://github.com/${m.gh}" target="_blank" class="btn btn-ghost btn-sm">🐙 github.com/${m.gh}</a>
+        </div>
+      `;
+      document.getElementById('crewModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCrewModal() {
+      document.getElementById('crewModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // ==================== CHANGELOG ====================
+
+    function renderChangelog() {
+      const container = document.getElementById('changelogTimeline');
+      container.innerHTML = CHANGELOG.map((item, i) => `
+        <div class="timeline-item" style="animation-delay:${i*80}ms">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">${item.date}</div>
+          <div class="timeline-title">
+            ${item.title}
+            <span class="badge badge-${item.type === 'stable' ? 'success' : item.type === 'beta' ? 'warning' : 'muted'}" style="margin-left:8px;">${item.version}</span>
+          </div>
+          <div class="timeline-desc">${item.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    // ==================== TODO ====================
+
+    function renderTodos() {
+      const list = document.getElementById('todoList');
+      list.innerHTML = todos.map(t => `
+        <li class="todo-item ${t.done ? 'completed' : ''}" id="todo-${t.id}">
+          <input class="todo-checkbox" type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo(${t.id})" />
+          <span class="todo-text">${escapeHtml(t.text)}</span>
+          <span class="todo-priority ${t.priority}">${
+            t.priority === 'high' ? '🔴' : t.priority === 'medium' ? '🟡' : '🟢'
+          } ${t.priority === 'high' ? 'Высокий' : t.priority === 'medium' ? 'Средний' : 'Низкий'}</span>
+          <button class="todo-delete" onclick="deleteTodo(${t.id})" title="Удалить">✕</button>
+        </li>
+      `).join('');
+      updateTodoStats();
+    }
+
+    function addTodo() {
+      const input = document.getElementById('todoInput');
+      const priority = document.getElementById('todoPriority').value;
+      const text = input.value.trim();
+      if (!text) {
+        showToast('⚠️ Введите текст задачи', 'warning');
+        return;
+      }
+      todos.unshift({ id: todoIdCounter++, text, priority, done: false });
+      input.value = '';
+      renderTodos();
+      showToast('✅ Задача добавлена!', 'success');
+    }
+
+    function toggleTodo(id) {
+      const t = todos.find(t => t.id === id);
+      if (t) { t.done = !t.done; renderTodos(); }
+    }
+
+    function deleteTodo(id) {
+      todos = todos.filter(t => t.id !== id);
+      renderTodos();
+      showToast('🗑️ Задача удалена', 'info');
+    }
+
+    function markAllDone() {
+      todos.forEach(t => t.done = true);
+      renderTodos();
+      showToast('✅ Все задачи выполнены!', 'success');
+    }
+
+    function clearCompleted() {
+      const count = todos.filter(t => t.done).length;
+      todos = todos.filter(t => !t.done);
+      renderTodos();
+      showToast(`🗑️ Удалено ${count} задач`, 'info');
+    }
+
+    function clearAllTodos() {
+      if (todos.length === 0) return;
+      todos = [];
+      renderTodos();
+      showToast('❌ Список очищен', 'info');
+    }
+
+    function updateTodoStats() {
+      const total = todos.length;
+      const done = todos.filter(t => t.done).length;
+      const pending = total - done;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statDone').textContent = done;
+      document.getElementById('statPending').textContent = pending;
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = pct + '% выполнено';
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ==================== GLOBAL SEARCH ====================
+
+    function handleGlobalSearch(query) {
+      if (!query.trim()) return;
+      // Simple: switch to releases and filter
+      showSection('releases');
+      filterReleases(query);
+    }
+
+    // ==================== TOAST ====================
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+
+      const icons = { success: '✅', warning: '⚠️', error: '❌', info: 'ℹ️' };
+      toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.add('hiding');
+        toast.addEventListener('animationend', () => toast.remove());
+      }, 3000);
+    }
+
+    // ==================== KEYBOARD SHORTCUTS ====================
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeCrewModal();
+        if (window.innerWidth < 768) toggleSidebar(false);
+      }
+    });
+
+    // ==================== INIT ====================
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Restore theme
+      const savedTheme = localStorage.getItem('ryazhenka-theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const sel = document.getElementById('themeSelect');
+        if (sel) sel.value = savedTheme;
+      }
+
+      // Render all sections
+      renderReleases();
+      renderModules();
+      renderGallery();
+      renderCrew();
+      renderChangelog();
+      renderTodos();
+
+      // Show home by default
+      showSection('home');
+
+      // Handle sidebar links that are <a> without href
+      document.querySelectorAll('.sidebar-nav-link[data-section]').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          showSection(link.dataset.section);
+        });
+      });
+
+      // Logo click
+      document.querySelector('.sidebar-logo').addEventListener('click', () => showSection('home'));
+    });
+  </script>
+</body>
+</html>
