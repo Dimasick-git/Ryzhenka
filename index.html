@@ -1,1649 +1,675 @@
-<!doctype html>
-<html lang="ru" data-theme="glow" data-bg="dark" data-text="default">
+ <!doctype html>
+<html lang="ru" data-theme="glow">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ryazhenka — generative-styled CFW</title>
-  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка. Релизы, модули команды, галерея, благодарности, темы и To‑Do. Всё в одном index.html" />
+  <title>Ryazhenka — Custom Firmware</title>
+  <meta name="description" content="Ryazhenka — стабильная кастомная прошивка для Nintendo Switch" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
-    /* =========================
-       THEME + PALETTE + GLOBAL
-       ========================= */
-    :root{--radius:14px;--maxw:1200px;--anim-fast:160ms;--anim-medium:320ms;--bg:#05060a;--text-color:#e7eef6;--panel:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));--card:rgba(255,255,255,0.03);--muted:#9aa0a6;--accent:#7c5cff;--accent-2:#39d6ff;--accent-3:#ff9f7a;--glass:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.02);}
-    /* themes (omitted for brevity in this block — same as previous) */
-    html[data-theme="glow"]{ --bg: radial-gradient(1200px 400px at 12% 12%, rgba(124,92,255,0.06), transparent), #05060a; --text-color:#e7eef6; --panel: linear-gradient(180deg, rgba(124,92,255,0.06), rgba(0,0,0,0.06)); --card: rgba(255,255,255,0.02); --muted:#9aa0a6; --accent:#7c5cff; --accent-2:#39d6ff; }
-    html[data-theme="cyber"]{ --bg: radial-gradient(900px 300px at 85% 10%, rgba(0,230,255,0.04), transparent), linear-gradient(180deg,#020617,#00121a); --text-color:#dffcff; --panel: linear-gradient(180deg, rgba(0,230,255,0.03), rgba(0,0,0,0.06)); --card: rgba(0,230,255,0.03); --muted:#8fe7ea; --accent:#00e6ff; --accent-2:#7c5cff; }
-    html[data-theme="matrix"]{ --bg: radial-gradient(900px 300px at 10% 20%, rgba(76,255,76,0.03), transparent), linear-gradient(180deg,#081108,#021006); --text-color:#d7ffd7; --panel: linear-gradient(180deg, rgba(76,255,76,0.02), rgba(0,0,0,0.06)); --card: rgba(76,255,76,0.02); --muted:#9be99b; --accent:#4cff4c; --accent-2:#00e6ff; }
-    html[data-theme="classic"]{ --bg: radial-gradient(900px 300px at 15% 10%, rgba(110,231,183,0.03), transparent), linear-gradient(180deg,#08121a,#061018); --text-color:#e7fdf7; --panel: linear-gradient(180deg, rgba(110,231,183,0.02), rgba(0,0,0,0.06)); --card: rgba(255,255,255,0.02); --muted:#9aeccd; --accent:#6ee7b7; --accent-2:#7c5cff; }
-    html[data-theme="sunset"]{ --bg: radial-gradient(900px 300px at 12% 12%, rgba(255,159,122,0.03), transparent), linear-gradient(180deg,#0b0706,#1a0b08); --text-color:#ffe7df; --panel: linear-gradient(180deg, rgba(255,159,122,0.03), rgba(0,0,0,0.06)); --card: rgba(255,159,122,0.02); --muted:#f0c7b2; --accent:#ff9f7a; --accent-2:#ff5e9e; }
-    html[data-theme="aurora"]{ --bg: radial-gradient(900px 400px at 10% 12%, rgba(180,90,255,0.05), transparent), linear-gradient(180deg,#021018,#081022); --text-color:#eaf6ff; --panel: linear-gradient(180deg, rgba(180,90,255,0.04), rgba(0,0,0,0.06)); --card: rgba(160,120,255,0.02); --muted:#bdb4ff; --accent:#b46aff; --accent-2:#69f0ff; }
-    html[data-theme="nebula"]{ --bg: radial-gradient(900px 400px at 80% 15%, rgba(255,100,200,0.04), transparent), linear-gradient(180deg,#011018,#0a0212); --text-color:#ffeefc; --panel: linear-gradient(180deg, rgba(255,100,200,0.03), rgba(0,0,0,0.06)); --card: rgba(255,100,200,0.02); --muted:#f0b7de; --accent:#ff68b8; --accent-2:#9b6bff; }
-    html[data-theme="sunrise"]{ --bg: radial-gradient(900px 400px at 10% 10%, rgba(255,200,120,0.04), transparent), linear-gradient(180deg,#0a0402,#160804); --text-color:#fff6ea; --panel: linear-gradient(180deg, rgba(255,200,120,0.03), rgba(0,0,0,0.06)); --card: rgba(255,200,120,0.02); --muted:#f6d6b2; --accent:#ffb86b; --accent-2:#ff6b95; }
-    html[data-theme="violet"]{ --bg: radial-gradient(900px 400px at 15% 18%, rgba(160,80,220,0.04), transparent), linear-gradient(180deg,#060113,#0b0610); --text-color:#f3eaff; --panel: linear-gradient(180deg, rgba(160,80,220,0.03), rgba(0,0,0,0.06)); --card: rgba(160,80,220,0.02); --muted:#c9b2ff; --accent:#b07bff; --accent-2:#6ac1ff; }
-    html[data-theme="emerald"]{ --bg: radial-gradient(900px 400px at 12% 12%, rgba(80,220,150,0.04), transparent), linear-gradient(180deg,#02120a,#041410); --text-color:#eaffef; --panel: linear-gradient(180deg, rgba(80,220,150,0.03), rgba(0,0,0,0.06)); --card: rgba(80,220,150,0.02); --muted:#bfffe0; --accent:#4ff0a0; --accent-2:#39d6ff; }
-    html[data-theme="aquamarine"]{ --bg: radial-gradient(900px 400px at 10% 12%, rgba(64,224,208,0.04), transparent), linear-gradient(180deg,#02121a,#05181a); --text-color:#e9fffb; --panel: linear-gradient(180deg, rgba(64,224,208,0.03), rgba(0,0,0,0.06)); --card: rgba(64,224,208,0.02); --muted:#aeeae4; --accent:#4fd6c2; --accent-2:#67f7ff; }
-
-    html[data-bg="light"]{ --bg:#fbfbfd; --text-color:#0b1220; --panel:linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01)); --card:rgba(0,0,0,0.03); --muted:#6b7280; --card-border:rgba(0,0,0,0.03); }
-
-    .repo-name-gradient{ background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; padding:4px 8px; border-radius:6px; display:inline-block; }
-
-    /* --- basic layout (kept as before) --- */
-    *{box-sizing:border-box} body{ margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; -webkit-font-smoothing:antialiased; color:var(--text-color); background:var(--bg); transition: background 420ms ease, color 320ms ease; }
-    .container{max-width:var(--maxw);margin:0 auto;padding:18px} .topbar{position:sticky;top:0;z-index:40;padding:12px 0;background:transparent;backdrop-filter:blur(8px)} .top-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px;cursor:pointer} .logo{width:56px;height:56px;border-radius:12px;object-fit:cover} .brand-title{font-weight:800;font-size:18px} .brand-sub{font-size:12px;color:var(--muted)}
-    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap} select,input[type="text"],textarea{padding:8px 10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color);transition:all var(--anim-fast) ease} .small{padding:6px 8px;font-size:13px}
-    .btn{padding:8px 10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color);cursor:pointer;font-weight:700;text-decoration:none;transition:transform var(--anim-fast) ease,box-shadow var(--anim-fast) ease} .btn:active{transform:translateY(1px)} .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#07101a;box-shadow:0 6px 30px rgba(0,0,0,0.25)} .btn.ghost{background:transparent}
-    .panel{background:var(--panel);border-radius:var(--radius);padding:18px;margin-bottom:18px;box-shadow:0 12px 40px rgba(0,0,0,0.25);transition:transform var(--anim-medium) ease} .panel:hover{transform:translateY(-6px)} .glass{backdrop-filter: blur(10px)}
-    .hero{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:14px} .huge{font-size:44px;margin:0} .lead{font-size:16px;margin:8px 0;color:var(--muted)} .hero-cta{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
-    .hero-image{margin-top:12px;border-radius:12px;overflow:hidden;border:1px solid var(--card-border);background:linear-gradient(180deg, rgba(0,0,0,0.02), transparent);max-height:340px} .hero-image img{display:block;width:100%;height:auto;object-fit:cover}
-    .quick-stats{display:flex;flex-direction:column;gap:10px} .stat{display:flex;justify-content:space-between;align-items:center} .stat-value{font-weight:800;font-size:20px}
-    .widgets{display:flex;flex-direction:column;gap:8px;margin-top:8px} .widget{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,0.03), transparent);border:1px solid var(--card-border)} .widget img{width:48px;height:48px;border-radius:8px;object-fit:cover}
-    .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px} .searchbar{display:flex;gap:8px;align-items:center} .searchbar input[type="text"]{min-width:180px;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text-color)}
-    .releases-by-repo{margin-bottom:18px} .repo-title{display:flex;align-items:center;gap:10px;margin:8px 0 12px;font-weight:700} .repo-title .repo-name{background:var(--card);padding:6px 10px;border-radius:8px;border:1px solid var(--card-border);font-size:13px}
-    .releases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px} .release-card{border-radius:12px;padding:12px;background:var(--card);display:flex;flex-direction:column;gap:8px;min-height:170px;border:1px solid var(--card-border);position:relative;overflow:hidden} .release-card .repo-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.18);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--text-color)} .release-card img{width:100%;height:140px;object-fit:cover;border-radius:8px;transition:transform var(--anim-fast) ease} .release-card img:hover{transform:scale(1.04)} .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem}
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px} .gallery-grid img{width:100%;height:140px;object-fit:cover;border-radius:10px;cursor:pointer;transition:transform .18s ease;box-shadow:0 8px 30px rgba(0,0,0,0.25)} .gallery-grid img:hover{transform:translateY(-8px) scale(1.03)}
-    .crew-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px} .crew-card{display:flex;gap:12px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(0,0,0,0.02), transparent);cursor:pointer;transition:transform var(--anim-fast) ease,box-shadow var(--anim-fast) ease} .crew-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(0,0,0,0.25)} .crew-card img{width:64px;height:64px;border-radius:10px;object-fit:cover}
-    .modules-config{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px} .module-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px} .module-item{padding:6px 10px;border-radius:8px;background:var(--card);border:1px solid var(--card-border);display:flex;gap:8px;align-items:center}
-    .todo-layout{display:grid;grid-template-columns:1fr 260px;gap:12px} .todo-add{display:flex;gap:8px} .todo-list{list-style:none;padding:0;margin:8px 0;max-height:480px;overflow:auto} .todo-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid var(--card-border);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)} .todo-item.completed{opacity:.6;text-decoration:line-through}
-    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;visibility:hidden;opacity:0;transition:opacity .15s} .modal.show{visibility:visible;opacity:1;background:rgba(0,0,0,0.5)} .modal>.inner{background:var(--card);padding:18px;border-radius:10px;max-width:900px;width:100%}
-    footer{padding:18px 0;text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
-    @media (max-width:980px){ .hero{grid-template-columns:1fr} .todo-layout{grid-template-columns:1fr} .huge{font-size:34px} }
-
-    /* === Midjourney Vibe: Glass, Glow, Neon, Animated Background === */
-    html, body { scroll-behavior:smooth; }
+    /* =============================
+       CSS VARIABLES & THEMES
+       ============================= */
     :root {
-      --radius: 20px;
-      --card-radius: 22px;
-      --maxw: 1240px;
-      --anim-fast: 140ms;
-      --anim-medium: 330ms;
-      --anim-slow: 620ms;
-      --bg: #0c0f1d;
-      --text-color: #F6F7FD;
-      --panel: linear-gradient(120deg, rgba(90,70,230,0.11) 0%, rgba(60,220,255,0.06) 100%), rgba(28,19,44,0.59);
-      --card:rgba(90,70,230,0.05);
-      --muted: #a8b0d3;
-      --accent: #8F4CFF;
-      --accent-2: #36e4ff;
-      --accent-3: #ffb47a;
-      --glass:rgba(255,255,255,0.08);
-      --card-border:#533ede44;
-      --glow: 0 0 30px 0 #a868ff99, 0 0 80px 5px #55fff744;
-      --shadow:0 2px 16px 0 #32266966,0 1.5px 14px #1b137c33;
-      --blur: blur(16px);
+      --radius: 16px;
+      --radius-lg: 24px;
+      --radius-sm: 10px;
+      --maxw: 1280px;
+      --anim-fast: 150ms;
+      --anim-med: 300ms;
+      --anim-slow: 600ms;
+      --sidebar-w: 260px;
+
+      /* Default (glow) theme */
+      --bg-base: #080b14;
+      --bg-surface: rgba(255,255,255,0.03);
+      --bg-surface-hover: rgba(255,255,255,0.055);
+      --bg-elevated: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.07);
+      --border-accent: rgba(139,92,246,0.4);
+      --text: #f0f2ff;
+      --text-secondary: #8b93b8;
+      --text-muted: #5a6282;
+      --accent: #8b5cf6;
+      --accent-2: #22d3ee;
+      --accent-3: #f472b6;
+      --accent-rgb: 139,92,246;
+      --accent2-rgb: 34,211,238;
+      --glow-color: rgba(139,92,246,0.3);
+      --glow-color-2: rgba(34,211,238,0.2);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.5);
+      --shadow-glow: 0 0 40px var(--glow-color), 0 0 80px var(--glow-color-2);
     }
-    
+
+    /* Themes */
+    [data-theme="cyber"] {
+      --bg-base: #030d1a;
+      --bg-surface: rgba(0,240,255,0.03);
+      --bg-elevated: rgba(0,240,255,0.06);
+      --border: rgba(0,240,255,0.1);
+      --border-accent: rgba(0,240,255,0.4);
+      --text: #d0faff;
+      --text-secondary: #6dcad4;
+      --text-muted: #3a6a70;
+      --accent: #00f0ff;
+      --accent-2: #7c5cff;
+      --accent-3: #ff6b9d;
+      --accent-rgb: 0,240,255;
+      --glow-color: rgba(0,240,255,0.25);
+      --glow-color-2: rgba(124,92,255,0.2);
+    }
+    [data-theme="matrix"] {
+      --bg-base: #030a03;
+      --bg-surface: rgba(0,255,65,0.03);
+      --bg-elevated: rgba(0,255,65,0.06);
+      --border: rgba(0,255,65,0.08);
+      --border-accent: rgba(0,255,65,0.35);
+      --text: #c8ffca;
+      --text-secondary: #5abf5c;
+      --text-muted: #2d6b2f;
+      --accent: #00ff41;
+      --accent-2: #00ccff;
+      --accent-3: #ffff00;
+      --accent-rgb: 0,255,65;
+      --glow-color: rgba(0,255,65,0.2);
+      --glow-color-2: rgba(0,204,255,0.15);
+    }
+    [data-theme="sunset"] {
+      --bg-base: #0d0604;
+      --bg-surface: rgba(255,120,60,0.04);
+      --bg-elevated: rgba(255,120,60,0.07);
+      --border: rgba(255,120,60,0.1);
+      --border-accent: rgba(255,120,60,0.4);
+      --text: #ffe8d6;
+      --text-secondary: #c4896a;
+      --text-muted: #6b4030;
+      --accent: #ff7c3a;
+      --accent-2: #ff3e84;
+      --accent-3: #ffd166;
+      --accent-rgb: 255,124,58;
+      --glow-color: rgba(255,124,58,0.25);
+      --glow-color-2: rgba(255,62,132,0.2);
+    }
+    [data-theme="aurora"] {
+      --bg-base: #040e1a;
+      --bg-surface: rgba(160,80,255,0.04);
+      --bg-elevated: rgba(160,80,255,0.08);
+      --border: rgba(160,80,255,0.1);
+      --border-accent: rgba(160,80,255,0.4);
+      --text: #e8f0ff;
+      --text-secondary: #9b8fd4;
+      --text-muted: #4a4070;
+      --accent: #b060ff;
+      --accent-2: #60efff;
+      --accent-3: #ff60af;
+      --accent-rgb: 176,96,255;
+      --glow-color: rgba(176,96,255,0.25);
+      --glow-color-2: rgba(96,239,255,0.2);
+    }
+    [data-theme="emerald"] {
+      --bg-base: #030f08;
+      --bg-surface: rgba(52,211,153,0.04);
+      --bg-elevated: rgba(52,211,153,0.08);
+      --border: rgba(52,211,153,0.1);
+      --border-accent: rgba(52,211,153,0.4);
+      --text: #d1fae5;
+      --text-secondary: #6ee7b7;
+      --text-muted: #2d6a50;
+      --accent: #34d399;
+      --accent-2: #38bdf8;
+      --accent-3: #a78bfa;
+      --accent-rgb: 52,211,153;
+      --glow-color: rgba(52,211,153,0.2);
+      --glow-color-2: rgba(56,189,248,0.15);
+    }
+    [data-theme="nebula"] {
+      --bg-base: #080412;
+      --bg-surface: rgba(200,80,200,0.04);
+      --bg-elevated: rgba(200,80,200,0.08);
+      --border: rgba(200,80,200,0.1);
+      --border-accent: rgba(200,80,200,0.4);
+      --text: #fce7ff;
+      --text-secondary: #d09ad0;
+      --text-muted: #6b3a6b;
+      --accent: #e040e0;
+      --accent-2: #8b5cf6;
+      --accent-3: #60efff;
+      --accent-rgb: 224,64,224;
+      --glow-color: rgba(224,64,224,0.2);
+      --glow-color-2: rgba(139,92,246,0.15);
+    }
+
+    /* Light mode override */
+    [data-theme="light"] {
+      --bg-base: #f4f6fb;
+      --bg-surface: rgba(0,0,0,0.04);
+      --bg-elevated: rgba(0,0,0,0.07);
+      --border: rgba(0,0,0,0.1);
+      --border-accent: rgba(139,92,246,0.4);
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --glow-color: rgba(139,92,246,0.15);
+      --glow-color-2: rgba(34,211,238,0.1);
+    }
+
+    /* =============================
+       RESET & BASE
+       ============================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
     body {
-      position:relative;
-      color:var(--text-color);
-      font-family: 'Inter', 'Montserrat', 'Segoe UI', system-ui, sans-serif;
-      -webkit-font-smoothing:antialiased;
-      background: var(--bg);
+      font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+      background: var(--bg-base);
+      color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
-      transition: background 580ms ease, color 440ms ease;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background 400ms ease, color 300ms ease;
     }
+
+    /* Animated background */
     body::before {
-      /* animated background gradient glow */
       content: '';
-      pointer-events:none;
-      position:fixed;z-index:0;inset:0;
-      background: radial-gradient(ellipse 70% 60% at 17% 0%, #6b47ff44 0%,#ff8fbb00 90%), radial-gradient(ellipse 60% 80% at 87% 30%, #00fff922 0%, #7e71ff00 100%), linear-gradient(120deg,#1f165b30 10%,#2c1e4d77 95%);
-      opacity:.70;
-      animation:bgWave 21s cubic-bezier(.7,.2,.4,1.0) infinite alternate;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 5%, rgba(var(--accent-rgb),0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(var(--accent2-rgb),0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(var(--accent-rgb),0.04) 0%, transparent 70%);
+      animation: bgPulse 15s ease-in-out infinite alternate;
     }
-    @keyframes bgWave {
-      0%{filter: blur(15px) brightness(1.1);}
-      100%{filter: blur(30px) brightness(.94);}
-    }
-
-    .container {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 28px 16px 10px 16px;
-      z-index:2;
-      position:relative;
-    }
-    .panel {
-      background: var(--panel);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 22px;
-      padding: 1.6em 1.45em;
-      animation: fadeInUp var(--anim-slow) cubic-bezier(.33,1.1,.61,1.0) both;
-      transition: box-shadow .23s cubic-bezier(.5,1.5,.13,1.0), background .39s cubic-bezier(.51,.9,.21,1.0);
-    }
-    @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(28px) scale(.97); }
-      to   { opacity:1; transform:translateY(0) scale(1); }
-    }
-    
-    .panel:hover {
-      box-shadow:0 2px 42px 0 #ac62ff2e,0 2px 28px #41e4fd29,0 2px 16px #32266955;
-      background:linear-gradient(104deg,#1c1037cc 30%,#21385d99 99%) !important;
+    @keyframes bgPulse {
+      0%   { opacity: 0.7; transform: scale(1); }
+      50%  { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.8; transform: scale(1); }
     }
 
-    /* Glass and neon buttons */
-    .btn {
-      background:linear-gradient(90deg,var(--accent),var(--accent-2) 76%);
-      border:0;
-      color:#0a111f;
-      text-shadow:0 2px 10px #06f3fc55;
-      box-shadow: 0 0 0 #222,0 2px 20px #23213836;
-      border-radius:17px;
-      transition: box-shadow .16s, background .29s, color .09s, scale .09s;
-      padding: 9px 18px 9px 18px;
-      font-weight:800;font-size:1.01em;
-      position:relative;
-      overflow:hidden;
+    /* Floating particles */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle 1px at 20% 30%, rgba(var(--accent-rgb),0.4), transparent),
+        radial-gradient(circle 1px at 80% 20%, rgba(var(--accent2-rgb),0.4), transparent),
+        radial-gradient(circle 1px at 60% 70%, rgba(var(--accent-rgb),0.3), transparent),
+        radial-gradient(circle 1px at 40% 80%, rgba(var(--accent2-rgb),0.3), transparent),
+        radial-gradient(circle 1.5px at 70% 40%, rgba(var(--accent-rgb),0.5), transparent),
+        radial-gradient(circle 1px at 15% 60%, rgba(var(--accent2-rgb),0.4), transparent),
+        radial-gradient(circle 2px at 90% 60%, rgba(var(--accent-rgb),0.3), transparent),
+        radial-gradient(circle 1px at 30% 10%, rgba(var(--accent2-rgb),0.5), transparent);
+      animation: particleFloat 20s ease-in-out infinite alternate;
     }
-    .btn:before {
+    @keyframes particleFloat {
+      0%   { transform: translateY(0px) translateX(0px); opacity: 0.6; }
+      33%  { transform: translateY(-15px) translateX(8px); opacity: 0.9; }
+      66%  { transform: translateY(-5px) translateX(-10px); opacity: 0.7; }
+      100% { transform: translateY(-20px) translateX(5px); opacity: 0.8; }
+    }
+
+    /* =============================
+       LAYOUT
+       ============================= */
+    .app-wrapper {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* =============================
+       SIDEBAR
+       ============================= */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      background: rgba(8,11,20,0.7);
+      backdrop-filter: blur(24px) saturate(1.8);
+      -webkit-backdrop-filter: blur(24px) saturate(1.8);
+      border-right: 1px solid var(--border);
+      transition: transform 350ms cubic-bezier(0.4,0,0.2,1);
+      padding: 0 0 24px 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 10px; }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .sidebar-logo img {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 0 20px var(--glow-color);
+    }
+    .sidebar-logo-text { flex: 1; }
+    .sidebar-logo-title {
+      font-size: 17px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .sidebar-logo-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 14px 20px 6px;
+    }
+
+    .sidebar-nav { list-style: none; padding: 0 10px; }
+    .sidebar-nav-item { }
+    .sidebar-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all var(--anim-fast) ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .sidebar-nav-link::before {
       content: '';
       position: absolute;
-      inset:0;
-      z-index:0;
-      border-radius:inherit;
-      background: radial-gradient(ellipse 70% 48% at 35% 12%, #fff7ffd8 0, #b7ebff02 80%);
-      opacity:0.69;
-      filter: blur(15px) brightness(1.14);
-      transition: opacity .4s;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      border-radius: 0 3px 3px 0;
+      opacity: 0;
+      transition: opacity var(--anim-fast) ease;
     }
-    .btn:hover,
-    .btn:focus {
-      box-shadow:0 6px 60px #915aff33, 0 1.5px 20px #21f7ff22 !important;
-      background:linear-gradient(90deg,#a278ff 10%,#3ffcfa 69%,#644cff 100%);
-      color:#fff;
-      scale:1.06;
+    .sidebar-nav-link:hover,
+    .sidebar-nav-link.active {
+      color: var(--text);
+      background: var(--bg-surface);
+      border-color: var(--border);
     }
-    .btn:active {
-      scale:0.97;
-      background:#251634;
-      color:#65fff6;
+    .sidebar-nav-link:hover::before,
+    .sidebar-nav-link.active::before {
+      opacity: 1;
     }
-    .btn.ghost {
-      background:rgba(28,24,51,0.66);
-      color:var(--text-color); border:1px solid var(--card-border);
-      box-shadow:none;
+    .sidebar-nav-link.active {
+      color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.08);
+      border-color: rgba(var(--accent-rgb), 0.2);
     }
-    .btn.primary { color:#091124; border:0;}
-
-    /* Scrollbar */
-    ::-webkit-scrollbar{width:13px; background:transparent;}
-    ::-webkit-scrollbar-thumb{background:linear-gradient(120deg,#7b52fe 10%,#3ad7fd 90%); border-radius:13px; opacity:.77;}
-    ::-webkit-scrollbar-thumb:hover{background:linear-gradient(120deg,#3c1fd7,#18bbb2);}
-
-    /* Cards and release-cards */
-    .release-card {
-      background: linear-gradient(120deg,#1f163d55,#191a2b22 65%,#311f4e11 100%);
-      box-shadow:0 2px 20px #38266e33;
-      border:1.1px solid #be7cff19;
-      border-radius: var(--card-radius);
-      overflow:hidden;
-      animation: fadeInUp calc(var(--anim-fast) * 1.9) both;
-      margin-bottom:18px;
-      transition:box-shadow .27s, border .17s, background .17s;
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.7;
     }
-    .release-card:hover {
-      box-shadow:0 7px 68px #7a6fff33,0 2px 16px #326bb590;
-      background:linear-gradient(90deg,#26144190 45%,#2a446a55 100%);
-      border:1.7px solid #bd34ffbb;
-    }
-    .release-card h3 {
-      font-size:1.15em; margin:8px 0 2px 0; letter-spacing: -.2px; font-weight:800;
-      color:var(--accent);
-      text-shadow:0 1px 12px #6b52e655;
-    }
-    .release-card .meta {
-      font-size:.97em; color:var(--muted); display:flex;justify-content:space-between;margin-bottom:5px;
+    .sidebar-nav-link:hover .nav-icon,
+    .sidebar-nav-link.active .nav-icon {
+      opacity: 1;
     }
 
-    /* Typo: headers, sub, muted, vibrancy */
-    h1, .huge {font-size:52px;font-family:Montserrat,cursive,Inter,sans-serif; background:linear-gradient(90deg,#a681fa,#7dfafc 70%,#ffb8e0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 11px 38px #9f70fe22;letter-spacing:1.1px;}
-    h2 {font-size:1.55em; font-weight:900; letter-spacing:.3px; color:var(--accent); text-shadow:0 2px 13px #2cc1ffd2; margin-bottom:5px;}
-    .muted, .brand-sub {color:var(--muted); font-size:.94em; font-weight:600;filter:brightness(.96); letter-spacing:.22px;}
-
-    /* Modal window */
-    .modal.show {background:rgba(16,15,29,0.93);backdrop-filter:blur(15px);animation:fadeInUp .27s;}
-    .modal .inner {border-radius:20px; box-shadow:0 8px 32px #8163fbe5;background:linear-gradient(131deg,#260e36f2 68%,#111a2ad9 100%);animation: modalAppear .4s cubic-bezier(.25,.88,.66,1.15) forwards; padding:32px;}
-    @keyframes modalAppear { from {opacity:0; transform:scale(.87);} to {opacity:1;transform:scale(1);} }
-
-    /* Hero special: fancy SVG glow wave */
-    .hero {
-      position:relative;z-index:1;
-      background:linear-gradient(120deg,rgba(166,129,253,.10),rgba(61,254,255,0.04)),rgba(34,25,51,0.39);
-      overflow:hidden;
-      isolation:isolate;
-      margin-top:9px;
-      border-radius:28px;
-      box-shadow:0 9px 72px #492bff19;
+    .sidebar-version {
+      margin: auto 20px 0;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(var(--accent-rgb), 0.06);
+      border: 1px solid rgba(var(--accent-rgb), 0.15);
+      font-size: 12px;
+      color: var(--text-muted);
     }
-    .hero::after {
-      content:''; position:absolute; z-index:0; inset:0 auto -100px 0; pointer-events:none;
-      width:140%; height:180px;
-      left:-11%; top:91%;
-      background: radial-gradient(ellipse 67% 75% at 77% 2%, #04fff960 0%,#8a72ff00 90%), radial-gradient(ellipse 23% 70% at -19% 65%, #7950ff34 0, #fff7 100%);
-      opacity:0.92; filter:blur(13px) contrast(1.12); mix-blend-mode:lighten;
-      animation: heroSVGGlow 23s infinite alternate cubic-bezier(.5,.7,.5,1);
-    }
-    @keyframes heroSVGGlow {
-      0% { filter:blur(10px) brightness(1.1); }
-      100% { filter:blur(25px) brightness(.95); }
+    .sidebar-version strong {
+      color: var(--accent);
+      font-weight: 700;
     }
 
-    /* НОВЫЕ ГРАДИЕНТНЫЕ БОРДЕРЫ ДЛЯ .panel, .gallery-grid, .module-list */
-    .panel,.gallery-grid,.module-list{
-      border:2.2px solid;
-      border-image: linear-gradient(120deg, var(--accent) 15%, var(--accent-2) 88%) 1;
+    /* =============================
+       MAIN CONTENT
+       ============================= */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* HERO и TOPBAR c неон-подсветкой */
-    .hero, .topbar{
-      border-bottom:2.9px solid;
-      border-image: linear-gradient(90deg,#a968fd 12%,#48fcf6 82%,#ffb5fd 100%) 1;
-      box-shadow:0 7px 24px #ac70ff18;
-    }
-    @media (max-width:900px){.hero{border-radius:16px;} .topbar{border-radius:0 0 18px 18px;} }
-
-    /* Эффект shine на кнопках */
-    .btn:after{
-      content:'';
-      display:block;
-      position:absolute;
-      top:0; left:-80%;
-      width:80%; height:100%;
-      background: linear-gradient(111deg,rgba(255,255,255,0.24) 0,rgba(255,255,255,0.08) 100%);
-      filter: blur(9px); opacity:0.46;
-      transform: skewX(-23deg);
-      pointer-events: none;
-      transition:.4s;
-    }
-    .btn:hover:after{left:120%;transition: left .7s cubic-bezier(.7,.3,.65,1.1);}
-
-    /* .crew-card эффект halo + подсветка border */
-    .crew-card{
-      box-shadow:0 4px 24px #5f38e129; border:1.7px solid #6e7fff55;transition:box-shadow .23s, border-color .21s,background .21s;
-    }
-    .crew-card:hover{
-      border: 2.6px solid #44e3fecc !important;
-      box-shadow:0 13px 40px #44e3fec1, 0 2px 9px #644cff88;
-      background:linear-gradient(90deg,#23244488 20%,#41257633 100%);
-    }
-
-    /* Мини-превью цветовых тем для themePicker */
-    .theme-preview-dot {
-      display:inline-block;width:23px;height:23px;border-radius:50%;margin-right:6px;margin-bottom:-7px;vertical-align:middle;box-shadow:0 2px 11px #0002;
-      border:2.1px solid #dbefff85; transition:box-shadow .3s, border .31s;
-    }
-    .theme-preview-glow { animation: glow-in .9s infinite alternate; }
-    @keyframes glow-in {from{box-shadow:0 1px 9px #b7faff44;}to{box-shadow:0 2px 12px #9e7cff55;}}
-    .theme-picker-custom select{padding:9px 36px 9px 9px;appearance:none;-webkit-appearance:none;border:none;background:#21152999;border-radius:12px;color:#F6F7FD;font-weight:700;box-shadow:0 4px 18px #6c4cff1a;cursor:pointer;}
-    .theme-picker-custom{position:relative;display:inline-block;}
-    .theme-picker-custom::after{content:'▼';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:#58edff;pointer-events:none;font-size:.78em;}
-
-    .theme-preview-dot-midnight {background:linear-gradient(120deg,#0f2440,#8be4ff);}  /* Новая тема Midnight */
-    .theme-preview-dot-blossom {background:linear-gradient(120deg,#ffe8e9,#ff48b7 90%,#6a4cff);} /* Blossom */
-    .theme-preview-dot-sunset {background:linear-gradient(120deg,#ffb86b,#ff80b0);}  /* Sunset */
-    .theme-preview-dot-mint {background:linear-gradient(120deg,#aafea9,#059c7b);}  /* Mint */
-    .theme-preview-dot-gold {background:linear-gradient(120deg,#ffe083,#ffb400);}   /* Gold */
-
-    /* Новые space/космос soft-glass стили, без неона */
-    body, .panel, .release-card, .btn, .hero, .topbar {
-      box-shadow: 0 7px 28px #19193228 !important;
-      border: none !important;
-      background: linear-gradient(120deg,rgba(28,45,70,0.92) 70%,rgba(33,24,48,.96) 100%);
-    }
-    .hero, .panel {
-      background: linear-gradient(120deg,rgba(41,54,81,0.96) 60%,rgba(27,18,48,.94) 100%); 
-      backdrop-filter: blur(18px) brightness(1.01);
-    }
-    .release-card {
-      background: linear-gradient(120deg,rgba(34,44,62,0.98),rgba(16,12,25,0.96) 83%);
-      box-shadow: 0 4px 30px #0c0f2b44;
-      transition:background .31s,box-shadow .22s;
-    }
-    .release-card:hover {background:linear-gradient(120deg,#34396a 10%,#232545 90%);box-shadow: 0 12px 32px #17208033;}
-    .btn {
-      background:rgba(44,57,86,0.81); color:#e4eaff;box-shadow:0 1px 6px #15182527; border-radius:13px;font-weight:700;
-      border:1.5px solid #23327766;
-      transition:background .23s,border .16s,box-shadow .18s;
-    }
-    .btn:hover {background:rgba(58,67,108,1);color:#fff;border:1.5px solid #82e7f7bb}
-
-    /* SUPERTЁМНЫЕ ТЕМЫ — только ультра-ночные, мягкие акценты */
-    :root {
-      --radius:18px; --maxw:1200px; --anim-fast:160ms; --anim-medium:320ms;
-      --text-color:#dbe8fa; --muted:#8192ae;
-      /* общий фон на случай отсутствия темы */
-      --bg:#0b0e15; --panel:linear-gradient(120deg,#131726e0,#191d36f0 98%);--card:rgba(30,39,73,0.24);
-      --accent:#4f7cff; --accent-2:#4418ff; --accent-3:#00e6ff; --glass:rgba(255,255,255,0.03);--card-border:rgba(135,156,255,.07);
-    }
-    html[data-theme="deepnight"]  {--bg:linear-gradient(120deg,#0d1121 5%,#121726 100%);--panel:linear-gradient(120deg,#191c2e,#201c3a 90%);--card:#181e32;--accent:#5e99ec;--accent-2:#213a55;--muted:#7b91b3;}
-    html[data-theme="indigo"]    {--bg:linear-gradient(120deg,#101426 12%,#1e2349 98%);--panel:linear-gradient(120deg,#20223a 50%,#181e37 100%);--card:#232251;--accent:#877bff;--accent-2:#232f4f;--muted:#968aff;}
-    html[data-theme="abyss"]     {--bg:linear-gradient(120deg,#090c17,#1f2441 100%);--panel:linear-gradient(120deg,#22243c,#1a181e 100%);--card:#13117a;--accent:#0cfada;--accent-2:#165990;--muted:#51fadd;}
-    html[data-theme="phantom"]   {--bg:linear-gradient(130deg,#0c081b 10%,#22204c 100%);--panel:linear-gradient(120deg,#23255a,#26206f 99%);--accent:#a044fa;--accent-2:#372658;--muted:#9d86c9;}
-    html[data-theme="cyber"]     {--bg:linear-gradient(120deg,#03041b,#181a2a 90%);--panel:linear-gradient(120deg,#03142a,#232c35 100%);--accent:#0de0fb;--accent-2:#3fd7ff;--muted:#72c7eb;}
-    html[data-theme="midnight"]  {--bg:linear-gradient(120deg,#16182c 31%,#081122 95%);--panel:linear-gradient(120deg,#202040,#191833 100%);--accent:#6eaaff;--accent-2:#1e3772;--muted:#7ec4fa;}
-    body,.container,.panel{background:var(--bg)!important;color:var(--text-color)!important;}
-    .panel, .release-card {
-      background:var(--panel)!important;
-      box-shadow:0 6px 24px #15192d77;
-      border-radius:18px;
-      border:1.4px solid var(--card-border);
-    }
-    .release-card img, .release-card svg {background:var(--card)!important;border-radius:11px;}
-    .btn{background:linear-gradient(120deg,#282943,#121327);border-radius:12px;border:1px solid #23233b;color:var(--text-color)!important;transition:background .22s,box-shadow .22s;}
-    .btn:hover{background:linear-gradient(120deg,#23254c,#1b183a);color:#fff;}
-    .topbar,.hero{background:var(--panel)!important;box-shadow:0 7px 18px #11132a99;}
-
-    /* СТИЛЬНАЯ НАВИГАЦИЯ и отсутствие пустот */
+    /* =============================
+       TOPBAR
+       ============================= */
     .topbar {
-      position:sticky;top:0;z-index:100;background:rgba(14,15,25,.91);backdrop-filter:blur(13px) saturate(1.2) brightness(1.05);box-shadow:0 3px 18px #13172b67;padding:10px 0 4px 0;margin-bottom:7px;transition:background .21s;}
-    .navbar {
-      display:flex;gap:0.8em;align-items:center;justify-content:center;flex-wrap:wrap;}
-    .nav-link {
-      color:var(--muted);font-weight:700;text-decoration:none;padding:6px 17px 6px 17px;font-size:1.03em;border-radius:7px;transition:color .21s,background .22s;position:relative;}
-    .nav-link.active,.nav-link:focus,.nav-link:hover {color:var(--accent);background:rgba(80,85,137,0.16);}
-    .nav-link.active::after{content:'';position:absolute;left:13%;right:13%;bottom:3px;height:2.9px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;animation:navUnder .47s;}
-    @keyframes navUnder {from{width:0;opacity:.3;}to{width:93%;opacity:1;}}
-    @media (max-width:700px){.navbar{flex-wrap:wrap;gap:0.4em;}.nav-link{font-size:.93em;padding:6px 7px;margin-bottom:3px;}}
-    /* FOOTER всегда к низу */
-    html,body{height:100%;}body{min-height:100vh;display:flex;flex-direction:column;}
-    .container{flex:1 0 auto;}
-    footer.panel{margin-top:auto!important;}
-    /* Убрать лишние пустоты */
-    .panel,section,footer{margin-bottom:10px!important;}section.panel:last-of-type,footer.panel{margin-bottom:0!important;}@media (max-width:700px){.panel,section{padding:14px 4vw!important;}}
-
-    :root {
-      --radius: 18px;
-      --maxw: 1200px;
-      --anim-fast: 160ms;
-      --anim-medium: 320ms;
-      --text-color: #e8ebfa;
-      --muted: #858fae;
-      --bg: #08090f;
-      --panel: #0b0e18;
-      --card: #10121b;
-      --accent: #2350ff;
-      --accent-2: #394973;
-      --accent-3: #07568e;
-      --glass: #1a182544;
-      --card-border: #1f223277;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(8,11,20,0.6);
+      backdrop-filter: blur(20px) saturate(1.6);
+      -webkit-backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: background 300ms ease;
     }
-    html[data-theme="deepnight"] {
-      --bg: #06070c;
-      --panel: #090c16;
-      --card: #10101b;
-      --accent: #2d3d82;
-      --accent-2: #131c3c;
-      --muted: #707ca0;
-      --text-color: #d6e2f1;
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    html[data-theme="indigo"] {
-      --bg: #080917;
-      --panel: #111327;
-      --card: #111234;
-      --accent: #21285f;
-      --accent-2: #171b33;
-      --muted: #8f99ba;
-      --text-color: #e2e5fb; 
+
+    .hamburger {
+      display: none;
+      width: 36px;
+      height: 36px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      transition: all var(--anim-fast) ease;
     }
-    html[data-theme="abyss"] {
-      --bg: #050815;
-      --panel: #070b18;
-      --card: #151832;
-      --accent: #02304f;
-      --accent-2: #01081a;
-      --muted: #4e6985;
-      --text-color: #e7f9ff;
+    .hamburger:hover { background: var(--bg-elevated); border-color: var(--border-accent); }
+    .hamburger span {
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all var(--anim-fast) ease;
     }
-    html[data-theme="phantom"] {
-      --bg: #0a0916;
-      --panel: #181729;
-      --card: #18152b;
-      --accent: #29194b;
-      --accent-2: #131339;
-      --muted: #7d69a3;
-      --text-color: #ecefff;
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      transition: all var(--anim-fast) ease;
+      min-width: 220px;
     }
-    html[data-theme="cyber"] {
-      --bg: #060a13;
-      --panel: #0d1221;
-      --card: #171a28;
-      --accent: #1ab0dc;
-      --accent-2: #1e203b;
-      --muted: #3893a2;
-      --text-color: #e9fdfc;
+    .search-bar:focus-within {
+      border-color: var(--border-accent);
+      background: var(--bg-elevated);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
     }
-    html[data-theme="midnight"] {
-      --bg: #06092d;
-      --panel: #0b0d1d;
-      --card: #0e1021;
-      --accent: #313f69;
-      --accent-2: #202736;
-      --muted: #7c92b4;
-      --text-color: #e6eafd;
+    .search-bar svg { color: var(--text-muted); flex-shrink: 0; }
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      width: 100%;
     }
-    body, .container, .panel { background: var(--bg)!important; color: var(--text-color)!important; }
-    .panel, .release-card {
-      background: var(--panel)!important;
-      box-shadow: 0 6px 24px #07091fdd;
-      border-radius: 18px;
-      border: 1.4px solid var(--card-border);
+    .search-bar input::placeholder { color: var(--text-muted); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .release-card img, .release-card svg { background: var(--card)!important; border-radius: 11px;}
-    .btn{ background: linear-gradient(120deg,#15161f 70%,#131327 100%); border-radius: 12px; border: 1px solid #23233b; color: var(--text-color)!important; transition: background .22s, box-shadow .22s;}
-    .btn:hover{ background: linear-gradient(120deg,#23254c,#151428 100%); color: #fff;}
-    .topbar,.hero{ background: var(--panel)!important; box-shadow: 0 7px 18px #070a1999;}
 
-    </style>
-    <script>
-    // SVG GRID animation (soft wavy)
-    (function(){
-      const lines = ['line1','line2','line3','line4'];
-      let t=0;
-      function animate(){
-        t+=.022;
-        lines.forEach((id,num)=>{
-          let poly=document.getElementById(id);
-          if(!poly) return;
-          let ybase=[80,230,380,510][num],amp=10+9*num,p=poly.points;
-          for(let i=0;i<p.numberOfItems;i++){
-            let b=[0,200,450,760,910][i]||0;
-            let v = ybase+(Math.sin(t+num*1.5+i)*amp*(.88-Math.abs(i-2)*.19));
-            p.getItem(i).y=v;
-          }
-        });
-        requestAnimationFrame(animate);
-      }
-      requestAnimationFrame(animate);
-    })();
-    // IntersectionObserver для fade-slide карточек
-    (function(){
-      const allPanels = document.querySelectorAll('.panel,.release-card,.crew-card,.widget');
-      let delay = 0;
-      allPanels.forEach((el,i)=>{
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(28px) scale(.98)';
-      });
-      const obs = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-          if(entry.isIntersecting){
-            entry.target.style.transition = 'all .7s cubic-bezier(.53,1.3,.31,1.07)';
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) scale(1)';
-            obs.unobserve(entry.target);
-          }
-        });
-      },{ threshold:0.13 });
-      allPanels.forEach((el)=>{obs.observe(el);});
-    })();
-    </script>
-    <script>
-    (function themePickerUpgrade2(){
-      const THEMES = [
-        {id:'midnight', name:'Midnight',g:'linear-gradient(120deg,#142c51 20%,#8be4ff 95%)', dotClass:'theme-preview-dot-midnight'},
-        {id:'blossom', name:'Blossom',g:'linear-gradient(120deg,#ffe8e9 5%,#ff48b7 85%,#6a4cff 100%)', dotClass:'theme-preview-dot-blossom'},
-        {id:'cyber',   name:'Cyber',   g:'linear-gradient(130deg,#0dfdfa 13%,#00e6ff 85%)', dotClass:'theme-preview-dot'},
-        {id:'mint',    name:'Mint',    g:'linear-gradient(120deg,#aafea9 12%,#059c7b 99%)', dotClass:'theme-preview-dot-mint'},
-        {id:'sunset',  name:'Sunset',  g:'linear-gradient(120deg,#ffb86b 18%,#ff80b0 90%)', dotClass:'theme-preview-dot-sunset'},
-        {id:'gold',    name:'Gold',    g:'linear-gradient(120deg,#ffe083 35%,#ffd700 100%)', dotClass:'theme-preview-dot-gold'},
-        {id:'glow',    name:'Glow',    g:'linear-gradient(130deg,#a57cff 14%,#51e1ff 94%)', dotClass:'theme-preview-dot'},
-      ];
-      const picker = document.getElementById('themePicker');
-      if(!picker) return;
-      const wrap = document.createElement('div'); wrap.className='theme-picker-custom'; picker.parentNode.insertBefore(wrap,picker); wrap.appendChild(picker);
-      picker.innerHTML='';
-      THEMES.forEach(t=>{
-        const opt = document.createElement('option'); opt.value=t.id; opt.innerHTML=`<span class='theme-preview-dot ${t.dotClass||''}' style='background:${t.g}'></span>${t.name}`;
-        picker.appendChild(opt);
-      });
-      function updatePreview(){
-        const idx = THEMES.findIndex(t=>t.id===picker.value);
-        let dot = wrap.querySelector('.theme-preview-dot-main');
-        if(!dot) { dot = document.createElement('span'); dot.className='theme-preview-dot theme-preview-dot-main'; picker.parentNode.insertBefore(dot,picker);}
-        dot.className = 'theme-preview-dot theme-preview-dot-main ' + (THEMES[idx].dotClass||'');
-        dot.style.background=THEMES[idx].g;
-        document.body.dataset.theme = THEMES[idx].id;
-      }
-      picker.addEventListener('change',()=>{updatePreview();});
-      setTimeout(updatePreview,200);
-      document.documentElement.style.transition='background 800ms cubic-bezier(.33,.8,.41,1), color 600ms, box-shadow 700ms';
-    })();
-    </script>
-    <script>
-    // OFF: удаляем releaseWidget любой (если есть)
-    const rw = document.getElementById('releaseWidget');if(rw)rw.remove();
-    // Переопределяем makeReleaseCard строго: для Atmosphere/Hekate — конкретные картинки через repo, остальные как всегда
-    window.makeReleaseCard = function(r){
-      const ver = r.tag_name || r.name || '';
-      let isAtmos = (r._repo||'').toLowerCase().includes('atmosphere');
-      let isHekate = (r._repo||'').toLowerCase().includes('hekate');
-      let imgSrc = '';
-      if(isAtmos)   imgSrc = 'https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/refs/heads/master/img/banner.png';
-      else if(isHekate) imgSrc = 'https://user-images.githubusercontent.com/3665130/60391760-bc1e8c00-9afe-11e9-8b7a-b065873081b2.png';
-      else {
-        const assets = r.assets||[];
-        const assetImg = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
-        if(assetImg) imgSrc = assetImg.browser_download_url;
-        else if(r._repo) {
-          const tryUrls = [
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/preview.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`
-          ];
-          imgSrc = tryUrls[0];
-        } else {
-          imgSrc = '/Ryzhenka/assets/Ryazhalogo.png';
-        }
-      }
-      const img = document.createElement('img');
-      img.src = imgSrc;
-      img.alt = ver;
-      img.style.width = '100%';
-      img.style.height = '140px';
-      img.style.objectFit = 'cover';
-      img.style.borderRadius = '11px';
-      img.onload = ()=>{ img.style.opacity = '1'; };
-      img.onerror = ()=>{
-        if(img.src.includes('preview.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`;
-        else if(img.src.includes('hero.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`;
-        else if(img.src.includes('banner.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`;
-        else if(img.src.includes('/Ryzhenka/assets/Ryazhalogo.png')) showSvgFallback();
-        else img.src = '/Ryzhenka/assets/Ryazhalogo.png';
-      };
-      function showSvgFallback(){
-        img.replaceWith(svgFallback());
-      }
-      function svgFallback() {
-        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-        svg.setAttribute('width','100%');svg.setAttribute('height','140px');
-        svg.setAttribute('viewBox','0 0 290 84');
-        svg.innerHTML = `<rect width="290" height="84" rx="16" fill="#191931"/><text x="50%" y="51%" dominant-baseline="middle" text-anchor="middle" fill="#4857fa" style="font-family:'Montserrat',sans-serif;font-size:22px;letter-spacing:1px;">Нет картинки</text><circle cx="45" cy="42" r="22" fill="#3848c4"/><circle cx="45" cy="42" r="12" fill="#8F4CFF" opacity=".6"/>`;
-        return svg;
-      }
-      const repoBadge = document.createElement('div'); repoBadge.className = 'repo-badge'; repoBadge.textContent = r._repo || '';
-      const h3 = document.createElement('h3'); h3.textContent = r.name || ver;
-      const meta = document.createElement('div'); meta.className = 'meta';
-      meta.appendChild(document.createElement('span')).textContent = (r.published_at||r.created_at) ? new Date(r.published_at||r.created_at).toLocaleDateString() : '';
-      meta.appendChild(document.createElement('span')).textContent = ver;
-      const bodyP = r.body ? document.createElement('p') : null; if(bodyP) bodyP.textContent = r.body.length > 240 ? r.body.slice(0,240)+'…' : r.body;
-      const card = document.createElement('article'); card.className = 'release-card';
-      card.appendChild(repoBadge); card.appendChild(img); card.appendChild(h3); card.appendChild(meta);
-      if(bodyP) card.appendChild(bodyP);
-      if((r.assets||[]).length > 0){
-        const assetsWrap = document.createElement('div'); assetsWrap.style = 'display:flex;flex-direction:column;gap:6px;margin-top:8px';
-        const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
-        titles.forEach(t => {
-          const asset = r.assets.find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
-          const row = document.createElement('div'); row.style = 'display:flex;align-items:center;gap:8px';
-          if(asset){
-            const ael = document.createElement('a'); ael.href = asset.browser_download_url; ael.target='_blank'; ael.className='btn small'; ael.textContent = `${t} — ${asset.name}`;
-            row.appendChild(ael);
-            const size = document.createElement('small'); size.style = 'margin-left:auto;color:var(--muted)'; size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '';
-            row.appendChild(size);
-          } else {
-            row.appendChild(document.createElement('small')).textContent = `${t} — отсутствует`;
-          }
-          assetsWrap.appendChild(row);
-        });
-        card.appendChild(assetsWrap);
-      }
-      return card;
-    };
-    // Тёмные темы для выбора:
-    (function themePickerUpgrade3(){
-      const THEMES = [
-        {id:'deepnight', name:'Deep Night',cs:'linear-gradient(100deg,#14162a 20%,#22264d 99%)'},
-        {id:'indigo', name:'Indigo',cs:'linear-gradient(110deg,#1e2347 10%,#22254d 90%)'},
-        {id:'abyss', name:'Abyss',cs:'linear-gradient(110deg,#09101d 8%,#233142 90%)'},
-        {id:'phantom', name:'Phantom Violet',cs:'linear-gradient(110deg,#0a0b17 18%,#23245c 90%)'},
-        {id:'cyber', name:'Cyber Night',cs:'linear-gradient(110deg,#102233 21%,#212e3c 100%)'},
-        {id:'midnight', name:'Midnight',cs:'linear-gradient(110deg,#09132c 24%,#1e3155 92%)'},
-      ];
-      const picker = document.getElementById('themePicker');
-      if(!picker) return;
-      picker.innerHTML='';
-      THEMES.forEach(t=>{
-        const opt = document.createElement('option'); opt.value=t.id; opt.innerHTML=`<span class='theme-preview-dot' style='background:${t.cs};display:inline-block;width:22px;height:22px;border-radius:50%;margin-right:7px;'></span>${t.name}`;
-        picker.appendChild(opt);
-      });
-      picker.addEventListener('change',()=>{
-        document.documentElement.dataset.theme = picker.value;
-      });
-      setTimeout(()=>{
-        const theme = THEMES[0].id; picker.value = theme; document.documentElement.dataset.theme = theme;
-      },100);
-    })();
-    </script>
-  </style>
-</head>
-
-<body>
-  <!-- SVG фон в body над .container -->
-  <div class="bg-animated-net" aria-hidden="true">
-    <svg viewBox="0 0 920 520" width="100%" height="95%" id="svgGrid" style="position:fixed;top:0;left:0;pointer-events:none;z-index:1;opacity:.13;filter:blur(1.7px)">
-      <g id="gridLines" stroke="#77e4ff" stroke-width="1.4" opacity=".42">
-        <polyline id="line1" points="10,80 200,30 450,80 760,30 910,80"/>
-        <polyline id="line2" points="30,230 210,140 450,200 700,130 900,230"/>
-        <polyline id="line3" points="50,380 220,310 470,340 720,310 870,380"/>
-        <polyline id="line4" points="70,510 240,460 490,470 740,440 850,510"/>
-      </g>
-    </svg>
-  </div>
-
-  <div class="container">
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <div class="top-inner">
-        <div class="brand" onclick="location.href='./'">
-          <img class="logo" src="/Ryzhenka/assets/Ryazhalogo.png" alt="Ryazhenka" />
-          <div>
-            <div class="brand-title">Ryazhenka</div>
-            <div class="brand-sub">CFW — generative aesthetic</div>
-          </div>
-        </div>
-
-        <div class="controls" aria-hidden="false">
-          <label class="muted" for="themePicker">Тема</label>
-          <select id="themePicker" class="small" title="Theme">
-            <option value="glow">Glow</option><option value="cyber">Cyber</option><option value="matrix">Matrix</option>
-            <option value="classic">Classic</option><option value="sunset">Sunset</option><option value="aurora">Aurora</option>
-            <option value="nebula">Nebula</option><option value="sunrise">Sunrise</option><option value="violet">Violet</option>
-            <option value="emerald">Emerald</option><option value="aquamarine">Aquamarine</option>
-          </select>
-
-          <label class="muted" for="bgMode">Фон</label>
-          <select id="bgMode" class="small" title="Background"><option value="dark">Тёмный</option><option value="light">Светлый</option></select>
-
-          <label class="muted" for="textMode">Текст</label>
-          <select id="textMode" class="small" title="Text color"><option value="default">Default</option><option value="alt">Alt</option><option value="high">High contrast</option></select>
-
-          <a class="btn ghost" href="https://www.youtube.com/@Dimaick-git" target="_blank">YouTube</a>
-          <a class="btn ghost" href="https://t.me/Ryazhenkabestcfw" target="_blank">Telegram</a>
-          <a class="btn ghost" href="https://boosty.to/dimasick-git/donate" target="_blank">Boosty</a>
-          <a class="btn ghost" href="https://github.com/Dimasick-git/Ryzhenka/wiki" target="_blank">Wiki</a>
-        </div>
-      </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero glass panel" aria-labelledby="hero-title">
-      <div>
-        <h1 id="hero-title" class="huge">Ryazhenka</h1>
-        <p class="lead">Стабильная кастомная прошивка для Nintendo Switch — красиво, безопасно, удобно. Всё в одном месте: релизы, галерея, благодарности, модули, To‑Do.</p>
-
-        <div class="hero-image" id="heroImageWrap">
-          <img id="heroImage" src="/Ryzhenka/assets/hero.png" alt="Hero preview (from repository if available)" onerror="this.style.display='none'" />
-        </div>
-
-        <div class="hero-cta">
-          <a class="btn primary" href="#changelog">Релизы</a>
-          <a class="btn" href="#gallery">Галерея</a>
-          <a class="btn" href="#crew">Благодарности</a>
-          <a class="btn" href="#modules">Модули</a>
-          <a class="btn" href="#todo">To‑Do</a>
-        </div>
-      </div>
-
-      <aside>
-        <div class="panel quick-stats">
-          <div class="stat"><div class="muted">Релизов</div><div id="releasesCount" class="stat-value">—</div></div>
-          <div class="stat"><div class="muted">Загрузок</div><div id="downloadsCount" class="stat-value">—</div></div>
-
-          <div class="widgets" id="widgetsArea" aria-hidden="false"></div>
-
-          <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
-            <button id="refreshAll" class="btn small">Обновить</button>
-            <label style="display:flex;align-items:center;gap:6px"><input id="includeStratosphere" type="checkbox" /> switchbrew/stratosphere</label>
-          </div>
-        </div>
-
-        <div id="crewMini" class="panel" style="margin-top:12px"></div>
-      </aside>
-    </section>
-
-    <!-- RELEASES -->
-    <section id="changelog" class="panel section" aria-labelledby="releases-title">
-      <div class="section-head">
-        <h2 id="releases-title">История изменений / Релизы</h2>
-        <div class="searchbar">
-          <input id="searchReleases" type="text" placeholder="Поиск (версия, название, описание)" list="releases-suggestions" />
-          <datalist id="releases-suggestions"></datalist>
-          <select id="filterType"><option value="all">Все типы</option><option value="Ryazhenkabestcfw">BestCFW</option><option value="Ryazhenka_AIO">AIO</option><option value="Ryazhenka_lite">Lite</option></select>
-          <select id="sortBy"><option value="date_desc">По дате ↓</option><option value="date_asc">По дате ↑</option><option value="downloads_desc">По загрузкам ↓</option></select>
-        </div>
-      </div>
-
-      <div id="releasesGrouped"></div>
-    </section>
-
-    <!-- MODULES -->
-    <section id="modules" class="panel section">
-      <div class="section-head">
-        <h2 id="modules-title">Модули команды</h2>
-        <div class="modules-config">
-          <input id="moduleRepoInput" placeholder="owner/repo (например Dimasick-git/Ryzhahand-Overlay)" style="padding:8px;border-radius:8px;border:1px solid var(--card-border)" />
-          <button id="addModuleBtn" class="btn">Добавить репозиторий</button>
-          <button id="refreshModules" class="btn small">Обновить</button>
-        </div>
-      </div>
-
-      <div id="moduleList" class="module-list"></div>
-      <div id="modulesGrouped"></div>
-      <small class="muted">Добавьте репозитории модулей вашей команды (owner/repo). Скрипт подтянет релизы и превью (ищет и в релиз-ассетах, и в common paths репо).</small>
-    </section>
-
-    <!-- GALLERY -->
-    <section id="gallery" class="panel section">
-      <h2>Галерея</h2>
-      <div id="galleryGrid" class="gallery-grid"></div>
-    </section>
-
-    <!-- CREW -->
-    <section id="crew" class="panel section">
-      <div class="section-head">
-        <h2>Благодарности / Стена экипажа</h2>
-        <div style="display:flex;gap:8px">
-          <button id="addCrewBtn" class="btn small">Добавить</button>
-          <button id="exportCrewBtn" class="btn small">Экспорт</button>
-          <button id="importCrewBtn" class="btn small">Импорт</button>
-          <input id="importCrewFile" type="file" accept="application/json" style="display:none" />
-        </div>
-      </div>
-      <div id="crewGrid" class="crew-grid"></div>
-    </section>
-
-    <!-- TODO -->
-    <section id="todo" class="panel section">
-      <h2>To‑Do (локально)</h2>
-      <div class="todo-layout">
-        <div>
-          <div class="todo-add">
-            <input id="todoInput" placeholder="Название задачи" />
-            <select id="todoPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select>
-            <input id="todoDue" type="date" />
-            <button id="todoAdd" class="btn primary">Добавить</button>
-          </div>
-
-          <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-            <input id="todoFilter" placeholder="Фильтр..." style="padding:8px;border-radius:8px;border:1px solid var(--card-border);background:transparent;color:var(--text-color)" />
-            <select id="todoSort"><option value="new">Новые</option><option value="old">Старые</option><option value="prio">По приоритету</option><option value="due">По дате</option></select>
-            <button id="exportTodos" class="btn">Экспорт</button>
-            <input id="todoImportFile" type="file" accept="application/json" style="display:none" />
-            <button id="importTodosBtn" class="btn">Импорт</button>
-          </div>
-
-          <ul id="todoList" class="todo-list" aria-live="polite" style="margin-top:12px"></ul>
-        </div>
-
-        <aside style="padding-left:12px;border-left:1px solid var(--card-border)">
-          <button id="clearCompleted" class="btn small">Удалить выполненные</button>
-          <button id="clearAll" class="btn small">Удалить все</button>
-          <button id="bulkComplete" class="btn small">Отметить все</button>
-          <div class="muted" style="margin-top:12px">Задачи сохраняются в localStorage.</div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- TUNER RELEASES -->
-    <section id="tuner-releases" class="panel section">
-      <div class="section-head">
-        <h2>Релизы Ryazhenkabestcfw-Tuner</h2>
-        <div class="muted" id="tuner-timestamp"></div>
-      </div>
-      <div id="tunerReleasesList"></div>
-    </section>
-    <script>
-    (async function loadTunerReleases(){
-      const list = document.getElementById('tunerReleasesList');
-      const timeEl = document.getElementById('tuner-timestamp');
-      list.innerHTML = '<div class="muted">Загрузка...</div>';
-      try{
-        const url = 'https://api.github.com/repos/Dimasick-git/Ryazhenkabestcfw-Tuner/releases?per_page=5';
-        const res = await fetch(url); const data = await res.json();
-        timeEl.textContent = 'Последнее обновление: ' + new Date().toLocaleString();
-        list.innerHTML = '';
-        data.forEach(rel => {
-          const card = document.createElement('div');
-          card.className = 'release-card';
-          card.style = 'margin-bottom:15px;background:var(--card);padding:16px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,0.07);';
-          const head = `<div style="font-size:1.18em;font-weight:700;">${rel.name||rel.tag_name||'Release'}</div>`;
-          const date = `<div class="muted" style="font-size:.92em;margin-bottom:7px;">${new Date(rel.published_at).toLocaleDateString()} • <a href="${rel.html_url}" target="_blank">GitHub</a></div>`;
-          const body = `<div style="margin:5px 0 9px;color:var(--text-color);white-space:pre-line;">${rel.body ? rel.body.slice(0,1200): ''}</div>`;
-          const assets = (rel.assets||[]).map(a=>`<a class="btn" style="margin:6px 6px 0 0;display:inline-block;" href="${a.browser_download_url}">${a.name}</a>`).join('');
-          card.innerHTML = head + date + body + (assets ? `<div style="margin-top:8px">${assets}</div>` :'');
-          list.appendChild(card);
-        });
-      }catch(e){
-        list.innerHTML = '<div class="muted">Ошибка при загрузке релизов :(</div>';
-      }
-    })();
-    </script>
-
-    <!-- NEWS BLOCK -->
-    <section id="tuner-news" class="panel glass" style="margin-top:14px; margin-bottom:18px; padding:16px 18px; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,0.07); background:var(--panel);">
-      <h2 style="margin:0 0 10px 0;font-size:1.20em;">Новости и нововведения от Dimasick-git</h2>
-      <div id="dimasickNewsList">
-        <div class="muted">Загрузка новостей...</div>
-      </div>
-    </section>
-    <script>
-    (async function loadTunerNews(){
-      const list = document.getElementById('dimasickNewsList');
-      try {
-        const url = 'https://api.github.com/repos/Dimasick-git/Ryazhenkabestcfw-Tuner/releases?per_page=3';
-        const res = await fetch(url);
-        const data = await res.json();
-        list.innerHTML = '';
-        data.forEach(rel => {
-          // Вырежем лид (первые 1-2 предложения)
-          let desc = (rel.body||'').split(/\n|[.!?]\s/).slice(0,2).join('. ') + '.';
-          if (desc.length > 170) desc = desc.slice(0,170) + '…';
-          const el = document.createElement('div');
-          el.style = 'margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--card-border)';
-          el.innerHTML = `
-            <div style="font-weight:700;font-size:1.03em; color:var(--accent);">${rel.name || rel.tag_name}</div>
-            <div class="muted" style="font-size:.92em;">${new Date(rel.published_at).toLocaleDateString()}</div>
-            <div style="margin:5px 0 7px;">${desc}</div>
-            <a href="${rel.html_url}" class="btn small" target="_blank">Подробнее</a>
-          `;
-          list.appendChild(el);
-        });
-      } catch (e) {
-        list.innerHTML = '<div class="muted">Ошибка загрузки новостей :(</div>';
-      }
-    })();
-    </script>
-
-    <!-- FOOTER -->
-    <footer class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div class="muted">© Ryazhenka — crew.ecosystem</div>
-        <div class="muted">Design: Midjourney‑like • Client‑side • Boosty: <a href="https://boosty.to/dimasick-git/donate" target="_blank">boosty.to/dimasick-git/donate</a></div>
-      </div>
-    </footer>
-  </div>
-
-  <div id="modal" class="modal" aria-hidden="true"></div>
-
-  <script>
-    (function(){
-      // CONFIG
-      const mainRepoFull = 'Dimasick-git/Ryzhenka';
-      const baseRepos = [mainRepoFull,'Atmosphere-NX/Atmosphere','CTCaer/hekate'];
-      const limitedRepos = new Set(['Atmosphere-NX/Atmosphere','CTCaer/hekate']);
-      const optionalRepo = 'switchbrew/stratosphere';
-      const releasesPerRepo = 100;
-      const cacheKey = 'rz_cache_v7';
-      const cacheTTL = 1000 * 60 * 5;
-      const crewKey = 'rz_manual_crew_v7';
-      const todoKey = 'rz_todos_v7';
-      const settingsKey = 'rz_ui_settings_v7';
-      const commentsKey = 'rz_comments_v1';
-      const moduleReposKey = 'rz_module_repos_v1';
-      const modulesCacheKey = 'rz_modules_cache_v1';
-      const repoImageCacheKey = 'rz_repo_image_cache_v1';
-      const repoImageCacheTTL = 1000 * 60 * 60 * 6; // 6 hours
-
-      // DOM
-      const releasesGroupedEl = document.getElementById('releasesGrouped');
-      const galleryGridEl = document.getElementById('galleryGrid');
-      const crewGridEl = document.getElementById('crewGrid');
-      const crewMiniEl = document.getElementById('crewMini');
-      const releasesCountEl = document.getElementById('releasesCount');
-      const downloadsCountEl = document.getElementById('downloadsCount');
-      const widgetsArea = document.getElementById('widgetsArea');
-
-      const searchReleases = document.getElementById('searchReleases');
-      const suggestions = document.getElementById('releases-suggestions');
-      const filterType = document.getElementById('filterType');
-      const sortBy = document.getElementById('sortBy');
-      const includeStrato = document.getElementById('includeStratosphere');
-
-      const themePicker = document.getElementById('themePicker');
-      const bgMode = document.getElementById('bgMode');
-      const textMode = document.getElementById('textMode');
-
-      const addCrewBtn = document.getElementById('addCrewBtn');
-      const exportCrewBtn = document.getElementById('exportCrewBtn');
-      const importCrewBtn = document.getElementById('importCrewBtn');
-      const importCrewFile = document.getElementById('importCrewFile');
-
-      const todoInput = document.getElementById('todoInput');
-      const todoPriority = document.getElementById('todoPriority');
-      const todoDue = document.getElementById('todoDue');
-      const todoAdd = document.getElementById('todoAdd');
-      const todoListEl = document.getElementById('todoList');
-      const todoFilter = document.getElementById('todoFilter');
-      const todoSort = document.getElementById('todoSort');
-      const exportTodosBtn = document.getElementById('exportTodos');
-      const importTodosBtn = document.getElementById('importTodosBtn');
-      const todoImportFile = document.getElementById('todoImportFile');
-      const clearCompletedBtn = document.getElementById('clearCompleted');
-      const clearAllBtn = document.getElementById('clearAll');
-      const bulkCompleteBtn = document.getElementById('bulkComplete');
-
-      const refreshAllBtn = document.getElementById('refreshAll');
-
-      // Modules UI
-      const moduleRepoInput = document.getElementById('moduleRepoInput');
-      const addModuleBtn = document.getElementById('addModuleBtn');
-      const moduleListEl = document.getElementById('moduleList');
-      const modulesGroupedEl = document.getElementById('modulesGrouped');
-      const refreshModulesBtn = document.getElementById('refreshModules');
-
-      // defaults
-      const defaultManualCrew = [
-        { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель' },
-        { login: 'Ryazhenka-Helper-1', name: 'Ryazhenka-Helper-1', role: 'Модульный разработчик (sys-clk)' },
-        { login: 'Ryazhenka-Helper-01', name: 'Ryazhenka-Helper-01', role: 'Видео / тестирование / YouTube' }
-      ];
-      const defaultModuleRepos = [
-        'Dimasick-git/Ryazhahand-Overlay',
-        'Dimasick-git/libRYAZHAHAND',
-        'Ryazhenka-Helper-1/Sys-clk-for-RYZ'
-      ];
-
-      // small helpers
-      function el(tag, attrs={}, ...children){
-        const e = document.createElement(tag);
-        for(const k in attrs){
-          if(k==='class') e.className = attrs[k];
-          else if(k==='html') e.innerHTML = attrs[k];
-          else e.setAttribute(k, attrs[k]);
-        }
-        children.forEach(c => { if(typeof c === 'string') e.appendChild(document.createTextNode(c)); else if(c) e.appendChild(c); });
-        return e;
-      }
-      function fmtDate(iso){ if(!iso) return ''; try{return new Date(iso).toLocaleDateString();}catch(e){return iso;} }
-      function bbootLogoUrl(repoFull, tag){ return `https://github.com/${repoFull}/releases/download/${encodeURIComponent(tag)}/bbootlogo.png`; }
-      function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-      // settings
-      function applyTextOverrides(textModeValue, bgValue){
-        const root = document.documentElement;
-        root.style.removeProperty('--text-color'); root.style.removeProperty('--muted');
-        if(textModeValue === 'alt'){ if(bgValue === 'light'){ root.style.setProperty('--text-color','#2b2b2b'); root.style.setProperty('--muted','#6b5b4a'); } else { root.style.setProperty('--text-color','#f3e8d8'); root.style.setProperty('--muted','#cdbfa6'); } }
-        else if(textModeValue === 'high'){ if(bgValue === 'light'){ root.style.setProperty('--text-color','#0b0b0b'); root.style.setProperty('--muted','#444444'); } else { root.style.setProperty('--text-color','#ffffff'); root.style.setProperty('--muted','#bfc9d6'); } }
-      }
-      function loadSettings(){
-        try{
-          const s = JSON.parse(localStorage.getItem(settingsKey) || '{}');
-          const theme = s.theme || 'glow'; const bg = s.bg || 'dark'; const text = s.text || 'default';
-          document.documentElement.dataset.theme = theme; document.documentElement.dataset.bg = bg; document.documentElement.dataset.text = text;
-          if(themePicker) themePicker.value = theme; if(bgMode) bgMode.value = bg; if(textMode) textMode.value = text;
-          applyTextOverrides(text,bg);
-        }catch(e){}
-      }
-      function saveSettings(){ const s = { theme: themePicker.value, bg: bgMode.value, text: textMode.value }; localStorage.setItem(settingsKey, JSON.stringify(s)); loadSettings(); }
-      themePicker && themePicker.addEventListener('change', saveSettings); bgMode && bgMode.addEventListener('change', saveSettings); textMode && textMode.addEventListener('change', saveSettings);
-      loadSettings();
-
-      // HERO image loader (unchanged)
-      (function tryLoadHeroFromRepo(){
-        const img = document.getElementById('heroImage'); if(!img) return;
-        const repoRawBase = 'https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main';
-        const candidatePaths = ['/assets/hero.png','/assets/hero.webp','/assets/hero.jpg','/assets/preview.png','/assets/Ryazhalogo.png'];
-        (async ()=>{
-          for(const p of candidatePaths){
-            const url = repoRawBase + p;
-            try{
-              let ok=false;
-              try{ const r = await fetch(url,{method:'HEAD'}); ok = r.ok && r.status !== 404; } catch(e){ try{ const r2 = await fetch(url,{method:'GET'}); ok = r2.ok && r2.status !== 404; }catch(e2){ ok=false; } }
-              if(ok){ img.src = url; img.style.display=''; return; }
-            }catch(e){}
-          }
-          const test = new Image(); test.onload = ()=>{}; test.onerror = ()=>{ img.style.display='none' }; test.src = img.src;
-        })();
-      })();
-
-      // Find repo image: try branches main/master and common paths, with caching
-      async function findRepoImage(repoFull){
-        try{
-          let cache = {};
-          try{ cache = JSON.parse(localStorage.getItem(repoImageCacheKey) || '{}'); }catch(e){ cache = {}; }
-          if(cache[repoFull] && (Date.now() - cache[repoFull].ts < repoImageCacheTTL)) return cache[repoFull].url;
-
-          const branches = ['main','master'];
-          const candidates = [
-            '/assets/preview.png','/assets/preview.webp','/assets/hero.png','/assets/hero.webp','/assets/hero.jpg',
-            '/assets/screenshot.png','/assets/screenshot.webp','/assets/banner.png','/assets/logo.png',
-            '/screenshot.png','/screenshot.webp','/preview.png','/preview.webp','/banner.png','/logo.png',
-            '/images/preview.png','/images/screenshot.png','/docs/preview.png'
-          ];
-
-          for(const br of branches){
-            const base = `https://raw.githubusercontent.com/${repoFull}/${br}`;
-            for(const p of candidates){
-              const url = base + p;
-              try{
-                let ok = false;
-                try{ const res = await fetch(url, { method:'HEAD' }); ok = res.ok && res.status !== 404; }
-                catch(e){
-                  try{ const r2 = await fetch(url, { method:'GET' }); ok = r2.ok && r2.status !== 404; } catch(e2){ ok = false; }
-                }
-                if(ok){
-                  cache[repoFull] = { url, ts: Date.now() };
-                  try{ localStorage.setItem(repoImageCacheKey, JSON.stringify(cache)); }catch(e){}
-                  return url;
-                }
-              }catch(e){}
-            }
-          }
-        }catch(e){}
-        return null;
-      }
-
-      // Fetch releases for a repo
-      async function fetchReleasesFromRepo(repoFull){
-        const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
-        const res = await fetch(url);
-        if(!res.ok) throw new Error(`Failed ${repoFull}: ${res.status}`);
-        const data = await res.json();
-        return (Array.isArray(data) ? data : []).map(r => ({...r, _repo: repoFull}));
-      }
-
-      function getRepoList(){ const list = baseRepos.slice(); if(includeStrato && includeStrato.checked) list.push(optionalRepo); return list; }
-
-      // Load releases, then enforce limitedRepos to keep only latest 3 for those repos
-      async function loadReleases(){
-        try{
-          const raw = localStorage.getItem(cacheKey);
-          if(raw){
-            const parsed = JSON.parse(raw);
-            if(Date.now() - parsed.ts < cacheTTL && Array.isArray(parsed.data)){
-              window.__rz_releases = parsed.data;
-              buildSuggestions(); renderReleasesGrouped(); renderGallery(); computeStats(); renderWidgets();
-              return;
-            }
-          }
-        }catch(e){}
-        const repos = getRepoList();
-        releasesGroupedEl.innerHTML=''; galleryGridEl.innerHTML=''; releasesCountEl.textContent='…'; downloadsCountEl.textContent='…';
-        const jobs = repos.map(r => fetchReleasesFromRepo(r).catch(err => { console.warn(err); return []; }));
-        const results = await Promise.all(jobs);
-        const combined = results.flat();
-
-        // dedupe by repo+tag
-        const map = new Map();
-        combined.forEach(r => {
-          const key = `${r._repo}::${r.tag_name || r.name || ''}`;
-          if(!map.has(key)) map.set(key, r);
-        });
-        // group by repo, enforce limitedRepos limit
-        const byRepo = {};
-        Array.from(map.values()).sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at)).forEach(r => {
-          (byRepo[r._repo] = byRepo[r._repo] || []).push(r);
-        });
-        // assemble final array where limited repos have only top 3
-        const finalArr = [];
-        Object.keys(byRepo).forEach(repo => {
-          const items = byRepo[repo];
-          if(limitedRepos.has(repo)){
-            finalArr.push(...items.slice(0,3));
-          } else {
-            finalArr.push(...items);
-          }
-        });
-
-        try{ localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data: finalArr })); }catch(e){}
-        window.__rz_releases = finalArr;
-        buildSuggestions(); renderReleasesGrouped(); renderGallery(); computeStats(); renderWidgets();
-      }
-
-      function buildSuggestions(){
-        if(!suggestions) return;
-        suggestions.innerHTML = '';
-        const data = window.__rz_releases || [];
-        const seen = new Set();
-        data.slice(0,150).forEach(r => {
-          const text = (r.tag_name || r.name || '').slice(0,120);
-          if(text && !seen.has(text)){ const opt = document.createElement('option'); opt.value = text; suggestions.appendChild(opt); seen.add(text); }
-        });
-      }
-
-      // makeReleaseCard: set placeholder and try to replace with repo image if no asset image
-      function makeReleaseCard(r){
-        const ver = r.tag_name || r.name || '';
-        const assets = r.assets || [];
-        const assetImage = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || ''));
-        const previewPlaceholder = assetImage ? assetImage.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, ver);
-
-        const img = el('img', { src: previewPlaceholder, alt: ver });
-        img.style.width='100%'; img.style.height='140px'; img.style.objectFit='cover'; img.style.borderRadius='8px';
-
-        // if there's no asset image, try to async find preview in repo and replace
-        if(!assetImage){
-          (async () => {
-            try{
-              const found = await findRepoImage(r._repo || mainRepoFull);
-              if(found) {
-                // only replace if current src is still the placeholder (avoid flicker if downloaded asset later)
-                if(img && img.src && (img.src.indexOf('bbootlogo') !== -1 || img.src.indexOf('raw.githubusercontent.com') === -1)){
-                  img.src = found;
-                } else {
-                  img.src = found;
-                }
-              }
-            }catch(e){ /* ignore */ }
-          })();
-        }
-
-        const repoBadge = el('div', { class: 'repo-badge' }, r._repo || '');
-        const h3 = el('h3', {}, r.name || ver);
-        const meta = el('div', { class: 'meta' }, el('span', {}, fmtDate(r.published_at || r.created_at)), el('span', {}, ver));
-        const p = r.body ? el('p', {}, r.body.length > 240 ? r.body.slice(0,240) + '…' : r.body) : null;
-        const card = el('article', { class: 'release-card' }, repoBadge, img, h3, meta);
-        if(p) card.appendChild(p);
-
-        if((assets || []).length > 0){
-          const assetsWrap = el('div', { style: 'display:flex;flex-direction:column;gap:6px;margin-top:8px' });
-          const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
-          titles.forEach(t => {
-            const asset = assets.find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
-            const row = el('div', { style: 'display:flex;align-items:center;gap:8px' });
-            if(asset){
-              const ael = el('a', { href: asset.browser_download_url, target: '_blank', class:'btn small' }, `${t} — ${asset.name}`);
-              row.appendChild(ael);
-              const size = el('small', { style: 'margin-left:auto;color:var(--muted)' }, asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '');
-              row.appendChild(size);
-            } else {
-              row.appendChild(el('small', { style: 'color:var(--muted)' }, `${t} — отсутствует`));
-            }
-            assetsWrap.appendChild(row);
-          });
-          card.appendChild(assetsWrap);
-        }
-
-        img.addEventListener('click', () => {
-          openModal(`<div class="inner"><img src="${img.src}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${escapeHtml(r.name || ver)}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${escapeHtml(r._repo || '')}</div><div style="margin-top:8px">${r.body ? escapeHtml(r.body).slice(0,1200) : ''}</div></div></div>`);
-        });
-
-        if(r.html_url){
-          const link = el('a', { class: 'btn', href: r.html_url, target: '_blank', style: 'margin-top:8px' }, 'Открыть релиз');
-          card.appendChild(link);
-        }
-        return card;
-      }
-
-      function renderReleasesGrouped(){
-        const all = window.__rz_releases || [];
-        const q = (searchReleases || {}).value || '';
-        const type = (filterType || {}).value || 'all';
-        const sort = (sortBy || {}).value || 'date_desc';
-
-        const filtered = all.filter(r => {
-          const ver = (r.tag_name || r.name || '').toLowerCase();
-          const title = (r.name || '').toLowerCase();
-          const body = (r.body || '').toLowerCase();
-          const repo = (r._repo || '').toLowerCase();
-          const combined = [ver,title,body,repo].join(' ');
-          const qOk = !q || combined.includes(q.toLowerCase());
-          let tOk = true;
-          if(type && type !== 'all') tOk = (r.assets || []).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase()));
-          return qOk && tOk;
-        });
-
-        const groups = {};
-        filtered.forEach(r => { const repo = r._repo || mainRepoFull; (groups[repo] = groups[repo] || []).push(r); });
-
-        const orderedRepos = [];
-        const mainKey = mainRepoFull;
-        if(groups[mainKey]) orderedRepos.push(mainKey);
-        Object.keys(groups).forEach(k => { if(k !== mainKey) orderedRepos.push(k); });
-
-        releasesGroupedEl.innerHTML = '';
-        let totalCount = 0;
-        orderedRepos.forEach(repoFull => {
-          let items = groups[repoFull] || [];
-          if(items.length === 0) return;
-          if(sort === 'date_desc') items.sort((a,b) => new Date(b.published_at || b.created_at) - new Date(a.published_at || a.created_at));
-          if(sort === 'date_asc') items.sort((a,b) => new Date(a.published_at || a.created_at) - new Date(b.published_at || b.created_at));
-          if(sort === 'downloads_desc') items.sort((a,b) => ((b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)) - ((a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)));
-
-          if(limitedRepos.has(repoFull)) items = items.slice(0,3);
-
-          const header = el('div', { class: 'releases-by-repo' },
-            el('div', { class:'repo-title' },
-              el('a', { href: `https://github.com/${repoFull}`, target:'_blank', class:'repo-name repo-name-gradient', title: `Открыть ${repoFull}` }, repoFull),
-              el('div', { style:'margin-left:8px;color:var(--muted)' }, `${items.length} релизов`)
-            ),
-            el('div', { class:'releases-grid' })
-          );
-          const grid = header.querySelector('.releases-grid');
-          items.forEach(r => grid.appendChild(makeReleaseCard(r)));
-          releasesGroupedEl.appendChild(header);
-          totalCount += items.length;
-        });
-        releasesCountEl.textContent = totalCount;
-      }
-
-      function renderGallery(){
-        galleryGridEl.innerHTML = '';
-        (window.__rz_releases || []).forEach(r => {
-          const assets = r.assets || [];
-          const chosen = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name || '')) || assets[0];
-          const src = chosen ? chosen.browser_download_url : bbootLogoUrl(r._repo || mainRepoFull, r.tag_name || r.name || '');
-          const img = el('img', { src, alt: r.tag_name || r.name || '' });
-          img.addEventListener('click', () => openModal(`<div class="inner"><img src="${src}" style="width:100%;height:auto;border-radius:8px" /><div style="margin-top:10px"><strong>${escapeHtml(r.name || r.tag_name)}</strong><div class="muted">${fmtDate(r.published_at || r.created_at)} • ${escapeHtml(r._repo || '')}</div></div></div>`));
-          galleryGridEl.appendChild(img);
-        });
-      }
-
-      function computeStats(){
-        const data = window.__rz_releases || [];
-        let total = 0;
-        data.forEach(r => (r.assets||[]).forEach(a => { if(typeof a.download_count === 'number') total += a.download_count; }));
-        downloadsCountEl.textContent = total;
-      }
-
-      // Widgets: similar to previous, but uses findRepoImage fallback
-      async function renderWidgets(){
-        widgetsArea.innerHTML = '';
-        const data = window.__rz_releases || [];
-        if(!data.length) return;
-        const widgetRepos = [mainRepoFull,'Atmosphere-NX/Atmosphere','CTCaer/hekate'];
-        try{ const modules = JSON.parse(localStorage.getItem(moduleReposKey) || '[]'); if(Array.isArray(modules)) widgetRepos.push(...modules.slice(0,3)); }catch(e){}
-        const seen = new Set();
-        for(const repo of widgetRepos){
-          const repoItems = data.filter(r => (r._repo||'') === repo).sort((a,b)=> new Date(b.published_at||b.created_at)-new Date(a.published_at||a.created_at));
-          if(!repoItems.length) continue;
-          const latest = repoItems[0];
-          if(seen.has(repo)) continue;
-          seen.add(repo);
-          let imgSrc = '';
-          const assetImg = (latest.assets||[]).find(a=>/\.(gif|webp|png|jpe?g)$/i.test(a.name||'')) || (latest.assets||[])[0];
-          if(assetImg) imgSrc = assetImg.browser_download_url;
-          else {
-            const found = await findRepoImage(repo);
-            imgSrc = found || bbootLogoUrl(latest._repo, latest.tag_name || latest.name);
-          }
-          const widget = el('div',{class:'widget'},
-            el('img',{src:imgSrc,alt: latest.tag_name || latest.name}),
-            el('div',{},
-              el('div',{style:'font-weight:700'}, el('a',{href:`https://github.com/${repo}`, target:'_blank', style:'color:inherit;text-decoration:none'}, repo)),
-              el('div',{class:'muted',style:'font-size:.9rem'}, `${latest.tag_name || latest.name} • ${fmtDate(latest.published_at || latest.created_at)}`),
-              el('div',{style:'margin-top:6px'}, el('a',{class:'btn small', href: latest.html_url, target:'_blank'}, 'Открыть релиз'))
-            )
-          );
-          widgetsArea.appendChild(widget);
-        }
-      }
-
-      // Crew and modules logic (unchanged except modules defaults)
-      function getManualCrew(){ try{ return JSON.parse(localStorage.getItem(crewKey) || '[]'); }catch(e){ return []; } }
-      function saveManualCrew(arr){ localStorage.setItem(crewKey, JSON.stringify(arr)); }
-
-      function makeCrewCard(p){
-        const avatar = p.avatar || `https://github.com/${p.login}.png`;
-        const img = el('img',{src:avatar,alt:p.login}); img.style.width='64px'; img.style.height='64px'; img.style.borderRadius='10px';
-        const nameLink = el('a',{href:`https://github.com/${p.login}`,target:'_blank'}, p.login); nameLink.style.fontWeight='700';
-        const name = el('div',{}, nameLink);
-        if(p.name && p.name !== p.login) name.appendChild(document.createTextNode(' — ' + p.name));
-        const role = p.role ? el('div',{class:'muted'},p.role) : null;
-        const contrib = el('div',{class:'muted'}, `Commits: ${p.contributions || 0}`);
-        const info = el('div',{}, name, role || '', contrib);
-        const card = el('div',{class:'crew-card', title:'Клик для деталей'}, img, info);
-        card.addEventListener('click', ()=>{
-          const kudosKey = `kudos_${p.login.toLowerCase()}`; const current = parseInt(localStorage.getItem(kudosKey) || '0', 10);
-          openModal(`<div class="inner"><div style="display:flex;gap:12px;align-items:center"><img src="${avatar}" style="width:96px;height:96px;border-radius:12px"/><div><h3>${escapeHtml(p.name || p.login)}</h3><div class="muted">${escapeHtml(p.role || '')}</div><div style="margin-top:8px"><small class="muted">Коммитов: ${p.contributions || 0}</small></div><div class="crew-actions" style="margin-top:12px"><a class="btn" href="https://github.com/${p.login}" target="_blank">Открыть GitHub</a><button id="giveKudos" class="btn primary">+1 Kudos</button><button id="closeCrewModal" class="btn">Закрыть</button></div><div id="kudosCount" style="margin-top:8px" class="muted">Kudos: ${current}</div></div></div></div>`);
-          document.getElementById('giveKudos').addEventListener('click', () => { const key = `kudos_${p.login.toLowerCase()}`; const cur = parseInt(localStorage.getItem(key) || '0',10)+1; localStorage.setItem(key,String(cur)); const elK = document.getElementById('kudosCount'); if(elK) elK.textContent = 'Kudos: ' + cur; });
-          document.getElementById('closeCrewModal').addEventListener('click', closeModal);
-        });
-        return card;
-      }
-
-      async function loadCrew(){
-        crewGridEl.innerHTML = ''; crewMiniEl.innerHTML = '';
-        const stored = getManualCrew();
-        const merged = (stored || []).concat(defaultManualCrew);
-        merged.slice(0,6).forEach(m => crewMiniEl.appendChild(makeCrewCard(m)));
-        merged.forEach(m => crewGridEl.appendChild(makeCrewCard(m)));
-        try{
-          const url = `https://api.github.com/repos/${mainRepoFull}/contributors?per_page=100`;
-          const res = await fetch(url);
-          if(res.ok){
-            const list = await res.json();
-            const seen = new Set(merged.map(x => x.login.toLowerCase()));
-            list.forEach(c => { if(!seen.has(c.login.toLowerCase())) crewGridEl.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
-          }
-        }catch(e){ console.warn('contributors failed', e); }
-      }
-
-      // Crew add/export/import (unchanged)
-      addCrewBtn && addCrewBtn.addEventListener('click', ()=> {
-        openModal(`<div class="inner"><h3>Добавить участника</h3><div style="display:grid;gap:8px;margin-top:8px"><input id="mc_login" placeholder="Github login" /><input id="mc_name" placeholder="Имя (опционально)" /><input id="mc_role" placeholder="Роль" /><div style="display:flex;justify-content:flex-end;gap:8px"><button id="mc_cancel" class="btn">Отмена</button><button id="mc_save" class="btn primary">Сохранить</button></div></div></div>`);
-        document.getElementById('mc_cancel').addEventListener('click', closeModal);
-        document.getElementById('mc_save').addEventListener('click', ()=> {
-          const login = (document.getElementById('mc_login')||{}).value.trim(); const name = (document.getElementById('mc_name')||{}).value.trim(); const role = (document.getElementById('mc_role')||{}).value.trim();
-          if(!login){ alert('Введите login'); return; }
-          const arr = getManualCrew(); arr.unshift({ login, name: name || login, role }); saveManualCrew(arr); closeModal(); loadCrew();
-        });
-      });
-
-      exportCrewBtn && exportCrewBtn.addEventListener('click', ()=> {
-        const data = JSON.stringify(getManualCrew(), null, 2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download='ryazhenka-crew.json'; a.click(); URL.revokeObjectURL(url);
-      });
-
-      importCrewBtn && importCrewBtn.addEventListener('click', ()=> importCrewFile.click());
-      importCrewFile && importCrewFile.addEventListener('change', e=> {
-        const f = e.target.files[0]; if(!f) return; const r = new FileReader();
-        r.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const exist = getManualCrew(); const set = new Set(exist.map(x=>x.login.toLowerCase())); data.forEach(it => { if(it.login && !set.has(it.login.toLowerCase())) exist.unshift(it); }); saveManualCrew(exist); loadCrew(); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } };
-        r.readAsText(f); e.target.value='';
-      });
-
-      // Local comments
-      function loadLocalCommentsUI(container){
-        container.innerHTML=''; const title = el('strong',{}, 'Комментарии (локальные)');
-        const name = el('input',{id:'localCommentName',placeholder:'Имя (опционально)', style:'width:40%;padding:8px;border-radius:8px'});
-        const area = el('textarea',{id:'localCommentText', rows:4, placeholder:'Ваш комментарий', style:'width:100%;padding:8px;border-radius:8px'});
-        const submit = el('button',{class:'btn primary'}, 'Отправить'); const list = el('div',{id:'localCommentsList', style:'margin-top:10px'});
-        container.appendChild(title); container.appendChild(name); container.appendChild(area); container.appendChild(el('div',{style:'display:flex;justify-content:flex-end;margin-top:8px'}, submit)); container.appendChild(list);
-        renderLocalComments();
-
-        submit.addEventListener('click', ()=>{
-          const txt = (document.getElementById('localCommentText')||{}).value || ''; const nm = (document.getElementById('localCommentName')||{}).value || 'Аноним';
-          if(!txt.trim()) return alert('Введите текст');
-          try{ const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]'); cur.unshift({ name: nm, txt, ts: Date.now() }); localStorage.setItem(commentsKey, JSON.stringify(cur)); (document.getElementById('localCommentText')||{}).value=''; renderLocalComments(); }catch(e){ console.warn(e); alert('Не удалось сохранить'); }
-        });
-
-        function renderLocalComments(){
-          const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]'); list.innerHTML='';
-          if(!cur.length){ list.appendChild(el('div',{class:'muted'}, 'Комментариев пока нет')); return; }
-          cur.forEach(c => {
-            const item = el('div',{style:'padding:8px;border-radius:8px;border:1px solid var(--card-border);margin-bottom:8px'},
-              el('div',{style:'font-weight:700'}, c.name),
-              el('div',{class:'muted', style:'font-size:.85rem'}, new Date(c.ts).toLocaleString()),
-              el('div',{style:'margin-top:6px'}, c.txt)
-            ); list.appendChild(item);
-          });
-        }
-      }
-
-      // Modal
-      const modalEl = document.getElementById('modal');
-      function openModal(html){ modalEl.innerHTML=''; modalEl.classList.add('show'); modalEl.setAttribute('aria-hidden','false'); modalEl.style.display='flex'; const inner = el('div',{class:'inner'}); inner.innerHTML = html; modalEl.appendChild(inner); modalEl.addEventListener('click', modalHandler); }
-      function closeModal(){ modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden','true'); modalEl.style.display='none'; modalEl.innerHTML=''; modalEl.removeEventListener('click', modalHandler); }
-      function modalHandler(e){ if(e.target === modalEl) closeModal(); }
-
-      // To-do (unchanged)
-      function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
-      function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
-      function newTodoId(){ return 'td_' + Math.random().toString(36).slice(2,9); }
-
-      let todos = loadTodos();
-      function renderTodos(){ todoListEl.innerHTML=''; const filter=(todoFilter||{}).value||''; const sort=(todoSort||{}).value||'new'; let list = todos.slice();
-        if(filter) list = list.filter(t=> (t.text + ' ' + (t.tags||'')).toLowerCase().includes(filter.toLowerCase()));
-        if(sort==='new') list.sort((a,b)=> b.ts - a.ts); if(sort==='old') list.sort((a,b)=> a.ts - b.ts);
-        if(sort==='prio') list.sort((a,b)=> ({high:2,normal:1,low:0}[b.priority] - {high:2,normal:1,low:0}[a.priority]));
-        if(sort==='due') list.sort((a,b)=> (a.due ? new Date(a.due).getTime() : Infinity) - (b.due ? new Date(b.due).getTime() : Infinity));
-        list.forEach(item=> {
-          const chk = el('input'); chk.type='checkbox'; chk.checked = !!item.done; chk.addEventListener('change', ()=>{ item.done = chk.checked; saveTodos(todos); });
-          const title = el('div',{}, el('div',{style:'font-weight:700'}, item.text), el('div',{class:'muted'}, `${item.priority}${item.due ? ' • ' + item.due : ''}`));
-          const edit = el('button',{class:'btn small'}, '✎'); edit.addEventListener('click', ()=> editTodo(item.id));
-          const del = el('button',{class:'btn small'}, '✕'); del.addEventListener('click', ()=>{ todos = todos.filter(t=>t.id!==item.id); saveTodos(todos); });
-          const li = el('li',{class:'todo-item'}, chk, title, el('div',{}, edit, del)); if(item.done) li.classList.add('completed'); todoListEl.appendChild(li);
-        });
-      }
-
-      todoAdd && todoAdd.addEventListener('click', ()=> {
-        const text = (todoInput||{}).value || ''; if(!text.trim()) return; const priority = (todoPriority||{}).value || 'normal'; const due = (todoDue||{}).value || '';
-        const t = { id: newTodoId(), text: text.trim(), priority, due, done:false, ts: Date.now() }; todos.unshift(t); (todoInput||{}).value=''; (todoDue||{}).value=''; saveTodos(todos);
-      });
-      function editTodo(id){ const t = todos.find(x=>x.id===id); if(!t) return; openModal(`<div class="inner"><h3>Редактировать задачу</h3><div style="display:grid;gap:8px"><input id="edt_text" value="${escapeHtml(t.text)}" /><select id="edt_prio"><option value="high">High</option><option value="normal">Normal</option><option value="low">Low</option></select><input id="edt_due" type="date" value="${t.due || ''}" /><div style="display:flex;gap:8px;justify-content:flex-end"><button id="edt_cancel" class="btn">Отмена</button><button id="edt_save" class="btn primary">Сохранить</button></div></div></div>`);
-        document.getElementById('edt_prio').value = t.priority || 'normal'; document.getElementById('edt_cancel').addEventListener('click', closeModal);
-        document.getElementById('edt_save').addEventListener('click', ()=>{ t.text = (document.getElementById('edt_text')||{}).value.trim() || t.text; t.priority = (document.getElementById('edt_prio')||{}).value || t.priority; t.due = (document.getElementById('edt_due')||{}).value || ''; saveTodos(todos); closeModal(); });
-      }
-      exportTodosBtn && exportTodosBtn.addEventListener('click', ()=>{ const data = JSON.stringify(todos,null,2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; a.click(); URL.revokeObjectURL(url); });
-      importTodosBtn && importTodosBtn.addEventListener('click', ()=> todoImportFile.click());
-      todoImportFile && todoImportFile.addEventListener('change', e=>{ const f = e.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const ids = new Set(todos.map(t=>t.id)); data.forEach(it=>{ if(!it.id) it.id=newTodoId(); if(!ids.has(it.id)) todos.push(it); }); saveTodos(todos); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } }; reader.readAsText(f); e.target.value=''; });
-      clearCompletedBtn && clearCompletedBtn.addEventListener('click', ()=>{ todos = todos.filter(t=>!t.done); saveTodos(todos); });
-      clearAllBtn && clearAllBtn.addEventListener('click', ()=>{ if(confirm('Удалить все задачи?')){ todos = []; saveTodos(todos); } });
-      bulkCompleteBtn && bulkCompleteBtn.addEventListener('click', ()=>{ todos.forEach(t=>t.done=true); saveTodos(todos); });
-      todoFilter && todoFilter.addEventListener('input', renderTodos); todoSort && todoSort.addEventListener('change', renderTodos);
-
-      // Search & refresh
-      searchReleases && searchReleases.addEventListener('input', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      filterType && filterType.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      sortBy && sortBy.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      includeStrato && includeStrato.addEventListener('change', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadReleases(); });
-      refreshAllBtn && refreshAllBtn.addEventListener('click', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
-
-      // Modules management
-      function getModuleRepos(){ try{ const raw = localStorage.getItem(moduleReposKey); if(raw) return JSON.parse(raw); }catch(e){} return defaultModuleRepos.slice(); }
-      function saveModuleRepos(arr){ localStorage.setItem(moduleReposKey, JSON.stringify(arr)); }
-      function renderModuleListUI(){ const arr = getModuleRepos(); moduleListEl.innerHTML = ''; arr.forEach((r,idx)=>{ const removeBtn = el('button',{class:'btn small'}, 'Удалить'); removeBtn.addEventListener('click', ()=>{ removeModuleAt(idx); }); const item = el('div',{class:'module-item'}, el('div',{}, r), removeBtn); moduleListEl.appendChild(item); }); }
-      function addModule(repoFull){ if(!repoFull || !repoFull.includes('/')){ alert('Введите репозиторий в формате owner/repo'); return; } const arr = getModuleRepos(); if(arr.includes(repoFull)){ alert('Репозиторий уже добавлен'); return; } arr.unshift(repoFull); saveModuleRepos(arr); renderModuleListUI(); loadModules(); }
-      function removeModuleAt(idx){ const arr = getModuleRepos(); if(idx<0||idx>=arr.length) return; arr.splice(idx,1); saveModuleRepos(arr); renderModuleListUI(); loadModules(); }
-      addModuleBtn && addModuleBtn.addEventListener('click', ()=>{ const v=(moduleRepoInput||{}).value.trim(); if(!v){ alert('Введите owner/repo'); return; } addModule(v); moduleRepoInput.value=''; });
-      refreshModulesBtn && refreshModulesBtn.addEventListener('click', ()=>{ try{ localStorage.removeItem(modulesCacheKey); }catch(e){} loadModules(); });
-
-      async function loadModules(){
-        const repos = getModuleRepos();
-        try{
-          const raw = localStorage.getItem(modulesCacheKey);
-          if(raw){ const parsed = JSON.parse(raw); if(Date.now() - parsed.ts < cacheTTL && Array.isArray(parsed.data)){ window.__rz_modules = parsed.data; renderModulesGrouped(); renderWidgets(); return; } }
-        }catch(e){}
-        const jobs = repos.map(r => fetchReleasesFromRepo(r).catch(err=>{ console.warn('module fetch failed', r, err); return []; }));
-        const results = await Promise.all(jobs); const combined = results.flat();
-        const map = new Map(); combined.forEach(r => { const key = `${r._repo}::${r.tag_name || r.name || ''}`; if(!map.has(key)) map.set(key, r); });
-        const arr = Array.from(map.values()).sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
-        try{ localStorage.setItem(modulesCacheKey, JSON.stringify({ts:Date.now(),data:arr})); }catch(e){}
-        window.__rz_modules = arr; renderModulesGrouped(); renderWidgets();
-      }
-
-      function renderModulesGrouped(){
-        const all = window.__rz_modules || []; const q = (searchReleases||{}).value||''; const type = (filterType||{}).value||'all'; const sort = (sortBy||{}).value||'date_desc';
-        const filtered = all.filter(r => { const ver=(r.tag_name||r.name||'').toLowerCase(); const title=(r.name||'').toLowerCase(); const body=(r.body||'').toLowerCase(); const repo=(r.body||'').toLowerCase(); const combined=[ver,title,body,repo].join(' '); const qOk = !q || combined.includes(q.toLowerCase()); let tOk=true; if(type && type!=='all') tOk = (r.assets||[]).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase())); return qOk && tOk; });
-
-        const groups = {}; filtered.forEach(r => { const repo = r._repo || ''; (groups[repo] = groups[repo]||[]).push(r); });
-
-        modulesGroupedEl.innerHTML = '';
-        Object.keys(groups).forEach(repoFull => {
-          const items = groups[repoFull]; if(!items || items.length===0) return;
-          if(sort==='date_desc') items.sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
-          if(sort==='date_asc') items.sort((a,b)=> new Date(a.published_at||a.created_at) - new Date(b.published_at||b.created_at));
-          if(sort==='downloads_desc') items.sort((a,b)=> ((b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)) - ((a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)));
-
-          const header = el('div',{class:'releases-by-repo'},
-            el('div',{class:'repo-title'},
-              el('a',{href:`https://github.com/${repoFull}`, target:'_blank', class:'repo-name repo-name-gradient'}, repoFull),
-              el('div',{style:'margin-left:8px;color:var(--muted)'}, `${items.length} релизов`)
-            ),
-            el('div',{class:'releases-grid'})
-          );
-          const grid = header.querySelector('.releases-grid');
-          items.forEach(r => grid.appendChild(makeReleaseCard(r)));
-          modulesGroupedEl.appendChild(header);
-        });
-      }
-
-      // init
-      async function loadAll(){
-        loadSettings(); todos = loadTodos(); renderTodos(); await loadReleases(); await loadCrew(); renderModuleListUI(); await loadModules();
-        const commentsContainer = document.createElement('div'); commentsContainer.style.marginTop='12px'; commentsContainer.innerHTML = '<strong>Комментарии</strong>'; loadLocalCommentsUI(commentsContainer);
-        if(crewMiniEl) crewMiniEl.appendChild(commentsContainer);
-      }
-
-      window.RZ = { loadReleases, loadCrew, loadAll, loadModules, addModule, removeModuleAt, findRepoImage };
-
-      // run
-      loadAll();
-
-    })();
-
-    (function enhanceReleaseImagesUniversal(){
-      // Универсальный finder картинки для релиза:
-      function getReleaseImg(r) {
-        const assets = r.assets||[];
-        const assetImg = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
-        if(assetImg) return assetImg.browser_download_url;
-        // Попытаться найти стандартные github raw превью
-        if(r._repo) {
-          const tryUrls = [
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/preview.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`
-          ];
-          return tryUrls[0];
-        }
-        // Fallback логотип
-        return '/Ryzhenka/assets/Ryazhalogo.png';
-      }
-      // Создание и отрисовка карточки релиза с fade-in/svg fallback
-      window.makeReleaseCard = function(r){
-        const ver = r.tag_name || r.name || '';
-        let imgSrc = getReleaseImg(r);
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = ver;
-        img.style.width = '100%';
-        img.style.height = '140px';
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '8px';
-        img.style.transition = 'opacity .54s cubic-bezier(.5,1.3,.7,1),filter .38s';
-        img.style.opacity = '0';
-        img.style.background = 'linear-gradient(90deg,#33125a22,#2fc6de11 70%,#12065013)';
-        img.onload = ()=>{ img.style.opacity = '1'; img.style.filter='none'; };
-        img.onerror = ()=>{
-          if(img.src.includes('preview.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`;
-          else if(img.src.includes('hero.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`;
-          else if(img.src.includes('banner.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`;
-          else if(img.src.includes('/Ryzhenka/assets/Ryazhalogo.png')) showSvgFallback();
-          else img.src = '/Ryzhenka/assets/Ryazhalogo.png';
-        };
-        function showSvgFallback(){
-          img.replaceWith(svgFallback());
-        }
-        function svgFallback() {
-          const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-          svg.setAttribute('width','100%');svg.setAttribute('height','140px');
-          svg.setAttribute('viewBox','0 0 290 84');
-          svg.innerHTML = `<rect width="290" height="84" rx="16" fill="#191931"/><text x="50%" y="51%" dominant-baseline="middle" text-anchor="middle" fill="#836bfa" style="font-family:'Montserrat',sans-serif;font-size:22px;letter-spacing:1px;">Нет картинки</text><circle cx="45" cy="42" r="21" fill="#6ae0ff44"/><circle cx="45" cy="42" r="14" fill="#8F4CFF" opacity=".7"/>`;
-          return svg;
-        }
-        const repoBadge = document.createElement('div'); repoBadge.className = 'repo-badge'; repoBadge.textContent = r._repo || '';
-        const h3 = document.createElement('h3'); h3.textContent = r.name || ver;
-        const meta = document.createElement('div'); meta.className = 'meta';
-        meta.appendChild(document.createElement('span')).textContent = (r.published_at||r.created_at) ? new Date(r.published_at||r.created_at).toLocaleDateString() : '';
-        meta.appendChild(document.createElement('span')).textContent = ver;
-        const bodyP = r.body ? document.createElement('p') : null; if(bodyP) bodyP.textContent = r.body.length > 240 ? r.body.slice(0,240)+'…' : r.body;
-        const card = document.createElement('article'); card.className = 'release-card';
-        card.appendChild(repoBadge); card.appendChild(img); card.appendChild(h3); card.appendChild(meta);
-        if(bodyP) card.appendChild(bodyP);
-        if((r.assets||[]).length > 0){
-          const assetsWrap = document.createElement('div'); assetsWrap.style = 'display:flex;flex-direction:column;gap:6px;margin-top:8px';
-          const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
-          titles.forEach(t => {
-            const asset = r.assets.find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
-            const row = document.createElement('div'); row.style = 'display:flex;align-items:center;gap:8px';
-            if(asset){
-              const ael = document.createElement('a'); ael.href = asset.browser_download_url; ael.target='_blank'; ael.className='btn small'; ael.textContent = `${t} — ${asset.name}`;
-              row.appendChild(ael);
-              const size = document.createElement('small'); size.style = 'margin-left:auto;color:var(--muted)'; size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '';
-              row.appendChild(size);
-            } else {
-              row.appendChild(document.createElement('small')).textContent = `${t} — отсутствует`;
-            }
-            assetsWrap.appendChild(row);
-          });
-          card.appendChild(assetsWrap);
-        }
-        // img click больше не открывает modal (widget только)
-        return card;
-      };
-    })();
-  </script>
-
-  <!-- Флотирующий чат-панель (bottom-right) -->
-  <div id="ryazhenka-chat" style="position:fixed;z-index:999;right:34px;bottom:27px;width:340px;max-width:96vw;box-shadow:0 8px 48px #6dfaff22;backdrop-filter:blur(9px);background:linear-gradient(131deg,#24135ef7 80%,#13324aee 100%);border-radius:22px 22px 7px 22px; display:flex;flex-direction:column;padding:0;overflow:hidden;animation:fadeInChat .9s cubic-bezier(.33,1.15,.67,1) both;">
-    <div style="padding:16px 18px 9px 16px;"><strong style="font-size:1.12em;color:#4ff0a0;">Ryazhenka AI чат</strong>
-      <span style="float:right;font-size:1.3em;opacity:.59;cursor:pointer" onclick="document.getElementById('ryazhenka-chat').style.display='none';">✕</span>
-      <div style="color:#c5e6fa;margin:7px 0 2px 0;font-size:.99em;">🤖 Я отвечаю на вопросы и помогаю найти нужный раздел.<br><span style="color:#83edfc;font-size:.86em">Быстрая связь:</span></div>
-      <div style="margin:4px 0 8px 0;">
-        <a class="btn small" href="https://t.me/Ryazhenkabestcfw" target="_blank" style="margin-right:8px">Telegram команды</a>
-      </div>
-    </div>
-    <div style="flex:1 1 auto;background:linear-gradient(120deg,#2a125633 60%,#1a195522 100%);padding:11px 16px;min-height:55px;max-height:160px;overflow-y:auto;">
-      <div id="chat-list">
-        <div style="opacity:.85;color:#e5eff6;font-size:1em;margin-bottom:7px;">Задавайте вопросы, Ryazhenka AI ответит (или напишет, что интеграция ожидает ключ OpenAI).<br>Техподдержка: <a target="_blank" href="https://t.me/Ryazhenkabestcfw" style="color:#38f7e3;">наш Telegram</a>.</div>
-      </div>
-    </div>
-    <form onsubmit="event.preventDefault();sendUserMsg();" style="display:flex;align-items:center;gap:7px;padding:10px 14px 11px 13px;background:rgba(16,10,40,.18);">
-      <input id="chat-input" type="text" maxlength="420" placeholder="Введите вопрос или предложение..." style="flex:1 1 auto;border-radius:11px;padding:10px 13px;border:1px solid #53e1e533;background:#191b2b44;color:#e9feff;outline:none;box-shadow:0 1px 6px #0001;font-size:.99em" />
-      <button class="btn small" type="submit" style="border-radius:90px">&#10148;</button>
-    </form>
-  </div>
-  <style>@keyframes fadeInChat{0%{opacity:0;transform:scale(.80) translateY(64px);}100%{opacity:1;transform:none;}}</style>
-  <script>
-  // Офлайн-ИИ для популярных вопросов по Ryazhenka (без OpenAI)
-  const QA_FAQ = [
-    {k:['ryazhenka','что это'], a:'Ryazhenka — стабильная кастомная прошивка для Nintendo Switch, совмещающая лучшие модули, красивый интерфейс, расширенный контроль и поддержку комьюнити.'},
-    {k:['atmosphere'], a:'Atmosphere — это самая популярная кастомная прошивка для Nintendo Switch, дающая доступ к хомбрю и модификации системы.'},
-    {k:['hekate','hekate bootloader'], a:'Hekate — мультизагрузчик (bootloader) для Nintendo Switch. С помощью него можно загружать разные системы, патчить NAND, пользоваться кастомными прошивками.'},
-    {k:['как установить','how to install','инструкция','setup'], a:'Скачать релиз Ryazhenka на главной странице -> Распаковать архив на SD-карту -> вставить в Switch -> запустить Hekate -> выбрать профиль Ryazhenka. Готово!'},
-    {k:['модули','modules','добавить модуль'], a:'Добавить модуль можно через раздел "Модули команды" в интерфейсе, указав репозиторий нужного модуля (owner/repo) — релизы и превью подгрузятся автоматически.'},
-    {k:['to-do','задачи','список задач'], a:'To-Do — локальный список задач прямо на сайте (внизу страницы). Всё, что планируешь по прошивке, можно внести туда!'},
-    {k:['автор','разработчик','создатель','dimasick','экипаж'], a:'Главный разработчик: Dimasick-git + помощники Ryazhenka-Helper-1, Ryazhenka-Helper-01 и другие участники crew. Поддержка — в Telegram'}
-  ];
-  function answerOfflineAI(q) {
-    const low = q.toLowerCase();
-    for(const pair of QA_FAQ) {
-      if(pair.k.some(key=>low.includes(key))) return pair.a;
+    .theme-select {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      padding: 7px 12px;
+      cursor: pointer;
+      outline: none;
+      transition: all var(--anim-fast) ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b93b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
     }
-    return 'Извините, я могу ответить на основные вопросы о Ryazhenka, Atmosphere, Hekate, модулях и To-Do. Попробуйте переформулировать или напишите в Telegram!';
-  }
-  window.sendUserMsg = async function(){
-    const l = document.getElementById('chat-list');
-    const inp = document.getElementById('chat-input');
-    if(!inp.value.trim()) return;
-    l.appendChild(renderMsg(inp.value,'user'));
-    l.scrollTop=l.scrollHeight;
-    const wait = renderMsg('⏳ Ryazhenka AI думает...','ai'); l.appendChild(wait); l.scrollTop=l.scrollHeight;
-    const txt = inp.value; inp.value='';
-    let reply = answerOfflineAI(txt);
-    wait.innerHTML = `<span style='color:#8F4CFF;'>ryazhenka.ai:</span> ${reply}`;
-    l.scrollTop=l.scrollHeight;
-  }
-  function renderMsg(txt, role){
-    const dv=document.createElement('div'); dv.style='margin-bottom:4px;';
-    dv.innerHTML = role==='user'? `<span style='color:#48e9fb;'>ты:</span> <span>${txt}</span>` : `<span style='color:#8F4CFF;'>ryazhenka.ai:</span> ${txt}`;
-    return dv;
-  }
-  </script>
-  <script>
-  // Космический widget для описания релиза сбоку
-  (function releaseWidget(){
-    let widget = document.getElementById('releaseWidget');
-    if(!widget) {
-      widget = document.createElement('aside');
-      widget.id = 'releaseWidget';
-      widget.style = 'position:fixed;top:75px;right:20px;width:380px;max-width:96vw;height:auto;z-index:90;background:linear-gradient(120deg,#181e3bEE 55%,#22212fD8 100%);backdrop-filter:blur(22px) brightness(1.05);border-radius:18px 24px 18px 24px;box-shadow:0 12px 50px #23265033,0 0 0 #33e5fe00;margin-top:11px;display:none;overflow-y:auto;padding:1.3em 1.2em 1.1em 1.2em;transition:transform .27s cubic-bezier(.62,1.9,.25,1), opacity .26s;background-blend-mode:overlay;';
-      widget.innerHTML = '<div id="rw-content"></div><span id="rw-close" style="position:absolute;top:11px;right:15px;cursor:pointer;font-size:1.5em;opacity:.55">✕</span>';
-      document.body.appendChild(widget);
-      widget.querySelector('#rw-close').onclick = ()=>{ widget.style.display='none';document.body.classList.remove('widget-open'); };
+    .theme-select:hover, .theme-select:focus {
+      border-color: var(--border-accent);
+      background-color: var(--bg-elevated);
     }
-    // Patch attach to cards
-    document.addEventListener('click', function(e){
-      let card = e.target.closest('.release-card');
-      if(card && !e.target.matches('.btn, a')) {
-        e.preventDefault();
-        const ct = card.cloneNode(true);
-        ct.querySelectorAll('.btn, a').forEach(b=>b.setAttribute('target','_blank'));
-        widget.querySelector('#rw-content').innerHTML='';
-        widget.querySelector('#rw-content').appendChild(ct);
-        widget.style.display='block';
-        widget.style.opacity=.1;widget.style.transform='translateX(44px) scale(.97)';
-        setTimeout(()=>{widget.style.opacity=1;widget.style.transform='translateX(0) scale(1)';},22);
-        document.body.classList.add('widget-open');
-      } else if(!e.target.closest('#releaseWidget') && !e.target.classList.contains('release-card')) {
-        widget.style.opacity=0;setTimeout(()=>widget.style.display='none',180);
-        document.body.classList.remove('widget-open');
-      }
-    });
-  })();
-  </script>
-</body>
-</html>
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      font-size: 12px;
+      font-weight: 600;
+      color: #4ade80;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
+
+    /* =============================
+       PAGE CONTENT
+       ============================= */
+    .page-content {
+      flex: 1;
+      padding: 32px 28px;
+      overflow-y: auto;
+    }
+
+    /* Sections */
+    .section {
+      display: none;
+      animation: sectionFadeIn 350ms cubic-bezier(0.4,0,0.2,1) both;
+    }
+    .section.active { display: block; }
+    @keyframes sectionFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+    }
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.2;
+    }
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      font-weight: 400;
+    }
+
+    /* =============================
+       CARDS
+       ============================= */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all var(--anim-med) cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(var(--accent-rgb),0.03), transparent 60%);
+      opacity: 0;
+      transition: opacity var(--anim-med) ease;
+      pointer-events: none;
+    }
+    .card:hover {
+      border-color: var(--border-accent);
+      box-shadow: 0 4px 32px rgba(var(--accent-rgb), 0.12), var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* =============================
+       HERO SECTION
+       ============================= */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, rgba(var(--accent-rgb),0.08) 0%, rgba(var(--accent2-rgb),0.04) 100%);
+      border: 1px solid rgba(var(--accent-rgb),0.2);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(var(--accent-rgb),0.15), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -5%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(var(--accent2-rgb),0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(var(--accent-rgb),0.12);
+      border: 1px solid rgba(var(--accent-rgb),0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+
+    .hero-title {
+      font-size: 52px;
+      font-weight: 900;
+      font-family: 'Space Grotesk', sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, rgba(var(--accent-rgb),1) 50%, rgba(var(--accent2-rgb),1) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 32pxц
