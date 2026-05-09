@@ -10,7 +10,7 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions:          # даём боту право писать в репозиторий
+    permissions:          
       contents: write
     steps:
       - name: Checkout
