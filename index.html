@@ -170,452 +170,7 @@
     /* Scrollbar */
     ::-webkit-scrollbar{width:13px; background:transparent;}
     ::-webkit-scrollbar-thumb{background:linear-gradient(120deg,#7b52fe 10%,#3ad7fd 90%); border-radius:13px; opacity:.77;}
-    ::-webkit-scrollbar-thumb:hover{background:linear-gradient(120deg,#3c1fd7,#18bbb2);}
-
-    /* Cards and release-cards */
-    .release-card {
-      background: linear-gradient(120deg,#1f163d55,#191a2b22 65%,#311f4e11 100%);
-      box-shadow:0 2px 20px #38266e33;
-      border:1.1px solid #be7cff19;
-      border-radius: var(--card-radius);
-      overflow:hidden;
-      animation: fadeInUp calc(var(--anim-fast) * 1.9) both;
-      margin-bottom:18px;
-      transition:box-shadow .27s, border .17s, background .17s;
-    }
-    .release-card:hover {
-      box-shadow:0 7px 68px #7a6fff33,0 2px 16px #326bb590;
-      background:linear-gradient(90deg,#26144190 45%,#2a446a55 100%);
-      border:1.7px solid #bd34ffbb;
-    }
-    .release-card h3 {
-      font-size:1.15em; margin:8px 0 2px 0; letter-spacing: -.2px; font-weight:800;
-      color:var(--accent);
-      text-shadow:0 1px 12px #6b52e655;
-    }
-    .release-card .meta {
-      font-size:.97em; color:var(--muted); display:flex;justify-content:space-between;margin-bottom:5px;
-    }
-
-    /* Typo: headers, sub, muted, vibrancy */
-    h1, .huge {font-size:52px;font-family:Montserrat,cursive,Inter,sans-serif; background:linear-gradient(90deg,#a681fa,#7dfafc 70%,#ffb8e0 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 11px 38px #9f70fe22;letter-spacing:1.1px;}
-    h2 {font-size:1.55em; font-weight:900; letter-spacing:.3px; color:var(--accent); text-shadow:0 2px 13px #2cc1ffd2; margin-bottom:5px;}
-    .muted, .brand-sub {color:var(--muted); font-size:.94em; font-weight:600;filter:brightness(.96); letter-spacing:.22px;}
-
-    /* Modal window */
-    .modal.show {background:rgba(16,15,29,0.93);backdrop-filter:blur(15px);animation:fadeInUp .27s;}
-    .modal .inner {border-radius:20px; box-shadow:0 8px 32px #8163fbe5;background:linear-gradient(131deg,#260e36f2 68%,#111a2ad9 100%);animation: modalAppear .4s cubic-bezier(.25,.88,.66,1.15) forwards; padding:32px;}
-    @keyframes modalAppear { from {opacity:0; transform:scale(.87);} to {opacity:1;transform:scale(1);} }
-
-    /* Hero special: fancy SVG glow wave */
-    .hero {
-      position:relative;z-index:1;
-      background:linear-gradient(120deg,rgba(166,129,253,.10),rgba(61,254,255,0.04)),rgba(34,25,51,0.39);
-      overflow:hidden;
-      isolation:isolate;
-      margin-top:9px;
-      border-radius:28px;
-      box-shadow:0 9px 72px #492bff19;
-    }
-    .hero::after {
-      content:''; position:absolute; z-index:0; inset:0 auto -100px 0; pointer-events:none;
-      width:140%; height:180px;
-      left:-11%; top:91%;
-      background: radial-gradient(ellipse 67% 75% at 77% 2%, #04fff960 0%,#8a72ff00 90%), radial-gradient(ellipse 23% 70% at -19% 65%, #7950ff34 0, #fff7 100%);
-      opacity:0.92; filter:blur(13px) contrast(1.12); mix-blend-mode:lighten;
-      animation: heroSVGGlow 23s infinite alternate cubic-bezier(.5,.7,.5,1);
-    }
-    @keyframes heroSVGGlow {
-      0% { filter:blur(10px) brightness(1.1); }
-      100% { filter:blur(25px) brightness(.95); }
-    }
-
-    /* НОВЫЕ ГРАДИЕНТНЫЕ БОРДЕРЫ ДЛЯ .panel, .gallery-grid, .module-list */
-    .panel,.gallery-grid,.module-list{
-      border:2.2px solid;
-      border-image: linear-gradient(120deg, var(--accent) 15%, var(--accent-2) 88%) 1;
-    }
-
-    /* HERO и TOPBAR c неон-подсветкой */
-    .hero, .topbar{
-      border-bottom:2.9px solid;
-      border-image: linear-gradient(90deg,#a968fd 12%,#48fcf6 82%,#ffb5fd 100%) 1;
-      box-shadow:0 7px 24px #ac70ff18;
-    }
-    @media (max-width:900px){.hero{border-radius:16px;} .topbar{border-radius:0 0 18px 18px;} }
-
-    /* Эффект shine на кнопках */
-    .btn:after{
-      content:'';
-      display:block;
-      position:absolute;
-      top:0; left:-80%;
-      width:80%; height:100%;
-      background: linear-gradient(111deg,rgba(255,255,255,0.24) 0,rgba(255,255,255,0.08) 100%);
-      filter: blur(9px); opacity:0.46;
-      transform: skewX(-23deg);
-      pointer-events: none;
-      transition:.4s;
-    }
-    .btn:hover:after{left:120%;transition: left .7s cubic-bezier(.7,.3,.65,1.1);}
-
-    /* .crew-card эффект halo + подсветка border */
-    .crew-card{
-      box-shadow:0 4px 24px #5f38e129; border:1.7px solid #6e7fff55;transition:box-shadow .23s, border-color .21s,background .21s;
-    }
-    .crew-card:hover{
-      border: 2.6px solid #44e3fecc !important;
-      box-shadow:0 13px 40px #44e3fec1, 0 2px 9px #644cff88;
-      background:linear-gradient(90deg,#23244488 20%,#41257633 100%);
-    }
-
-    /* Мини-превью цветовых тем для themePicker */
-    .theme-preview-dot {
-      display:inline-block;width:23px;height:23px;border-radius:50%;margin-right:6px;margin-bottom:-7px;vertical-align:middle;box-shadow:0 2px 11px #0002;
-      border:2.1px solid #dbefff85; transition:box-shadow .3s, border .31s;
-    }
-    .theme-preview-glow { animation: glow-in .9s infinite alternate; }
-    @keyframes glow-in {from{box-shadow:0 1px 9px #b7faff44;}to{box-shadow:0 2px 12px #9e7cff55;}}
-    .theme-picker-custom select{padding:9px 36px 9px 9px;appearance:none;-webkit-appearance:none;border:none;background:#21152999;border-radius:12px;color:#F6F7FD;font-weight:700;box-shadow:0 4px 18px #6c4cff1a;cursor:pointer;}
-    .theme-picker-custom{position:relative;display:inline-block;}
-    .theme-picker-custom::after{content:'▼';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:#58edff;pointer-events:none;font-size:.78em;}
-
-    .theme-preview-dot-midnight {background:linear-gradient(120deg,#0f2440,#8be4ff);}  /* Новая тема Midnight */
-    .theme-preview-dot-blossom {background:linear-gradient(120deg,#ffe8e9,#ff48b7 90%,#6a4cff);} /* Blossom */
-    .theme-preview-dot-sunset {background:linear-gradient(120deg,#ffb86b,#ff80b0);}  /* Sunset */
-    .theme-preview-dot-mint {background:linear-gradient(120deg,#aafea9,#059c7b);}  /* Mint */
-    .theme-preview-dot-gold {background:linear-gradient(120deg,#ffe083,#ffb400);}   /* Gold */
-
-    /* Новые space/космос soft-glass стили, без неона */
-    body, .panel, .release-card, .btn, .hero, .topbar {
-      box-shadow: 0 7px 28px #19193228 !important;
-      border: none !important;
-      background: linear-gradient(120deg,rgba(28,45,70,0.92) 70%,rgba(33,24,48,.96) 100%);
-    }
-    .hero, .panel {
-      background: linear-gradient(120deg,rgba(41,54,81,0.96) 60%,rgba(27,18,48,.94) 100%); 
-      backdrop-filter: blur(18px) brightness(1.01);
-    }
-    .release-card {
-      background: linear-gradient(120deg,rgba(34,44,62,0.98),rgba(16,12,25,0.96) 83%);
-      box-shadow: 0 4px 30px #0c0f2b44;
-      transition:background .31s,box-shadow .22s;
-    }
-    .release-card:hover {background:linear-gradient(120deg,#34396a 10%,#232545 90%);box-shadow: 0 12px 32px #17208033;}
-    .btn {
-      background:rgba(44,57,86,0.81); color:#e4eaff;box-shadow:0 1px 6px #15182527; border-radius:13px;font-weight:700;
-      border:1.5px solid #23327766;
-      transition:background .23s,border .16s,box-shadow .18s;
-    }
-    .btn:hover {background:rgba(58,67,108,1);color:#fff;border:1.5px solid #82e7f7bb}
-
-    /* SUPERTЁМНЫЕ ТЕМЫ — только ультра-ночные, мягкие акценты */
-    :root {
-      --radius:18px; --maxw:1200px; --anim-fast:160ms; --anim-medium:320ms;
-      --text-color:#dbe8fa; --muted:#8192ae;
-      /* общий фон на случай отсутствия темы */
-      --bg:#0b0e15; --panel:linear-gradient(120deg,#131726e0,#191d36f0 98%);--card:rgba(30,39,73,0.24);
-      --accent:#4f7cff; --accent-2:#4418ff; --accent-3:#00e6ff; --glass:rgba(255,255,255,0.03);--card-border:rgba(135,156,255,.07);
-    }
-    html[data-theme="deepnight"]  {--bg:linear-gradient(120deg,#0d1121 5%,#121726 100%);--panel:linear-gradient(120deg,#191c2e,#201c3a 90%);--card:#181e32;--accent:#5e99ec;--accent-2:#213a55;--muted:#7b91b3;}
-    html[data-theme="indigo"]    {--bg:linear-gradient(120deg,#101426 12%,#1e2349 98%);--panel:linear-gradient(120deg,#20223a 50%,#181e37 100%);--card:#232251;--accent:#877bff;--accent-2:#232f4f;--muted:#968aff;}
-    html[data-theme="abyss"]     {--bg:linear-gradient(120deg,#090c17,#1f2441 100%);--panel:linear-gradient(120deg,#22243c,#1a181e 100%);--card:#13117a;--accent:#0cfada;--accent-2:#165990;--muted:#51fadd;}
-    html[data-theme="phantom"]   {--bg:linear-gradient(130deg,#0c081b 10%,#22204c 100%);--panel:linear-gradient(120deg,#23255a,#26206f 99%);--accent:#a044fa;--accent-2:#372658;--muted:#9d86c9;}
-    html[data-theme="cyber"]     {--bg:linear-gradient(120deg,#03041b,#181a2a 90%);--panel:linear-gradient(120deg,#03142a,#232c35 100%);--accent:#0de0fb;--accent-2:#3fd7ff;--muted:#72c7eb;}
-    html[data-theme="midnight"]  {--bg:linear-gradient(120deg,#16182c 31%,#081122 95%);--panel:linear-gradient(120deg,#202040,#191833 100%);--accent:#6eaaff;--accent-2:#1e3772;--muted:#7ec4fa;}
-    body,.container,.panel{background:var(--bg)!important;color:var(--text-color)!important;}
-    .panel, .release-card {
-      background:var(--panel)!important;
-      box-shadow:0 6px 24px #15192d77;
-      border-radius:18px;
-      border:1.4px solid var(--card-border);
-    }
-    .release-card img, .release-card svg {background:var(--card)!important;border-radius:11px;}
-    .btn{background:linear-gradient(120deg,#282943,#121327);border-radius:12px;border:1px solid #23233b;color:var(--text-color)!important;transition:background .22s,box-shadow .22s;}
-    .btn:hover{background:linear-gradient(120deg,#23254c,#1b183a);color:#fff;}
-    .topbar,.hero{background:var(--panel)!important;box-shadow:0 7px 18px #11132a99;}
-
-    /* СТИЛЬНАЯ НАВИГАЦИЯ и отсутствие пустот */
-    .topbar {
-      position:sticky;top:0;z-index:100;background:rgba(14,15,25,.91);backdrop-filter:blur(13px) saturate(1.2) brightness(1.05);box-shadow:0 3px 18px #13172b67;padding:10px 0 4px 0;margin-bottom:7px;transition:background .21s;}
-    .navbar {
-      display:flex;gap:0.8em;align-items:center;justify-content:center;flex-wrap:wrap;}
-    .nav-link {
-      color:var(--muted);font-weight:700;text-decoration:none;padding:6px 17px 6px 17px;font-size:1.03em;border-radius:7px;transition:color .21s,background .22s;position:relative;}
-    .nav-link.active,.nav-link:focus,.nav-link:hover {color:var(--accent);background:rgba(80,85,137,0.16);}
-    .nav-link.active::after{content:'';position:absolute;left:13%;right:13%;bottom:3px;height:2.9px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:3px;animation:navUnder .47s;}
-    @keyframes navUnder {from{width:0;opacity:.3;}to{width:93%;opacity:1;}}
-    @media (max-width:700px){.navbar{flex-wrap:wrap;gap:0.4em;}.nav-link{font-size:.93em;padding:6px 7px;margin-bottom:3px;}}
-    /* FOOTER всегда к низу */
-    html,body{height:100%;}body{min-height:100vh;display:flex;flex-direction:column;}
-    .container{flex:1 0 auto;}
-    footer.panel{margin-top:auto!important;}
-    /* Убрать лишние пустоты */
-    .panel,section,footer{margin-bottom:10px!important;}section.panel:last-of-type,footer.panel{margin-bottom:0!important;}@media (max-width:700px){.panel,section{padding:14px 4vw!important;}}
-
-    :root {
-      --radius: 18px;
-      --maxw: 1200px;
-      --anim-fast: 160ms;
-      --anim-medium: 320ms;
-      --text-color: #e8ebfa;
-      --muted: #858fae;
-      --bg: #08090f;
-      --panel: #0b0e18;
-      --card: #10121b;
-      --accent: #2350ff;
-      --accent-2: #394973;
-      --accent-3: #07568e;
-      --glass: #1a182544;
-      --card-border: #1f223277;
-    }
-    html[data-theme="deepnight"] {
-      --bg: #06070c;
-      --panel: #090c16;
-      --card: #10101b;
-      --accent: #2d3d82;
-      --accent-2: #131c3c;
-      --muted: #707ca0;
-      --text-color: #d6e2f1;
-    }
-    html[data-theme="indigo"] {
-      --bg: #080917;
-      --panel: #111327;
-      --card: #111234;
-      --accent: #21285f;
-      --accent-2: #171b33;
-      --muted: #8f99ba;
-      --text-color: #e2e5fb; 
-    }
-    html[data-theme="abyss"] {
-      --bg: #050815;
-      --panel: #070b18;
-      --card: #151832;
-      --accent: #02304f;
-      --accent-2: #01081a;
-      --muted: #4e6985;
-      --text-color: #e7f9ff;
-    }
-    html[data-theme="phantom"] {
-      --bg: #0a0916;
-      --panel: #181729;
-      --card: #18152b;
-      --accent: #29194b;
-      --accent-2: #131339;
-      --muted: #7d69a3;
-      --text-color: #ecefff;
-    }
-    html[data-theme="cyber"] {
-      --bg: #060a13;
-      --panel: #0d1221;
-      --card: #171a28;
-      --accent: #1ab0dc;
-      --accent-2: #1e203b;
-      --muted: #3893a2;
-      --text-color: #e9fdfc;
-    }
-    html[data-theme="midnight"] {
-      --bg: #06092d;
-      --panel: #0b0d1d;
-      --card: #0e1021;
-      --accent: #313f69;
-      --accent-2: #202736;
-      --muted: #7c92b4;
-      --text-color: #e6eafd;
-    }
-    body, .container, .panel { background: var(--bg)!important; color: var(--text-color)!important; }
-    .panel, .release-card {
-      background: var(--panel)!important;
-      box-shadow: 0 6px 24px #07091fdd;
-      border-radius: 18px;
-      border: 1.4px solid var(--card-border);
-    }
-    .release-card img, .release-card svg { background: var(--card)!important; border-radius: 11px;}
-    .btn{ background: linear-gradient(120deg,#15161f 70%,#131327 100%); border-radius: 12px; border: 1px solid #23233b; color: var(--text-color)!important; transition: background .22s, box-shadow .22s;}
-    .btn:hover{ background: linear-gradient(120deg,#23254c,#151428 100%); color: #fff;}
-    .topbar,.hero{ background: var(--panel)!important; box-shadow: 0 7px 18px #070a1999;}
-
-    </style>
-    <script>
-    // SVG GRID animation (soft wavy)
-    (function(){
-      const lines = ['line1','line2','line3','line4'];
-      let t=0;
-      function animate(){
-        t+=.022;
-        lines.forEach((id,num)=>{
-          let poly=document.getElementById(id);
-          if(!poly) return;
-          let ybase=[80,230,380,510][num],amp=10+9*num,p=poly.points;
-          for(let i=0;i<p.numberOfItems;i++){
-            let b=[0,200,450,760,910][i]||0;
-            let v = ybase+(Math.sin(t+num*1.5+i)*amp*(.88-Math.abs(i-2)*.19));
-            p.getItem(i).y=v;
-          }
-        });
-        requestAnimationFrame(animate);
-      }
-      requestAnimationFrame(animate);
-    })();
-    // IntersectionObserver для fade-slide карточек
-    (function(){
-      const allPanels = document.querySelectorAll('.panel,.release-card,.crew-card,.widget');
-      let delay = 0;
-      allPanels.forEach((el,i)=>{
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(28px) scale(.98)';
-      });
-      const obs = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-          if(entry.isIntersecting){
-            entry.target.style.transition = 'all .7s cubic-bezier(.53,1.3,.31,1.07)';
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) scale(1)';
-            obs.unobserve(entry.target);
-          }
-        });
-      },{ threshold:0.13 });
-      allPanels.forEach((el)=>{obs.observe(el);});
-    })();
-    </script>
-    <script>
-    (function themePickerUpgrade2(){
-      const THEMES = [
-        {id:'midnight', name:'Midnight',g:'linear-gradient(120deg,#142c51 20%,#8be4ff 95%)', dotClass:'theme-preview-dot-midnight'},
-        {id:'blossom', name:'Blossom',g:'linear-gradient(120deg,#ffe8e9 5%,#ff48b7 85%,#6a4cff 100%)', dotClass:'theme-preview-dot-blossom'},
-        {id:'cyber',   name:'Cyber',   g:'linear-gradient(130deg,#0dfdfa 13%,#00e6ff 85%)', dotClass:'theme-preview-dot'},
-        {id:'mint',    name:'Mint',    g:'linear-gradient(120deg,#aafea9 12%,#059c7b 99%)', dotClass:'theme-preview-dot-mint'},
-        {id:'sunset',  name:'Sunset',  g:'linear-gradient(120deg,#ffb86b 18%,#ff80b0 90%)', dotClass:'theme-preview-dot-sunset'},
-        {id:'gold',    name:'Gold',    g:'linear-gradient(120deg,#ffe083 35%,#ffd700 100%)', dotClass:'theme-preview-dot-gold'},
-        {id:'glow',    name:'Glow',    g:'linear-gradient(130deg,#a57cff 14%,#51e1ff 94%)', dotClass:'theme-preview-dot'},
-      ];
-      const picker = document.getElementById('themePicker');
-      if(!picker) return;
-      const wrap = document.createElement('div'); wrap.className='theme-picker-custom'; picker.parentNode.insertBefore(wrap,picker); wrap.appendChild(picker);
-      picker.innerHTML='';
-      THEMES.forEach(t=>{
-        const opt = document.createElement('option'); opt.value=t.id; opt.innerHTML=`<span class='theme-preview-dot ${t.dotClass||''}' style='background:${t.g}'></span>${t.name}`;
-        picker.appendChild(opt);
-      });
-      function updatePreview(){
-        const idx = THEMES.findIndex(t=>t.id===picker.value);
-        let dot = wrap.querySelector('.theme-preview-dot-main');
-        if(!dot) { dot = document.createElement('span'); dot.className='theme-preview-dot theme-preview-dot-main'; picker.parentNode.insertBefore(dot,picker);}
-        dot.className = 'theme-preview-dot theme-preview-dot-main ' + (THEMES[idx].dotClass||'');
-        dot.style.background=THEMES[idx].g;
-        document.body.dataset.theme = THEMES[idx].id;
-      }
-      picker.addEventListener('change',()=>{updatePreview();});
-      setTimeout(updatePreview,200);
-      document.documentElement.style.transition='background 800ms cubic-bezier(.33,.8,.41,1), color 600ms, box-shadow 700ms';
-    })();
-    </script>
-    <script>
-    // OFF: удаляем releaseWidget любой (если есть)
-    const rw = document.getElementById('releaseWidget');if(rw)rw.remove();
-    // Переопределяем makeReleaseCard строго: для Atmosphere/Hekate — конкретные картинки через repo, остальные как всегда
-    window.makeReleaseCard = function(r){
-      const ver = r.tag_name || r.name || '';
-      let isAtmos = (r._repo||'').toLowerCase().includes('atmosphere');
-      let isHekate = (r._repo||'').toLowerCase().includes('hekate');
-      let imgSrc = '';
-      if(isAtmos)   imgSrc = 'https://raw.githubusercontent.com/Atmosphere-NX/Atmosphere/refs/heads/master/img/banner.png';
-      else if(isHekate) imgSrc = 'https://user-images.githubusercontent.com/3665130/60391760-bc1e8c00-9afe-11e9-8b7a-b065873081b2.png';
-      else {
-        const assets = r.assets||[];
-        const assetImg = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
-        if(assetImg) imgSrc = assetImg.browser_download_url;
-        else if(r._repo) {
-          const tryUrls = [
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/preview.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`
-          ];
-          imgSrc = tryUrls[0];
-        } else {
-          imgSrc = '/Ryzhenka/assets/Ryazhalogo.png';
-        }
-      }
-      const img = document.createElement('img');
-      img.src = imgSrc;
-      img.alt = ver;
-      img.style.width = '100%';
-      img.style.height = '140px';
-      img.style.objectFit = 'cover';
-      img.style.borderRadius = '11px';
-      img.onload = ()=>{ img.style.opacity = '1'; };
-      img.onerror = ()=>{
-        if(img.src.includes('preview.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`;
-        else if(img.src.includes('hero.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`;
-        else if(img.src.includes('banner.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`;
-        else if(img.src.includes('/Ryzhenka/assets/Ryazhalogo.png')) showSvgFallback();
-        else img.src = '/Ryzhenka/assets/Ryazhalogo.png';
-      };
-      function showSvgFallback(){
-        img.replaceWith(svgFallback());
-      }
-      function svgFallback() {
-        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-        svg.setAttribute('width','100%');svg.setAttribute('height','140px');
-        svg.setAttribute('viewBox','0 0 290 84');
-        svg.innerHTML = `<rect width="290" height="84" rx="16" fill="#191931"/><text x="50%" y="51%" dominant-baseline="middle" text-anchor="middle" fill="#4857fa" style="font-family:'Montserrat',sans-serif;font-size:22px;letter-spacing:1px;">Нет картинки</text><circle cx="45" cy="42" r="22" fill="#3848c4"/><circle cx="45" cy="42" r="12" fill="#8F4CFF" opacity=".6"/>`;
-        return svg;
-      }
-      const repoBadge = document.createElement('div'); repoBadge.className = 'repo-badge'; repoBadge.textContent = r._repo || '';
-      const h3 = document.createElement('h3'); h3.textContent = r.name || ver;
-      const meta = document.createElement('div'); meta.className = 'meta';
-      meta.appendChild(document.createElement('span')).textContent = (r.published_at||r.created_at) ? new Date(r.published_at||r.created_at).toLocaleDateString() : '';
-      meta.appendChild(document.createElement('span')).textContent = ver;
-      const bodyP = r.body ? document.createElement('p') : null; if(bodyP) bodyP.textContent = r.body.length > 240 ? r.body.slice(0,240)+'…' : r.body;
-      const card = document.createElement('article'); card.className = 'release-card';
-      card.appendChild(repoBadge); card.appendChild(img); card.appendChild(h3); card.appendChild(meta);
-      if(bodyP) card.appendChild(bodyP);
-      if((r.assets||[]).length > 0){
-        const assetsWrap = document.createElement('div'); assetsWrap.style = 'display:flex;flex-direction:column;gap:6px;margin-top:8px';
-        const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
-        titles.forEach(t => {
-          const asset = r.assets.find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
-          const row = document.createElement('div'); row.style = 'display:flex;align-items:center;gap:8px';
-          if(asset){
-            const ael = document.createElement('a'); ael.href = asset.browser_download_url; ael.target='_blank'; ael.className='btn small'; ael.textContent = `${t} — ${asset.name}`;
-            row.appendChild(ael);
-            const size = document.createElement('small'); size.style = 'margin-left:auto;color:var(--muted)'; size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '';
-            row.appendChild(size);
-          } else {
-            row.appendChild(document.createElement('small')).textContent = `${t} — отсутствует`;
-          }
-          assetsWrap.appendChild(row);
-        });
-        card.appendChild(assetsWrap);
-      }
-      return card;
-    };
-    // Тёмные темы для выбора:
-    (function themePickerUpgrade3(){
-      const THEMES = [
-        {id:'deepnight', name:'Deep Night',cs:'linear-gradient(100deg,#14162a 20%,#22264d 99%)'},
-        {id:'indigo', name:'Indigo',cs:'linear-gradient(110deg,#1e2347 10%,#22254d 90%)'},
-        {id:'abyss', name:'Abyss',cs:'linear-gradient(110deg,#09101d 8%,#233142 90%)'},
-        {id:'phantom', name:'Phantom Violet',cs:'linear-gradient(110deg,#0a0b17 18%,#23245c 90%)'},
-        {id:'cyber', name:'Cyber Night',cs:'linear-gradient(110deg,#102233 21%,#212e3c 100%)'},
-        {id:'midnight', name:'Midnight',cs:'linear-gradient(110deg,#09132c 24%,#1e3155 92%)'},
-      ];
-      const picker = document.getElementById('themePicker');
-      if(!picker) return;
-      picker.innerHTML='';
-      THEMES.forEach(t=>{
-        const opt = document.createElement('option'); opt.value=t.id; opt.innerHTML=`<span class='theme-preview-dot' style='background:${t.cs};display:inline-block;width:22px;height:22px;border-radius:50%;margin-right:7px;'></span>${t.name}`;
-        picker.appendChild(opt);
-      });
-      picker.addEventListener('change',()=>{
-        document.documentElement.dataset.theme = picker.value;
-      });
-      setTimeout(()=>{
-        const theme = THEMES[0].id; picker.value = theme; document.documentElement.dataset.theme = theme;
-      },100);
-    })();
-    </script>
+    ::-webkit-scrollbar-track{background:transparent;}
   </style>
 </head>
 
@@ -637,7 +192,7 @@
     <header class="topbar">
       <div class="top-inner">
         <div class="brand" onclick="location.href='./'">
-          <img class="logo" src="/Ryzhenka/assets/Ryazhalogo.png" alt="Ryazhenka" />
+          <img class="logo" src="./assets/Ryazhalogo.png" alt="Ryazhenka" />
           <div>
             <div class="brand-title">Ryazhenka</div>
             <div class="brand-sub">CFW — generative aesthetic</div>
@@ -674,7 +229,7 @@
         <p class="lead">Стабильная кастомная прошивка для Nintendo Switch — красиво, безопасно, удобно. Всё в одном месте: релизы, галерея, благодарности, модули, To‑Do.</p>
 
         <div class="hero-image" id="heroImageWrap">
-          <img id="heroImage" src="/Ryzhenka/assets/hero.png" alt="Hero preview (from repository if available)" onerror="this.style.display='none'" />
+          <img id="heroImage" src="./assets/Ryazhalogo.png" alt="Hero preview (from repository if available)" onerror="this.style.display='none'" />
         </div>
 
         <div class="hero-cta">
@@ -763,98 +318,22 @@
             <input id="todoInput" placeholder="Название задачи" />
             <select id="todoPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select>
             <input id="todoDue" type="date" />
-            <button id="todoAdd" class="btn primary">Добавить</button>
+            <button id="todoAdd" class="btn small">Добавить</button>
           </div>
-
-          <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-            <input id="todoFilter" placeholder="Фильтр..." style="padding:8px;border-radius:8px;border:1px solid var(--card-border);background:transparent;color:var(--text-color)" />
-            <select id="todoSort"><option value="new">Новые</option><option value="old">Старые</option><option value="prio">По приоритету</option><option value="due">По дате</option></select>
-            <button id="exportTodos" class="btn">Экспорт</button>
-            <input id="todoImportFile" type="file" accept="application/json" style="display:none" />
-            <button id="importTodosBtn" class="btn">Импорт</button>
-          </div>
-
-          <ul id="todoList" class="todo-list" aria-live="polite" style="margin-top:12px"></ul>
+          <ul id="todoList" class="todo-list"></ul>
         </div>
-
-        <aside style="padding-left:12px;border-left:1px solid var(--card-border)">
-          <button id="clearCompleted" class="btn small">Удалить выполненные</button>
-          <button id="clearAll" class="btn small">Удалить все</button>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <select id="todoFilter"><option value="all">Все</option><option value="active">Активные</option><option value="completed">Завершённые</option></select>
+          <select id="todoSort"><option value="date">По дате</option><option value="priority">По приоритету</option></select>
           <button id="bulkComplete" class="btn small">Отметить все</button>
-          <div class="muted" style="margin-top:12px">Задачи сохраняются в localStorage.</div>
-        </aside>
+          <button id="clearCompleted" class="btn small">Удалить завершённые</button>
+          <button id="clearAll" class="btn small">Очистить всё</button>
+          <button id="exportTodos" class="btn small">Экспорт</button>
+          <button id="importTodosBtn" class="btn small">Импорт</button>
+          <input id="todoImportFile" type="file" accept="application/json" style="display:none" />
+        </div>
       </div>
     </section>
-
-    <!-- TUNER RELEASES -->
-    <section id="tuner-releases" class="panel section">
-      <div class="section-head">
-        <h2>Релизы Ryazhenkabestcfw-Tuner</h2>
-        <div class="muted" id="tuner-timestamp"></div>
-      </div>
-      <div id="tunerReleasesList"></div>
-    </section>
-    <script>
-    (async function loadTunerReleases(){
-      const list = document.getElementById('tunerReleasesList');
-      const timeEl = document.getElementById('tuner-timestamp');
-      list.innerHTML = '<div class="muted">Загрузка...</div>';
-      try{
-        const url = 'https://api.github.com/repos/Dimasick-git/Ryazhenkabestcfw-Tuner/releases?per_page=5';
-        const res = await fetch(url); const data = await res.json();
-        timeEl.textContent = 'Последнее обновление: ' + new Date().toLocaleString();
-        list.innerHTML = '';
-        data.forEach(rel => {
-          const card = document.createElement('div');
-          card.className = 'release-card';
-          card.style = 'margin-bottom:15px;background:var(--card);padding:16px;border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,0.07);';
-          const head = `<div style="font-size:1.18em;font-weight:700;">${rel.name||rel.tag_name||'Release'}</div>`;
-          const date = `<div class="muted" style="font-size:.92em;margin-bottom:7px;">${new Date(rel.published_at).toLocaleDateString()} • <a href="${rel.html_url}" target="_blank">GitHub</a></div>`;
-          const body = `<div style="margin:5px 0 9px;color:var(--text-color);white-space:pre-line;">${rel.body ? rel.body.slice(0,1200): ''}</div>`;
-          const assets = (rel.assets||[]).map(a=>`<a class="btn" style="margin:6px 6px 0 0;display:inline-block;" href="${a.browser_download_url}">${a.name}</a>`).join('');
-          card.innerHTML = head + date + body + (assets ? `<div style="margin-top:8px">${assets}</div>` :'');
-          list.appendChild(card);
-        });
-      }catch(e){
-        list.innerHTML = '<div class="muted">Ошибка при загрузке релизов :(</div>';
-      }
-    })();
-    </script>
-
-    <!-- NEWS BLOCK -->
-    <section id="tuner-news" class="panel glass" style="margin-top:14px; margin-bottom:18px; padding:16px 18px; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,0.07); background:var(--panel);">
-      <h2 style="margin:0 0 10px 0;font-size:1.20em;">Новости и нововведения от Dimasick-git</h2>
-      <div id="dimasickNewsList">
-        <div class="muted">Загрузка новостей...</div>
-      </div>
-    </section>
-    <script>
-    (async function loadTunerNews(){
-      const list = document.getElementById('dimasickNewsList');
-      try {
-        const url = 'https://api.github.com/repos/Dimasick-git/Ryazhenkabestcfw-Tuner/releases?per_page=3';
-        const res = await fetch(url);
-        const data = await res.json();
-        list.innerHTML = '';
-        data.forEach(rel => {
-          // Вырежем лид (первые 1-2 предложения)
-          let desc = (rel.body||'').split(/\n|[.!?]\s/).slice(0,2).join('. ') + '.';
-          if (desc.length > 170) desc = desc.slice(0,170) + '…';
-          const el = document.createElement('div');
-          el.style = 'margin-bottom:12px;padding-bottom:10px;border-bottom:1px dashed var(--card-border)';
-          el.innerHTML = `
-            <div style="font-weight:700;font-size:1.03em; color:var(--accent);">${rel.name || rel.tag_name}</div>
-            <div class="muted" style="font-size:.92em;">${new Date(rel.published_at).toLocaleDateString()}</div>
-            <div style="margin:5px 0 7px;">${desc}</div>
-            <a href="${rel.html_url}" class="btn small" target="_blank">Подробнее</a>
-          `;
-          list.appendChild(el);
-        });
-      } catch (e) {
-        list.innerHTML = '<div class="muted">Ошибка загрузки новостей :(</div>';
-      }
-    })();
-    </script>
 
     <!-- FOOTER -->
     <footer class="panel">
@@ -869,24 +348,32 @@
 
   <script>
     (function(){
-      // CONFIG
+      // ==================== CONFIG ====================
       const mainRepoFull = 'Dimasick-git/Ryzhenka';
-      const baseRepos = [mainRepoFull,'Atmosphere-NX/Atmosphere','CTCaer/hekate'];
+      const baseRepos = [
+        mainRepoFull,
+        'Atmosphere-NX/Atmosphere',
+        'CTCaer/hekate',
+        'Dimasick-git/Ryazhahand-Overlay',
+        'Dimasick-git/Sys-clk',
+        'Dimasick-git/Ryazhenkabestcfw-Tuner',
+        'Dimasick-git/RyazhaTune',
+        'Dimasick-git/Ryazhenka-Overlays'
+      ];
       const limitedRepos = new Set(['Atmosphere-NX/Atmosphere','CTCaer/hekate']);
       const optionalRepo = 'switchbrew/stratosphere';
       const releasesPerRepo = 100;
-      const cacheKey = 'rz_cache_v7';
+      const cacheKey = 'rz_cache_v8';
       const cacheTTL = 1000 * 60 * 5;
-      const crewKey = 'rz_manual_crew_v7';
-      const todoKey = 'rz_todos_v7';
-      const settingsKey = 'rz_ui_settings_v7';
-      const commentsKey = 'rz_comments_v1';
-      const moduleReposKey = 'rz_module_repos_v1';
-      const modulesCacheKey = 'rz_modules_cache_v1';
-      const repoImageCacheKey = 'rz_repo_image_cache_v1';
-      const repoImageCacheTTL = 1000 * 60 * 60 * 6; // 6 hours
+      const crewKey = 'rz_manual_crew_v8';
+      const todoKey = 'rz_todos_v8';
+      const settingsKey = 'rz_ui_settings_v8';
+      const moduleReposKey = 'rz_module_repos_v2';
+      const modulesCacheKey = 'rz_modules_cache_v2';
+      const repoImageCacheKey = 'rz_repo_image_cache_v2';
+      const repoImageCacheTTL = 1000 * 60 * 60 * 6;
 
-      // DOM
+      // ==================== DOM ELEMENTS ====================
       const releasesGroupedEl = document.getElementById('releasesGrouped');
       const galleryGridEl = document.getElementById('galleryGrid');
       const crewGridEl = document.getElementById('crewGrid');
@@ -926,14 +413,13 @@
 
       const refreshAllBtn = document.getElementById('refreshAll');
 
-      // Modules UI
       const moduleRepoInput = document.getElementById('moduleRepoInput');
       const addModuleBtn = document.getElementById('addModuleBtn');
       const moduleListEl = document.getElementById('moduleList');
       const modulesGroupedEl = document.getElementById('modulesGrouped');
       const refreshModulesBtn = document.getElementById('refreshModules');
 
-      // defaults
+      // ==================== DEFAULTS ====================
       const defaultManualCrew = [
         { login: 'Dimasick-git', name: 'Dimasick-git', role: 'Основатель' },
         { login: 'Ryazhenka-Helper-1', name: 'Ryazhenka-Helper-1', role: 'Модульный разработчик (sys-clk)' },
@@ -941,11 +427,11 @@
       ];
       const defaultModuleRepos = [
         'Dimasick-git/Ryazhahand-Overlay',
-        'Dimasick-git/libRYAZHAHAND',
-        'Ryazhenka-Helper-1/Sys-clk-for-RYZ'
+        'Dimasick-git/Sys-clk',
+        'Dimasick-git/Ryazhenkabestcfw-Tuner'
       ];
 
-      // small helpers
+      // ==================== UTILITIES ====================
       function el(tag, attrs={}, ...children){
         const e = document.createElement(tag);
         for(const k in attrs){
@@ -959,8 +445,9 @@
       function fmtDate(iso){ if(!iso) return ''; try{return new Date(iso).toLocaleDateString();}catch(e){return iso;} }
       function bbootLogoUrl(repoFull, tag){ return `https://github.com/${repoFull}/releases/download/${encodeURIComponent(tag)}/bbootlogo.png`; }
       function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+      function formatNumber(n){ return n.toLocaleString('ru-RU'); }
 
-      // settings
+      // ==================== SETTINGS ====================
       function applyTextOverrides(textModeValue, bgValue){
         const root = document.documentElement;
         root.style.removeProperty('--text-color'); root.style.removeProperty('--muted');
@@ -980,7 +467,7 @@
       themePicker && themePicker.addEventListener('change', saveSettings); bgMode && bgMode.addEventListener('change', saveSettings); textMode && textMode.addEventListener('change', saveSettings);
       loadSettings();
 
-      // HERO image loader (unchanged)
+      // ==================== HERO IMAGE ====================
       (function tryLoadHeroFromRepo(){
         const img = document.getElementById('heroImage'); if(!img) return;
         const repoRawBase = 'https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main';
@@ -998,7 +485,7 @@
         })();
       })();
 
-      // Find repo image: try branches main/master and common paths, with caching
+      // ==================== IMAGE FINDER ====================
       async function findRepoImage(repoFull){
         try{
           let cache = {};
@@ -1035,18 +522,22 @@
         return null;
       }
 
-      // Fetch releases for a repo
+      // ==================== RELEASES FETCHING ====================
       async function fetchReleasesFromRepo(repoFull){
-        const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
-        const res = await fetch(url);
-        if(!res.ok) throw new Error(`Failed ${repoFull}: ${res.status}`);
-        const data = await res.json();
-        return (Array.isArray(data) ? data : []).map(r => ({...r, _repo: repoFull}));
+        try{
+          const url = `https://api.github.com/repos/${repoFull}/releases?per_page=${releasesPerRepo}`;
+          const res = await fetch(url);
+          if(!res.ok) throw new Error(`Failed ${repoFull}: ${res.status}`);
+          const data = await res.json();
+          return (Array.isArray(data) ? data : []).map(r => ({...r, _repo: repoFull}));
+        }catch(e){
+          console.warn('Error fetching releases from', repoFull, e);
+          return [];
+        }
       }
 
       function getRepoList(){ const list = baseRepos.slice(); if(includeStrato && includeStrato.checked) list.push(optionalRepo); return list; }
 
-      // Load releases, then enforce limitedRepos to keep only latest 3 for those repos
       async function loadReleases(){
         try{
           const raw = localStorage.getItem(cacheKey);
@@ -1061,22 +552,19 @@
         }catch(e){}
         const repos = getRepoList();
         releasesGroupedEl.innerHTML=''; galleryGridEl.innerHTML=''; releasesCountEl.textContent='…'; downloadsCountEl.textContent='…';
-        const jobs = repos.map(r => fetchReleasesFromRepo(r).catch(err => { console.warn(err); return []; }));
+        const jobs = repos.map(r => fetchReleasesFromRepo(r));
         const results = await Promise.all(jobs);
         const combined = results.flat();
 
-        // dedupe by repo+tag
         const map = new Map();
         combined.forEach(r => {
           const key = `${r._repo}::${r.tag_name || r.name || ''}`;
           if(!map.has(key)) map.set(key, r);
         });
-        // group by repo, enforce limitedRepos limit
         const byRepo = {};
         Array.from(map.values()).sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at)).forEach(r => {
           (byRepo[r._repo] = byRepo[r._repo] || []).push(r);
         });
-        // assemble final array where limited repos have only top 3
         const finalArr = [];
         Object.keys(byRepo).forEach(repo => {
           const items = byRepo[repo];
@@ -1103,7 +591,7 @@
         });
       }
 
-      // makeReleaseCard: set placeholder and try to replace with repo image if no asset image
+      // ==================== RELEASE CARD BUILDER ====================
       function makeReleaseCard(r){
         const ver = r.tag_name || r.name || '';
         const assets = r.assets || [];
@@ -1113,18 +601,12 @@
         const img = el('img', { src: previewPlaceholder, alt: ver });
         img.style.width='100%'; img.style.height='140px'; img.style.objectFit='cover'; img.style.borderRadius='8px';
 
-        // if there's no asset image, try to async find preview in repo and replace
         if(!assetImage){
           (async () => {
             try{
               const found = await findRepoImage(r._repo || mainRepoFull);
-              if(found) {
-                // only replace if current src is still the placeholder (avoid flicker if downloaded asset later)
-                if(img && img.src && (img.src.indexOf('bbootlogo') !== -1 || img.src.indexOf('raw.githubusercontent.com') === -1)){
-                  img.src = found;
-                } else {
-                  img.src = found;
-                }
+              if(found && img && img.src) {
+                img.src = found;
               }
             }catch(e){ /* ignore */ }
           })();
@@ -1235,10 +717,9 @@
         const data = window.__rz_releases || [];
         let total = 0;
         data.forEach(r => (r.assets||[]).forEach(a => { if(typeof a.download_count === 'number') total += a.download_count; }));
-        downloadsCountEl.textContent = total;
+        downloadsCountEl.textContent = formatNumber(total);
       }
 
-      // Widgets: similar to previous, but uses findRepoImage fallback
       async function renderWidgets(){
         widgetsArea.innerHTML = '';
         const data = window.__rz_releases || [];
@@ -1271,379 +752,232 @@
         }
       }
 
-      // Crew and modules logic (unchanged except modules defaults)
+      // ==================== CREW MANAGEMENT ====================
       function getManualCrew(){ try{ return JSON.parse(localStorage.getItem(crewKey) || '[]'); }catch(e){ return []; } }
       function saveManualCrew(arr){ localStorage.setItem(crewKey, JSON.stringify(arr)); }
 
       function makeCrewCard(p){
         const avatar = p.avatar || `https://github.com/${p.login}.png`;
         const img = el('img',{src:avatar,alt:p.login}); img.style.width='64px'; img.style.height='64px'; img.style.borderRadius='10px';
-        const nameLink = el('a',{href:`https://github.com/${p.login}`,target:'_blank'}, p.login); nameLink.style.fontWeight='700';
-        const name = el('div',{}, nameLink);
-        if(p.name && p.name !== p.login) name.appendChild(document.createTextNode(' — ' + p.name));
-        const role = p.role ? el('div',{class:'muted'},p.role) : null;
-        const contrib = el('div',{class:'muted'}, `Commits: ${p.contributions || 0}`);
-        const info = el('div',{}, name, role || '', contrib);
-        const card = el('div',{class:'crew-card', title:'Клик для деталей'}, img, info);
-        card.addEventListener('click', ()=>{
-          const kudosKey = `kudos_${p.login.toLowerCase()}`; const current = parseInt(localStorage.getItem(kudosKey) || '0', 10);
-          openModal(`<div class="inner"><div style="display:flex;gap:12px;align-items:center"><img src="${avatar}" style="width:96px;height:96px;border-radius:12px"/><div><h3>${escapeHtml(p.name || p.login)}</h3><div class="muted">${escapeHtml(p.role || '')}</div><div style="margin-top:8px"><small class="muted">Коммитов: ${p.contributions || 0}</small></div><div class="crew-actions" style="margin-top:12px"><a class="btn" href="https://github.com/${p.login}" target="_blank">Открыть GitHub</a><button id="giveKudos" class="btn primary">+1 Kudos</button><button id="closeCrewModal" class="btn">Закрыть</button></div><div id="kudosCount" style="margin-top:8px" class="muted">Kudos: ${current}</div></div></div></div>`);
-          document.getElementById('giveKudos').addEventListener('click', () => { const key = `kudos_${p.login.toLowerCase()}`; const cur = parseInt(localStorage.getItem(key) || '0',10)+1; localStorage.setItem(key,String(cur)); const elK = document.getElementById('kudosCount'); if(elK) elK.textContent = 'Kudos: ' + cur; });
-          document.getElementById('closeCrewModal').addEventListener('click', closeModal);
-        });
+        const nameLink = el('a',{href:`https://github.com/${p.login}`,target:'_blank',style:'color:inherit;text-decoration:none'}, p.name || p.login);
+        const role = el('div',{class:'muted',style:'font-size:.85rem'}, p.role || 'Contributor');
+        const card = el('div',{class:'crew-card'}, img, el('div',{}, el('div',{style:'font-weight:700'}, nameLink), role));
         return card;
       }
 
-      async function loadCrew(){
-        crewGridEl.innerHTML = ''; crewMiniEl.innerHTML = '';
-        const stored = getManualCrew();
-        const merged = (stored || []).concat(defaultManualCrew);
-        merged.slice(0,6).forEach(m => crewMiniEl.appendChild(makeCrewCard(m)));
-        merged.forEach(m => crewGridEl.appendChild(makeCrewCard(m)));
-        try{
-          const url = `https://api.github.com/repos/${mainRepoFull}/contributors?per_page=100`;
-          const res = await fetch(url);
-          if(res.ok){
-            const list = await res.json();
-            const seen = new Set(merged.map(x => x.login.toLowerCase()));
-            list.forEach(c => { if(!seen.has(c.login.toLowerCase())) crewGridEl.appendChild(makeCrewCard({ login: c.login, avatar: c.avatar_url, contributions: c.contributions })); });
-          }
-        }catch(e){ console.warn('contributors failed', e); }
+      function renderCrew(){
+        crewGridEl.innerHTML = '';
+        const crew = getManualCrew();
+        if(!crew.length) crew.push(...defaultManualCrew);
+        crew.forEach(p => crewGridEl.appendChild(makeCrewCard(p)));
       }
 
-      // Crew add/export/import (unchanged)
-      addCrewBtn && addCrewBtn.addEventListener('click', ()=> {
-        openModal(`<div class="inner"><h3>Добавить участника</h3><div style="display:grid;gap:8px;margin-top:8px"><input id="mc_login" placeholder="Github login" /><input id="mc_name" placeholder="Имя (опционально)" /><input id="mc_role" placeholder="Роль" /><div style="display:flex;justify-content:flex-end;gap:8px"><button id="mc_cancel" class="btn">Отмена</button><button id="mc_save" class="btn primary">Сохранить</button></div></div></div>`);
-        document.getElementById('mc_cancel').addEventListener('click', closeModal);
-        document.getElementById('mc_save').addEventListener('click', ()=> {
-          const login = (document.getElementById('mc_login')||{}).value.trim(); const name = (document.getElementById('mc_name')||{}).value.trim(); const role = (document.getElementById('mc_role')||{}).value.trim();
-          if(!login){ alert('Введите login'); return; }
-          const arr = getManualCrew(); arr.unshift({ login, name: name || login, role }); saveManualCrew(arr); closeModal(); loadCrew();
-        });
-      });
+      // ==================== TODO MANAGEMENT ====================
+      function getTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
+      function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); }
 
-      exportCrewBtn && exportCrewBtn.addEventListener('click', ()=> {
-        const data = JSON.stringify(getManualCrew(), null, 2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download='ryazhenka-crew.json'; a.click(); URL.revokeObjectURL(url);
-      });
+      function renderTodos(){
+        const todos = getTodos();
+        const filterVal = (todoFilter || {}).value || 'all';
+        const sortVal = (todoSort || {}).value || 'date';
 
-      importCrewBtn && importCrewBtn.addEventListener('click', ()=> importCrewFile.click());
-      importCrewFile && importCrewFile.addEventListener('change', e=> {
-        const f = e.target.files[0]; if(!f) return; const r = new FileReader();
-        r.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const exist = getManualCrew(); const set = new Set(exist.map(x=>x.login.toLowerCase())); data.forEach(it => { if(it.login && !set.has(it.login.toLowerCase())) exist.unshift(it); }); saveManualCrew(exist); loadCrew(); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } };
-        r.readAsText(f); e.target.value='';
-      });
+        let filtered = todos;
+        if(filterVal === 'active') filtered = todos.filter(t => !t.completed);
+        if(filterVal === 'completed') filtered = todos.filter(t => t.completed);
 
-      // Local comments
-      function loadLocalCommentsUI(container){
-        container.innerHTML=''; const title = el('strong',{}, 'Комментарии (локальные)');
-        const name = el('input',{id:'localCommentName',placeholder:'Имя (опционально)', style:'width:40%;padding:8px;border-radius:8px'});
-        const area = el('textarea',{id:'localCommentText', rows:4, placeholder:'Ваш комментарий', style:'width:100%;padding:8px;border-radius:8px'});
-        const submit = el('button',{class:'btn primary'}, 'Отправить'); const list = el('div',{id:'localCommentsList', style:'margin-top:10px'});
-        container.appendChild(title); container.appendChild(name); container.appendChild(area); container.appendChild(el('div',{style:'display:flex;justify-content:flex-end;margin-top:8px'}, submit)); container.appendChild(list);
-        renderLocalComments();
+        if(sortVal === 'priority') filtered.sort((a,b) => {const p={'high':0,'normal':1,'low':2}; return (p[a.priority]||1) - (p[b.priority]||1);});
+        else filtered.sort((a,b) => new Date(b.created||0) - new Date(a.created||0));
 
-        submit.addEventListener('click', ()=>{
-          const txt = (document.getElementById('localCommentText')||{}).value || ''; const nm = (document.getElementById('localCommentName')||{}).value || 'Аноним';
-          if(!txt.trim()) return alert('Введите текст');
-          try{ const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]'); cur.unshift({ name: nm, txt, ts: Date.now() }); localStorage.setItem(commentsKey, JSON.stringify(cur)); (document.getElementById('localCommentText')||{}).value=''; renderLocalComments(); }catch(e){ console.warn(e); alert('Не удалось сохранить'); }
-        });
+        todoListEl.innerHTML = '';
+        filtered.forEach((t, idx) => {
+          const li = el('li', { class: `todo-item ${t.completed ? 'completed' : ''}` });
+          const cb = document.createElement('input');
+          cb.type = 'checkbox'; cb.checked = t.completed;
+          cb.addEventListener('change', () => { todos[todos.indexOf(t)].completed = cb.checked; saveTodos(todos); renderTodos(); });
+          li.appendChild(cb);
 
-        function renderLocalComments(){
-          const cur = JSON.parse(localStorage.getItem(commentsKey) || '[]'); list.innerHTML='';
-          if(!cur.length){ list.appendChild(el('div',{class:'muted'}, 'Комментариев пока нет')); return; }
-          cur.forEach(c => {
-            const item = el('div',{style:'padding:8px;border-radius:8px;border:1px solid var(--card-border);margin-bottom:8px'},
-              el('div',{style:'font-weight:700'}, c.name),
-              el('div',{class:'muted', style:'font-size:.85rem'}, new Date(c.ts).toLocaleString()),
-              el('div',{style:'margin-top:6px'}, c.txt)
-            ); list.appendChild(item);
-          });
-        }
-      }
+          const label = el('span', {}, `${t.text}${t.due ? ' (' + t.due + ')' : ''}`);
+          li.appendChild(label);
 
-      // Modal
-      const modalEl = document.getElementById('modal');
-      function openModal(html){ modalEl.innerHTML=''; modalEl.classList.add('show'); modalEl.setAttribute('aria-hidden','false'); modalEl.style.display='flex'; const inner = el('div',{class:'inner'}); inner.innerHTML = html; modalEl.appendChild(inner); modalEl.addEventListener('click', modalHandler); }
-      function closeModal(){ modalEl.classList.remove('show'); modalEl.setAttribute('aria-hidden','true'); modalEl.style.display='none'; modalEl.innerHTML=''; modalEl.removeEventListener('click', modalHandler); }
-      function modalHandler(e){ if(e.target === modalEl) closeModal(); }
+          const delBtn = el('button', { class: 'btn small', style: 'margin-left:auto' }, '✕');
+          delBtn.addEventListener('click', () => { todos.splice(todos.indexOf(t), 1); saveTodos(todos); renderTodos(); });
+          li.appendChild(delBtn);
 
-      // To-do (unchanged)
-      function loadTodos(){ try{ return JSON.parse(localStorage.getItem(todoKey) || '[]'); }catch(e){ return []; } }
-      function saveTodos(arr){ localStorage.setItem(todoKey, JSON.stringify(arr)); renderTodos(); }
-      function newTodoId(){ return 'td_' + Math.random().toString(36).slice(2,9); }
-
-      let todos = loadTodos();
-      function renderTodos(){ todoListEl.innerHTML=''; const filter=(todoFilter||{}).value||''; const sort=(todoSort||{}).value||'new'; let list = todos.slice();
-        if(filter) list = list.filter(t=> (t.text + ' ' + (t.tags||'')).toLowerCase().includes(filter.toLowerCase()));
-        if(sort==='new') list.sort((a,b)=> b.ts - a.ts); if(sort==='old') list.sort((a,b)=> a.ts - b.ts);
-        if(sort==='prio') list.sort((a,b)=> ({high:2,normal:1,low:0}[b.priority] - {high:2,normal:1,low:0}[a.priority]));
-        if(sort==='due') list.sort((a,b)=> (a.due ? new Date(a.due).getTime() : Infinity) - (b.due ? new Date(b.due).getTime() : Infinity));
-        list.forEach(item=> {
-          const chk = el('input'); chk.type='checkbox'; chk.checked = !!item.done; chk.addEventListener('change', ()=>{ item.done = chk.checked; saveTodos(todos); });
-          const title = el('div',{}, el('div',{style:'font-weight:700'}, item.text), el('div',{class:'muted'}, `${item.priority}${item.due ? ' • ' + item.due : ''}`));
-          const edit = el('button',{class:'btn small'}, '✎'); edit.addEventListener('click', ()=> editTodo(item.id));
-          const del = el('button',{class:'btn small'}, '✕'); del.addEventListener('click', ()=>{ todos = todos.filter(t=>t.id!==item.id); saveTodos(todos); });
-          const li = el('li',{class:'todo-item'}, chk, title, el('div',{}, edit, del)); if(item.done) li.classList.add('completed'); todoListEl.appendChild(li);
+          todoListEl.appendChild(li);
         });
       }
 
-      todoAdd && todoAdd.addEventListener('click', ()=> {
-        const text = (todoInput||{}).value || ''; if(!text.trim()) return; const priority = (todoPriority||{}).value || 'normal'; const due = (todoDue||{}).value || '';
-        const t = { id: newTodoId(), text: text.trim(), priority, due, done:false, ts: Date.now() }; todos.unshift(t); (todoInput||{}).value=''; (todoDue||{}).value=''; saveTodos(todos);
+      todoAdd && todoAdd.addEventListener('click', () => {
+        const text = (todoInput || {}).value || '';
+        if(!text.trim()) return;
+        const todos = getTodos();
+        todos.push({ text, priority: (todoPriority || {}).value || 'normal', due: (todoDue || {}).value || '', completed: false, created: Date.now() });
+        saveTodos(todos);
+        if(todoInput) todoInput.value = '';
+        if(todoPriority) todoPriority.value = 'normal';
+        if(todoDue) todoDue.value = '';
+        renderTodos();
       });
-      function editTodo(id){ const t = todos.find(x=>x.id===id); if(!t) return; openModal(`<div class="inner"><h3>Редактировать задачу</h3><div style="display:grid;gap:8px"><input id="edt_text" value="${escapeHtml(t.text)}" /><select id="edt_prio"><option value="high">High</option><option value="normal">Normal</option><option value="low">Low</option></select><input id="edt_due" type="date" value="${t.due || ''}" /><div style="display:flex;gap:8px;justify-content:flex-end"><button id="edt_cancel" class="btn">Отмена</button><button id="edt_save" class="btn primary">Сохранить</button></div></div></div>`);
-        document.getElementById('edt_prio').value = t.priority || 'normal'; document.getElementById('edt_cancel').addEventListener('click', closeModal);
-        document.getElementById('edt_save').addEventListener('click', ()=>{ t.text = (document.getElementById('edt_text')||{}).value.trim() || t.text; t.priority = (document.getElementById('edt_prio')||{}).value || t.priority; t.due = (document.getElementById('edt_due')||{}).value || ''; saveTodos(todos); closeModal(); });
-      }
-      exportTodosBtn && exportTodosBtn.addEventListener('click', ()=>{ const data = JSON.stringify(todos,null,2); const blob = new Blob([data], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'ryazhenka-todos.json'; a.click(); URL.revokeObjectURL(url); });
-      importTodosBtn && importTodosBtn.addEventListener('click', ()=> todoImportFile.click());
-      todoImportFile && todoImportFile.addEventListener('change', e=>{ const f = e.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ev => { try{ const data = JSON.parse(ev.target.result); if(Array.isArray(data)){ const ids = new Set(todos.map(t=>t.id)); data.forEach(it=>{ if(!it.id) it.id=newTodoId(); if(!ids.has(it.id)) todos.push(it); }); saveTodos(todos); alert('Импорт завершён'); } else alert('Неверный формат'); }catch(err){ alert('Ошибка импорта'); } }; reader.readAsText(f); e.target.value=''; });
-      clearCompletedBtn && clearCompletedBtn.addEventListener('click', ()=>{ todos = todos.filter(t=>!t.done); saveTodos(todos); });
-      clearAllBtn && clearAllBtn.addEventListener('click', ()=>{ if(confirm('Удалить все задачи?')){ todos = []; saveTodos(todos); } });
-      bulkCompleteBtn && bulkCompleteBtn.addEventListener('click', ()=>{ todos.forEach(t=>t.done=true); saveTodos(todos); });
-      todoFilter && todoFilter.addEventListener('input', renderTodos); todoSort && todoSort.addEventListener('change', renderTodos);
 
-      // Search & refresh
-      searchReleases && searchReleases.addEventListener('input', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      filterType && filterType.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      sortBy && sortBy.addEventListener('change', ()=>{ renderReleasesGrouped(); renderModulesGrouped(); });
-      includeStrato && includeStrato.addEventListener('change', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadReleases(); });
-      refreshAllBtn && refreshAllBtn.addEventListener('click', ()=>{ try{ localStorage.removeItem(cacheKey); }catch(e){} loadAll(); });
+      todoFilter && todoFilter.addEventListener('change', renderTodos);
+      todoSort && todoSort.addEventListener('change', renderTodos);
 
-      // Modules management
-      function getModuleRepos(){ try{ const raw = localStorage.getItem(moduleReposKey); if(raw) return JSON.parse(raw); }catch(e){} return defaultModuleRepos.slice(); }
+      clearCompletedBtn && clearCompletedBtn.addEventListener('click', () => {
+        let todos = getTodos();
+        todos = todos.filter(t => !t.completed);
+        saveTodos(todos);
+        renderTodos();
+      });
+
+      clearAllBtn && clearAllBtn.addEventListener('click', () => {
+        if(confirm('Очистить все задачи?')) { saveTodos([]); renderTodos(); }
+      });
+
+      bulkCompleteBtn && bulkCompleteBtn.addEventListener('click', () => {
+        const todos = getTodos();
+        todos.forEach(t => t.completed = true);
+        saveTodos(todos);
+        renderTodos();
+      });
+
+      exportTodosBtn && exportTodosBtn.addEventListener('click', () => {
+        const todos = getTodos();
+        const blob = new Blob([JSON.stringify(todos, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'todos.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      importTodosBtn && importTodosBtn.addEventListener('click', () => todoImportFile && todoImportFile.click());
+      todoImportFile && todoImportFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try{
+            const data = JSON.parse(ev.target.result);
+            if(Array.isArray(data)) { saveTodos(data); renderTodos(); }
+          }catch(err){ alert('Ошибка при импорте'); }
+        };
+        reader.readAsText(file);
+      });
+
+      // ==================== CREW BUTTONS ====================
+      addCrewBtn && addCrewBtn.addEventListener('click', () => {
+        const login = prompt('GitHub login:');
+        if(!login) return;
+        const crew = getManualCrew();
+        crew.push({ login, name: login, role: 'Contributor' });
+        saveManualCrew(crew);
+        renderCrew();
+      });
+
+      exportCrewBtn && exportCrewBtn.addEventListener('click', () => {
+        const crew = getManualCrew();
+        const blob = new Blob([JSON.stringify(crew, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'crew.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      importCrewBtn && importCrewBtn.addEventListener('click', () => importCrewFile && importCrewFile.click());
+      importCrewFile && importCrewFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try{
+            const data = JSON.parse(ev.target.result);
+            if(Array.isArray(data)) { saveManualCrew(data); renderCrew(); }
+          }catch(err){ alert('Ошибка при импорте'); }
+        };
+        reader.readAsText(file);
+      });
+
+      // ==================== MODULES ====================
+      function getModuleRepos(){ try{ return JSON.parse(localStorage.getItem(moduleReposKey) || JSON.stringify(defaultModuleRepos)); }catch(e){ return defaultModuleRepos; } }
       function saveModuleRepos(arr){ localStorage.setItem(moduleReposKey, JSON.stringify(arr)); }
-      function renderModuleListUI(){ const arr = getModuleRepos(); moduleListEl.innerHTML = ''; arr.forEach((r,idx)=>{ const removeBtn = el('button',{class:'btn small'}, 'Удалить'); removeBtn.addEventListener('click', ()=>{ removeModuleAt(idx); }); const item = el('div',{class:'module-item'}, el('div',{}, r), removeBtn); moduleListEl.appendChild(item); }); }
-      function addModule(repoFull){ if(!repoFull || !repoFull.includes('/')){ alert('Введите репозиторий в формате owner/repo'); return; } const arr = getModuleRepos(); if(arr.includes(repoFull)){ alert('Репозиторий уже добавлен'); return; } arr.unshift(repoFull); saveModuleRepos(arr); renderModuleListUI(); loadModules(); }
-      function removeModuleAt(idx){ const arr = getModuleRepos(); if(idx<0||idx>=arr.length) return; arr.splice(idx,1); saveModuleRepos(arr); renderModuleListUI(); loadModules(); }
-      addModuleBtn && addModuleBtn.addEventListener('click', ()=>{ const v=(moduleRepoInput||{}).value.trim(); if(!v){ alert('Введите owner/repo'); return; } addModule(v); moduleRepoInput.value=''; });
-      refreshModulesBtn && refreshModulesBtn.addEventListener('click', ()=>{ try{ localStorage.removeItem(modulesCacheKey); }catch(e){} loadModules(); });
 
-      async function loadModules(){
+      async function renderModules(){
         const repos = getModuleRepos();
-        try{
-          const raw = localStorage.getItem(modulesCacheKey);
-          if(raw){ const parsed = JSON.parse(raw); if(Date.now() - parsed.ts < cacheTTL && Array.isArray(parsed.data)){ window.__rz_modules = parsed.data; renderModulesGrouped(); renderWidgets(); return; } }
-        }catch(e){}
-        const jobs = repos.map(r => fetchReleasesFromRepo(r).catch(err=>{ console.warn('module fetch failed', r, err); return []; }));
-        const results = await Promise.all(jobs); const combined = results.flat();
-        const map = new Map(); combined.forEach(r => { const key = `${r._repo}::${r.tag_name || r.name || ''}`; if(!map.has(key)) map.set(key, r); });
-        const arr = Array.from(map.values()).sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
-        try{ localStorage.setItem(modulesCacheKey, JSON.stringify({ts:Date.now(),data:arr})); }catch(e){}
-        window.__rz_modules = arr; renderModulesGrouped(); renderWidgets();
-      }
-
-      function renderModulesGrouped(){
-        const all = window.__rz_modules || []; const q = (searchReleases||{}).value||''; const type = (filterType||{}).value||'all'; const sort = (sortBy||{}).value||'date_desc';
-        const filtered = all.filter(r => { const ver=(r.tag_name||r.name||'').toLowerCase(); const title=(r.name||'').toLowerCase(); const body=(r.body||'').toLowerCase(); const repo=(r.body||'').toLowerCase(); const combined=[ver,title,body,repo].join(' '); const qOk = !q || combined.includes(q.toLowerCase()); let tOk=true; if(type && type!=='all') tOk = (r.assets||[]).some(a => a.name && a.name.toLowerCase().includes(type.toLowerCase())); return qOk && tOk; });
-
-        const groups = {}; filtered.forEach(r => { const repo = r._repo || ''; (groups[repo] = groups[repo]||[]).push(r); });
+        moduleListEl.innerHTML = '';
+        repos.forEach(r => {
+          const tag = el('div', { class: 'module-item' }, el('span', {}, r), el('button', { class: 'btn small', style: 'margin-left:auto' }, '✕'));
+          tag.querySelector('button').addEventListener('click', () => {
+            const idx = repos.indexOf(r);
+            if(idx > -1) repos.splice(idx, 1);
+            saveModuleRepos(repos);
+            renderModules();
+          });
+          moduleListEl.appendChild(tag);
+        });
 
         modulesGroupedEl.innerHTML = '';
-        Object.keys(groups).forEach(repoFull => {
-          const items = groups[repoFull]; if(!items || items.length===0) return;
-          if(sort==='date_desc') items.sort((a,b)=> new Date(b.published_at||b.created_at) - new Date(a.published_at||a.created_at));
-          if(sort==='date_asc') items.sort((a,b)=> new Date(a.published_at||a.created_at) - new Date(b.published_at||b.created_at));
-          if(sort==='downloads_desc') items.sort((a,b)=> ((b.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)) - ((a.assets||[]).reduce((s,x)=>s+(x.download_count||0),0)));
+        for(const repo of repos){
+          try{
+            const rels = await fetchReleasesFromRepo(repo);
+            if(!rels.length) continue;
+            const header = el('div', { class: 'releases-by-repo' },
+              el('div', { class:'repo-title' },
+                el('a', { href: `https://github.com/${repo}`, target:'_blank', class:'repo-name repo-name-gradient' }, repo),
+                el('div', { style:'margin-left:8px;color:var(--muted)' }, `${rels.length} релизов`)
+              ),
+              el('div', { class:'releases-grid' })
+            );
+            const grid = header.querySelector('.releases-grid');
+            rels.slice(0, 5).forEach(r => grid.appendChild(makeReleaseCard(r)));
+            modulesGroupedEl.appendChild(header);
+          }catch(e){ console.warn('Error loading module', repo, e); }
+        }
+      }
 
-          const header = el('div',{class:'releases-by-repo'},
-            el('div',{class:'repo-title'},
-              el('a',{href:`https://github.com/${repoFull}`, target:'_blank', class:'repo-name repo-name-gradient'}, repoFull),
-              el('div',{style:'margin-left:8px;color:var(--muted)'}, `${items.length} релизов`)
-            ),
-            el('div',{class:'releases-grid'})
-          );
-          const grid = header.querySelector('.releases-grid');
-          items.forEach(r => grid.appendChild(makeReleaseCard(r)));
-          modulesGroupedEl.appendChild(header);
+      addModuleBtn && addModuleBtn.addEventListener('click', () => {
+        const repo = (moduleRepoInput || {}).value || '';
+        if(!repo.trim()) return;
+        const repos = getModuleRepos();
+        if(!repos.includes(repo)) repos.push(repo);
+        saveModuleRepos(repos);
+        if(moduleRepoInput) moduleRepoInput.value = '';
+        renderModules();
+      });
+
+      refreshModulesBtn && refreshModulesBtn.addEventListener('click', renderModules);
+
+      // ==================== SEARCH & FILTER ====================
+      searchReleases && searchReleases.addEventListener('input', renderReleasesGrouped);
+      filterType && filterType.addEventListener('change', renderReleasesGrouped);
+      sortBy && sortBy.addEventListener('change', renderReleasesGrouped);
+      includeStrato && includeStrato.addEventListener('change', () => { localStorage.removeItem(cacheKey); loadReleases(); });
+
+      // ==================== REFRESH ====================
+      refreshAllBtn && refreshAllBtn.addEventListener('click', () => {
+        localStorage.removeItem(cacheKey);
+        loadReleases();
+      });
+
+      // ==================== MODAL ====================
+      function openModal(html){
+        const modal = document.getElementById('modal');
+        if(!modal) return;
+        modal.innerHTML = `<div class="inner">${html}</div>`;
+        modal.classList.add('show');
+        modal.addEventListener('click', (e) => {
+          if(e.target === modal) modal.classList.remove('show');
         });
       }
 
-      // init
-      async function loadAll(){
-        loadSettings(); todos = loadTodos(); renderTodos(); await loadReleases(); await loadCrew(); renderModuleListUI(); await loadModules();
-        const commentsContainer = document.createElement('div'); commentsContainer.style.marginTop='12px'; commentsContainer.innerHTML = '<strong>Комментарии</strong>'; loadLocalCommentsUI(commentsContainer);
-        if(crewMiniEl) crewMiniEl.appendChild(commentsContainer);
-      }
-
-      window.RZ = { loadReleases, loadCrew, loadAll, loadModules, addModule, removeModuleAt, findRepoImage };
-
-      // run
-      loadAll();
-
+      // ==================== INIT ====================
+      loadReleases();
+      renderCrew();
+      renderTodos();
+      renderModules();
     })();
-
-    (function enhanceReleaseImagesUniversal(){
-      // Универсальный finder картинки для релиза:
-      function getReleaseImg(r) {
-        const assets = r.assets||[];
-        const assetImg = assets.find(a => /\.(gif|webp|png|jpe?g)$/i.test(a.name||''));
-        if(assetImg) return assetImg.browser_download_url;
-        // Попытаться найти стандартные github raw превью
-        if(r._repo) {
-          const tryUrls = [
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/preview.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`,
-            `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`
-          ];
-          return tryUrls[0];
-        }
-        // Fallback логотип
-        return '/Ryzhenka/assets/Ryazhalogo.png';
-      }
-      // Создание и отрисовка карточки релиза с fade-in/svg fallback
-      window.makeReleaseCard = function(r){
-        const ver = r.tag_name || r.name || '';
-        let imgSrc = getReleaseImg(r);
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = ver;
-        img.style.width = '100%';
-        img.style.height = '140px';
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '8px';
-        img.style.transition = 'opacity .54s cubic-bezier(.5,1.3,.7,1),filter .38s';
-        img.style.opacity = '0';
-        img.style.background = 'linear-gradient(90deg,#33125a22,#2fc6de11 70%,#12065013)';
-        img.onload = ()=>{ img.style.opacity = '1'; img.style.filter='none'; };
-        img.onerror = ()=>{
-          if(img.src.includes('preview.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/hero.png`;
-          else if(img.src.includes('hero.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/banner.png`;
-          else if(img.src.includes('banner.png')) img.src = `https://raw.githubusercontent.com/${r._repo}/main/assets/logo.png`;
-          else if(img.src.includes('/Ryzhenka/assets/Ryazhalogo.png')) showSvgFallback();
-          else img.src = '/Ryzhenka/assets/Ryazhalogo.png';
-        };
-        function showSvgFallback(){
-          img.replaceWith(svgFallback());
-        }
-        function svgFallback() {
-          const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-          svg.setAttribute('width','100%');svg.setAttribute('height','140px');
-          svg.setAttribute('viewBox','0 0 290 84');
-          svg.innerHTML = `<rect width="290" height="84" rx="16" fill="#191931"/><text x="50%" y="51%" dominant-baseline="middle" text-anchor="middle" fill="#836bfa" style="font-family:'Montserrat',sans-serif;font-size:22px;letter-spacing:1px;">Нет картинки</text><circle cx="45" cy="42" r="21" fill="#6ae0ff44"/><circle cx="45" cy="42" r="14" fill="#8F4CFF" opacity=".7"/>`;
-          return svg;
-        }
-        const repoBadge = document.createElement('div'); repoBadge.className = 'repo-badge'; repoBadge.textContent = r._repo || '';
-        const h3 = document.createElement('h3'); h3.textContent = r.name || ver;
-        const meta = document.createElement('div'); meta.className = 'meta';
-        meta.appendChild(document.createElement('span')).textContent = (r.published_at||r.created_at) ? new Date(r.published_at||r.created_at).toLocaleDateString() : '';
-        meta.appendChild(document.createElement('span')).textContent = ver;
-        const bodyP = r.body ? document.createElement('p') : null; if(bodyP) bodyP.textContent = r.body.length > 240 ? r.body.slice(0,240)+'…' : r.body;
-        const card = document.createElement('article'); card.className = 'release-card';
-        card.appendChild(repoBadge); card.appendChild(img); card.appendChild(h3); card.appendChild(meta);
-        if(bodyP) card.appendChild(bodyP);
-        if((r.assets||[]).length > 0){
-          const assetsWrap = document.createElement('div'); assetsWrap.style = 'display:flex;flex-direction:column;gap:6px;margin-top:8px';
-          const titles = ['Ryazhenkabestcfw','Ryazhenka_AIO','Ryazhenka_lite'];
-          titles.forEach(t => {
-            const asset = r.assets.find(a => a.name && a.name.toLowerCase().includes(t.toLowerCase()));
-            const row = document.createElement('div'); row.style = 'display:flex;align-items:center;gap:8px';
-            if(asset){
-              const ael = document.createElement('a'); ael.href = asset.browser_download_url; ael.target='_blank'; ael.className='btn small'; ael.textContent = `${t} — ${asset.name}`;
-              row.appendChild(ael);
-              const size = document.createElement('small'); size.style = 'margin-left:auto;color:var(--muted)'; size.textContent = asset.size ? `${(asset.size/1024/1024).toFixed(2)} MB` : '';
-              row.appendChild(size);
-            } else {
-              row.appendChild(document.createElement('small')).textContent = `${t} — отсутствует`;
-            }
-            assetsWrap.appendChild(row);
-          });
-          card.appendChild(assetsWrap);
-        }
-        // img click больше не открывает modal (widget только)
-        return card;
-      };
-    })();
-  </script>
-
-  <!-- Флотирующий чат-панель (bottom-right) -->
-  <div id="ryazhenka-chat" style="position:fixed;z-index:999;right:34px;bottom:27px;width:340px;max-width:96vw;box-shadow:0 8px 48px #6dfaff22;backdrop-filter:blur(9px);background:linear-gradient(131deg,#24135ef7 80%,#13324aee 100%);border-radius:22px 22px 7px 22px; display:flex;flex-direction:column;padding:0;overflow:hidden;animation:fadeInChat .9s cubic-bezier(.33,1.15,.67,1) both;">
-    <div style="padding:16px 18px 9px 16px;"><strong style="font-size:1.12em;color:#4ff0a0;">Ryazhenka AI чат</strong>
-      <span style="float:right;font-size:1.3em;opacity:.59;cursor:pointer" onclick="document.getElementById('ryazhenka-chat').style.display='none';">✕</span>
-      <div style="color:#c5e6fa;margin:7px 0 2px 0;font-size:.99em;">🤖 Я отвечаю на вопросы и помогаю найти нужный раздел.<br><span style="color:#83edfc;font-size:.86em">Быстрая связь:</span></div>
-      <div style="margin:4px 0 8px 0;">
-        <a class="btn small" href="https://t.me/Ryazhenkabestcfw" target="_blank" style="margin-right:8px">Telegram команды</a>
-      </div>
-    </div>
-    <div style="flex:1 1 auto;background:linear-gradient(120deg,#2a125633 60%,#1a195522 100%);padding:11px 16px;min-height:55px;max-height:160px;overflow-y:auto;">
-      <div id="chat-list">
-        <div style="opacity:.85;color:#e5eff6;font-size:1em;margin-bottom:7px;">Задавайте вопросы, Ryazhenka AI ответит (или напишет, что интеграция ожидает ключ OpenAI).<br>Техподдержка: <a target="_blank" href="https://t.me/Ryazhenkabestcfw" style="color:#38f7e3;">наш Telegram</a>.</div>
-      </div>
-    </div>
-    <form onsubmit="event.preventDefault();sendUserMsg();" style="display:flex;align-items:center;gap:7px;padding:10px 14px 11px 13px;background:rgba(16,10,40,.18);">
-      <input id="chat-input" type="text" maxlength="420" placeholder="Введите вопрос или предложение..." style="flex:1 1 auto;border-radius:11px;padding:10px 13px;border:1px solid #53e1e533;background:#191b2b44;color:#e9feff;outline:none;box-shadow:0 1px 6px #0001;font-size:.99em" />
-      <button class="btn small" type="submit" style="border-radius:90px">&#10148;</button>
-    </form>
-  </div>
-  <style>@keyframes fadeInChat{0%{opacity:0;transform:scale(.80) translateY(64px);}100%{opacity:1;transform:none;}}</style>
-  <script>
-  // Офлайн-ИИ для популярных вопросов по Ryazhenka (без OpenAI)
-  const QA_FAQ = [
-    {k:['ryazhenka','что это'], a:'Ryazhenka — стабильная кастомная прошивка для Nintendo Switch, совмещающая лучшие модули, красивый интерфейс, расширенный контроль и поддержку комьюнити.'},
-    {k:['atmosphere'], a:'Atmosphere — это самая популярная кастомная прошивка для Nintendo Switch, дающая доступ к хомбрю и модификации системы.'},
-    {k:['hekate','hekate bootloader'], a:'Hekate — мультизагрузчик (bootloader) для Nintendo Switch. С помощью него можно загружать разные системы, патчить NAND, пользоваться кастомными прошивками.'},
-    {k:['как установить','how to install','инструкция','setup'], a:'Скачать релиз Ryazhenka на главной странице -> Распаковать архив на SD-карту -> вставить в Switch -> запустить Hekate -> выбрать профиль Ryazhenka. Готово!'},
-    {k:['модули','modules','добавить модуль'], a:'Добавить модуль можно через раздел "Модули команды" в интерфейсе, указав репозиторий нужного модуля (owner/repo) — релизы и превью подгрузятся автоматически.'},
-    {k:['to-do','задачи','список задач'], a:'To-Do — локальный список задач прямо на сайте (внизу страницы). Всё, что планируешь по прошивке, можно внести туда!'},
-    {k:['автор','разработчик','создатель','dimasick','экипаж'], a:'Главный разработчик: Dimasick-git + помощники Ryazhenka-Helper-1, Ryazhenka-Helper-01 и другие участники crew. Поддержка — в Telegram'}
-  ];
-  function answerOfflineAI(q) {
-    const low = q.toLowerCase();
-    for(const pair of QA_FAQ) {
-      if(pair.k.some(key=>low.includes(key))) return pair.a;
-    }
-    return 'Извините, я могу ответить на основные вопросы о Ryazhenka, Atmosphere, Hekate, модулях и To-Do. Попробуйте переформулировать или напишите в Telegram!';
-  }
-  window.sendUserMsg = async function(){
-    const l = document.getElementById('chat-list');
-    const inp = document.getElementById('chat-input');
-    if(!inp.value.trim()) return;
-    l.appendChild(renderMsg(inp.value,'user'));
-    l.scrollTop=l.scrollHeight;
-    const wait = renderMsg('⏳ Ryazhenka AI думает...','ai'); l.appendChild(wait); l.scrollTop=l.scrollHeight;
-    const txt = inp.value; inp.value='';
-    let reply = answerOfflineAI(txt);
-    wait.innerHTML = `<span style='color:#8F4CFF;'>ryazhenka.ai:</span> ${reply}`;
-    l.scrollTop=l.scrollHeight;
-  }
-  function renderMsg(txt, role){
-    const dv=document.createElement('div'); dv.style='margin-bottom:4px;';
-    dv.innerHTML = role==='user'? `<span style='color:#48e9fb;'>ты:</span> <span>${txt}</span>` : `<span style='color:#8F4CFF;'>ryazhenka.ai:</span> ${txt}`;
-    return dv;
-  }
-  </script>
-  <script>
-  // Космический widget для описания релиза сбоку
-  (function releaseWidget(){
-    let widget = document.getElementById('releaseWidget');
-    if(!widget) {
-      widget = document.createElement('aside');
-      widget.id = 'releaseWidget';
-      widget.style = 'position:fixed;top:75px;right:20px;width:380px;max-width:96vw;height:auto;z-index:90;background:linear-gradient(120deg,#181e3bEE 55%,#22212fD8 100%);backdrop-filter:blur(22px) brightness(1.05);border-radius:18px 24px 18px 24px;box-shadow:0 12px 50px #23265033,0 0 0 #33e5fe00;margin-top:11px;display:none;overflow-y:auto;padding:1.3em 1.2em 1.1em 1.2em;transition:transform .27s cubic-bezier(.62,1.9,.25,1), opacity .26s;background-blend-mode:overlay;';
-      widget.innerHTML = '<div id="rw-content"></div><span id="rw-close" style="position:absolute;top:11px;right:15px;cursor:pointer;font-size:1.5em;opacity:.55">✕</span>';
-      document.body.appendChild(widget);
-      widget.querySelector('#rw-close').onclick = ()=>{ widget.style.display='none';document.body.classList.remove('widget-open'); };
-    }
-    // Patch attach to cards
-    document.addEventListener('click', function(e){
-      let card = e.target.closest('.release-card');
-      if(card && !e.target.matches('.btn, a')) {
-        e.preventDefault();
-        const ct = card.cloneNode(true);
-        ct.querySelectorAll('.btn, a').forEach(b=>b.setAttribute('target','_blank'));
-        widget.querySelector('#rw-content').innerHTML='';
-        widget.querySelector('#rw-content').appendChild(ct);
-        widget.style.display='block';
-        widget.style.opacity=.1;widget.style.transform='translateX(44px) scale(.97)';
-        setTimeout(()=>{widget.style.opacity=1;widget.style.transform='translateX(0) scale(1)';},22);
-        document.body.classList.add('widget-open');
-      } else if(!e.target.closest('#releaseWidget') && !e.target.classList.contains('release-card')) {
-        widget.style.opacity=0;setTimeout(()=>widget.style.display='none',180);
-        document.body.classList.remove('widget-open');
-      }
-    });
-  })();
   </script>
 </body>
 </html>
