@@ -2,7 +2,7 @@
 
 ![Ryazhenka Logo](assets/Ryazhalogo.png)
 
-[![Telegram](https://img.shields.io/badge/Telegram-@Ryazhenkacfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenkacfw) [![Release](https://img.shields.io/badge/Release-latest-blue?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) [![Repo downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge)](https://github.com/Dimasick-git/Ryzhenka/releases) [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENCE)
+[![Telegram](https://img.shields.io/badge/Telegram-@Ryazhenkacfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenkacfw) [![Release](https://img.shields.io/badge/Release-latest-blue?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) [![Repo downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge)](https://github.com/Dimasick-git/Ryzhenka/releases) [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENCE) [![Website](https://img.shields.io/badge/Website-Visit-brightgreen?style=for-the-badge&logo=google-chrome&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
 
 </div>
 
