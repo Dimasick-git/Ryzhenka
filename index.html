@@ -34,7 +34,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div class="glass p-6 rounded-2xl text-center">
                 <p class="text-indigo-400 text-sm uppercase tracking-wider font-semibold mb-2">Всего загрузок</p>
-                <p class="text-4xl font-bold">14,387+</p>
+                <p class="text-4xl font-bold" id="download-count">...</p>
             </div>
             <div class="glass p-6 rounded-2xl text-center">
                 <p class="text-indigo-400 text-sm uppercase tracking-wider font-semibold mb-2">Статус</p>
@@ -99,6 +99,25 @@
 
         <!-- Footer -->
         <footer class="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
+        <script>
+        (async () => {
+          const OWNER = 'Dimasick-git';
+          const REPOS = ['Ryzhenka','Ryazhahand-Overlay','Sys-clk','Ryazhenkabestcfw-Tuner','RyazhaTune'];
+          const el = document.getElementById('download-count');
+          try {
+            let total = 0;
+            await Promise.all(REPOS.map(async repo => {
+              const res = await fetch(`https://api.github.com/repos/${OWNER}/${repo}/releases?per_page=100`);
+              if (!res.ok) return;
+              const releases = await res.json();
+              releases.forEach(r => r.assets?.forEach(a => { total += a.download_count || 0; }));
+            }));
+            el.textContent = total.toLocaleString('ru-RU') + '+';
+          } catch {
+            el.textContent = '14 387+';
+          }
+        })();
+        </script>
             <p>© 2026 Dimasick-git. Распространяется под лицензией MIT.</p>
             <div class="mt-4 flex justify-center gap-6">
                 <a href="https://github.com/Dimasick-git/Ryzhenka" class="hover:text-indigo-400">GitHub</a>
