@@ -18,7 +18,7 @@ HEADERS = {'User-Agent': 'update-downloads-script'}
 def get_json(url, token=None):
     req = urllib.request.Request(url, headers=HEADERS)
     if token:
-        req.add_header('Authorization', f'token {token}')
+        req.add_header('Authorization', f'Bearer {token}')
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
