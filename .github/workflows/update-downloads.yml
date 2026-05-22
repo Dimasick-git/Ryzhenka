@@ -2,15 +2,15 @@ name: Update total downloads
 
 on:
   schedule:
-    - cron: '0 0 * * *' # daily
+    - cron: '0 */6 * * *'   # every 6 hours instead of once a day
+  release:
+    types: [published]       # also run whenever a new release is published
   workflow_dispatch: {}
-  push:
-    branches: [ main ]
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions:          
+    permissions:
       contents: write
     steps:
       - name: Checkout
@@ -20,18 +20,20 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: Run update script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/update_downloads.py
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git diff --staged --quiet && echo "No changes" && exit 0
-          git commit -m "chore: update total downloads badge"
+          git add README.md
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "chore: update total downloads badge [skip ci]"
           git push
