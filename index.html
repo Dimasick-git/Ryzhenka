@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ryazhenka CFW</title>
+    <title>Ryazhenka CFW — Кастомная прошивка для Nintendo Switch</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Ryazhenka CFW — кастомная прошивка для Nintendo Switch. Простая установка за 5 минут, стабильная работа, уникальные инструменты команды.">
+    <meta name="keywords" content="Ryazhenka CFW, Nintendo Switch, кастомная прошивка, Switch CFW, Atmosphere, Hekate, homebrew">
+    <meta name="author" content="Dimasick-git">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Ryazhenka CFW — Кастомная прошивка для Nintendo Switch">
+    <meta property="og:description" content="Простая установка за 5 минут, стабильная работа, уникальные инструменты. Лучшая CFW для Switch.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/assets/Ryazhalogo.png">
+    <meta property="og:url" content="https://dimasick-git.github.io/Ryzhenka/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ryazhenka CFW">
+    <meta name="twitter:description" content="Кастомная прошивка для Nintendo Switch. Простая установка, стабильная работа.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/assets/Ryazhalogo.png">
+
+    <link rel="canonical" href="https://dimasick-git.github.io/Ryzhenka/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,6 +34,8 @@
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gradient-text { background: linear-gradient(135deg, #a78bfa, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        @keyframes countUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .count-anim { animation: countUp 0.4s ease-out; }
     </style>
 </head>
 <body class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -31,10 +55,14 @@
         </header>
 
         <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div class="glass p-6 rounded-2xl text-center">
                 <p class="text-indigo-400 text-sm uppercase tracking-wider font-semibold mb-2">Всего загрузок</p>
                 <p class="text-4xl font-bold" id="download-count">...</p>
+            </div>
+            <div class="glass p-6 rounded-2xl text-center">
+                <p class="text-indigo-400 text-sm uppercase tracking-wider font-semibold mb-2">Последняя версия</p>
+                <p class="text-2xl font-bold text-purple-400" id="latest-version">...</p>
             </div>
             <div class="glass p-6 rounded-2xl text-center">
                 <p class="text-indigo-400 text-sm uppercase tracking-wider font-semibold mb-2">Статус</p>
@@ -99,25 +127,6 @@
 
         <!-- Footer -->
         <footer class="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
-        <script>
-        (async () => {
-          const OWNER = 'Dimasick-git';
-          const REPOS = ['Ryzhenka','Ryazhahand-Overlay','Sys-clk','Ryazhenkabestcfw-Tuner','RyazhaTune'];
-          const el = document.getElementById('download-count');
-          try {
-            let total = 0;
-            await Promise.all(REPOS.map(async repo => {
-              const res = await fetch(`https://api.github.com/repos/${OWNER}/${repo}/releases?per_page=100`);
-              if (!res.ok) return;
-              const releases = await res.json();
-              releases.forEach(r => r.assets?.forEach(a => { total += a.download_count || 0; }));
-            }));
-            el.textContent = total.toLocaleString('ru-RU') + '+';
-          } catch {
-            el.textContent = '14 387+';
-          }
-        })();
-        </script>
             <p>© 2026 Dimasick-git. Распространяется под лицензией MIT.</p>
             <div class="mt-4 flex justify-center gap-6">
                 <a href="https://github.com/Dimasick-git/Ryzhenka" class="hover:text-indigo-400">GitHub</a>
@@ -125,5 +134,68 @@
             </div>
         </footer>
     </div>
+
+    <script>
+    (async () => {
+        const OWNER = 'Dimasick-git';
+        const REPOS = ['Ryzhenka', 'Ryazhahand-Overlay', 'Sys-clk', 'Ryazhenkabestcfw-Tuner', 'RyazhaTune'];
+        const CACHE_KEY = 'ryazhenka_stats';
+        const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+        const dlEl = document.getElementById('download-count');
+        const verEl = document.getElementById('latest-version');
+
+        function animateNumber(el, target) {
+            const start = 0;
+            const duration = 800;
+            const t0 = performance.now();
+            function step(now) {
+                const p = Math.min((now - t0) / duration, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                const cur = Math.round(start + (target - start) * ease);
+                el.textContent = cur.toLocaleString('ru-RU') + '+';
+                el.classList.add('count-anim');
+                if (p < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        // Try cache first
+        try {
+            const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+            if (cached && Date.now() - cached.ts < CACHE_TTL) {
+                animateNumber(dlEl, cached.total);
+                if (verEl && cached.version) verEl.textContent = cached.version;
+                return;
+            }
+        } catch { /* ignore */ }
+
+        try {
+            let total = 0;
+            let version = null;
+
+            await Promise.all(REPOS.map(async repo => {
+                const res = await fetch(`https://api.github.com/repos/${OWNER}/${repo}/releases?per_page=100`);
+                if (!res.ok) return;
+                const releases = await res.json();
+                releases.forEach(r => {
+                    r.assets?.forEach(a => { total += a.download_count || 0; });
+                    // Pick latest release version from main repo
+                    if (repo === 'Ryzhenka' && !version && r.tag_name) {
+                        version = r.tag_name;
+                    }
+                });
+            }));
+
+            animateNumber(dlEl, total);
+            if (verEl && version) verEl.textContent = version;
+
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ total, version, ts: Date.now() }));
+        } catch {
+            dlEl.textContent = '14 387+';
+            if (verEl) verEl.textContent = 'v2.x';
+        }
+    })();
+    </script>
 </body>
 </html>
