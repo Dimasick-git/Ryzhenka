@@ -46,6 +46,8 @@
         .fade-in-2 { animation-delay: 0.2s; }
         .fade-in-3 { animation-delay: 0.3s; }
         .fade-in-4 { animation-delay: 0.4s; }
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); } 70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
+        .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; animation: pulse-ring 2s infinite; }
     </style>
 </head>
 <body class="min-h-screen bg-grid">
@@ -64,22 +66,27 @@
             <h1 class="text-5xl sm:text-6xl font-extrabold gradient-text mb-4">Ryazhenka CFW</h1>
             <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
                 <span id="version-badge" class="badge-version px-3 py-1 rounded-full text-sm font-semibold">—</span>
-                <span class="badge-stable px-3 py-1 rounded-full text-sm font-semibold">Stable</span>
+                <span class="badge-stable px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1.5">
+                    <span class="pulse-dot inline-block"></span>Stable
+                </span>
             </div>
             <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
                 Лучшая кастомная прошивка для Nintendo Switch с автонастройкой и уникальными модулями от команды Ryazhenka.
             </p>
             <div class="flex flex-wrap justify-center gap-3">
-                <a href="https://github.com/Dimasick-git/Ryzhenka/releases/latest" class="btn-primary px-6 py-3 rounded-xl font-semibold text-white flex items-center gap-2">
+                <a href="https://github.com/Dimasick-git/Ryzhenka/releases/latest" target="_blank" rel="noopener" class="btn-primary px-6 py-3 rounded-xl font-semibold text-white flex items-center gap-2">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
                     Скачать <span id="btn-version">последний релиз</span>
                 </a>
-                <a href="https://t.me/Ryazhenkacfw" class="glass px-6 py-3 rounded-xl font-semibold hover:bg-white/5 transition-all flex items-center gap-2">
+                <a href="https://t.me/Ryazhenkacfw" target="_blank" rel="noopener" class="glass px-6 py-3 rounded-xl font-semibold hover:bg-white/5 transition-all flex items-center gap-2">
                     <svg class="w-5 h-5 text-sky-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
                     Telegram
                 </a>
                 <a href="docs/INSTALL.md" class="glass px-6 py-3 rounded-xl font-semibold hover:bg-white/5 transition-all">
                     Документация
+                </a>
+                <a href="https://github.com/Dimasick-git/RyazhaAI" target="_blank" rel="noopener" class="glass px-6 py-3 rounded-xl font-semibold hover:bg-purple-500/10 transition-all flex items-center gap-2 border border-purple-500/20">
+                    <span class="text-purple-400 font-bold">RYAZHA AI</span>
                 </a>
             </div>
         </header>
@@ -92,11 +99,11 @@
             </div>
             <div class="glass p-5 rounded-2xl text-center">
                 <p class="text-indigo-400 text-xs uppercase tracking-wider font-semibold mb-2">Версия</p>
-                <p class="text-3xl font-bold" id="stat-version">v7.x</p>
+                <p class="text-3xl font-bold" id="stat-version">—</p>
             </div>
             <div class="glass p-5 rounded-2xl text-center">
-                <p class="text-green-400 text-xs uppercase tracking-wider font-semibold mb-2">Статус</p>
-                <p class="text-3xl font-bold text-green-400">Stable</p>
+                <p class="text-yellow-400 text-xs uppercase tracking-wider font-semibold mb-2">Звёзды</p>
+                <p class="text-3xl font-bold" id="stat-stars">…</p>
             </div>
             <div class="glass p-5 rounded-2xl text-center">
                 <p class="text-purple-400 text-xs uppercase tracking-wider font-semibold mb-2">Релизов</p>
@@ -126,20 +133,35 @@
                     Компоненты
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <a href="https://github.com/Dimasick-git/Ryazhahand-Overlay" class="glass p-6 rounded-2xl border-l-4 border-indigo-500 hover:bg-white/5 transition-all group">
+                    <a href="https://github.com/Dimasick-git/Ryazhahand-Overlay" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-indigo-500 hover:bg-white/5 transition-all group">
                         <h3 class="font-bold text-xl mb-2 group-hover:text-indigo-300 transition-colors">Ryazhahand</h3>
                         <p class="text-sm text-slate-400">Система управления оверлеями и настройками на базе Ultrahand.</p>
                         <span class="mt-3 inline-block text-xs text-indigo-400">Подробнее →</span>
                     </a>
-                    <a href="https://github.com/Dimasick-git/Sys-clk" class="glass p-6 rounded-2xl border-l-4 border-purple-500 hover:bg-white/5 transition-all group">
+                    <a href="https://github.com/Dimasick-git/Sys-clk" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-purple-500 hover:bg-white/5 transition-all group">
                         <h3 class="font-bold text-xl mb-2 group-hover:text-purple-300 transition-colors">Ryazha-clk</h3>
-                        <p class="text-sm text-slate-400">Модуль управления частотами CPU/GPU/MEM/LCD и профилями.</p>
+                        <p class="text-sm text-slate-400">Модуль управления частотами CPU/GPU/MEM/LCD и профилями производительности.</p>
                         <span class="mt-3 inline-block text-xs text-purple-400">Подробнее →</span>
                     </a>
-                    <a href="https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner" class="glass p-6 rounded-2xl border-l-4 border-blue-500 hover:bg-white/5 transition-all group">
+                    <a href="https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-blue-500 hover:bg-white/5 transition-all group">
                         <h3 class="font-bold text-xl mb-2 group-hover:text-blue-300 transition-colors">Ryazhenka Tuner</h3>
                         <p class="text-sm text-slate-400">Инструмент тонкой настройки прошивки и системных параметров.</p>
                         <span class="mt-3 inline-block text-xs text-blue-400">Подробнее →</span>
+                    </a>
+                    <a href="https://github.com/Dimasick-git/Ryazha-Status-Monitor" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-green-500 hover:bg-white/5 transition-all group">
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-green-300 transition-colors">Ryazha-Status</h3>
+                        <p class="text-sm text-slate-400">Оверлей мониторинга: CPU/GPU температура, частоты, FPS и батарея в реальном времени.</p>
+                        <span class="mt-3 inline-block text-xs text-green-400">Подробнее →</span>
+                    </a>
+                    <a href="https://github.com/Dimasick-git/RyazhaTune" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-yellow-500 hover:bg-white/5 transition-all group">
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-yellow-300 transition-colors">RyazhaTune</h3>
+                        <p class="text-sm text-slate-400">Музыкальный плеер: MP3, FLAC, WAV с фоновым воспроизведением через оверлей.</p>
+                        <span class="mt-3 inline-block text-xs text-yellow-400">Подробнее →</span>
+                    </a>
+                    <a href="https://github.com/Dimasick-git/RyazhaAI" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-pink-500 hover:bg-white/5 transition-all group">
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-pink-300 transition-colors">RYAZHA AI</h3>
+                        <p class="text-sm text-slate-400">Умный ИИ-ассистент по CFW и homebrew с поддержкой 12+ AI-провайдеров.</p>
+                        <span class="mt-3 inline-block text-xs text-pink-400">Подробнее →</span>
                     </a>
                 </div>
             </section>
@@ -162,7 +184,7 @@
                         <span class="flex-none w-8 h-8 rounded-full bg-slate-800 border border-indigo-500/30 flex items-center justify-center font-bold text-indigo-400 text-sm mt-0.5">2</span>
                         <div>
                             <p class="font-medium text-white">Запустите через RCM или ModChip</p>
-                            <p class="text-sm text-slate-400 mt-0.5">Войдите в режим RCM и залейте payload или используйте ModChip.</p>
+                            <p class="text-sm text-slate-400 mt-0.5">Войдите в режим RCM и залейте payload, или используйте ModChip (Picofly, Hwfly, SX Core).</p>
                         </div>
                     </li>
                     <li class="flex gap-4 items-start">
@@ -172,10 +194,17 @@
                             <p class="text-sm text-slate-400 mt-0.5">В меню Hekate выберите конфигурацию Atmosphere для загрузки CFW.</p>
                         </div>
                     </li>
+                    <li class="flex gap-4 items-start">
+                        <span class="flex-none w-8 h-8 rounded-full bg-slate-800 border border-indigo-500/30 flex items-center justify-center font-bold text-indigo-400 text-sm mt-0.5">4</span>
+                        <div>
+                            <p class="font-medium text-white">Откройте Ryazhahand оверлей</p>
+                            <p class="text-sm text-slate-400 mt-0.5">Нажмите <code class="bg-slate-800 px-1 rounded text-indigo-300 text-xs">L+R+Down</code> для настройки модулей и частот.</p>
+                        </div>
+                    </li>
                 </ol>
                 <div class="mt-6 p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-sm text-indigo-300 flex items-center gap-2">
                     <svg class="w-4 h-4 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Подробные инструкции доступны в <a href="docs/INSTALL.md" class="underline hover:text-indigo-200">INSTALL.md</a>
+                    Подробные инструкции в <a href="docs/INSTALL.md" class="underline hover:text-indigo-200">INSTALL.md</a> и в <a href="https://t.me/Ryazhenkacfw" class="underline hover:text-indigo-200" target="_blank">Telegram</a>.
                 </div>
             </section>
 
@@ -189,7 +218,7 @@
                     <div class="glass p-4 rounded-xl text-slate-500 text-sm text-center animate-pulse">Загрузка релизов…</div>
                 </div>
                 <div class="mt-4 text-center">
-                    <a href="https://github.com/Dimasick-git/Ryzhenka/releases" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
+                    <a href="https://github.com/Dimasick-git/Ryzhenka/releases" target="_blank" rel="noopener" class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">
                         Все релизы на GitHub →
                     </a>
                 </div>
@@ -201,10 +230,11 @@
         <footer class="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
             <p class="mb-4">© 2026 Dimasick-git — Распространяется под лицензией MIT.</p>
             <div class="flex flex-wrap justify-center gap-6">
-                <a href="https://github.com/Dimasick-git/Ryzhenka" class="hover:text-indigo-400 transition-colors">GitHub</a>
-                <a href="https://t.me/Ryazhenkacfw" class="hover:text-indigo-400 transition-colors">Поддержка</a>
+                <a href="https://github.com/Dimasick-git/Ryzhenka" target="_blank" rel="noopener" class="hover:text-indigo-400 transition-colors">GitHub</a>
+                <a href="https://t.me/Ryazhenkacfw" target="_blank" rel="noopener" class="hover:text-indigo-400 transition-colors">Поддержка</a>
                 <a href="docs/FAQ.md" class="hover:text-indigo-400 transition-colors">FAQ</a>
                 <a href="docs/CONTRIBUTING.md" class="hover:text-indigo-400 transition-colors">Contributing</a>
+                <a href="https://github.com/Dimasick-git/RyazhaAI" target="_blank" rel="noopener" class="hover:text-purple-400 transition-colors">RYAZHA AI</a>
             </div>
         </footer>
     </div>
@@ -220,12 +250,12 @@
         return res.json();
     }
 
-    function animateCount(el, target, duration = 1800) {
+    function animateCount(el, target, suffix = '+', duration = 1800) {
         const start = performance.now();
         const update = (now) => {
             const p = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - p, 3);
-            el.textContent = Math.floor(eased * target).toLocaleString('ru-RU') + '+';
+            el.textContent = Math.floor(eased * target).toLocaleString('ru-RU') + suffix;
             if (p < 1) requestAnimationFrame(update);
         };
         requestAnimationFrame(update);
@@ -239,22 +269,29 @@
         const downloadEl = document.getElementById('download-count');
         const versionBadge = document.getElementById('version-badge');
         const statVersion = document.getElementById('stat-version');
+        const statStars = document.getElementById('stat-stars');
         const statReleases = document.getElementById('stat-releases');
         const btnVersion = document.getElementById('btn-version');
         const releasesList = document.getElementById('releases-list');
 
         try {
-            const [latest, releases] = await Promise.all([
+            const [repo, latest, releases] = await Promise.all([
+                fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}`),
                 fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}/releases/latest`),
                 fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}/releases?per_page=5`),
             ]);
 
+            // Stars
+            animateCount(statStars, repo.stargazers_count || 0, '');
+
+            // Version
             const tag = latest.tag_name || '';
             versionBadge.textContent = tag;
             statVersion.textContent = tag;
             btnVersion.textContent = tag;
             statReleases.textContent = releases.length >= 5 ? releases.length + '+' : String(releases.length);
 
+            // Releases list
             if (releases.length > 0) {
                 releasesList.innerHTML = releases.map(r => {
                     const dl = (r.assets || []).reduce((s, a) => s + (a.download_count || 0), 0);
@@ -274,7 +311,7 @@
                 }).join('');
             }
 
-            // Total downloads across all repos (parallel, ignore failures)
+            // Total downloads across all repos
             let total = 0;
             await Promise.all(REPOS.map(async repo => {
                 try {
@@ -290,6 +327,7 @@
             versionBadge.textContent = 'v7.2.1';
             statVersion.textContent = 'v7.2.1';
             btnVersion.textContent = 'v7.2.1';
+            statStars.textContent = '11';
             statReleases.textContent = '20+';
             releasesList.innerHTML = `<div class="glass p-4 rounded-xl text-slate-500 text-sm text-center">
                 Не удалось загрузить релизы.
