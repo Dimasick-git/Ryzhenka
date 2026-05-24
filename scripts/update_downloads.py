@@ -51,16 +51,34 @@ def get_json(url: str, token: str = None) -> object:
 
 
 def get_all_pages(url: str, token: str = None) -> list:
-    """Fetch all pages of a paginated GitHub API endpoint."""
+    """Fetch all pages of a paginated GitHub API endpoint by following Link headers."""
     results = []
     next_url = url
+    headers_store = dict(HEADERS)
+    if token:
+        headers_store["Authorization"] = f"Bearer {token}"
+
     while next_url:
-        data = get_json(next_url, token=token)
+        req = urllib.request.Request(next_url, headers=headers_store)
+        with urllib.request.urlopen(req, timeout=30) as r:
+            data = json.load(r)
+            link_header = r.headers.get("Link", "")
+
         if isinstance(data, list):
             results.extend(data)
+
+        # Parse Link header for rel="next"
         next_url = None
-        # GitHub pagination via Link header not available through urllib; rely on per_page=100
-        # If we got exactly 100 items, there may be more — but for releases this is enough.
+        if link_header:
+            for part in link_header.split(","):
+                part = part.strip()
+                if 'rel="next"' in part:
+                    # Extract URL between < and >
+                    url_part = part.split(";")[0].strip()
+                    if url_part.startswith("<") and url_part.endswith(">"):
+                        next_url = url_part[1:-1]
+                    break
+
     return results
 
 
@@ -78,7 +96,7 @@ def sum_downloads(token: str = None, repo_list: list = None) -> tuple:
     errors = []
     if repo_list is None:
         try:
-            repos = get_json(
+            repos = get_all_pages(
                 f"https://api.github.com/users/{OWNER}/repos?per_page=100&type=public",
                 token=token,
             )
@@ -89,7 +107,7 @@ def sum_downloads(token: str = None, repo_list: list = None) -> tuple:
 
     for name in repo_list:
         try:
-            releases = get_json(
+            releases = get_all_pages(
                 f"https://api.github.com/repos/{OWNER}/{name}/releases?per_page=100",
                 token=token,
             )
