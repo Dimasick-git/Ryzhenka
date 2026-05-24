@@ -278,7 +278,7 @@
             const [repo, latest, releases] = await Promise.all([
                 fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}`),
                 fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}/releases/latest`),
-                fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}/releases?per_page=5`),
+                fetchJSON(`https://api.github.com/repos/${OWNER}/${MAIN_REPO}/releases?per_page=100`),
             ]);
 
             // Stars
@@ -289,7 +289,7 @@
             versionBadge.textContent = tag;
             statVersion.textContent = tag;
             btnVersion.textContent = tag;
-            statReleases.textContent = releases.length >= 5 ? releases.length + '+' : String(releases.length);
+            statReleases.textContent = releases.length >= 100 ? releases.length + '+' : String(releases.length);
 
             // Releases list
             if (releases.length > 0) {
@@ -313,13 +313,19 @@
 
             // Total downloads across all repos
             let total = 0;
+            let anyFetchSucceeded = false;
             await Promise.all(REPOS.map(async repo => {
                 try {
                     const rls = await fetchJSON(`https://api.github.com/repos/${OWNER}/${repo}/releases?per_page=100`);
                     rls.forEach(r => (r.assets || []).forEach(a => { total += a.download_count || 0; }));
+                    anyFetchSucceeded = true;
                 } catch { /* skip */ }
             }));
-            animateCount(downloadEl, total);
+            if (anyFetchSucceeded || total > 0) {
+                animateCount(downloadEl, total);
+            } else {
+                downloadEl.textContent = '14 000+';
+            }
 
         } catch (err) {
             console.warn('GitHub API error:', err.message);
