@@ -64,7 +64,7 @@
 
         <!-- Header -->
         <header class="text-center mb-20 fade-in fade-in-1">
-            <img src="assets/Ryazhalogo.png" alt="Ryazhenka Logo" class="mx-auto h-28 mb-6 float drop-shadow-2xl">
+            <img src="assets/Ryazhalogo.png" alt="Ryazhenka Logo" class="mx-auto h-28 mb-6 float drop-shadow-2xl" loading="lazy" width="112" height="112">
             <h1 class="text-5xl sm:text-6xl font-extrabold gradient-text mb-4">Ryazhenka CFW</h1>
             <div class="flex flex-wrap items-center justify-center gap-2 mb-6">
                 <span id="version-badge" class="badge-version px-3 py-1 rounded-full text-sm font-semibold">—</span>
@@ -245,7 +245,7 @@
     const OWNER = 'Dimasick-git';
     const REPOS = ['Ryzhenka', 'Ryazhahand-Overlay', 'Sys-clk', 'Ryazhenkabestcfw-Tuner', 'RyazhaTune'];
     const MAIN_REPO = 'Ryzhenka';
-    const CACHE_KEY = 'ryazhenka_api_cache';
+    const CACHE_KEY = 'ryazhenka_cache_v2';
     const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
     // Dynamic copyright year
@@ -330,8 +330,19 @@
                 setCachedData({ repo, latest, releases, total });
             }
 
-            // Stars
-            animateCount(statStars, repo.stargazers_count || 0, '');
+            // Stars — animate on scroll into view
+            const statsGrid = document.querySelector('.grid.grid-cols-2');
+            const animateWhenVisible = (el, value, suffix) => {
+                if (!el) return;
+                const observer = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) {
+                        animateCount(el, value, suffix);
+                        observer.disconnect();
+                    }
+                }, { threshold: 0.2 });
+                observer.observe(el);
+            };
+            animateWhenVisible(statStars, repo.stargazers_count || 0, '');
 
             // Version
             const tag = latest.tag_name || '';
@@ -340,12 +351,14 @@
             btnVersion.textContent = tag;
             statReleases.textContent = releases.length >= 100 ? releases.length + '+' : String(releases.length);
 
-            // Releases list — use escapeHtml to prevent XSS
+            // Releases list — use escapeHtml + https:// validation to prevent XSS
             if (releases.length > 0) {
                 releasesList.innerHTML = releases.map(r => {
                     const dl = (r.assets || []).reduce((s, a) => s + (a.download_count || 0), 0);
                     const isLatest = r.tag_name === tag;
-                    const safeUrl = escapeHtml(r.html_url);
+                    const rawUrl = r.html_url || '';
+                    const safeUrl = rawUrl.startsWith('https://') ? escapeHtml(rawUrl) : '';
+                    if (!safeUrl) return '';
                     const safeTag = escapeHtml(r.tag_name);
                     return `<a href="${safeUrl}" target="_blank" rel="noopener" class="glass p-4 rounded-xl flex items-center justify-between hover:bg-white/5 transition-all group block">
                         <div class="flex items-center gap-3 flex-wrap">
@@ -362,9 +375,9 @@
                 }).join('');
             }
 
-            // Animate total downloads
+            // Animate total downloads on scroll
             if (total > 0) {
-                animateCount(downloadEl, total);
+                animateWhenVisible(downloadEl, total, '+');
             } else {
                 downloadEl.textContent = '14 000+';
             }
