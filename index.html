@@ -165,6 +165,16 @@
                         <p class="text-sm text-slate-400">Умный ИИ-ассистент по CFW и homebrew с поддержкой 12+ AI-провайдеров.</p>
                         <span class="mt-3 inline-block text-xs text-pink-400">Подробнее →</span>
                     </a>
+                    <a href="https://github.com/Dimasick-git/RCU" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-cyan-500 hover:bg-white/5 transition-all group">
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-cyan-300 transition-colors">RCU</h3>
+                        <p class="text-sm text-slate-400">Ryazha Clock Utility — управление тактовыми частотами CPU/GPU/RAM с FPS-aware VRR и профилями под каждую игру.</p>
+                        <span class="mt-3 inline-block text-xs text-cyan-400">Подробнее →</span>
+                    </a>
+                    <a href="https://github.com/Dimasick-git/libryazhahand" target="_blank" rel="noopener" class="glass p-6 rounded-2xl border-l-4 border-orange-500 hover:bg-white/5 transition-all group">
+                        <h3 class="font-bold text-xl mb-2 group-hover:text-orange-300 transition-colors">libryazhahand</h3>
+                        <p class="text-sm text-slate-400">Tesla overlay-библиотека для Switch homebrew. Форк libultrahand+libtesla с пространством имён /config/ryazhahand/.</p>
+                        <span class="mt-3 inline-block text-xs text-orange-400">Подробнее →</span>
+                    </a>
                 </div>
             </section>
 
@@ -353,25 +363,46 @@
 
             // Releases list — use escapeHtml + https:// validation to prevent XSS
             if (releases.length > 0) {
-                releasesList.innerHTML = releases.map(r => {
+                releasesList.innerHTML = releases.slice(0, 8).map(r => {
                     const dl = (r.assets || []).reduce((s, a) => s + (a.download_count || 0), 0);
                     const isLatest = r.tag_name === tag;
                     const rawUrl = r.html_url || '';
                     const safeUrl = rawUrl.startsWith('https://') ? escapeHtml(rawUrl) : '';
                     if (!safeUrl) return '';
                     const safeTag = escapeHtml(r.tag_name);
-                    return `<a href="${safeUrl}" target="_blank" rel="noopener" class="glass p-4 rounded-xl flex items-center justify-between hover:bg-white/5 transition-all group block">
-                        <div class="flex items-center gap-3 flex-wrap">
-                            <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">${safeTag}</span>
-                            ${isLatest ? '<span class="badge-version px-2 py-0.5 rounded-full text-xs font-semibold">Latest</span>' : ''}
-                            ${r.prerelease ? '<span class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 px-2 py-0.5 rounded-full text-xs">Pre-release</span>' : ''}
-                        </div>
-                        <div class="flex items-center gap-4 text-sm text-slate-400">
-                            <span class="hidden sm:inline">${dl.toLocaleString('ru-RU')} загр.</span>
-                            <span class="hidden sm:inline">${formatDate(r.published_at)}</span>
-                            <svg class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
-                        </div>
-                    </a>`;
+                    const safeName = r.name ? escapeHtml(r.name) : '';
+                    // Changelog: first 2 non-empty lines of body
+                    const bodyLines = (r.body || '').split('\n').map(l => l.trim()).filter(Boolean);
+                    const changelogHtml = bodyLines.length > 0
+                        ? `<div class="mt-2 text-xs text-slate-500 line-clamp-2">${escapeHtml(bodyLines.slice(0, 2).join(' · '))}</div>`
+                        : '';
+                    const assets = (r.assets || []).map(a => {
+                        const aUrl = (a.browser_download_url || '').startsWith('https://') ? escapeHtml(a.browser_download_url) : '';
+                        if (!aUrl) return '';
+                        const aName = escapeHtml(a.name || '');
+                        const aSize = a.size ? ` (${(a.size / 1048576).toFixed(1)} MB)` : '';
+                        return `<a href="${aUrl}" class="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 text-xs underline-offset-2 hover:underline">${aName}${aSize}</a>`;
+                    }).filter(Boolean);
+                    const assetsHtml = assets.length > 0
+                        ? `<div class="mt-2 flex flex-wrap gap-2">${assets.join('')}</div>`
+                        : '';
+                    return `<div class="glass p-4 rounded-xl hover:bg-white/5 transition-all">
+                        <a href="${safeUrl}" target="_blank" rel="noopener" class="flex items-center justify-between group">
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <span class="font-semibold text-white group-hover:text-indigo-300 transition-colors">${safeTag}</span>
+                                ${safeName && safeName !== safeTag ? `<span class="text-slate-400 text-sm">${safeName}</span>` : ''}
+                                ${isLatest ? '<span class="badge-version px-2 py-0.5 rounded-full text-xs font-semibold">Latest</span>' : ''}
+                                ${r.prerelease ? '<span class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 px-2 py-0.5 rounded-full text-xs">Pre-release</span>' : ''}
+                            </div>
+                            <div class="flex items-center gap-4 text-sm text-slate-400">
+                                <span class="hidden sm:inline">${dl.toLocaleString('ru-RU')} загр.</span>
+                                <span class="hidden sm:inline">${formatDate(r.published_at)}</span>
+                                <svg class="w-4 h-4 text-slate-600 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/></svg>
+                            </div>
+                        </a>
+                        ${changelogHtml}
+                        ${assetsHtml}
+                    </div>`;
                 }).join('');
             }
 
