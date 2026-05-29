@@ -1,4 +1,4 @@
-# Development Workflow Guide
+# Development Workflow / Руководство по разработке
 
 Руководство по процессу разработки Ryazhenka с использованием автоматизации CI/CD.
 
@@ -16,147 +16,98 @@ main (стабильный релиз)
     docs/* (документация)
 ```
 
-### Описание веток
-
 | Ветка | Назначение | Правила |
 |-------|-----------|--------|
-| main | Стабильный код, готовый к релизу | Только PR из develop, теги для релизов |
-| develop | Основная ветка разработки | Автоматическая сборка при каждом push |
-| feature/* | Новые функции | Одна функция = одна ветка |
-| fix/* | Исправления багов | Ссылка на Issue обязательна |
-| docs/* | Обновления документации | Может быть merged прямо в develop |
+| `main` | Стабильный код, готовый к релизу | Только PR из develop, теги для релизов |
+| `develop` | Основная ветка разработки | Автоматическая сборка при каждом push |
+| `feature/*` | Новые функции | Одна функция = одна ветка |
+| `fix/*` | Исправления багов | Ссылка на Issue обязательна |
+| `docs/*` | Обновления документации | Может быть merged прямо в develop |
 
 ---
 
 ## Процесс разработки
 
-### 1. Начало работы над функцией
+### 1. Начало работы
 
 ```bash
-# Обновляем развилку
 git fetch upstream
 git checkout develop
 git pull upstream develop
-
-# Создаём ветку для функции
-git checkout -b feature/my-amazing-feature
+git checkout -b feature/my-feature
 ```
 
-### 2. Разработка и тестирование
+### 2. Разработка и коммиты
 
 ```bash
-# Делаем изменения
-# Коммитим со смыслом
 git commit -m "feat: add cool feature"
-
-# Локальная сборка
 bash scripts/build.sh
-
-# Проверяем результаты в папке build/
 ```
 
 ### 3. Обновление CHANGELOG
 
-Добавьте вашу функцию в `CHANGELOG.md` в секции последней версии:
+Добавьте изменение в `CHANGELOG.md` в секцию последней версии:
 
 ```markdown
-## [5.0.0] — TBD
+## [X.Y.Z] — TBD
 - Ваше изменение
-- Исправление бага
 ```
 
-### 4. Отправка на сервер
+### 4. Pull Request
 
 ```bash
-# Пушим в fork
-git push -u origin feature/my-amazing-feature
-
-# Создаём Pull Request на GitHub
-# Описание должно содержать:
-# - Что было изменено
-# - Зачем это нужно
-# - Как это тестировалось
-# - Связанные Issues (если есть)
+git push -u origin feature/my-feature
+# Создайте PR в GitHub: что изменено, зачем, как тестировалось, связанные Issues
 ```
 
-### 5. Автоматизация в GitHub Actions
+---
+
+## Автоматизация CI/CD
+
+### Workflow: Update Downloads (`update-downloads.yml`)
+
+Запускается по расписанию (каждые 6 часов), при публикации релиза и вручную.
+
+- Скрипт `scripts/update_downloads.py` считает загрузки по списку из `scripts/repos.txt`.
+- Обновляет счётчик `<!--TOTAL_DOWNLOADS-->` в `README.md`.
+- Workflow делает git-коммит и пуш через встроенный шаг CI.
+
+### Локальный запуск скрипта
+
+```bash
+GITHUB_TOKEN=<ваш_токен> python3 scripts/update_downloads.py
+```
+
+### Workflow: Build / Release
 
 После push в develop:
+- Собирает архив проекта.
+- Генерирует контрольные суммы.
+- Выгружает артефакты.
 
-Автоматически запускается workflow build.yml
-- Собирает проект
-- Генерирует архив
-- Вычисляет контрольные суммы
-- Выгружает артефакты
-
-### 6. Деплой в main
-
-Когда готовы выпустить релиз:
-
+Деплой в main:
 ```bash
-# В GitHub UI: Actions → Deploy to Main → Run workflow
-# Или через GitHub CLI:
+# GitHub UI: Actions → Deploy to Main → Run workflow
 gh workflow run deploy.yml -f branch=develop -f merge_type=squash
 ```
 
-**Что происходит при деплое:**
-1. ✅ Код из `develop` мержится в `main`
-2. ✅ Создаётся тег версии
-3. ✅ Генерируется уведомление
-4. ✅ CHANGELOG обновляется датой
-
-### 7. Создание релиза
-
-После деплоя в main:
-
+Создание релиза:
 ```bash
-# В GitHub UI: Actions → Auto Release & Build → Run workflow
-# Укажите:
-# - version: 5.0.0
-# - release_type: major/minor/patch/beta
-
-# Или через GitHub CLI:
-gh workflow run release.yml -f version=5.0.0 -f release_type=minor
+gh workflow run release.yml -f version=7.3.0 -f release_type=minor
 ```
-
-**Генерируется автоматически:**
-- 📦 Архив с проектом
-- 🔐 SHA256 контрольные суммы
-- 📝 Полный чейнджлог с ссылками
-- 🔗 Ссылки на все компоненты
-- 📚 Справочная информация
 
 ---
 
 ## Локальная сборка
 
-### Базовая сборка
-
 ```bash
 bash scripts/build.sh
 ```
 
-Результаты в папке `dist/`:
+Результаты в `dist/`:
 - `Ryazhenka-X.Y.Z.zip` — архив проекта
-- `checksums-sha256.txt` — контрольные суммы
-- `checksums-md5.txt` — MD5 хеши
+- `checksums-sha256.txt` — SHA256 хеши
 - `BUILD_REPORT.md` — отчёт о сборке
-
-### Управление релизами
-
-```bash
-# Получить текущую версию
-python3 scripts/release_manager.py version
-
-# Посмотреть информацию о релизе
-python3 scripts/release_manager.py info
-
-# Обновить manifests.json
-python3 scripts/release_manager.py manifests
-
-# Показать последние изменения
-python3 scripts/release_manager.py changes 10
-```
 
 ---
 
@@ -165,118 +116,67 @@ python3 scripts/release_manager.py changes 10
 ### Commit Messages
 
 ```
-feat: добавляет новую функцию
-fix: исправляет баг
-docs: обновляет документацию
-style: форматирование, без изменения логики
-refactor: переструктуризация кода
-perf: улучшение производительности
-test: добавляет тесты
-chore: изменения сборки, зависимостей
-ci: изменения CI/CD конфигурации
-```
-
-**Пример:**
-```bash
-git commit -m "feat: add auto-update mechanism
-
-- Implements background checking for new versions
-- Notifies user when update is available
-- Seamless update installation
-
-Closes #123"
+feat:     новая функция
+fix:      исправление бага
+docs:     обновление документации
+refactor: переработка без изменения поведения
+perf:     улучшение производительности
+chore:    изменения сборки, зависимостей
+ci:       изменения CI/CD
 ```
 
 ### PR Titles
 
 ```
-[FEATURE] Brief description
-[BUGFIX] Brief description
-[DOCS] Brief description
-[REFACTOR] Brief description
+[FEATURE] Краткое описание
+[BUGFIX]  Краткое описание
+[DOCS]    Краткое описание
 ```
 
 ---
 
-## Проверка статуса
-
-### GitHub Actions Dashboard
-
-1. Перейди на [GitHub Actions](https://github.com/Dimasick-git/Ryzhenka/actions)
-2. Выбери нужный workflow
-3. Посмотри статус текущей сборки
-
-### Статусы
+## Статусы сборки
 
 | Статус | Описание |
 |--------|----------|
-| ✅ **Passed** | Сборка успешна, артефакты готовы |
-| ⏳ **In Progress** | Сборка идёт, подожди |
-| ❌ **Failed** | Что-то пошло не так, проверь логи |
-| ⊘ **Cancelled** | Сборка отменена вручную |
-
----
-
-## Metrics и Monitoring
-
-### Доступная информация
-
-- 📦 Размер сборки
-- 📊 Кол-во файлов
-- 🔐 Контрольные суммы
-- 🌳 Текущий коммит
-- 📅 Дата сборки
-
-### Примечание для разработчиков
-
-Все артефакты автоматически загружаются в:
-- GitHub Releases (для пользователей)
-- GitHub Actions (для истории)
-
----
-
-## Troubleshooting
-
-### Сборка не запускается
-
-1. Проверь, что файлы добавлены: `git add .`
-2. Сделай коммит: `git commit -m "..."`
-3. Пушни в develop: `git push origin develop`
-4. Проверь [Actions](https://github.com/Dimasick-git/Ryzhenka/actions)
-
-### Деплой не срабатывает
-
-1. Убедись, что в develop есть новые изменения
-2. Перепроверь версию в CHANGELOG.md
-3. Проверь права доступа токена (должен быть `GITHUB_TOKEN`)
-
-### Release не создаётся
-
-1. Проверь, что развилка апдейтнута в main
-2. Убедись, что версия правильного формата (X.Y.Z)
-3. Посмотри логи workflow в Actions
+| ✅ Passed | Сборка успешна, артефакты готовы |
+| ⏳ In Progress | Сборка идёт |
+| ❌ Failed | Ошибка — проверь логи Actions |
+| ⊘ Cancelled | Сборка отменена вручную |
 
 ---
 
 ## Checklist перед релизом
 
-- [ ] Все функции закончены и протестированы
-- [ ] CHANGELOG обновлён
-- [ ] README актуален
-- [ ] Код залит в develop
-- [ ] Пройдены все checks (build, tests)
-- [ ] Подготовлено объявление (Telegram, YouTube)
-- [ ] Версия в правильном формате (X.Y.Z)
+- [ ] Все функции завершены и протестированы
+- [ ] `CHANGELOG.md` обновлён
+- [ ] `README.md` актуален
+- [ ] Код залит в develop и прошёл CI
+- [ ] Подготовлено объявление (Telegram)
+- [ ] Версия в формате `X.Y.Z`
+
+---
+
+## Troubleshooting
+
+**Сборка не запускается:**
+```bash
+git add . && git commit -m "..." && git push origin develop
+```
+
+**Скрипт update_downloads падает с ошибкой git identity:**
+- Это ожидаемо при локальном запуске без git-конфига.
+- В CI git-конфиг настраивается workflow автоматически.
+
+**Релиз не создаётся:**
+- Проверь, что main обновлён из develop.
+- Версия должна быть в формате `X.Y.Z`.
 
 ---
 
 ## Полезные ссылки
 
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [GitHub CLI Documentation](https://cli.github.com/)
+- [GitHub Actions](https://docs.github.com/en/actions)
+- [GitHub CLI](https://cli.github.com/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Semantic Versioning](https://semver.org/)
-
----
-
-**Последнее обновление**: 2025-12-07

@@ -7,4 +7,8 @@ Ryazhahand-Overlay
 Sys-clk
 Ryazhenkabestcfw-Tuner
 RyazhaTune
-Ryazhenka-Overlays
+Ryazha-Status-Monitor
+EdiZon
+ovlSysmodules
+FPSLocker
+Fizeau

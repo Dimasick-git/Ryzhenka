@@ -172,9 +172,7 @@ def main() -> None:
 
     changed = update_readme(total)
     if changed:
-        print("README.md updated — committing...")
-        git_commit_push(token=token)
-        print("Done.")
+        print("README.md updated.")
     else:
         print("No change in count — skipping commit.")
 
