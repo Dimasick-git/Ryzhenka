@@ -24,7 +24,35 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/assets/Ryazhalogo.png">
 
     <meta name="theme-color" content="#1a1a2e">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dimasick-git.github.io/Ryzhenka">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Ryazhenka CFW",
+      "description": "Кастомная прошивка для Nintendo Switch с уникальными модулями: Ryazhahand, RCU, RyazhaTune и другими.",
+      "url": "https://dimasick-git.github.io/Ryzhenka",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Nintendo Switch",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Dimasick-git",
+        "url": "https://github.com/Dimasick-git"
+      },
+      "license": "https://opensource.org/licenses/MIT",
+      "codeRepository": "https://github.com/Dimasick-git/Ryzhenka",
+      "image": "https://raw.githubusercontent.com/Dimasick-git/Ryzhenka/main/assets/Ryazhalogo.png"
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -50,6 +78,11 @@
         .fade-in-4 { animation-delay: 0.4s; }
         @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); } 70% { box-shadow: 0 0 0 8px rgba(74,222,128,0); } 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); } }
         .pulse-dot { width: 10px; height: 10px; border-radius: 50%; background: #4ade80; animation: pulse-ring 2s infinite; }
+        @media (prefers-reduced-motion: reduce) {
+            .float, .fade-in, .pulse-dot { animation: none !important; }
+            .btn-primary { transition: none !important; }
+            .fade-in { opacity: 1 !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-grid">
@@ -97,7 +130,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16 fade-in fade-in-2">
             <div class="glass p-5 rounded-2xl text-center glow">
                 <p class="text-indigo-400 text-xs uppercase tracking-wider font-semibold mb-2">Загрузок</p>
-                <p class="text-3xl font-bold" id="download-count">…</p>
+                <p class="text-3xl font-bold" id="download-count" aria-live="polite" aria-label="Количество загрузок">…</p>
             </div>
             <div class="glass p-5 rounded-2xl text-center">
                 <p class="text-indigo-400 text-xs uppercase tracking-wider font-semibold mb-2">Версия</p>
@@ -293,6 +326,11 @@
     }
 
     function animateCount(el, target, suffix = '+', duration = 1800) {
+        // Respect user preference for reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            el.textContent = target.toLocaleString('ru-RU') + suffix;
+            return;
+        }
         const start = performance.now();
         const update = (now) => {
             const p = Math.min((now - start) / duration, 1);
