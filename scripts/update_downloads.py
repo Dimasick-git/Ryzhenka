@@ -150,7 +150,10 @@ def git_commit_push(token: str = None) -> bool:
     subprocess.run(["git", "commit", "-m", "chore: update total downloads badge [skip ci]"], check=True)
     repo = os.environ.get("GITHUB_REPOSITORY")
     if token and repo:
-        subprocess.run(["git", "push", f"https://{token}@github.com/{repo}.git", "HEAD:main"], check=True)
+        remote_url = f"https://x-access-token:{token}@github.com/{repo}.git"
+        subprocess.run(["git", "remote", "set-url", "origin", remote_url], check=True)
+        subprocess.run(["git", "push", "origin", "HEAD:main"], check=True)
+        subprocess.run(["git", "remote", "set-url", "origin", f"https://github.com/{repo}.git"], check=True)
     else:
         subprocess.run(["git", "push", "origin", "main"], check=True)
     return True
