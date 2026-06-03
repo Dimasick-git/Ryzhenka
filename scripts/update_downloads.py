@@ -51,7 +51,11 @@ def get_json(url: str, token: str = None) -> object:
 
 
 def get_all_pages(url: str, token: str = None) -> list:
-    """Fetch all pages of a paginated GitHub API endpoint by following Link headers."""
+    """Fetch all pages of a paginated GitHub API endpoint by following Link headers.
+
+    Each page request uses the same exponential-backoff retry as get_json so that
+    a transient error mid-pagination does not silently truncate results.
+    """
     results = []
     next_url = url
     headers_store = dict(HEADERS)
@@ -59,10 +63,38 @@ def get_all_pages(url: str, token: str = None) -> list:
         headers_store["Authorization"] = f"Bearer {token}"
 
     while next_url:
-        req = urllib.request.Request(next_url, headers=headers_store)
-        with urllib.request.urlopen(req, timeout=30) as r:
-            data = json.load(r)
-            link_header = r.headers.get("Link", "")
+        delay = 2
+        last_exc = None
+        link_header = ""
+        data = None
+
+        for attempt in range(MAX_RETRIES):
+            try:
+                req = urllib.request.Request(next_url, headers=headers_store)
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    data = json.load(r)
+                    link_header = r.headers.get("Link", "")
+                break  # success
+            except urllib.error.HTTPError as e:
+                last_exc = e
+                if e.code in (403, 429):
+                    retry_after = int(e.headers.get("Retry-After", delay))
+                    print(f"  Rate-limited on {next_url} — waiting {retry_after}s (attempt {attempt + 1})")
+                    time.sleep(retry_after)
+                    delay = min(delay * 2, 60)
+                elif e.code in (404, 451):
+                    raise
+                else:
+                    print(f"  HTTP {e.code} on {next_url} — retrying in {delay}s (attempt {attempt + 1})")
+                    time.sleep(delay)
+                    delay *= 2
+            except Exception as e:
+                last_exc = e
+                print(f"  Request failed for {next_url}: {e} — retrying in {delay}s (attempt {attempt + 1})")
+                time.sleep(delay)
+                delay *= 2
+        else:
+            raise RuntimeError(f"All {MAX_RETRIES} attempts failed for {next_url}: {last_exc}")
 
         if isinstance(data, list):
             results.extend(data)
@@ -73,7 +105,6 @@ def get_all_pages(url: str, token: str = None) -> list:
             for part in link_header.split(","):
                 part = part.strip()
                 if 'rel="next"' in part:
-                    # Extract URL between < and >
                     url_part = part.split(";")[0].strip()
                     if url_part.startswith("<") and url_part.endswith(">"):
                         next_url = url_part[1:-1]
