@@ -115,6 +115,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Inject CSS cache-busting query param
+        run: |
+          SHA=$(git rev-parse --short HEAD)
+          sed -i "s|href=\"dist/output.css\"|href=\"dist/output.css?v=${SHA}\"|g" index.html
+          echo "CSS cache-busting param: ?v=${SHA}"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
