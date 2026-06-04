@@ -191,7 +191,7 @@ def git_commit_push(token: str = None) -> bool:
 
 
 def main() -> None:
-    token = os.environ.get("GITHUB_TOKEN")
+    token = os.environ.get("GITHUB_TOKEN", "")
     repo_list = load_repos_list()
     print(f"Counting downloads for owner: {OWNER}")
     if repo_list:
