@@ -54,7 +54,7 @@
 
 **Сводная статистика**
 
-- Суммарные загрузки всех релизов: <!--TOTAL_DOWNLOADS-->**16468**<!--/TOTAL_DOWNLOADS-->
+- Суммарные загрузки всех релизов: <!--TOTAL_DOWNLOADS-->**16472**<!--/TOTAL_DOWNLOADS-->
 - Последний релиз Ryazhenka: [releases/latest](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
 
 ---
