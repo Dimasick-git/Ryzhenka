@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tailwindcss -i src/input.css -o dist/output.css --minify"
+    "build": "tailwindcss -i src/input.css -o dist/output.css --minify",
+    "dev": "tailwindcss -i src/input.css -o dist/output.css --watch"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

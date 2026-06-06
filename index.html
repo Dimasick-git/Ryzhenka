@@ -310,7 +310,7 @@
 
     function getCachedData() {
         try {
-            const raw = sessionStorage.getItem(CACHE_KEY);
+            const raw = localStorage.getItem(CACHE_KEY);
             if (!raw) return null;
             const { timestamp, data } = JSON.parse(raw);
             if (Date.now() - timestamp < CACHE_TTL) return data;
@@ -320,7 +320,7 @@
 
     function setCachedData(data) {
         try {
-            sessionStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
         } catch {}
     }
 
