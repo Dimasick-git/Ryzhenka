@@ -291,9 +291,11 @@
     const REPOS = ['Ryzhenka', 'Ryazhahand-Overlay', 'Sys-clk', 'Ryazhenkabestcfw-Tuner', 'RyazhaTune',
                    'AIO-Switch-Updater', 'Mission-Control', 'Ryazha-Status-Monitor',
                    'Minecraft-Online-for-switch', 'Fizeau', 'SwitchWave', 'ReverseNX-RT',
-                   'FPSLocker', 'EdiZon', 'ovlSysmodules', 'PPSSPP'];
+                   'FPSLocker', 'EdiZon', 'ovlSysmodules', 'PPSSPP',
+                   'RCU', 'libryazhahand', 'nx-ovlloader', 'RyazhaAI',
+                   'Ryazha-cheker', 'Ryazhenka_Bot', 'Atmosphere-RYZ', 'Hekate'];
     const MAIN_REPO = 'Ryzhenka';
-    const CACHE_KEY = 'ryazhenka_cache_v3';
+    const CACHE_KEY = 'ryazhenka_cache_v4';
     const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
     // Dynamic copyright year
@@ -458,12 +460,12 @@
 
         } catch (err) {
             console.warn('GitHub API error:', err.message);
-            downloadEl.textContent = '14 000+';
-            versionBadge.textContent = 'v7.2.1';
-            statVersion.textContent = 'v7.2.1';
-            btnVersion.textContent = 'v7.2.1';
-            statStars.textContent = '11';
-            statReleases.textContent = '20+';
+            downloadEl.textContent = '15 000+';
+            versionBadge.textContent = 'v7.x';
+            statVersion.textContent = 'v7.x';
+            btnVersion.textContent = 'последний релиз';
+            statStars.textContent = '35+';
+            statReleases.textContent = '25+';
             releasesList.innerHTML = `<div class="glass p-4 rounded-xl text-slate-500 text-sm text-center">
                 Не удалось загрузить релизы.
                 <a href="https://github.com/Dimasick-git/Ryzhenka/releases" class="text-indigo-400 hover:underline ml-1" target="_blank">Открыть на GitHub →</a>
