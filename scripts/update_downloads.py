@@ -16,28 +16,27 @@ HEADERS = {"User-Agent": "update-downloads-script/2.0"}
 MAX_RETRIES = 4
 
 
-def get_json(url: str, token: str = None) -> object:
-    """Fetch JSON from GitHub API with exponential-backoff retry on rate-limit / transient errors."""
-    headers = dict(HEADERS)
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
+def _request_with_retry(url: str, headers: dict) -> tuple:
+    """Fetch a single URL with exponential-backoff retry.
+
+    Returns (data, link_header).  Raises on permanent failure.
+    """
     delay = 2
     last_exc = None
     for attempt in range(MAX_RETRIES):
         try:
             req = urllib.request.Request(url, headers=headers)
             with urllib.request.urlopen(req, timeout=30) as r:
-                return json.load(r)
+                return json.load(r), r.headers.get("Link", "")
         except urllib.error.HTTPError as e:
             last_exc = e
             if e.code in (403, 429):
-                # respect Retry-After header if present, else exponential backoff
                 retry_after = int(e.headers.get("Retry-After", delay))
                 print(f"  Rate-limited on {url} — waiting {retry_after}s (attempt {attempt + 1})")
                 time.sleep(retry_after)
                 delay = min(delay * 2, 60)
             elif e.code in (404, 451):
-                raise  # not worth retrying
+                raise
             else:
                 print(f"  HTTP {e.code} on {url} — retrying in {delay}s (attempt {attempt + 1})")
                 time.sleep(delay)
@@ -50,65 +49,38 @@ def get_json(url: str, token: str = None) -> object:
     raise RuntimeError(f"All {MAX_RETRIES} attempts failed for {url}: {last_exc}")
 
 
-def get_all_pages(url: str, token: str = None) -> list:
-    """Fetch all pages of a paginated GitHub API endpoint by following Link headers.
+def _build_headers(token: str = None) -> dict:
+    h = dict(HEADERS)
+    if token:
+        h["Authorization"] = f"Bearer {token}"
+    return h
 
-    Each page request uses the same exponential-backoff retry as get_json so that
-    a transient error mid-pagination does not silently truncate results.
-    """
+
+def get_json(url: str, token: str = None) -> object:
+    """Fetch JSON from a single GitHub API URL."""
+    data, _ = _request_with_retry(url, _build_headers(token))
+    return data
+
+
+def get_all_pages(url: str, token: str = None) -> list:
+    """Fetch all pages of a paginated GitHub API endpoint by following Link headers."""
     results = []
     next_url = url
-    headers_store = dict(HEADERS)
-    if token:
-        headers_store["Authorization"] = f"Bearer {token}"
+    headers = _build_headers(token)
 
     while next_url:
-        delay = 2
-        last_exc = None
-        link_header = ""
-        data = None
-
-        for attempt in range(MAX_RETRIES):
-            try:
-                req = urllib.request.Request(next_url, headers=headers_store)
-                with urllib.request.urlopen(req, timeout=30) as r:
-                    data = json.load(r)
-                    link_header = r.headers.get("Link", "")
-                break  # success
-            except urllib.error.HTTPError as e:
-                last_exc = e
-                if e.code in (403, 429):
-                    retry_after = int(e.headers.get("Retry-After", delay))
-                    print(f"  Rate-limited on {next_url} — waiting {retry_after}s (attempt {attempt + 1})")
-                    time.sleep(retry_after)
-                    delay = min(delay * 2, 60)
-                elif e.code in (404, 451):
-                    raise
-                else:
-                    print(f"  HTTP {e.code} on {next_url} — retrying in {delay}s (attempt {attempt + 1})")
-                    time.sleep(delay)
-                    delay *= 2
-            except Exception as e:
-                last_exc = e
-                print(f"  Request failed for {next_url}: {e} — retrying in {delay}s (attempt {attempt + 1})")
-                time.sleep(delay)
-                delay *= 2
-        else:
-            raise RuntimeError(f"All {MAX_RETRIES} attempts failed for {next_url}: {last_exc}")
-
+        data, link_header = _request_with_retry(next_url, headers)
         if isinstance(data, list):
             results.extend(data)
 
-        # Parse Link header for rel="next"
         next_url = None
-        if link_header:
-            for part in link_header.split(","):
-                part = part.strip()
-                if 'rel="next"' in part:
-                    url_part = part.split(";")[0].strip()
-                    if url_part.startswith("<") and url_part.endswith(">"):
-                        next_url = url_part[1:-1]
-                    break
+        for part in link_header.split(","):
+            part = part.strip()
+            if 'rel="next"' in part:
+                url_part = part.split(";")[0].strip()
+                if url_part.startswith("<") and url_part.endswith(">"):
+                    next_url = url_part[1:-1]
+                break
 
     return results
 
@@ -178,15 +150,27 @@ def git_commit_push(token: str = None) -> bool:
     subprocess.run(["git", "add", "README.md"], check=True)
     if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
         return False
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
     subprocess.run(["git", "commit", "-m", "chore: update total downloads badge [skip ci]"], check=True)
     repo = os.environ.get("GITHUB_REPOSITORY")
     if token and repo:
-        remote_url = f"https://x-access-token:{token}@github.com/{repo}.git"
-        subprocess.run(["git", "remote", "set-url", "origin", remote_url], check=True)
-        subprocess.run(["git", "push", "origin", "HEAD:main"], check=True)
-        subprocess.run(["git", "remote", "set-url", "origin", f"https://github.com/{repo}.git"], check=True)
+        # Pass the token via an env variable to a credential helper rather than
+        # embedding it in the remote URL, where it would appear in `git remote -v`
+        # output and in /proc/<pid>/cmdline visible to other processes on the runner.
+        env = {**os.environ, "_GIT_PUSH_TOKEN": token, "GIT_TERMINAL_PROMPT": "0"}
+        subprocess.run(
+            [
+                "git", "-c",
+                'credential.helper=!f(){ echo username=x-access-token; echo "password=$_GIT_PUSH_TOKEN"; };f',
+                "push",
+                f"https://github.com/{repo}.git",
+                f"HEAD:{branch}",
+            ],
+            env=env,
+            check=True,
+        )
     else:
-        subprocess.run(["git", "push", "origin", "main"], check=True)
+        subprocess.run(["git", "push", "origin", f"HEAD:{branch}"], check=True)
     return True
 
 
