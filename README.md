@@ -62,7 +62,7 @@ Ryazhenka объединяет основную сборку CFW для Nintendo
 
 Актуальные версии, release notes и файлы загрузки публикуются на страницах релизов соответствующих репозиториев. Сводный счётчик загрузок обновляется автоматизацией из списка [scripts/repos.txt](scripts/repos.txt):
 
-- суммарные загрузки: <!--TOTAL_DOWNLOADS-->17941<!--/TOTAL_DOWNLOADS-->
+- суммарные загрузки: <!--TOTAL_DOWNLOADS-->**18053**<!--/TOTAL_DOWNLOADS-->
 - основной релиз: [Ryzhenka Releases](https://github.com/Dimasick-git/Ryzhenka/releases)
 
 ## Документация и участие
