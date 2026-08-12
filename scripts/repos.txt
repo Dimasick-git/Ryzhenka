@@ -2,7 +2,9 @@
 # Одна запись — одно имя репозитория. Строки, начинающиеся с #, игнорируются.
 # Репозитории без релизов и боты не включаются.
 
-Ryzhenka
+Ryazhenka
+RyazhaAI
+Atmosphere-RYZ
 Ryazhahand-Overlay
 Sys-clk
 Ryazhenkabestcfw-Tuner

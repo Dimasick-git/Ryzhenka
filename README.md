@@ -1,126 +1,82 @@
-<div align="center">
-
-![Ryazhenka Logo](assets/Ryazhalogo.png)
-
-[![Telegram](https://img.shields.io/badge/Telegram-@Ryazhenkacfw-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Ryazhenkacfw) [![Release](https://img.shields.io/badge/Release-latest-blue?style=for-the-badge&logo=github&logoColor=white&labelColor=000000)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) [![Repo downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=for-the-badge)](https://github.com/Dimasick-git/Ryzhenka/releases) [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENCE) [![Website](https://img.shields.io/badge/Website-Visit-brightgreen?style=for-the-badge&logo=google-chrome&logoColor=white&labelColor=000000)](https://dimasick-git.github.io/Ryzhenka/)
-
-</div>
-
 # Ryazhenka CFW
 
-**Ryazhenka** is a custom firmware (CFW) package for Nintendo Switch, built on top of Atmosphere and Hekate. It bundles a curated set of homebrew tools, overlays, performance modules and quality-of-life tweaks — all developed and maintained by [Dimasick-git](https://github.com/Dimasick-git).
+Ryazhenka is a Nintendo Switch custom-firmware ecosystem built around Atmosphere and Hekate. This repository publishes the main Ryazhenka bundle, installation guidance, release links, and the project website.
 
-> Full documentation is in Russian below. | Полная документация на русском ниже.
+> Краткая версия на русском: Ryazhenka — экосистема кастомной прошивки Nintendo Switch на базе Atmosphere и Hekate. Здесь находятся основной пакет, инструкции, ссылки на релизы и исходный код сайта.
 
----
+[Website](https://dimasick-git.github.io/Ryzhenka/) · [Latest release](https://github.com/Dimasick-git/Ryzhenka/releases/latest) · [Telegram](https://t.me/Ryazhenkacfw) · [License](LICENCE)
 
-**Содержание**
-- [Назначение](#назначение)
-- [Ключевые компоненты](#ключевые-компоненты)
-- [Установка](#установка-микро-инструкция)
-- [Статистика](#сводная-статистика)
-- [Основные модули](#основные-модули)
-- [Все репозитории](#все-репозитории-относящиеся-к-проекту)
-- [Особая благодарность](#особая-благодарность)
-- [Лицензия](#лицензия)
+## English
 
----
+### What is included
 
-**Назначение**
+The Ryazhenka ecosystem combines a distributable CFW package with optional overlays, system utilities, monitoring tools, and related Switch projects. The exact contents and compatibility notes are defined by each release; review the release notes before installing or updating.
 
-Этот репозиторий содержит релизы и документацию для Ryazhenka CFW — комплексной сборки кастомной прошивки для Nintendo Switch. Объединяет проверенные компоненты (Atmosphere, Hekate) с собственными модулями производительности, системными оверлеями и утилитами настройки.
+### Installation
 
----
+1. Create a backup of the console's important data and verify that the release supports your Switch model.
+2. Download the archive from [Releases](https://github.com/Dimasick-git/Ryzhenka/releases/latest) and copy its contents to the root of a FAT32-formatted SD card.
+3. Boot through RCM and Hekate on an unpatched V1 console, or use a compatible modchip on patched V1, V2, Lite, and OLED models.
+4. Launch the Atmosphere configuration supplied with the release and confirm that all modules are compatible.
 
-**Ключевые компоненты**
+Read the complete guide in [docs/INSTALL.md](docs/INSTALL.md). This project is intended for users who understand the risks of custom firmware; never install files from an unverified source.
 
-- `Ryazhahand-Overlay` — система управления оверлеями и пользовательскими настройками. Основан на базе Ultrahand. Переработано: Dimasick-git.
-- `Ryazha-clk` — модуль управления частотами CPU/GPU/MEM/LCD, профилями производительности и VRR. Разработано: Dimasick-git.
-- `Ryazhenka Tuner` — инструмент тонкой настройки прошивки и системных параметров. Основан на базе Ultra Tuner. Переработано: Dimasick-git.
-- `RyazhaTune` — расширенный инструмент настройки системы нового поколения. Разработано: Dimasick-git.
-- `Ryazha-Status-Monitor` — оверлей мониторинга системных показателей в реальном времени (температура, частоты, RAM). Разработано: Dimasick-git.
-- `ovlSysmodules` — оверлей управления системными модулями (sysmodules), включение/выключение без перезагрузки. Адаптировано: Dimasick-git.
-- `FPSLocker` — патчер частоты кадров для игр Nintendo Switch. Адаптировано: Dimasick-git.
-- `Fizeau` — управление цветовым профилем и гаммой дисплея. Адаптировано: Dimasick-git.
-- `EdiZon` — редактор сохранений и чит-движок для Nintendo Switch. Адаптировано: Dimasick-git.
-- `AIO-Switch-Updater` — обновление всех компонентов CFW из одного приложения. Адаптировано: Dimasick-git.
-- `Mission-Control` — поддержка сторонних Bluetooth-контроллеров (PS4/PS5/Xbox и др.). Адаптировано: Dimasick-git.
-- `PPSSPP` — PSP-эмулятор, пересобранный под HOS 21. Адаптировано: Dimasick-git.
-- `ReverseNX-RT` — переключение между dock/handheld режимами на лету. Адаптировано: Dimasick-git.
-- `SwitchWave` — медиаплеер и аудиоплеер для Nintendo Switch. Адаптировано: Dimasick-git.
-- `Minecraft-Online-for-switch` — онлайн-функциональность для Minecraft на Switch. Адаптировано: Dimasick-git.
+### Core repositories
 
----
-
-**Сводная статистика**
-
-- Суммарные загрузки всех релизов: <!--TOTAL_DOWNLOADS-->**17941**<!--/TOTAL_DOWNLOADS-->
-- Последний релиз Ryazhenka: [releases/latest](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
-
----
-
-**Основные модули**
-
-| Модуль | Описание | Скачивания | Ссылка |
-|---|---|---:|---|
-| `Ryzhenka` | Основной пакет CFW | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=flat-square)](https://github.com/Dimasick-git/Ryzhenka/releases) | [releases/latest](https://github.com/Dimasick-git/Ryzhenka/releases/latest) |
-| `Ryazhahand-Overlay` | Оверлей управления системой и настройками (Tesla menu) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhahand-Overlay/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases) | [Ryazhahand-Overlay](https://github.com/Dimasick-git/Ryazhahand-Overlay) |
-| `Ryazha-clk` | Управление частотами CPU/GPU/MEM/LCD и VRR | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Sys-clk/total?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases) | [Sys-clk](https://github.com/Dimasick-git/Sys-clk) |
-| `Ryazhenka Tuner` | Тонкая настройка прошивки и диагностика | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhenkabestcfw-Tuner/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner/releases) | [Ryazhenkabestcfw-Tuner](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner) |
-| `RyazhaTune` | Расширенный инструмент настройки системы | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/RyazhaTune/total?style=flat-square)](https://github.com/Dimasick-git/RyazhaTune/releases) | [RyazhaTune](https://github.com/Dimasick-git/RyazhaTune) |
-| `AIO-Switch-Updater` | Обновление всех компонентов CFW из одного приложения | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/AIO-Switch-Updater/total?style=flat-square)](https://github.com/Dimasick-git/AIO-Switch-Updater/releases) | [AIO-Switch-Updater](https://github.com/Dimasick-git/AIO-Switch-Updater) |
-| `Mission-Control` | Поддержка сторонних Bluetooth-контроллеров (PS4/PS5/Xbox и др.) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Mission-Control/total?style=flat-square)](https://github.com/Dimasick-git/Mission-Control/releases) | [Mission-Control](https://github.com/Dimasick-git/Mission-Control) |
-| `Ryazha-Status-Monitor` | Мониторинг температуры, частот, RAM в реальном времени | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazha-Status-Monitor/total?style=flat-square)](https://github.com/Dimasick-git/Ryazha-Status-Monitor/releases) | [Ryazha-Status-Monitor](https://github.com/Dimasick-git/Ryazha-Status-Monitor) |
-| `ovlSysmodules` | Управление sysmodules через оверлей | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/ovlSysmodules/total?style=flat-square)](https://github.com/Dimasick-git/ovlSysmodules/releases) | [ovlSysmodules](https://github.com/Dimasick-git/ovlSysmodules) |
-| `FPSLocker` | Патчер частоты кадров для игр | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/FPSLocker/total?style=flat-square)](https://github.com/Dimasick-git/FPSLocker/releases) | [FPSLocker](https://github.com/Dimasick-git/FPSLocker) |
-| `Fizeau` | Управление цветовым профилем дисплея | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Fizeau/total?style=flat-square)](https://github.com/Dimasick-git/Fizeau/releases) | [Fizeau](https://github.com/Dimasick-git/Fizeau) |
-| `ReverseNX-RT` | Переключение dock/handheld режимов на лету | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/ReverseNX-RT/total?style=flat-square)](https://github.com/Dimasick-git/ReverseNX-RT/releases) | [ReverseNX-RT](https://github.com/Dimasick-git/ReverseNX-RT) |
-| `EdiZon` | Редактор сохранений и чит-движок | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/EdiZon/total?style=flat-square)](https://github.com/Dimasick-git/EdiZon/releases) | [EdiZon](https://github.com/Dimasick-git/EdiZon) |
-| `SwitchWave` | Медиаплеер для Nintendo Switch | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/SwitchWave/total?style=flat-square)](https://github.com/Dimasick-git/SwitchWave/releases) | [SwitchWave](https://github.com/Dimasick-git/SwitchWave) |
-| `PPSSPP` | PSP-эмулятор, пересобранный под HOS 21 | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/PPSSPP/total?style=flat-square)](https://github.com/Dimasick-git/PPSSPP/releases) | [PPSSPP](https://github.com/Dimasick-git/PPSSPP) |
-| `Minecraft-Online-for-switch` | Онлайн-функциональность для Minecraft на Switch | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Minecraft-Online-for-switch/total?style=flat-square)](https://github.com/Dimasick-git/Minecraft-Online-for-switch/releases) | [Minecraft-Online-for-switch](https://github.com/Dimasick-git/Minecraft-Online-for-switch) |
-
----
-
-## Все репозитории относящиеся к проекту
-
-| Репозиторий | Скачивания | Последний релиз |
+| Project | Purpose | Repository |
 |---|---|---|
-| Ryzhenka | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryzhenka/total?style=flat-square)](https://github.com/Dimasick-git/Ryzhenka/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryzhenka?style=flat-square)](https://github.com/Dimasick-git/Ryzhenka/releases/latest) |
-| Ryazhahand-Overlay | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhahand-Overlay/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryazhahand-Overlay?style=flat-square)](https://github.com/Dimasick-git/Ryazhahand-Overlay/releases/latest) |
-| Ryazha-clk (Sys-clk) | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Sys-clk/total?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Sys-clk?style=flat-square)](https://github.com/Dimasick-git/Sys-clk/releases/latest) |
-| Ryazhenka-Tuner | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazhenkabestcfw-Tuner/total?style=flat-square)](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryazhenkabestcfw-Tuner?style=flat-square)](https://github.com/Dimasick-git/Ryazhenkabestcfw-Tuner/releases/latest) |
-| RyazhaTune | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/RyazhaTune/total?style=flat-square)](https://github.com/Dimasick-git/RyazhaTune/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/RyazhaTune?style=flat-square)](https://github.com/Dimasick-git/RyazhaTune/releases/latest) |
-| AIO-Switch-Updater | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/AIO-Switch-Updater/total?style=flat-square)](https://github.com/Dimasick-git/AIO-Switch-Updater/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/AIO-Switch-Updater?style=flat-square)](https://github.com/Dimasick-git/AIO-Switch-Updater/releases/latest) |
-| Mission-Control | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Mission-Control/total?style=flat-square)](https://github.com/Dimasick-git/Mission-Control/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Mission-Control?style=flat-square)](https://github.com/Dimasick-git/Mission-Control/releases/latest) |
-| Ryazha-Status-Monitor | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Ryazha-Status-Monitor/total?style=flat-square)](https://github.com/Dimasick-git/Ryazha-Status-Monitor/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Ryazha-Status-Monitor?style=flat-square)](https://github.com/Dimasick-git/Ryazha-Status-Monitor/releases/latest) |
-| ovlSysmodules | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/ovlSysmodules/total?style=flat-square)](https://github.com/Dimasick-git/ovlSysmodules/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/ovlSysmodules?style=flat-square)](https://github.com/Dimasick-git/ovlSysmodules/releases/latest) |
-| FPSLocker | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/FPSLocker/total?style=flat-square)](https://github.com/Dimasick-git/FPSLocker/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/FPSLocker?style=flat-square)](https://github.com/Dimasick-git/FPSLocker/releases/latest) |
-| Fizeau | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Fizeau/total?style=flat-square)](https://github.com/Dimasick-git/Fizeau/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Fizeau?style=flat-square)](https://github.com/Dimasick-git/Fizeau/releases/latest) |
-| ReverseNX-RT | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/ReverseNX-RT/total?style=flat-square)](https://github.com/Dimasick-git/ReverseNX-RT/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/ReverseNX-RT?style=flat-square)](https://github.com/Dimasick-git/ReverseNX-RT/releases/latest) |
-| EdiZon | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/EdiZon/total?style=flat-square)](https://github.com/Dimasick-git/EdiZon/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/EdiZon?style=flat-square)](https://github.com/Dimasick-git/EdiZon/releases/latest) |
-| SwitchWave | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/SwitchWave/total?style=flat-square)](https://github.com/Dimasick-git/SwitchWave/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/SwitchWave?style=flat-square)](https://github.com/Dimasick-git/SwitchWave/releases/latest) |
-| PPSSPP | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/PPSSPP/total?style=flat-square)](https://github.com/Dimasick-git/PPSSPP/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/PPSSPP?style=flat-square)](https://github.com/Dimasick-git/PPSSPP/releases/latest) |
-| Minecraft-Online-for-switch | [![downloads](https://img.shields.io/github/downloads/Dimasick-git/Minecraft-Online-for-switch/total?style=flat-square)](https://github.com/Dimasick-git/Minecraft-Online-for-switch/releases) | [![release](https://img.shields.io/github/v/release/Dimasick-git/Minecraft-Online-for-switch?style=flat-square)](https://github.com/Dimasick-git/Minecraft-Online-for-switch/releases/latest) |
+| Ryazhenka | Main CFW bundle and releases | [Ryzhenka](https://github.com/Dimasick-git/Ryzhenka) |
+| Ryazhahand-Overlay | Tesla overlay menu and package management | [Ryazhahand-Overlay](https://github.com/Dimasick-git/Ryazhahand-Overlay) |
+| Ryazha-Status-Monitor | Configurable system monitoring overlay | [Ryazha-Status-Monitor](https://github.com/Dimasick-git/Ryazha-Status-Monitor) |
+| Ryazha-clk / Sys-clk | CPU, GPU, memory, display, and VRR profiles | [Sys-clk](https://github.com/Dimasick-git/Sys-clk) |
+| RCU | Clock utility and game profiles | [RCU](https://github.com/Dimasick-git/RCU) |
+| RyazhaTune | Ryazhenka audio and utility project | [RyazhaTune](https://github.com/Dimasick-git/RyazhaTune) |
+| RyazhaAI | Assistant for CFW and Switch projects | [RyazhaAI](https://github.com/Dimasick-git/RyazhaAI) |
+| Atmosphere-RYZ | Ryazhenka-related Atmosphere work | [Atmosphere-RYZ](https://github.com/Dimasick-git/Atmosphere-RYZ) |
+| AIO-Switch-Updater | Updating Switch components from one app | [AIO-Switch-Updater](https://github.com/Dimasick-git/AIO-Switch-Updater) |
+| Mission-Control | Bluetooth controller support | [Mission-Control](https://github.com/Dimasick-git/Mission-Control) |
+| Fizeau | Display colour and gamma controls | [Fizeau](https://github.com/Dimasick-git/Fizeau) |
+| FPSLocker | Frame-rate patching for compatible games | [FPSLocker](https://github.com/Dimasick-git/FPSLocker) |
+| ReverseNX-RT | Runtime dock and handheld mode switching | [ReverseNX-RT](https://github.com/Dimasick-git/ReverseNX-RT) |
+| SwitchWave | Media and audio player | [SwitchWave](https://github.com/Dimasick-git/SwitchWave) |
+| EdiZon | Save editor and cheat tools | [EdiZon](https://github.com/Dimasick-git/EdiZon) |
+| ovlSysmodules | Sysmodule management overlay | [ovlSysmodules](https://github.com/Dimasick-git/ovlSysmodules) |
+| PPSSPP | PSP emulator build for HOS 21 | [PPSSPP](https://github.com/Dimasick-git/PPSSPP) |
+| Minecraft Online for Switch | Minecraft-related Switch project | [Minecraft-Online-for-switch](https://github.com/Dimasick-git/Minecraft-Online-for-switch) |
 
----
+The list above covers the public projects currently presented as part of the Ryazhenka ecosystem. Experimental, private, archived, or unrelated owner repositories are intentionally excluded. Release availability varies by repository; use the linked repository's Releases page for the current version.
 
-**Установка (микро-инструкция)**
+## Русский
 
-1. Скачайте последний релиз: [releases/latest](https://github.com/Dimasick-git/Ryzhenka/releases/latest)
-2. Скопируйте содержимое архива в корень SD-карты.
-3. Запустите устройство в RCM → Hekate → Launch → Atmosphere.
+### Что такое Ryazhenka
 
-Полная инструкция: [docs/INSTALL.md](docs/INSTALL.md)
+Ryazhenka объединяет основную сборку CFW для Nintendo Switch и дополнительные проекты: оверлеи, мониторинг, управление частотами, обновление компонентов и утилиты. Состав архива и совместимость определяются конкретным релизом, поэтому перед установкой обязательно читайте release notes.
 
----
+### Установка
 
-## Особая благодарность
+Сделайте резервную копию важных данных консоли, скачайте архив из [последнего релиза](https://github.com/Dimasick-git/Ryzhenka/releases/latest) и скопируйте его содержимое в корень FAT32 SD-карты. Непатченная V1 запускается через RCM и Hekate; для patched V1, V2, Lite и OLED нужен совместимый модчип. Затем запустите конфигурацию Atmosphere из релиза и проверьте совместимость всех модулей.
 
-Спасибо всем, кто участвовал и участвует в этом проекте. Спасибо за помощь в написании кода, а также благодарность сообществу за отличные идеи!
+Подробная инструкция находится в [docs/INSTALL.md](docs/INSTALL.md), ответы на частые вопросы — в [docs/FAQ.md](docs/FAQ.md), а правила разработки — в [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Используйте только проверенные релизы и учитывайте риски кастомной прошивки.
 
----
+### Релизы и статистика
 
-**Лицензия**
+Актуальные версии, release notes и файлы загрузки публикуются на страницах релизов соответствующих репозиториев. Сводный счётчик загрузок обновляется автоматизацией из списка [scripts/repos.txt](scripts/repos.txt):
 
-Проект распространяется под лицензией MIT. Полная версия лицензии в файле [`LICENCE`](./LICENCE).
+- суммарные загрузки: <!--TOTAL_DOWNLOADS-->17941<!--/TOTAL_DOWNLOADS-->
+- основной релиз: [Ryzhenka Releases](https://github.com/Dimasick-git/Ryzhenka/releases)
+
+## Документация и участие
+
+- [Установка](docs/INSTALL.md)
+- [FAQ](docs/FAQ.md)
+- [Разработка и автоматизации](docs/DEVELOPMENT.md)
+- [Участие в проекте](docs/CONTRIBUTING.md)
+- [История деплоя](README-DEPLOY.md)
+
+Вопросы и сообщения об ошибках можно отправить через [Issues](https://github.com/Dimasick-git/Ryzhenka/issues) или [Telegram](https://t.me/Ryazhenkacfw). Лицензия проекта находится в файле [LICENCE](LICENCE).
+
+## References
+
+[1]: https://github.com/Dimasick-git/Ryzhenka/releases "Ryazhenka releases"
+[2]: https://github.com/Dimasick-git/Ryzhenka/blob/main/docs/INSTALL.md "Ryazhenka installation guide"
+[3]: https://github.com/Dimasick-git/Ryzhenka/blob/main/scripts/repos.txt "Ryazhenka repository list"

@@ -1,182 +1,49 @@
-# Development Workflow / Руководство по разработке
+# Development Guide
 
-Руководство по процессу разработки Ryazhenka с использованием автоматизации CI/CD.
+## Project structure
 
----
+The website is a static single-page site. `index.html` contains the page markup, styles, and client-side GitHub API integration. `assets/` contains the logo and fallback icon. `src/input.css` and `tailwind.config.js` provide the Tailwind build input, while the generated `dist/output.css` is created during deployment and is not committed. Documentation lives in `docs/`; release and download helpers live in `scripts/`.
 
-## Структура веток
+## Local development
 
-```
-main (стабильный релиз)
-  ↑
-  └─ develop (интеграция всех изменений)
-       ↓
-    feature/* (новые функции)
-    fix/* (исправления)
-    docs/* (документация)
-```
-
-| Ветка | Назначение | Правила |
-|-------|-----------|--------|
-| `main` | Стабильный код, готовый к релизу | Только PR из develop, теги для релизов |
-| `develop` | Основная ветка разработки | Автоматическая сборка при каждом push |
-| `feature/*` | Новые функции | Одна функция = одна ветка |
-| `fix/*` | Исправления багов | Ссылка на Issue обязательна |
-| `docs/*` | Обновления документации | Может быть merged прямо в develop |
-
----
-
-## Процесс разработки
-
-### 1. Начало работы
+Use Node.js 20 or newer and npm. Install dependencies and build the stylesheet with:
 
 ```bash
-git fetch upstream
-git checkout develop
-git pull upstream develop
-git checkout -b feature/my-feature
+npm install
+npm run build
 ```
 
-### 2. Разработка и коммиты
+For watch mode during CSS work, run `npm run dev`. The page is static, so serve it through a local HTTP server; opening it directly from `file://` may block GitHub API requests.
+
+## Verification before a commit
+
+A website or documentation change is ready only after the production build succeeds, all local asset paths exist, the links to `docs/` resolve, and the page works with both successful and failed GitHub API responses. Check responsive navigation at desktop and mobile widths, keyboard focus, reduced-motion behaviour, release rendering, cache fallback, and external links.
 
 ```bash
-git commit -m "feat: add cool feature"
-bash scripts/build.sh
+npm run build
+python3 - <<'PY'
+from pathlib import Path
+text = Path('index.html').read_text(encoding='utf-8')
+for marker in ('docs/INSTALL.md', 'docs/FAQ.md', 'docs/CONTRIBUTING.md', '<!--CURRENT_VERSION-->', '<!--TOTAL_DOWNLOADS-->'):
+    assert marker in text, marker
+print('static assertions: ok')
+PY
 ```
 
-### 3. Обновление CHANGELOG
+## GitHub Actions
 
-Добавьте изменение в `CHANGELOG.md` в секцию последней версии:
+The canonical Pages pipeline is `.github/workflows/deploy.yml`. It builds CSS, retrieves the latest release and aggregate download count, injects values into the HTML markers, uploads a Pages artifact, and deploys it. `.github/workflows/update-downloads.yml` updates the aggregate value in `README.md` on a six-hour schedule, manually, or after a published release. Generated commits use the repository owner's identity.
 
-```markdown
-## [X.Y.Z] — TBD
-- Ваше изменение
-```
+Do not introduce a second Pages deployment workflow or commit generated `dist/` output unless the deployment design changes deliberately. Keep `scripts/repos.txt` limited to public Ryazhenka ecosystem repositories that have release assets and should contribute to the aggregate counter.
 
-### 4. Pull Request
+## Release checklist
 
-```bash
-git push -u origin feature/my-feature
-# Создайте PR в GitHub: что изменено, зачем, как тестировалось, связанные Issues
-```
+Before publishing a release, verify the archive contents, compatibility notes, installation instructions, and links in the release description. After publishing, confirm that the download workflow can update `README.md`, the Pages workflow completes, the live page displays the release list, and the repository Actions page contains no new failures.
 
----
+## Documentation policy
 
-## Автоматизация CI/CD
+The README contains a short English overview followed by a Russian overview. Detailed procedures belong in `docs/INSTALL.md`, `docs/FAQ.md`, and this guide. Avoid duplicating the complete repository table in multiple files; link to the canonical repository or release page instead.
 
-### Workflow: Update Downloads (`update-downloads.yml`)
+## Commit conventions
 
-Запускается по расписанию (каждые 6 часов), при публикации релиза и вручную.
-
-- Скрипт `scripts/update_downloads.py` считает загрузки по списку из `scripts/repos.txt`.
-- Обновляет счётчик `<!--TOTAL_DOWNLOADS-->` в `README.md`.
-- Workflow делает git-коммит и пуш через встроенный шаг CI.
-
-### Локальный запуск скрипта
-
-```bash
-GITHUB_TOKEN=<ваш_токен> python3 scripts/update_downloads.py
-```
-
-### Workflow: Build / Release
-
-После push в develop:
-- Собирает архив проекта.
-- Генерирует контрольные суммы.
-- Выгружает артефакты.
-
-Деплой в main:
-```bash
-# GitHub UI: Actions → Deploy to Main → Run workflow
-gh workflow run deploy.yml -f branch=develop -f merge_type=squash
-```
-
-Создание релиза:
-```bash
-gh workflow run release.yml -f version=7.3.0 -f release_type=minor
-```
-
----
-
-## Локальная сборка
-
-```bash
-bash scripts/build.sh
-```
-
-Результаты в `dist/`:
-- `Ryazhenka-X.Y.Z.zip` — архив проекта
-- `checksums-sha256.txt` — SHA256 хеши
-- `BUILD_REPORT.md` — отчёт о сборке
-
----
-
-## Соглашения
-
-### Commit Messages
-
-```
-feat:     новая функция
-fix:      исправление бага
-docs:     обновление документации
-refactor: переработка без изменения поведения
-perf:     улучшение производительности
-chore:    изменения сборки, зависимостей
-ci:       изменения CI/CD
-```
-
-### PR Titles
-
-```
-[FEATURE] Краткое описание
-[BUGFIX]  Краткое описание
-[DOCS]    Краткое описание
-```
-
----
-
-## Статусы сборки
-
-| Статус | Описание |
-|--------|----------|
-| ✅ Passed | Сборка успешна, артефакты готовы |
-| ⏳ In Progress | Сборка идёт |
-| ❌ Failed | Ошибка — проверь логи Actions |
-| ⊘ Cancelled | Сборка отменена вручную |
-
----
-
-## Checklist перед релизом
-
-- [ ] Все функции завершены и протестированы
-- [ ] `CHANGELOG.md` обновлён
-- [ ] `README.md` актуален
-- [ ] Код залит в develop и прошёл CI
-- [ ] Подготовлено объявление (Telegram)
-- [ ] Версия в формате `X.Y.Z`
-
----
-
-## Troubleshooting
-
-**Сборка не запускается:**
-```bash
-git add . && git commit -m "..." && git push origin develop
-```
-
-**Скрипт update_downloads падает с ошибкой git identity:**
-- Это ожидаемо при локальном запуске без git-конфига.
-- В CI git-конфиг настраивается workflow автоматически.
-
-**Релиз не создаётся:**
-- Проверь, что main обновлён из develop.
-- Версия должна быть в формате `X.Y.Z`.
-
----
-
-## Полезные ссылки
-
-- [GitHub Actions](https://docs.github.com/en/actions)
-- [GitHub CLI](https://cli.github.com/)
-- [Conventional Commits](https://www.conventionalcommits.org/)
-- [Semantic Versioning](https://semver.org/)
+Use a short conventional prefix such as `docs:`, `fix:`, `ci:`, or `chore:`. Commits made for this repository must use the repository owner's configured author identity, not an assistant or automation identity.

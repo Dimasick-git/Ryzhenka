@@ -1,36 +1,23 @@
-# Как развернуть исправленный сайт
+# Deployment and troubleshooting
 
-## Что было сломано
+The site is deployed to GitHub Pages by `.github/workflows/deploy.yml` after pushes to `main` or a manual workflow run. The workflow installs npm dependencies, builds `dist/output.css`, retrieves the latest release and aggregate downloads, injects the HTML markers, uploads the repository as a Pages artifact, and deploys it.
 
-1. Исходный `index.html` использовал Tailwind-классы, но подключал `dist/output.css`. Папки `dist` в публичном репозитории нет, поэтому почти всё оформление не загружалось.
-2. Ссылки вели в `docs/INSTALL.md`, `docs/FAQ.md` и `docs/CONTRIBUTING.md`, хотя эти файлы лежат в корне репозитория.
-3. Скрипт запрашивал GitHub API для большого списка репозиториев. Для посетителя без токена это быстро расходовало публичный лимит API.
-4. Адрес GitHub Pages не отвечал при проверке. Обычно это означает, что Pages не включён или в качестве Source не выбран GitHub Actions.
-5. Сайт был полностью зависим от скомпилированного CSS, которого нет в репозитории.
+## Local verification
 
-## Установка
+```bash
+npm install
+npm run build
+python3 -m http.server 4173
+```
 
-1. Скопируйте всё содержимое этого архива в корень ветки `main` репозитория `Dimasick-git/Ryzhenka`.
-2. Сохраните существующий `assets/Ryazhalogo.png`. Если его нет, сработает встроенный fallback `assets/ryazhenka-fallback.svg`.
-3. Сделайте commit и push.
-4. Откройте репозиторий → **Settings → Pages**.
-5. В **Build and deployment → Source** выберите **GitHub Actions**.
-6. Откройте **Actions** и дождитесь зелёного workflow `Deploy GitHub Pages`.
-7. Проверьте сайт: `https://dimasick-git.github.io/Ryzhenka/`.
+Open `http://127.0.0.1:4173/` and verify the navigation, installation link, ecosystem links, compatibility table, release list, GitHub fallback, and mobile menu. The page uses GitHub's public API and caches successful responses in `localStorage` for 15 minutes.
 
-## Если деплой не запускается
+## Known failure modes
 
-- В **Settings → Actions → General** разрешите GitHub Actions.
-- Не включайте одновременно публикацию из ветки и через Actions.
-- Откройте упавший job и найдите первую красную ошибку.
-- Проверьте точное имя ветки: workflow рассчитан на `main`.
+If GitHub API requests are rate-limited or temporarily unavailable, the page keeps its static content and shows a manual Releases link instead of failing completely. If the API data is stale, clear the `ryazhenka-pages-v1` local-storage entry and reload.
 
-## Что исправлено
+If a deployment fails, check the build step first, then the release lookup and download aggregation steps, and finally the Pages environment. A zero download result is intentionally not injected into the HTML. The workflow must not rely on files that are absent from this repository, such as `scripts/build.sh`, `release.yml`, or root-level `INSTALL.md`.
 
-- Tailwind удалён: CSS и JavaScript встроены в `index.html`.
-- Добавлен официальный workflow GitHub Pages.
-- Исправлены ссылки на документацию.
-- API-нагрузка уменьшена до двух запросов с кэшем на 15 минут.
-- Добавлены мобильная навигация, fallback-состояния, доступный focus и reduced-motion.
-- Исправлена таблица: отдельно указаны patched и unpatched Switch V1.
-- Добавлен fallback-логотип и `.nojekyll`.
+## Documentation paths
+
+The canonical documents are `docs/INSTALL.md`, `docs/FAQ.md`, `docs/DEVELOPMENT.md`, and `docs/CONTRIBUTING.md`. Links from the website must point to these paths.
