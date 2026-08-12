@@ -2,7 +2,6 @@
 """Update the total-downloads counter in README.md from GitHub release assets."""
 import json
 import os
-import subprocess
 import time
 import urllib.error
 import urllib.request
@@ -145,33 +144,6 @@ def update_readme(total: int) -> bool:
         f.write(new)
     return True
 
-
-def git_commit_push(token: str = None) -> bool:
-    subprocess.run(["git", "add", "README.md"], check=True)
-    if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
-        return False
-    branch = os.environ.get("GITHUB_REF_NAME", "main")
-    subprocess.run(["git", "commit", "-m", "chore: update total downloads badge [skip ci]"], check=True)
-    repo = os.environ.get("GITHUB_REPOSITORY")
-    if token and repo:
-        # Pass the token via an env variable to a credential helper rather than
-        # embedding it in the remote URL, where it would appear in `git remote -v`
-        # output and in /proc/<pid>/cmdline visible to other processes on the runner.
-        env = {**os.environ, "_GIT_PUSH_TOKEN": token, "GIT_TERMINAL_PROMPT": "0"}
-        subprocess.run(
-            [
-                "git", "-c",
-                'credential.helper=!f(){ echo username=x-access-token; echo "password=$_GIT_PUSH_TOKEN"; };f',
-                "push",
-                f"https://github.com/{repo}.git",
-                f"HEAD:{branch}",
-            ],
-            env=env,
-            check=True,
-        )
-    else:
-        subprocess.run(["git", "push", "origin", f"HEAD:{branch}"], check=True)
-    return True
 
 
 def main() -> None:
