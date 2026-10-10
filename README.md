@@ -49,7 +49,7 @@ Ryazhenka is a Nintendo Switch custom-firmware ecosystem built around Atmosphere
 
 | Показатель | Значение |
 |---|---:|
-| **Скачивания всех отслеживаемых release assets** | **<!--TOTAL_DOWNLOADS-->**21437**<!--/TOTAL_DOWNLOADS-->** |
+| **Скачивания всех отслеживаемых release assets** | **<!--TOTAL_DOWNLOADS-->**21489**<!--/TOTAL_DOWNLOADS-->** |
 | Репозитории в автоматическом подсчёте | **18** |
 | Основной репозиторий | [Dimasick-git/Ryzhenka](https://github.com/Dimasick-git/Ryzhenka) |
 | Последний основной релиз | [Открыть последний релиз](https://github.com/Dimasick-git/Ryzhenka/releases/latest) |
